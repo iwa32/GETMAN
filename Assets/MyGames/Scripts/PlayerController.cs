@@ -68,10 +68,8 @@ public class PlayerController : MonoBehaviour
         //入力があったら回転量を取得し、プレイヤーを回転させる
         if (inputDirection.x != 0 || inputDirection.z != 0)
         {
-            if (diffPos.magnitude > 0.01f)
-            {
-                rb.rotation = Quaternion.LookRotation(diffPos);
-            }
+            if (diffPos.magnitude <= 0.01f) return;
+            rb.rotation = Quaternion.LookRotation(diffPos);
         }
         //プレイヤーの位置を更新
         playerPos = transform.position;
