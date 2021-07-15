@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region//インスペクターから設定
-    public float speed = 100.0f;
+    public float speed = 1.0f;
     #endregion
 
     #region//コンポーネント
@@ -19,52 +19,82 @@ public class PlayerController : MonoBehaviour
     #region//フラグ
     private bool isRun;
     #endregion
+
+    #region//その他
     private Vector3 inputDirection;
+    private Vector3 playerPos;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        playerPos = transform.position;
         //Input System
         pInput = GetComponent<PlayerInput>();
         InputActionMap actionMap = pInput.currentActionMap;
         //アクションを取得
         _moveAction = actionMap["Move"];
-        _lookAction = actionMap["Look"];
-        _fireAction = actionMap["Fire"];
+        //_lookAction = actionMap["Look"];
+        //_fireAction = actionMap["Fire"];
     }
 
     private void Update()
     {
         //コントローラーの値を取得
         Vector2 moveVector = _moveAction.ReadValue<Vector2>();
+        //入力情報を3次元として取得
+        inputDirection = new Vector3(moveVector.x, 0, moveVector.y) * speed;
         //Vector2 look = _lookAction.ReadValue<Vector2>();
         //bool fire = _fireAction.triggered;
-
-        inputDirection = new Vector3(moveVector.x, 0, moveVector.y) * speed;
-        // inputDirection.z = Input.GetAxis("Horizontal");
-        // inputDirection.x = Input.GetAxis("Vertical");
-
-        SetAnimation();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        RotatePlayer();
+        MovePlayer();
+        SetAnimation();
+    }
+
+    /// <summary>
+    /// プレイヤーの回転
+    /// </summary>
+    void RotatePlayer()
+    {
+        //プレイヤーの進行方向の座標の差分を取得
+        Vector3 diffPos = transform.position - playerPos;
+        //入力があったら回転量を取得し、プレイヤーを回転させる
+        if (inputDirection.x != 0 || inputDirection.z != 0)
+        {
+            if (diffPos.magnitude > 0.01f)
+            {
+                rb.rotation = Quaternion.LookRotation(diffPos);
+            }
+        }
+        //プレイヤーの位置を更新
+        playerPos = transform.position;
+    }
+
+    /// <summary>
+    /// プレイヤーの移動
+    /// </summary>
+    void MovePlayer()
+    {
         //入力があった場合
-        if(inputDirection != Vector3.zero)
+        if (inputDirection != Vector3.zero)
         {
             isRun = true;
-            rb.AddForce(inputDirection, ForceMode.Acceleration);
+            //rb.AddForce(inputDirection, ForceMode.Acceleration);
+            //プレイヤーの移動は一定の速さにしたいためvelocityを採用
+            rb.velocity = inputDirection;
         }
         else
         {
             //idle状態
             isRun = false;
         }
-
-        //Debug.Log(string.Format("moveVector:{0} + Look:{1} + Fire:{2}", moveVector, look, fire));
     }
 
     void SetAnimation()
