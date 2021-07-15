@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     [Header("スコア")]
     private int _scoreNum;
 
+    #region//Component
+    private AudioSource audioSource;
+    #endregion
+
     #region//getter, setter
     public int PointNum
     {
@@ -45,6 +49,21 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    /// <summary>
+    /// SEを再生する
+    /// </summary>
+    /// <param name="clip"></param>
+    public void PlaySE(AudioClip clip)
+    {
+        if (clip == null) return;
+        audioSource.PlayOneShot(clip);
     }
 
 }
