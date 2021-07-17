@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector]
     public static GameManager instance;
+    [Header("初期時のHP")]
+    public int defaultHeartNum;
 
     [Header("ポイント")]
     private int _pointNum;
