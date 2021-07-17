@@ -16,8 +16,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     #endregion
 
+    #region//タグ
+    private string enemyTag = "Enemy";
+    #endregion
+
     #region//フラグ
     private bool isRun;
+    private bool isDown;
     #endregion
 
     #region//その他
@@ -58,6 +63,14 @@ public class PlayerController : MonoBehaviour
         SetAnimation();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag(enemyTag))
+        {
+            isDown = true;
+        }
+    }
+
     /// <summary>
     /// プレイヤーの回転
     /// </summary>
@@ -68,6 +81,7 @@ public class PlayerController : MonoBehaviour
         //入力があったら回転量を取得し、プレイヤーを回転させる
         if (inputDirection.x != 0 || inputDirection.z != 0)
         {
+            
             if (diffPos.magnitude <= 0.01f) return;
             rb.rotation = Quaternion.LookRotation(diffPos);
         }
@@ -98,5 +112,6 @@ public class PlayerController : MonoBehaviour
     void SetAnimation()
     {
         anim.SetBool("IsRun", isRun);
+        anim.SetBool("IsDown", isDown);
     }
 }
