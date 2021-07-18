@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
     #endregion
 
+    #region//タグ
+    private bool isGameOver;
+    #endregion
+
     #region//getter, setter
     public int PointNum
     {
@@ -68,4 +72,19 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(clip);
     }
 
+    /// <summary>
+    /// HPを減らす
+    /// </summary>
+    public void ReduceHeartNum()
+    {
+        if(HeartNum != 0)
+        {
+            --HeartNum;
+        }
+        else
+        {
+            //0ならゲームオーバー
+            isGameOver = true;
+        }
+    }
 }

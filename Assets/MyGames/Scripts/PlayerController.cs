@@ -67,8 +67,19 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag(enemyTag))
         {
-            isDown = true;
+            PlayerDown();
         }
+    }
+
+    /// <summary>
+    /// プレイヤーがダウンする
+    /// </summary>
+    private void PlayerDown()
+    {
+        isDown = true;
+        if (GameManager.instance == null) return;
+        //HPを減らす
+        GameManager.instance.ReduceHeartNum();
     }
 
     /// <summary>
