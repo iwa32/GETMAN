@@ -7,6 +7,7 @@ TagManager:
   - PointItem
   - Wall
   - Enemy
+  - PlayerWaitLocation
   layers:
   - Default
   - TransparentFX

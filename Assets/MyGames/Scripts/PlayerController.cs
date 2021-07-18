@@ -82,6 +82,47 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.ReduceHeartNum();
     }
 
+
+    /// <summary>
+    /// コンティニュー待機中か
+    /// </summary>
+    /// <returns></returns>
+    public bool IsContinueWaiting()
+    {
+        return IsDownAnimEnd();
+    }
+
+    /// <summary>
+    /// ダウンアニメーションが終わっているか
+    /// </summary>
+    /// <returns>anim終了フラグ</returns>
+    private bool IsDownAnimEnd()
+    {
+        if(isDown && anim != null)
+        {
+            AnimatorStateInfo currentInfo = anim.GetCurrentAnimatorStateInfo(0);
+            if(currentInfo.IsName("Down"))
+            {
+                //アニメーションが終了したら
+                if(currentInfo.normalizedTime >= 1)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// プレイヤーをコンティニュー
+    /// </summary>
+    public void ContinuePlayer()
+    {
+        isDown = false;
+        isRun = false;
+        anim.Play("Idle");
+    }
+
     /// <summary>
     /// プレイヤーの回転
     /// </summary>
