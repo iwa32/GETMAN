@@ -23,7 +23,6 @@ public class HeartGauge : MonoBehaviour
             Debug.Log("GameManagerが設定されていません");
             Destroy(this);
         }
-
     }
 
     private void Update()

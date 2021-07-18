@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [Header("初期時のHP")]
     public int defaultHeartNum;
+    [Header("クリアポイント数")]
+    public int clearPointNum = 3;
 
     [Header("ポイント")]
     private int _pointNum;
@@ -20,8 +22,9 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
     #endregion
 
-    #region//タグ
+    #region//フラグ
     private bool isGameOver;
+    private bool isStageClear;
     #endregion
 
     #region//getter, setter
@@ -62,6 +65,14 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Update()
+    {
+        if (PointNum == clearPointNum)
+        {
+            isStageClear = true;
+        }
+    }
+
     /// <summary>
     /// SEを再生する
     /// </summary>
@@ -70,6 +81,23 @@ public class GameManager : MonoBehaviour
     {
         if (clip == null) return;
         audioSource.PlayOneShot(clip);
+    }
+
+    /// <summary>
+    /// ポイントの増加
+    /// </summary>
+    public void AddPointNum(int num)
+    {
+        PointNum += num;
+    }
+
+
+    /// <summary>
+    /// スコアの増加
+    /// </summary>
+    public void AddScoreNum(int num)
+    {
+        ScoreNum += num;
     }
 
     /// <summary>

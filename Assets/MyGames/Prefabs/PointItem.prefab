@@ -135,6 +135,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  pointNum: 1
+  scoreNum: 100
   trigger: {fileID: 7348376417628775654}
 --- !u!65 &6258622536966348344
 BoxCollider:

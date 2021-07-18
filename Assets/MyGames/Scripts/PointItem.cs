@@ -6,15 +6,14 @@ public class PointItem : MonoBehaviour
 {
     #region//インスペクターで設定
     public AudioClip getSE;
+    [Header("獲得ポイント数")]
+    public int pointNum = 1;
+    [Header("獲得スコア")]
+    public int scoreNum;
     #endregion
 
     [SerializeField]
     private PlayerTriggerCheck trigger;
-
-    #region//定数
-    const int AddPointNum = 1;//ポイント
-    const int AddScoreNum = 100;//スコア todo この値をenum化し、アイテムごとにスコアを分けることも検討する
-    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -34,8 +33,8 @@ public class PointItem : MonoBehaviour
             {
                 GameManager.instance.PlaySE(getSE);
                 //ポイント、スコアを付与
-                GameManager.instance.PointNum = AddPointNum;
-                GameManager.instance.ScoreNum = AddScoreNum;
+                GameManager.instance.AddPointNum(pointNum);
+                GameManager.instance.AddScoreNum(scoreNum);
             }
             //消滅
             Destroy(gameObject);
