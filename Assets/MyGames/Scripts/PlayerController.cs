@@ -23,9 +23,15 @@ public class PlayerController : MonoBehaviour
     #region//フラグ
     private bool isRun;
     private bool isDown;
+    private bool isContinue;
     #endregion
 
-    #region//その他
+    #region//タイマー
+    private float continueTime;
+    private float blinkTime;//点滅時間
+    #endregion
+
+    #region//Vector
     private Vector3 inputDirection;
     private Vector3 playerPos;
     #endregion
@@ -53,6 +59,8 @@ public class PlayerController : MonoBehaviour
         inputDirection = new Vector3(moveVector.x, 0, moveVector.y) * speed;
         //Vector2 look = _lookAction.ReadValue<Vector2>();
         //bool fire = _fireAction.triggered;
+
+        PlayerBlinks();
     }
 
     // Update is called once per frame
@@ -68,6 +76,57 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.CompareTag(enemyTag))
         {
             PlayerDown();
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーの点滅
+    /// </summary>
+    private void PlayerBlinks()
+    {
+        if (!isContinue) return;
+
+        //明滅ついている時に戻る③
+        if(blinkTime > 0.2f)
+        {
+            SetActiveToAllChild(true);
+            blinkTime = 0.0f;
+        }
+        else if(blinkTime > 0.1f)
+        {
+            //消えている時②
+            SetActiveToAllChild(false);
+        }
+        else
+        {
+            //明滅ついている時①
+            SetActiveToAllChild(true);
+        }
+
+        //1秒経ったら明滅終わり
+        if(continueTime > 1.0f)
+        {
+            isContinue = false;
+            continueTime = 0.0f;
+            blinkTime = 0.0f;
+            SetActiveToAllChild(true);
+        }
+        else
+        {
+            blinkTime += Time.deltaTime;
+            continueTime += Time.deltaTime;
+        }
+    }
+
+    /// <summary>
+    /// 子要素を全てアクティブ・非アクティブにする
+    /// </summary>
+    /// <param name="isActive"></param>
+    private void SetActiveToAllChild(bool isActive)
+    {
+        foreach(Transform child in gameObject.transform)
+        {
+            child.gameObject.SetActive(isActive);
         }
     }
 
@@ -120,7 +179,9 @@ public class PlayerController : MonoBehaviour
     {
         isDown = false;
         isRun = false;
+        isContinue = true;
         anim.Play("Idle");
+        //todo ここで正面を向かせる
     }
 
     /// <summary>
