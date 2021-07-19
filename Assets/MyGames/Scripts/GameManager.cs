@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region//フラグ
-    private bool isGameOver;
+    public bool isGameOver;
     private bool isStageClear;
     #endregion
 
