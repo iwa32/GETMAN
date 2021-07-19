@@ -135,6 +135,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void PlayerDown()
     {
+        //すでにダウン中ならダウンしない
+        if (isDown) return;
+
         isDown = true;
         if (GameManager.instance == null) return;
         //HPを減らす
@@ -181,7 +184,8 @@ public class PlayerController : MonoBehaviour
         isRun = false;
         isContinue = true;
         anim.Play("Idle");
-        //todo ここで正面を向かせる
+        //正面を向く
+        transform.LookAt(new Vector3(0, 0, 0));
     }
 
     /// <summary>
