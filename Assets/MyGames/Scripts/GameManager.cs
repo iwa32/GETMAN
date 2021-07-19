@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public int defaultHeartNum;
     [Header("クリアポイント数")]
     public int clearPointNum = 3;
+    [Header("制限時間")]
+    public float limitTimer = 60.0f;
 
     [Header("ポイント")]
     private int _pointNum;
@@ -77,6 +79,23 @@ public class GameManager : MonoBehaviour
         if (PointNum == clearPointNum)
         {
             isStageClear = true;
+        }
+        CountTimer();
+    }
+
+    /// <summary>
+    /// カウントする
+    /// </summary>
+    private void CountTimer()
+    {
+        if(limitTimer > 0)
+        {
+            limitTimer -= Time.deltaTime;
+        }
+        else
+        {
+            limitTimer = 0.0f;
+            isGameOver = true;
         }
     }
 
