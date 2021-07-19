@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
         isContinue = true;
         anim.Play("Idle");
         //正面を向く
-        transform.LookAt(new Vector3(0, 0, 0));
+        transform.LookAt(new Vector3(0, 1, 0));
     }
 
     /// <summary>

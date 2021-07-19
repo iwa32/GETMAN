@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private int _heartNum;
     [Header("スコア")]
     private int _scoreNum;
+    [Header("ステージ")]
+    private int _stageNum;
 
     #region//Component
     private AudioSource audioSource;
@@ -42,6 +44,11 @@ public class GameManager : MonoBehaviour
     {
         get { return _scoreNum; }
         set { _scoreNum = value; }
+    }
+    public int StageNum
+    {
+        get { return _stageNum; }
+        set { _stageNum = value; }
     }
     #endregion
 
