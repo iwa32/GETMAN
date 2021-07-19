@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class Score : MonoBehaviour, IUpdateableUI
 {
     private Text scoreText;
     private int oldScoreNum;
@@ -14,7 +14,7 @@ public class Score : MonoBehaviour
         scoreText = GetComponent<Text>();
         if(GameManager.instance != null)
         {
-            UpdateScoreText();
+            UpdateUiText();
         }
         else
         {
@@ -27,7 +27,7 @@ public class Score : MonoBehaviour
     {
         if(oldScoreNum != GameManager.instance.ScoreNum)
         {
-            UpdateScoreText();
+            UpdateUiText();
             oldScoreNum = GameManager.instance.ScoreNum;
         }
     }
@@ -35,7 +35,7 @@ public class Score : MonoBehaviour
     /// <summary>
     /// Scoreの更新
     /// </summary>
-    void UpdateScoreText()
+    public void UpdateUiText()
     {
         scoreText.text = GameManager.instance.ScoreNum.ToString();
     }

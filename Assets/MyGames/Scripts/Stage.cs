@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Stage : MonoBehaviour
+public class Stage : MonoBehaviour, IUpdateableUI
 {
     private Text stageNumText;
     private int oldStageNum;//ステージ番号のキャッシュ
@@ -14,7 +14,7 @@ public class Stage : MonoBehaviour
         stageNumText = GetComponent<Text>();
         if (GameManager.instance != null)
         {
-            UpdateStageNumText();
+            UpdateUiText();
         }
         else
         {
@@ -27,7 +27,7 @@ public class Stage : MonoBehaviour
     {
         if(oldStageNum != GameManager.instance.StageNum)
         {
-            UpdateStageNumText();
+            UpdateUiText();
             oldStageNum = GameManager.instance.StageNum;
         }
     }
@@ -35,7 +35,7 @@ public class Stage : MonoBehaviour
     /// <summary>
     /// Stage番号の更新
     /// </summary>
-    private void UpdateStageNumText()
+    public void UpdateUiText()
     {
         stageNumText.text = GameManager.instance.StageNum.ToString();
     }

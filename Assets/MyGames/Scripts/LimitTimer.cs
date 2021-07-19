@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LimitTimer : MonoBehaviour
+public class LimitTimer : MonoBehaviour, IUpdateableUI
 {
     private Text limitTimerText;
     private float oldLimitTimer;//時間のキャッシュ
@@ -14,7 +14,7 @@ public class LimitTimer : MonoBehaviour
         limitTimerText = GetComponent<Text>();
         if (GameManager.instance != null)
         {
-            UpdateLimitTimer();
+            UpdateUiText();
         }
         else
         {
@@ -27,7 +27,7 @@ public class LimitTimer : MonoBehaviour
     {
         if (oldLimitTimer != GameManager.instance.limitTimer)
         {
-            UpdateLimitTimer();
+            UpdateUiText();
             oldLimitTimer = GameManager.instance.limitTimer;
         }
     }
@@ -35,7 +35,7 @@ public class LimitTimer : MonoBehaviour
     /// <summary>
     /// Scoreの更新
     /// </summary>
-    void UpdateLimitTimer()
+    public void UpdateUiText()
     {
         limitTimerText.text = "Timer " + GameManager.instance.limitTimer.ToString("F1");
     }
