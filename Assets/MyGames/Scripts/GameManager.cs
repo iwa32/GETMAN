@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region//インスペクターで設定
     [HideInInspector]
     public static GameManager instance;
     [Header("初期時のHP")]
     public int defaultHeartNum;
+    [Header("初期時の制限時間を設定")]
+    public float defaultLimitTimer = 60.0f;
     [Header("クリアポイント数")]
     public int clearPointNum = 3;
-    [Header("制限時間")]
-    public float limitTimer = 60.0f;
+    #endregion
 
     [Header("ポイント")]
     private int _pointNum;
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour
     private int _scoreNum;
     [Header("ステージ")]
     private int _stageNum;
+    [Header("制限時間")]
+    private float _limitTimer = 60.0f;
 
     #region//Component
     private AudioSource audioSource;
@@ -52,6 +56,11 @@ public class GameManager : MonoBehaviour
         get { return _stageNum; }
         set { _stageNum = value; }
     }
+    public float LimitTimer
+    {
+        get { return _limitTimer; }
+        set { _limitTimer = value; }
+    }
     #endregion
 
     private void Awake()
@@ -79,8 +88,22 @@ public class GameManager : MonoBehaviour
         if (PointNum == clearPointNum)
         {
             isStageClear = true;
+            Debug.Log("ステージクリア");
         }
         CountTimer();
+    }
+
+    /// <summary>
+    /// 最初から始める時の処理
+    /// </summary>
+    public void RetryGame()
+    {
+        isGameOver = false;
+        ScoreNum = 0;
+        StageNum = 1;
+        PointNum = 0;
+        HeartNum = defaultHeartNum;
+        LimitTimer = defaultLimitTimer;
     }
 
     /// <summary>
@@ -88,13 +111,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CountTimer()
     {
-        if(limitTimer > 0)
+        if(LimitTimer > 0)
         {
-            limitTimer -= Time.deltaTime;
+            LimitTimer -= Time.deltaTime;
         }
         else
         {
-            limitTimer = 0.0f;
+            LimitTimer = 0.0f;
             isGameOver = true;
         }
     }

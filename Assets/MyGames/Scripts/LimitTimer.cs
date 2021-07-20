@@ -25,10 +25,10 @@ public class LimitTimer : MonoBehaviour, IUpdateableUI
     // Update is called once per frame
     void Update()
     {
-        if (oldLimitTimer != GameManager.instance.limitTimer)
+        if (oldLimitTimer != GameManager.instance.LimitTimer)
         {
             UpdateUiText();
-            oldLimitTimer = GameManager.instance.limitTimer;
+            oldLimitTimer = GameManager.instance.LimitTimer;
         }
     }
 
@@ -37,6 +37,6 @@ public class LimitTimer : MonoBehaviour, IUpdateableUI
     /// </summary>
     public void UpdateUiText()
     {
-        limitTimerText.text = "Timer " + GameManager.instance.limitTimer.ToString("F1");
+        limitTimerText.text = "Timer " + GameManager.instance.LimitTimer.ToString("F1");
     }
 }
