@@ -15,10 +15,7 @@ public class PointItemFactory : MonoBehaviour, IFieldObjGenerateable
 
     [Header("出現頻度")]
     public float birthSpan = 12.0f;
-
     #endregion
-
-    private int phaseCount = 1;//出現した回数
 
     // Start is called before the first frame update
     void Start()
