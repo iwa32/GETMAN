@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageCtrl : MonoBehaviour
 {
@@ -11,9 +12,15 @@ public class StageCtrl : MonoBehaviour
     [SerializeField]
     [Header("ゲームオーバUI")]
     private GameObject gameOverObj;
+    [Header("フェードイメージ")]
+    public FadeImage fade;
 
     private PlayerController p;
+    private int nextStageNum;
+    private bool startFade;
     private bool doGameOver;
+    private bool retryGame;//リトライ中か
+    private bool doSceneChange;//シーン切り替え中か
 
 
     // Start is called before the first frame update
@@ -47,6 +54,47 @@ public class StageCtrl : MonoBehaviour
             MovingPlayerIntoWaitPosition();
             p.ContinuePlayer();
         }
+
+        //ステージを切り替える
+        if(fade != null && startFade && !doSceneChange)
+        {
+            if (fade.IsCompFadeOut == false) return;
+
+            //ゲームリトライ
+            if(retryGame)
+            {
+                GameManager.instance.RetryGame();
+            }
+            else
+            {
+                GameManager.instance.StageNum = nextStageNum;
+            }
+            SceneManager.LoadScene("Stage" + nextStageNum);
+            doSceneChange = true;
+        }
+
+    }
+
+    /// <summary>
+    /// 最初から始める
+    /// </summary>
+    public void Retry()
+    {
+        ChangeScene(1);
+        retryGame = true;
+    }
+
+    /// <summary>
+    /// ステージを切り替えます
+    /// </summary>
+    /// <param name="num">ステージ番号</param>
+    public void ChangeScene(int num)
+    {
+        if (fade == null) return;
+
+        nextStageNum = num;
+        fade.StartFadeOut();
+        startFade = true;
     }
 
     /// <summary>

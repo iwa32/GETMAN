@@ -90,7 +90,20 @@ public class GameManager : MonoBehaviour
             isStageClear = true;
             Debug.Log("ステージクリア");
         }
+
+        CheckIfGameOver();
         CountTimer();
+    }
+
+    /// <summary>
+    /// ゲームオーバーかチェックする
+    /// </summary>
+    private void CheckIfGameOver()
+    {
+        if (HeartNum == 0 || LimitTimer == 0.0f )
+        {
+            isGameOver = true;
+        }
     }
 
     /// <summary>
@@ -118,7 +131,6 @@ public class GameManager : MonoBehaviour
         else
         {
             LimitTimer = 0.0f;
-            isGameOver = true;
         }
     }
 
@@ -154,14 +166,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ReduceHeartNum()
     {
-        if(HeartNum != 0)
+        if(HeartNum > 0)
         {
             --HeartNum;
         }
         else
         {
-            //0ならゲームオーバー
-            isGameOver = true;
+            HeartNum = 0;
         }
     }
 }

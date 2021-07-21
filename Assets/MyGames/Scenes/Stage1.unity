@@ -1053,7 +1053,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 836892428}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1896911366}
+        m_TargetAssemblyTypeName: StageCtrl, Assembly-CSharp
+        m_MethodName: Retry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &836892428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2554,6 +2566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11406b50ace514fbdb5e3cc961212332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstFadeInComp: 0
 --- !u!1 &1896911364
 GameObject:
   m_ObjectHideFlags: 0
@@ -2600,6 +2613,7 @@ MonoBehaviour:
   playerObj: {fileID: 1567685197}
   playerWaitLocationObj: {fileID: 628215775}
   gameOverObj: {fileID: 1579347865}
+  fade: {fileID: 1826377175}
 --- !u!1 &1913733423
 GameObject:
   m_ObjectHideFlags: 0
