@@ -18,6 +18,9 @@ public class EnemyFactory : MonoBehaviour, IFieldObjGenerateable
 
     [Header("エネミーは時間ごとに出現数が増えていく")]
     public bool isIncrease = true;
+
+    [Header("出現SE")]
+    public AudioClip birthSE;
     #endregion
 
     private int phaseCount = 1;//出現した回数
@@ -54,6 +57,8 @@ public class EnemyFactory : MonoBehaviour, IFieldObjGenerateable
             }
 
             yield return new WaitForSeconds(birthSpan);
+            //出現SE
+            GameManager.instance.PlaySE(birthSE);
         }
     }
 
