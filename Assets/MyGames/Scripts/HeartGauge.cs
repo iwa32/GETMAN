@@ -10,15 +10,7 @@ public class HeartGauge : MonoBehaviour
 
     private void Start()
     {
-        if(GameManager.instance != null)
-        {
-            if(GameManager.instance.defaultHeartNum != 0)
-            {
-                //初期hpをセット
-                GameManager.instance.HeartNum = GameManager.instance.defaultHeartNum;
-            }
-        }
-        else
+        if(GameManager.instance == null)
         {
             Debug.Log("GameManagerが設定されていません");
             Destroy(this);

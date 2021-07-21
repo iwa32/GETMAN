@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public static GameManager instance;
     [Header("初期時のHP")]
-    public int defaultHeartNum;
+    public int defaultHeartNum = 3;
     [Header("初期時の制限時間を設定")]
     public float defaultLimitTimer = 60.0f;
     [Header("クリアポイント数")]
@@ -31,8 +31,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region//フラグ
+    [HideInInspector]
+    public bool isStageClear;
+    [HideInInspector]
     public bool isGameOver;
-    private bool isStageClear;
+    [HideInInspector]
+    public bool isGameStart;
     #endregion
 
     #region//getter, setter
@@ -81,10 +85,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        if (defaultHeartNum != 0)
+        {
+            //初期hpをセット
+            HeartNum = defaultHeartNum;
+        }
     }
 
     private void Update()
     {
+        if (!isGameStart || isGameOver) return;
+
         if (PointNum == clearPointNum)
         {
             isStageClear = true;
@@ -100,7 +111,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CheckIfGameOver()
     {
-        if (HeartNum == 0 || LimitTimer == 0.0f )
+        if (HeartNum == 0 || LimitTimer == 0.0f)
         {
             isGameOver = true;
         }
@@ -112,6 +123,7 @@ public class GameManager : MonoBehaviour
     public void RetryGame()
     {
         isGameOver = false;
+        isGameStart = true;
         ScoreNum = 0;
         StageNum = 1;
         PointNum = 0;
@@ -141,7 +153,7 @@ public class GameManager : MonoBehaviour
     public void PlaySE(AudioClip clip)
     {
         if (clip == null) return;
-        audioSource.PlayOneShot(clip);
+        audioSource.PlayOneShot(clip, 0.7f);
     }
 
     /// <summary>

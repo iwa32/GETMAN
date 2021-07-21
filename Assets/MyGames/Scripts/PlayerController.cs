@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     #region//インスペクターから設定
     public float speed = 1.0f;
+    [Header("ダウン時のSE")]
+    public AudioClip downSE;
     #endregion
 
     #region//コンポーネント
@@ -144,6 +146,8 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance == null) return;
         //HPを減らす
         GameManager.instance.ReduceHeartNum();
+        //ダウンSE
+        GameManager.instance.PlaySE(downSE);
     }
 
 

@@ -14,6 +14,10 @@ public class StageCtrl : MonoBehaviour
     private GameObject gameOverObj;
     [Header("フェードイメージ")]
     public FadeImage fade;
+    [Header("ゲームオーバーSE")]
+    public AudioClip gameOverSE;
+    [Header("リトライボタンSE")]
+    public AudioClip retrySE;
 
     private PlayerController p;
     private int nextStageNum;
@@ -81,6 +85,7 @@ public class StageCtrl : MonoBehaviour
     public void Retry()
     {
         ChangeScene(1);
+        GameManager.instance.PlaySE(retrySE);
         retryGame = true;
     }
 
@@ -111,6 +116,7 @@ public class StageCtrl : MonoBehaviour
     void GameOver()
     {
         gameOverObj.SetActive(true);
+        GameManager.instance.PlaySE(gameOverSE);
         doGameOver = true;
     }
 }
