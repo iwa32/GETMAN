@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (GameManager.instance.isGameOver) return;
+        if (GameManager.instance.isGameOver || GameManager.instance.isStageClear) return;
 
         RotatePlayer();
         MovePlayer();

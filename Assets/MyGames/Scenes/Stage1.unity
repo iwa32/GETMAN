@@ -1735,17 +1735,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7845309205718654644, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
-      propertyPath: retrySE
-      value: 
-      objectReference: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
-    - target: {fileID: 7845309205718654644, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
       propertyPath: playerObj
       value: 
       objectReference: {fileID: 1567685197}
     - target: {fileID: 7845309205718654644, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
-      propertyPath: gameOverSE
+      propertyPath: stageClearSE
       value: 
-      objectReference: {fileID: 8300000, guid: a0ca8964c08d54c5dbebf245bdc474ca, type: 3}
+      objectReference: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+    - target: {fileID: 7845309205718654644, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
+      propertyPath: stageClearObj
+      value: 
+      objectReference: {fileID: 7845309207579905203}
     - target: {fileID: 7845309205718654646, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
       propertyPath: m_Name
       value: StageCtrl
@@ -1800,3 +1800,8 @@ PrefabInstance:
       objectReference: {fileID: 1799780431}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
+--- !u!1 &7845309207579905203 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1776767212, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
+  m_PrefabInstance: {fileID: 7845309207579905202}
+  m_PrefabAsset: {fileID: 0}

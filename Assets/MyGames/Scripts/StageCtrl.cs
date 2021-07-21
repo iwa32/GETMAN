@@ -7,15 +7,27 @@ public class StageCtrl : MonoBehaviour
 {
     [Header("プレイヤーオブジェクト")]
     public GameObject playerObj;
+
     [Header("プレイヤー待機場所")]
     public GameObject playerWaitLocationObj;
+
     [SerializeField]
     [Header("ゲームオーバUI")]
     private GameObject gameOverObj;
+
+    [SerializeField]
+    [Header("ステージクリアUI")]
+    private GameObject stageClearObj;
+
     [Header("フェードイメージ")]
     public FadeImage fade;
+
     [Header("ゲームオーバーSE")]
     public AudioClip gameOverSE;
+
+    [Header("ステージクリアSE")]
+    public AudioClip stageClearSE;
+
     [Header("リトライボタンSE")]
     public AudioClip retrySE;
 
@@ -23,6 +35,7 @@ public class StageCtrl : MonoBehaviour
     private int nextStageNum;
     private bool startFade;
     private bool doGameOver;
+    private bool doStageClear;
     private bool retryGame;//リトライ中か
     private bool doSceneChange;//シーン切り替え中か
 
@@ -30,10 +43,11 @@ public class StageCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(playerObj != null && playerWaitLocationObj != null && gameOverObj != null)
+        if(playerObj != null && playerWaitLocationObj != null && gameOverObj != null && stageClearObj != null)
         {
             //最初は非表示
             gameOverObj.SetActive(false);
+            stageClearObj.SetActive(false);
             //コンティニュー地点へプレイヤーを設置
             MovingPlayerIntoWaitPosition();
             p = playerObj.GetComponent<PlayerController>();
@@ -48,15 +62,24 @@ public class StageCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //ゲームオーバーのときの処理
         if(GameManager.instance.isGameOver && !doGameOver)
         {
             GameOver();
+            doGameOver = true;
         }
+        //プレイヤーがやられた時の処理
         else if(p != null && p.IsContinueWaiting())
         {
             //プレイヤーがコンティニュー待機中なら地点へ設置
             MovingPlayerIntoWaitPosition();
             p.ContinuePlayer();
+        }
+        //ステージクリア時の処理
+        else if (GameManager.instance.isStageClear && !doStageClear)
+        {
+            StageClear();
+            doStageClear = true;
         }
 
         //ステージを切り替える
@@ -117,6 +140,14 @@ public class StageCtrl : MonoBehaviour
     {
         gameOverObj.SetActive(true);
         GameManager.instance.PlaySE(gameOverSE);
-        doGameOver = true;
+    }
+
+    /// <summary>
+    /// ステージクリアにする
+    /// </summary>
+    void StageClear()
+    {
+        stageClearObj.SetActive(true);
+        GameManager.instance.PlaySE(stageClearSE);
     }
 }

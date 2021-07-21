@@ -94,15 +94,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isGameStart || isGameOver) return;
-
-        if (PointNum == clearPointNum)
-        {
-            isStageClear = true;
-            Debug.Log("ステージクリア");
-        }
+        if (!isGameStart || isGameOver || isStageClear) return;
 
         CheckIfGameOver();
+        CheckIfStageOver();
         CountTimer();
     }
 
@@ -118,11 +113,23 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ステージクリアかチェックする
+    /// </summary>
+    private void CheckIfStageOver()
+    {
+        if (PointNum == clearPointNum)
+        {
+            isStageClear = true;
+        }
+    }
+
+    /// <summary>
     /// 最初から始める時の処理
     /// </summary>
     public void RetryGame()
     {
         isGameOver = false;
+        isStageClear = false;
         isGameStart = true;
         ScoreNum = 0;
         StageNum = 1;
@@ -178,6 +185,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ReduceHeartNum()
     {
+        if (isGameOver || isStageClear) return;
+
         if(HeartNum > 0)
         {
             --HeartNum;
