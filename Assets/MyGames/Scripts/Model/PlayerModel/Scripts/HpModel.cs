@@ -10,12 +10,12 @@ namespace PlayerModel
         public IReadOnlyReactiveProperty<int> Hp => _hp;
 
         IntReactiveProperty _hp = new IntReactiveProperty();
-        int initialHp;
+        int _initialHp;
 
         internal HpModel(int hp)
         {
             _hp.Value = hp;
-            initialHp = hp;
+            _initialHp = hp;
         }
 
         public void AddHp(int hp)
@@ -30,7 +30,7 @@ namespace PlayerModel
 
         public void ResetHp()
         {
-            _hp.Value = initialHp;
+            _hp.Value = _initialHp;
         }
     }
 }

@@ -10,12 +10,12 @@ namespace PlayerModel
         public IReadOnlyReactiveProperty<int> Score => _score;
 
         IntReactiveProperty _score = new IntReactiveProperty();
-        int initialScore;
+        int _initialScore;
 
         internal ScoreModel(int score)
         {
             _score.Value = score;
-            initialScore = score;
+            _initialScore = score;
         }
 
         public void AddScore(int score)
@@ -25,7 +25,7 @@ namespace PlayerModel
 
         public void ResetScore()
         {
-            _score.Value = initialScore;
+            _score.Value = _initialScore;
         }
     }
 }
