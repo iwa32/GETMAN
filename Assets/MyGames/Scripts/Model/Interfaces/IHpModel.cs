@@ -17,5 +17,10 @@ namespace PlayerModel
         /// </summary>
         /// <param name="hp"></param>
         void ReduceHp(int hp);
+
+        /// <summary>
+        /// Hpのリセット
+        /// </summary>
+        void ResetHp();
     }
 }

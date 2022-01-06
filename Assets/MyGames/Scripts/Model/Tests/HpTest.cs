@@ -39,4 +39,12 @@ public class HpTest
 
         Assert.That(_hpModel.Hp.Value, Is.EqualTo(expected));
     }
+
+    [Test, Description("Hpがリセットされているか")]
+    public void ResetHpTest()
+    {
+        _hpModel.ResetHp();
+
+        Assert.That(_hpModel.Hp.Value, Is.EqualTo(initialHp));
+    }
 }
