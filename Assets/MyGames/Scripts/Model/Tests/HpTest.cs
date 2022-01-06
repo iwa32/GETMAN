@@ -41,8 +41,9 @@ public class HpTest
     }
 
     [Test, Description("Hpがリセットされているか")]
-    public void ResetHpTest()
+    public void ResetHpTest([Values(1, -1, 2)] int input)
     {
+        _hpModel.AddHp(input);
         _hpModel.ResetHp();
 
         Assert.That(_hpModel.Hp.Value, Is.EqualTo(initialHp));
