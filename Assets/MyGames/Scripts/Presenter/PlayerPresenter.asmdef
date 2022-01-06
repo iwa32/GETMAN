@@ -1,0 +1,17 @@
+{
+    "name": "PlayerPresenter",
+    "rootNamespace": "",
+    "references": [
+        "GUID:58f18639df63b4cf08aed5cba5be2872",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
