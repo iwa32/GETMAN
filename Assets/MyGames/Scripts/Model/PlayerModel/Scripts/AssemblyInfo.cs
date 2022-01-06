@@ -1,4 +1,4 @@
 # if UNITY_EDITOR
 using System.Runtime.CompilerServices;
-[assembly: InternalsVisibleTo("Tests")]
+[assembly: InternalsVisibleTo("PlayerModelTests")]
 # endif

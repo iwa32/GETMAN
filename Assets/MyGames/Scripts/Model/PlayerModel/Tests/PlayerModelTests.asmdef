@@ -1,11 +1,11 @@
 {
-    "name": "Tests",
+    "name": "PlayerModelTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Model",
-        "UniRx"
+        "UniRx",
+        "PlayerModel"
     ],
     "includePlatforms": [
         "Editor"
