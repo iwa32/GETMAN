@@ -60,6 +60,7 @@ namespace PlayerPresenter
 
         #region//プロパティ
         Rigidbody _rigidBody;
+        Animator _animator;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
         IScoreModel _scoreModel;
@@ -86,6 +87,7 @@ namespace PlayerPresenter
         void Awake()
         {
             _rigidBody = GetComponent<Rigidbody>();
+            _animator = GetComponent<Animator>();
         }
 
         //todo 後で上位クラスから初期化処理を呼ぶように変更する
@@ -114,6 +116,7 @@ namespace PlayerPresenter
             _collisionView.OnCollision().Subscribe(collision => CheckCollider(collision.collider));
 
             //viewの監視
+            //todo DOWN, DEAD中は何もしない 
             _inputView.InputDirection.Subscribe(input => ChangeStateByInput(input));
 
         }
@@ -177,6 +180,7 @@ namespace PlayerPresenter
             if (collider.TryGetComponent(out IAttacker attacker))
             {
                 _hpModel.ReduceHp(attacker.Power);
+                ChangeStateByDamage();
             }
         }
 
@@ -190,6 +194,17 @@ namespace PlayerPresenter
                 _stateModel.SetState(RUN);
             else
                 _stateModel.SetState(WAIT);
+        }
+
+        /// <summary>
+        /// ダメージによってプレイヤーの状態を切り替えます
+        /// </summary>
+        void ChangeStateByDamage()
+        {
+            if (_hpModel.Hp.Value > 0)
+                _stateModel.SetState(DOWN);
+            else
+                _stateModel.SetState(DEAD);
         }
 
         /// <summary>
@@ -210,7 +225,10 @@ namespace PlayerPresenter
         Action GetDelActionByState(PlayerState state)
         {
             if (state == RUN) return Run;
+            if (state == DOWN) return Down;
             return Wait;
+            //todo DownとDeadの処理を作成
+            //Deadは一回アニメーションを行い、そのままの状態を保持する
         }
 
         /// <summary>
@@ -221,6 +239,18 @@ namespace PlayerPresenter
             Vector2 input = _inputView.InputDirection.Value;
             Move(input);
             Rotation(input);
+        }
+
+        /// <summary>
+        /// ダウンします
+        /// </summary>
+        public void Down()
+        {
+            //一度だけ処理
+            Debug.Log("down");
+            //Downは一回のアニメーションをする
+            //アニメーション後stateを切り替える
+            //1秒間無敵点滅時間を記述する
         }
 
         /// <summary>
