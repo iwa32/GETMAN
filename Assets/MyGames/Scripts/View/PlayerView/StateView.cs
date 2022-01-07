@@ -7,7 +7,6 @@ namespace PlayerView
 {
     public class StateView : MonoBehaviour
     {
-        PlayerState _state;
         Action _delAction;
         Animator _animator;
 
@@ -22,7 +21,6 @@ namespace PlayerView
         /// <param name="state"></param>
         public void ChangeState(PlayerState state)
         {
-            _state = state;
             _animator.SetInteger("States",(int)state);
         }
 

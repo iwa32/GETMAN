@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2591246578178462638}
   - component: {fileID: 1212665024258697591}
   m_Layer: 0
-  m_Name: PointItem 1
+  m_Name: PointItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,10 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d889c9d1435c469d938918458adff88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getSE: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
-  pointNum: 1
-  scoreNum: 100
-  trigger: {fileID: 2591246578178462633}
+  _point: 1
+  _score: 100
 --- !u!65 &1212665024258697591
 BoxCollider:
   m_ObjectHideFlags: 0

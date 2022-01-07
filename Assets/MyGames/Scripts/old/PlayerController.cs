@@ -33,22 +33,22 @@ public class PlayerController : MonoBehaviour
     private float blinkTime;//点滅時間
     #endregion
 
-    #region//Vector
-    private Vector3 inputDirection;
-    private Vector3 playerPos;
-    #endregion
+    //#region//Vector
+    //private Vector3 inputDirection;
+    //private Vector3 playerPos;
+    //#endregion
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        playerPos = transform.position;
+        //playerPos = transform.position;
         //Input System
-        pInput = GetComponent<PlayerInput>();
-        InputActionMap actionMap = pInput.currentActionMap;
+        //pInput = GetComponent<PlayerInput>();
+        //InputActionMap actionMap = pInput.currentActionMap;
         //アクションを取得
-        _moveAction = actionMap["Move"];
+        //_moveAction = actionMap["Move"];
         //_lookAction = actionMap["Look"];
         //_fireAction = actionMap["Fire"];
     }
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         //コントローラーの値を取得
         Vector2 moveVector = _moveAction.ReadValue<Vector2>();
         //入力情報を3次元として取得
-        inputDirection = new Vector3(moveVector.x, 0, moveVector.y) * speed;
+        //inputDirection = new Vector3(moveVector.x, 0, moveVector.y) * speed;
         //Vector2 look = _lookAction.ReadValue<Vector2>();
         //bool fire = _fireAction.triggered;
 
@@ -70,14 +70,14 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.isGameOver || GameManager.instance.isStageClear) return;
 
-        RotatePlayer();
-        MovePlayer();
+        //RotatePlayer();
+        //MovePlayer();
         SetAnimation();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag(enemyTag))
+        if (collision.gameObject.CompareTag(enemyTag))
         {
             PlayerDown();
         }
@@ -91,12 +91,12 @@ public class PlayerController : MonoBehaviour
         if (!isContinue) return;
 
         //明滅ついている時に戻る③
-        if(blinkTime > 0.2f)
+        if (blinkTime > 0.2f)
         {
             SetActiveToAllChild(true);
             blinkTime = 0.0f;
         }
-        else if(blinkTime > 0.1f)
+        else if (blinkTime > 0.1f)
         {
             //消えている時②
             SetActiveToAllChild(false);
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //1秒経ったら明滅終わり
-        if(continueTime > 1.0f)
+        if (continueTime > 1.0f)
         {
             isContinue = false;
             continueTime = 0.0f;
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="isActive"></param>
     private void SetActiveToAllChild(bool isActive)
     {
-        foreach(Transform child in gameObject.transform)
+        foreach (Transform child in gameObject.transform)
         {
             child.gameObject.SetActive(isActive);
         }
@@ -166,13 +166,13 @@ public class PlayerController : MonoBehaviour
     /// <returns>anim終了フラグ</returns>
     private bool IsDownAnimEnd()
     {
-        if(isDown && anim != null)
+        if (isDown && anim != null)
         {
             AnimatorStateInfo currentInfo = anim.GetCurrentAnimatorStateInfo(0);
-            if(currentInfo.IsName("Down"))
+            if (currentInfo.IsName("Down"))
             {
                 //アニメーションが終了したら
-                if(currentInfo.normalizedTime >= 1)
+                if (currentInfo.normalizedTime >= 1)
                 {
                     return true;
                 }
@@ -194,46 +194,46 @@ public class PlayerController : MonoBehaviour
         transform.LookAt(new Vector3(0, 1, 0));
     }
 
-    /// <summary>
-    /// プレイヤーの回転
-    /// </summary>
-    void RotatePlayer()
-    {
-        //プレイヤーの進行方向の座標の差分を取得
-        Vector3 diffPos = transform.position - playerPos;
-        //入力があったら回転量を取得し、プレイヤーを回転させる
-        if (inputDirection.x != 0 || inputDirection.z != 0)
-        {
-            if (diffPos.magnitude <= 0.01f) return;
-            rb.rotation = Quaternion.LookRotation(diffPos);
-        }
-        //プレイヤーの位置を更新
-        playerPos = transform.position;
-    }
-
-    /// <summary>
-    /// プレイヤーの移動
-    /// </summary>
-    void MovePlayer()
-    {
-        if (isDown) return;
-
-        //入力があった場合
-        if (inputDirection != Vector3.zero)
-        {
-            isRun = true;
-            rb.velocity = inputDirection;
-        }
-        else
-        {
-            //idle状態
-            isRun = false;
-        }
-    }
-
     void SetAnimation()
     {
         anim.SetBool("IsRun", isRun);
         anim.SetBool("IsDown", isDown);
     }
+
+    /// <summary>
+    /// プレイヤーの回転
+    /// </summary>
+    //void RotatePlayer()
+    //{
+    //    //プレイヤーの進行方向の座標の差分を取得
+    //    Vector3 diffPos = transform.position - playerPos;
+    //    //入力があったら回転量を取得し、プレイヤーを回転させる
+    //    if (inputDirection.x != 0 || inputDirection.z != 0)
+    //    {
+    //        if (diffPos.magnitude <= 0.01f) return;
+    //        rb.rotation = Quaternion.LookRotation(diffPos);
+    //    }
+    //    //プレイヤーの位置を更新
+    //    playerPos = transform.position;
+    //}
+
+    /// <summary>
+    /// プレイヤーの移動
+    /// </summary>
+    //void MovePlayer()
+    //{
+    //    if (isDown) return;
+
+    //    //入力があった場合
+    //    if (inputDirection != Vector3.zero)
+    //    {
+    //        isRun = true;
+    //        rb.velocity = inputDirection;
+    //    }
+    //    else
+    //    {
+    //        //idle状態
+    //        isRun = false;
+    //    }
+    //}
 }

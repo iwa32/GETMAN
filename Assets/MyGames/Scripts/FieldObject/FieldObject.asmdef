@@ -1,12 +1,8 @@
 {
-    "name": "PlayerPresenter",
+    "name": "FieldObject",
     "rootNamespace": "",
     "references": [
-        "GUID:58f18639df63b4cf08aed5cba5be2872",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:ae0a6ba6225294d15bd4dfdd08d5fa59",
-        "GUID:231969241a33c435c889dcd1f750de0c",
-        "GUID:8c47e949d4c0c430fab2d46af9f8e028"
+        "GUID:c0fe760af10574953a442566f0517c78"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

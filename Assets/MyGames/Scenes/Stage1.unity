@@ -220,6 +220,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2591246578178462638, guid: f1fd756cad7f74186beb5f3ed1495137, type: 3}
+      propertyPath: _score
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2591391166340945651, guid: f1fd756cad7f74186beb5f3ed1495137, type: 3}
       propertyPath: m_Name
       value: PointItem

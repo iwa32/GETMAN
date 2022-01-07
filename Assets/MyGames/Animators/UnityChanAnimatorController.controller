@@ -65,7 +65,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: State
+    m_ConditionEvent: States
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -9115725677978921001}
@@ -163,7 +163,7 @@ AnimatorController:
   m_Name: UnityChanAnimatorController
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: State
+  - m_Name: States
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -238,7 +238,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: State
+    m_ConditionEvent: States
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1602199353689914495}

@@ -12,6 +12,7 @@ namespace PlayerPresenter
 {
     public class PlayerPresenter : MonoBehaviour
     {
+        #region//フィールド
         [SerializeField]
         [Header("武器アイコンのUIを設定")]
         WeaponView _weaponView;
@@ -36,12 +37,31 @@ namespace PlayerPresenter
         [Header("プレイヤーの入力取得スクリプトを設定")]
         InputView _inputView;
 
+        [SerializeField]
+        [Header("プレイヤーの移動速度を設定")]
+        float _speed = 10.0f;
+
+        [SerializeField]
+        [Header("Hpを取得するスコアラインを設定")]
+        int _scoreLineToGetHp = 100;
+
+        [SerializeField]
+        [Header("次は〇倍後のスコアラインでHpを取得します")]
+        int nextMagnification = 5;
+
+        [SerializeField]
+        [Header("接触判定スクリプトを設定")]
+        TriggerView _triggerView;
+        #endregion
+
+        #region//プロパティ
         Rigidbody _rigidBody;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         IStateModel _stateModel;
+        #endregion
 
         [Inject]
         public void Construct(
@@ -82,17 +102,65 @@ namespace PlayerPresenter
         {
             //modelの監視
             _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp));
-            _scoreModel.Score.Subscribe(score => _scoreView.SetScore(score));
+            _scoreModel.Score.Subscribe(score => CheckScore(score));
             _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
             _stateModel.State.Subscribe(state => RegisterStateAction(state));
+            //triggerの取得
+            _triggerView.OnTrigger().Subscribe(collider => CheckCollider(collider));
 
             //viewの監視
             _inputView.InputDirection.Subscribe(input => ChangeStateByInput(input));
+
         }
 
         void FixedUpdate()
         {
             _stateView.Action();
+        }
+
+        /// <summary>
+        /// スコアを監視する
+        /// </summary>
+        void CheckScore(int score)
+        {
+            CheckScoreToGetHp(score);
+            _scoreView.SetScore(score);
+        }
+
+        /// <summary>
+        /// Scoreを決められた数取得するとHPがアップします
+        /// </summary>
+        /// <param name="score"></param>
+        void CheckScoreToGetHp(int score)
+        {
+            if (score <= 0) return;
+            if (score % _scoreLineToGetHp == 0)
+            {
+                _hpModel.AddHp(1);
+                _scoreLineToGetHp *= nextMagnification;
+            }
+        }
+
+        /// <summary>
+        /// 接触したコライダーを確認します
+        /// </summary>
+        /// <param name="collider"></param>
+        void CheckCollider(Collider collider)
+        {
+            TryGetPointItem(collider);
+        }
+
+        /// <summary>
+        /// ポイントアイテムの取得を試みます
+        /// </summary>
+        void TryGetPointItem(Collider collider)
+        {
+            if (collider.TryGetComponent(out IPointItem pointItem))
+            {
+                _pointModel.AddPoint(pointItem.Point);
+                _scoreModel.AddScore(pointItem.Score);
+                pointItem.Destroy();
+            }
         }
 
         /// <summary>
@@ -148,7 +216,7 @@ namespace PlayerPresenter
             if (input != Vector2.zero)
             {
                 Vector3 movePos = new Vector3(input.x, 0, input.y);
-                _rigidBody.velocity = movePos * 10f;
+                _rigidBody.velocity = movePos * _speed;
             }
         }
 
