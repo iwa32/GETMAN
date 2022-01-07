@@ -1,5 +1,5 @@
 /// <summary>
-/// ポイントを持っている
+/// ポイントアイテム
 /// </summary>
 public interface IPointItem : IPoint, IScore
 {

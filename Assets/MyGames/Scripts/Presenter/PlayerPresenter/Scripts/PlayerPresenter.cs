@@ -148,6 +148,7 @@ namespace PlayerPresenter
         void CheckCollider(Collider collider)
         {
             TryGetPointItem(collider);
+            TryReceiveDamage(collider);
         }
 
         /// <summary>
@@ -160,6 +161,17 @@ namespace PlayerPresenter
                 _pointModel.AddPoint(pointItem.Point);
                 _scoreModel.AddScore(pointItem.Score);
                 pointItem.Destroy();
+            }
+        }
+
+        /// <summary>
+        /// ダメージを受けるか確認します
+        /// </summary>
+        void TryReceiveDamage(Collider collider)
+        {
+            if (collider.TryGetComponent(out IAttacker attacker))
+            {
+                _hpModel.ReduceHp(attacker.Power);
             }
         }
 
@@ -234,7 +246,7 @@ namespace PlayerPresenter
         /// </summary>
         public void Wait()
         {
-            Debug.Log("Wait");
+            //Debug.Log("Wait");
         }
     }
 }
