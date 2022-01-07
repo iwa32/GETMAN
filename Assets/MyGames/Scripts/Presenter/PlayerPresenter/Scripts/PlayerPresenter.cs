@@ -52,6 +52,10 @@ namespace PlayerPresenter
         [SerializeField]
         [Header("接触判定スクリプトを設定")]
         TriggerView _triggerView;
+
+        [SerializeField]
+        [Header("衝突判定スクリプトを設定")]
+        CollisionView _collisionView;
         #endregion
 
         #region//プロパティ
@@ -105,8 +109,9 @@ namespace PlayerPresenter
             _scoreModel.Score.Subscribe(score => CheckScore(score));
             _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
             _stateModel.State.Subscribe(state => RegisterStateAction(state));
-            //triggerの取得
+            //trigger, collisionの取得
             _triggerView.OnTrigger().Subscribe(collider => CheckCollider(collider));
+            _collisionView.OnCollision().Subscribe(collision => CheckCollider(collision.collider));
 
             //viewの監視
             _inputView.InputDirection.Subscribe(input => ChangeStateByInput(input));
