@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UniRx;
 
 namespace PlayerView
 {
-    public class StateView : MonoBehaviour
+    public class ActionView : MonoBehaviour
     {
-        Action _delAction;
         Animator _animator;
+
+        public ReactiveProperty<StateView> State = new ReactiveProperty<StateView>();
 
         void Awake()
         {
@@ -21,17 +23,12 @@ namespace PlayerView
         /// <param name="state"></param>
         public void ChangeState(PlayerState state)
         {
-            _animator.SetInteger("States",(int)state);
+            _animator.SetInteger("States", (int)state);
         }
 
         public void Action()
         {
-            _delAction();
-        }
-
-        public void SetDelAction(Action action)
-        {
-            _delAction = action;
+            State.Value.Action();
         }
     }
 }

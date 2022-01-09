@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +30,24 @@ namespace PlayerPresenter
         PointView _pointView;
 
         [SerializeField]
-        [Header("プレイヤーの状態スクリプトを設定")]
-        StateView _stateView;
+        [Header("プレイヤーのアクション用スクリプトを設定")]
+        ActionView _actionView;
+
+        [SerializeField]
+        [Header("待機状態のスクリプトを設定")]
+        WaitView _waitView;
+
+        [SerializeField]
+        [Header("移動状態のスクリプトを設定")]
+        RunView _runView;
+
+        [SerializeField]
+        [Header("ダウン状態のスクリプトを設定")]
+        DownView _downView;
+
+        [SerializeField]
+        [Header("デッド状態のスクリプトを設定")]
+        DeadView _deadView;
 
         [SerializeField]
         [Header("プレイヤーの入力取得スクリプトを設定")]
@@ -100,6 +115,11 @@ namespace PlayerPresenter
 
         void Initialize()
         {
+            _waitView.DelAction = Wait;
+            _runView.DelAction = Run;
+            _downView.DelAction = Down;
+            _deadView.DelAction = Dead;
+            _actionView.State.Value = _waitView;
             Bind();
         }
 
@@ -112,28 +132,35 @@ namespace PlayerPresenter
             _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp));
             _scoreModel.Score.Subscribe(score => CheckScore(score));
             _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
-            _stateModel.State.Subscribe(state => RegisterStateAction(state));
+
             //trigger, collisionの取得
             _triggerView.OnTrigger().Subscribe(collider => CheckCollider(collider));
             _collisionView.OnCollision().Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
+            _actionView.State
+                .Where(x => x != null)
+                .Subscribe(x => {
+                    _actionView.ChangeState(x.State);
+            });
+
             //WAITとRUNのみ入力を受け付けます
             _inputView.InputDirection
-                .Where(_ => (_stateModel.State.Value == RUN || _stateModel.State.Value == WAIT))
+                .Where(_ => (_actionView.State.Value.State == RUN
+                || _actionView.State.Value.State == WAIT))
                 .Subscribe(input => ChangeStateByInput(input));
 
             //animationの監視
             _animTrigger.OnStateEnterAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
                 .SkipWhile(s => s.StateInfo.normalizedTime >= 1.0f)
-                .Subscribe(x => { _stateModel.SetState(WAIT); })//１秒後ダウン終了
+                .Subscribe(x => { _actionView.State.Value = _waitView; })//１秒後ダウン終了
                 .AddTo(this);
         }
 
         void FixedUpdate()
         {
-            _stateView.Action();
+            _actionView.Action();
         }
 
         /// <summary>
@@ -209,9 +236,9 @@ namespace PlayerPresenter
         void ChangeStateByInput(Vector2 input)
         {
             if (input.magnitude != 0)
-                _stateModel.SetState(RUN);
+                _actionView.State.Value = _runView;
             else
-                _stateModel.SetState(WAIT);
+                _actionView.State.Value = _waitView;
         }
 
         /// <summary>
@@ -220,39 +247,15 @@ namespace PlayerPresenter
         void ChangeStateByDamage()
         {
             if (_hpModel.Hp.Value > 0)
-                _stateModel.SetState(DOWN);
+                _actionView.State.Value = _downView;
             else
-                _stateModel.SetState(DEAD);
-        }
-
-        /// <summary>
-        /// 状態ごとの処理を登録します
-        /// </summary>
-        /// <param name="state"></param>
-        void RegisterStateAction(PlayerState state)
-        {
-            _stateView.ChangeState(state);
-            _stateView.SetDelAction(GetDelActionByState(state));
-        }
-
-        /// <summary>
-        /// 状態ごとに必要な処理を取得します
-        /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        Action GetDelActionByState(PlayerState state)
-        {
-            if (state == RUN) return Run;
-            if (state == DOWN) return Down;
-            return Wait;
-            //todo Deadの処理を作成
-            //Deadは一回アニメーションを行い、そのままの状態を保持する
+                _actionView.State.Value = _deadView;
         }
 
         /// <summary>
         /// 走ります
         /// </summary>
-        public void Run()
+        void Run()
         {
             Vector2 input = _inputView.InputDirection.Value;
             Move(input);
@@ -262,7 +265,7 @@ namespace PlayerPresenter
         /// <summary>
         /// ダウンします
         /// </summary>
-        public void Down()
+        void Down()
         {
             //一度だけ処理
             Debug.Log("down");
@@ -298,9 +301,17 @@ namespace PlayerPresenter
         /// <summary>
         /// 待機状態
         /// </summary>
-        public void Wait()
+        void Wait()
         {
             
+        }
+
+        /// <summary>
+        /// やられてしまった
+        /// </summary>
+        void Dead()
+        {
+            Debug.Log("dead");
         }
     }
 }
