@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
 using Zenject;
 using PlayerModel;
 using PlayerView;
@@ -61,6 +62,7 @@ namespace PlayerPresenter
         #region//プロパティ
         Rigidbody _rigidBody;
         Animator _animator;
+        ObservableStateMachineTrigger _animTrigger;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
         IScoreModel _scoreModel;
@@ -88,9 +90,9 @@ namespace PlayerPresenter
         {
             _rigidBody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
+            _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
         }
 
-        //todo 後で上位クラスから初期化処理を呼ぶように変更する
         void Start()
         {
             Initialize();
@@ -113,12 +115,20 @@ namespace PlayerPresenter
             _stateModel.State.Subscribe(state => RegisterStateAction(state));
             //trigger, collisionの取得
             _triggerView.OnTrigger().Subscribe(collider => CheckCollider(collider));
-            _collisionView.OnCollision().Subscribe(collision => CheckCollider(collision.collider));
+            _collisionView.OnCollision().Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
-            //todo DOWN, DEAD中は何もしない 
-            _inputView.InputDirection.Subscribe(input => ChangeStateByInput(input));
+            //WAITとRUNのみ入力を受け付けます
+            _inputView.InputDirection
+                .Where(_ => (_stateModel.State.Value == RUN || _stateModel.State.Value == WAIT))
+                .Subscribe(input => ChangeStateByInput(input));
 
+            //animationの監視
+            _animTrigger.OnStateEnterAsObservable()
+                .Where(s => s.StateInfo.IsName("Down"))
+                .SkipWhile(s => s.StateInfo.normalizedTime >= 1.0f)
+                .Subscribe(x => { _stateModel.SetState(WAIT); })//１秒後ダウン終了
+                .AddTo(this);
         }
 
         void FixedUpdate()
@@ -157,6 +167,14 @@ namespace PlayerPresenter
         {
             TryGetPointItem(collider);
             TryReceiveDamage(collider);
+        }
+
+        /// <summary>
+        /// 衝突を確認します
+        /// </summary>
+        void CheckCollision(Collision collision)
+        {
+            TryReceiveDamage(collision.collider);
         }
 
         /// <summary>
@@ -227,7 +245,7 @@ namespace PlayerPresenter
             if (state == RUN) return Run;
             if (state == DOWN) return Down;
             return Wait;
-            //todo DownとDeadの処理を作成
+            //todo Deadの処理を作成
             //Deadは一回アニメーションを行い、そのままの状態を保持する
         }
 
@@ -248,9 +266,10 @@ namespace PlayerPresenter
         {
             //一度だけ処理
             Debug.Log("down");
-            //Downは一回のアニメーションをする
-            //アニメーション後stateを切り替える
-            //1秒間無敵点滅時間を記述する
+            //点滅処理
+            //アニメーション終了
+
+            //ノックバック
         }
 
         /// <summary>
@@ -281,7 +300,7 @@ namespace PlayerPresenter
         /// </summary>
         public void Wait()
         {
-            //Debug.Log("Wait");
+            
         }
     }
 }
