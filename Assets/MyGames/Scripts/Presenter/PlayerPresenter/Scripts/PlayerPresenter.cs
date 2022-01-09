@@ -16,6 +16,26 @@ namespace PlayerPresenter
     {
         #region//フィールド
         [SerializeField]
+        [Header("プレイヤーの移動速度")]
+        float _speed = 10.0f;
+
+        [SerializeField]
+        [Header("Hpを取得するスコアライン")]
+        int _scoreLineToGetHp = 100;
+
+        [SerializeField]
+        [Header("次は〇倍後のスコアラインでHpを取得します")]
+        int nextMagnification = 5;
+
+        [SerializeField]
+        [Header("プレイヤーの点滅時間")]
+        float _blinkTime = 3.0f;
+
+        [SerializeField]
+        [Header("ノックバック時の飛ぶ威力")]
+        float _knockBackPower = 10.0f;
+
+        [SerializeField]
         [Header("武器アイコンのUIを設定")]
         WeaponView _weaponView;
 
@@ -56,22 +76,6 @@ namespace PlayerPresenter
         InputView _inputView;
 
         [SerializeField]
-        [Header("プレイヤーの移動速度を設定")]
-        float _speed = 10.0f;
-
-        [SerializeField]
-        [Header("Hpを取得するスコアラインを設定")]
-        int _scoreLineToGetHp = 100;
-
-        [SerializeField]
-        [Header("次は〇倍後のスコアラインでHpを取得します")]
-        int nextMagnification = 5;
-
-        [SerializeField]
-        [Header("ノックバック時の飛ぶ威力を設定します")]
-        float _knockBackPower = 10.0f;
-
-        [SerializeField]
         [Header("接触判定スクリプトを設定")]
         TriggerView _triggerView;
 
@@ -89,6 +93,7 @@ namespace PlayerPresenter
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         IStateModel _stateModel;
+        bool _isBlink;//点滅状態か
         #endregion
 
         [Inject]
@@ -238,6 +243,7 @@ namespace PlayerPresenter
         /// </summary>
         void TryReceiveDamage(Collider collider)
         {
+            if (_isBlink) return;
             if (collider.TryGetComponent(out IAttacker attacker))
             {
                 _hpModel.ReduceHp(attacker.Power);
@@ -305,10 +311,10 @@ namespace PlayerPresenter
         async UniTask PlayerBlinks()
         {
             bool isActive = false;
-            float blinkTime = 1.0f;
             float elapsedBlinkTime = 0.0f;
 
-            while (elapsedBlinkTime <= blinkTime)
+            _isBlink = true;
+            while (elapsedBlinkTime <= _blinkTime)
             {
                 SetActiveToAllChild(isActive);
                 isActive = !isActive;
@@ -317,6 +323,7 @@ namespace PlayerPresenter
             }
 
             SetActiveToAllChild(true);
+            _isBlink = false;
         }
 
         /// <summary>
