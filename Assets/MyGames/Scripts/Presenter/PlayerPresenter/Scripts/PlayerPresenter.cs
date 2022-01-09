@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using Cysharp.Threading.Tasks;
 using Zenject;
 using PlayerModel;
 using PlayerView;
@@ -150,7 +152,6 @@ namespace PlayerPresenter
                 || _actionView.State.Value.State == WAIT))
                 .Subscribe(input => ChangeStateByInput(input));
 
-            //animationの監視
             _animTrigger.OnStateEnterAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
                 .SkipWhile(s => s.StateInfo.normalizedTime >= 1.0f)
@@ -247,7 +248,7 @@ namespace PlayerPresenter
         void ChangeStateByDamage()
         {
             if (_hpModel.Hp.Value > 0)
-                _actionView.State.Value = _downView;
+                ChangeDown();
             else
                 _actionView.State.Value = _deadView;
         }
@@ -262,6 +263,46 @@ namespace PlayerPresenter
             Rotation(input);
         }
 
+        void ChangeDown()
+        {
+            _actionView.State.Value = _downView;
+            //todo ノックバック
+            //点滅処理
+            PlayerBlinks().Forget();
+        }
+
+        /// <summary>
+        /// プレイヤーの点滅
+        /// </summary>
+        async UniTask PlayerBlinks()
+        {
+            bool isActive = false;
+            float blinkTime = 1.0f;
+            float elapsedBlinkTime = 0.0f;
+
+            while (elapsedBlinkTime <= blinkTime)
+            {
+                SetActiveToAllChild(isActive);
+                isActive = !isActive;
+                await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                elapsedBlinkTime += 0.2f;
+            }
+
+            SetActiveToAllChild(true);
+        }
+
+        /// <summary>
+        /// 子要素を全てアクティブ・非アクティブにする
+        /// </summary>
+        /// <param name="isActive"></param>
+        void SetActiveToAllChild(bool isActive)
+        {
+            foreach (Transform child in gameObject.transform)
+            {
+                child.gameObject.SetActive(isActive);
+            }
+        }
+
         /// <summary>
         /// ダウンします
         /// </summary>
@@ -269,10 +310,6 @@ namespace PlayerPresenter
         {
             //一度だけ処理
             Debug.Log("down");
-            //点滅処理
-            //アニメーション終了
-
-            //ノックバック
         }
 
         /// <summary>
