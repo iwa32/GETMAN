@@ -68,6 +68,10 @@ namespace PlayerPresenter
         int nextMagnification = 5;
 
         [SerializeField]
+        [Header("ノックバック時の飛ぶ威力を設定します")]
+        float _knockBackPower = 10.0f;
+
+        [SerializeField]
         [Header("接触判定スクリプトを設定")]
         TriggerView _triggerView;
 
@@ -194,7 +198,7 @@ namespace PlayerPresenter
         void CheckCollider(Collider collider)
         {
             TryGetPointItem(collider);
-            TryReceiveDamage(collider);
+            //TryReceiveDamage(collider);todo ダメージ床用
         }
 
         /// <summary>
@@ -202,7 +206,18 @@ namespace PlayerPresenter
         /// </summary>
         void CheckCollision(Collision collision)
         {
-            TryReceiveDamage(collision.collider);
+            TryCheckEnemyCollision(collision);
+        }
+
+        /// <summary>
+        /// 敵の接触の確認を試みます
+        /// </summary>
+        void TryCheckEnemyCollision(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent(out IEnemy enemy))
+            {
+                TryReceiveDamage(collision.collider);
+            }
         }
 
         /// <summary>
@@ -227,6 +242,7 @@ namespace PlayerPresenter
             {
                 _hpModel.ReduceHp(attacker.Power);
                 ChangeStateByDamage();
+                KnockBack(collider?.gameObject);
             }
         }
 
@@ -266,9 +282,21 @@ namespace PlayerPresenter
         void ChangeDown()
         {
             _actionView.State.Value = _downView;
-            //todo ノックバック
             //点滅処理
             PlayerBlinks().Forget();
+        }
+
+        /// <summary>
+        /// ノックバックします
+        /// </summary>
+        void KnockBack(GameObject target)
+        {
+            //ノックバック方向を取得
+            Vector3 knockBackDirection = (transform.position - target.transform.position).normalized;
+
+            //速度ベクトルをリセット
+            _rigidBody.velocity = Vector3.zero;
+            _rigidBody.AddForce(knockBackDirection * _knockBackPower, ForceMode.VelocityChange);
         }
 
         /// <summary>
@@ -308,8 +336,6 @@ namespace PlayerPresenter
         /// </summary>
         void Down()
         {
-            //一度だけ処理
-            Debug.Log("down");
         }
 
         /// <summary>
