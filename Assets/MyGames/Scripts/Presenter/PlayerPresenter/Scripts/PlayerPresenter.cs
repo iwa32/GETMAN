@@ -116,19 +116,17 @@ namespace PlayerPresenter
             _stateModel = state;
         }
 
-        void Awake()
+        /// <summary>
+        /// プレハブのインスタンス直後の処理
+        /// </summary>
+        public void ManualAwake()
         {
             _rigidBody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
         }
 
-        void Start()
-        {
-            Initialize();
-        }
-
-        void Initialize()
+        public void Initialize()
         {
             _waitView.DelAction = Wait;
             _runView.DelAction = Run;
@@ -187,7 +185,10 @@ namespace PlayerPresenter
                 .AddTo(this);
         }
 
-        void FixedUpdate()
+        /// <summary>
+        /// fixedUpdate処理
+        /// </summary>
+        public void ManualFixedUpdate()
         {
             _actionView.Action();
         }
