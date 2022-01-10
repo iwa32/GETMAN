@@ -14,7 +14,7 @@ namespace PlayerPresenter
 {
     public class PlayerPresenter : MonoBehaviour
     {
-        #region//フィールド
+        #region//インスペクターから設定
         [SerializeField]
         [Header("プレイヤーの移動速度")]
         float _speed = 10.0f;
@@ -88,7 +88,7 @@ namespace PlayerPresenter
         CollisionView _collisionView;
         #endregion
 
-        #region//プロパティ
+        #region//フィールド
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
