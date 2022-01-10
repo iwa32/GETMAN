@@ -155,12 +155,20 @@ namespace PlayerPresenter
                     _actionView.ChangeState(x.State);
             });
 
+            //入力の監視
             //WAITとRUNのみ入力を受け付けます
             _inputView.InputDirection
                 .Where(_ => (_actionView.State.Value.State == RUN
                 || _actionView.State.Value.State == WAIT))
                 .Subscribe(input => ChangeStateByInput(input));
+            //攻撃入力
+            _inputView.IsFired
+                .Where(x => x == true)
+                .Subscribe(x => {
+                    Attack();
+                });
 
+            //アニメーションの監視
             _animTrigger.OnStateEnterAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
                 .SkipWhile(s => s.StateInfo.normalizedTime >= 1.0f)
@@ -171,6 +179,14 @@ namespace PlayerPresenter
         void FixedUpdate()
         {
             _actionView.Action();
+        }
+
+        /// <summary>
+        /// 攻撃を行います
+        /// </summary>
+        void Attack()
+        {
+            //武器があれば攻撃する
         }
 
         /// <summary>
