@@ -72,6 +72,10 @@ namespace PlayerPresenter
         DeadView _deadView;
 
         [SerializeField]
+        [Header("攻撃状態のスクリプトを設定")]
+        AttackView _attackView;
+
+        [SerializeField]
         [Header("プレイヤーの入力取得スクリプトを設定")]
         InputView _inputView;
 
@@ -130,6 +134,7 @@ namespace PlayerPresenter
             _runView.DelAction = Run;
             _downView.DelAction = Down;
             _deadView.DelAction = Dead;
+            _attackView.DelAction = Attack;
             _actionView.State.Value = _waitView;
             Bind();
         }
@@ -165,7 +170,7 @@ namespace PlayerPresenter
             _inputView.IsFired
                 .Where(x => x == true)
                 .Subscribe(x => {
-                    Attack();
+                    ChangeAttack();
                 });
 
             //アニメーションの監視
@@ -179,14 +184,6 @@ namespace PlayerPresenter
         void FixedUpdate()
         {
             _actionView.Action();
-        }
-
-        /// <summary>
-        /// 攻撃を行います
-        /// </summary>
-        void Attack()
-        {
-            //武器があれば攻撃する
         }
 
         /// <summary>
@@ -278,6 +275,16 @@ namespace PlayerPresenter
                 _actionView.State.Value = _runView;
             else
                 _actionView.State.Value = _waitView;
+        }
+
+        /// <summary>
+        /// 攻撃状態に切り替えます
+        /// </summary>
+        void ChangeAttack()
+        {
+            //if 武器があれば攻撃する
+
+            _actionView.State.Value = _attackView;
         }
 
         /// <summary>
@@ -398,6 +405,14 @@ namespace PlayerPresenter
         void Dead()
         {
             Debug.Log("dead");
+        }
+
+        /// <summary>
+        /// 攻撃を行います
+        /// </summary>
+        void Attack()
+        {
+            Debug.Log("攻撃");
         }
     }
 }
