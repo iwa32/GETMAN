@@ -168,16 +168,22 @@ namespace PlayerPresenter
                 .Subscribe(input => ChangeStateByInput(input));
             //攻撃入力
             _inputView.IsFired
-                .Where(x => x == true)
+                .Where(x => (x == true)
+                && (_actionView.State.Value.State == RUN
+                || _actionView.State.Value.State == WAIT))
                 .Subscribe(x => {
                     ChangeAttack();
                 });
 
             //アニメーションの監視
-            _animTrigger.OnStateEnterAsObservable()
-                .Where(s => s.StateInfo.IsName("Down"))
-                .SkipWhile(s => s.StateInfo.normalizedTime >= 1.0f)
-                .Subscribe(x => { _actionView.State.Value = _waitView; })//１秒後ダウン終了
+            _animTrigger.OnStateUpdateAsObservable()
+                .Where(s => s.StateInfo.IsName("Attack")
+                || s.StateInfo.IsName("Down"))
+                .Where(s => s.StateInfo.normalizedTime >= 1)
+                .Subscribe(_ =>
+                {
+                    _actionView.State.Value = _waitView;
+                })
                 .AddTo(this);
         }
 
