@@ -1,12 +1,10 @@
 {
-    "name": "GamePresenter",
+    "name": "GameView",
     "rootNamespace": "",
     "references": [
-        "GUID:a4a9cacbb68b7438a8a9618d17282cc7",
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:d74e98d7fd06340d499d3f9692a2f33e",
-        "GUID:6bc32bccc630a4779aa04a99dfcbc086",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:0c94835073c984f9ba10eb8a9333c211"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

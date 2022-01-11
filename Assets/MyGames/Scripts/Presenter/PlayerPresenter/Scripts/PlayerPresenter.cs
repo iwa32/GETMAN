@@ -138,7 +138,7 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// 監視し、ModelとUIの紐付けを行う
+        /// modelとviewの監視、処理
         /// </summary>
         void Bind()
         {
