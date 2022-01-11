@@ -495,6 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPresenter: {fileID: 1567685198}
   _gameStartView: {fileID: 7845309207579905211}
+  _gameOverView: {fileID: 7845309207579905206}
 --- !u!4 &612946928
 Transform:
   m_ObjectHideFlags: 0
@@ -2456,7 +2457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2873372430133600839, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
       propertyPath: m_Text
-      value: 
+      value: Game Start!
       objectReference: {fileID: 0}
     - target: {fileID: 2873372430133600839, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
       propertyPath: m_FontData.m_FontSize
@@ -2572,6 +2573,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9e9632d0cba74f33b7a2932b0026fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7845309207579905206 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1046826186593703922, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
+  m_PrefabInstance: {fileID: 7845309207579905202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ade64001187c41bca85143005c244ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7845309207579905211 stripped

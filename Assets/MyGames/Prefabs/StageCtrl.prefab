@@ -603,7 +603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5274300327805055553
 RectTransform:
   m_ObjectHideFlags: 0
@@ -664,7 +664,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Game Start!
 --- !u!1 &7682653232213611271
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +682,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8971643274223922332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1402,6 +1402,7 @@ GameObject:
   - component: {fileID: 7845309206269010728}
   - component: {fileID: 7845309206269010734}
   - component: {fileID: 7845309206269010729}
+  - component: {fileID: 1046826186593703922}
   m_Layer: 5
   m_Name: GameOverBG
   m_TagString: Untagged
@@ -1468,6 +1469,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1046826186593703922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845309206269010731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ade64001187c41bca85143005c244ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _retryButton: {fileID: 7845309206776724409}
+  _toTitleButton: {fileID: 0}
 --- !u!1 &7845309206704715078
 GameObject:
   m_ObjectHideFlags: 0

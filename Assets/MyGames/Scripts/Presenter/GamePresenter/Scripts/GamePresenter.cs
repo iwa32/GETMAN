@@ -19,6 +19,10 @@ namespace GamePresenter
         [SerializeField]
         [Header("ゲーム開始UIを設定")]
         GameStartView _gameStartView;
+
+        [SerializeField]
+        [Header("ゲームオーバーUIを設定")]
+        GameOverView _gameOverView;
         #endregion
 
         #region//フィールド
@@ -34,6 +38,7 @@ namespace GamePresenter
         void Awake()
         {
             _playerPresenter.ManualAwake();
+            _gameStartView.Initialize();
         }
 
         void Start()
@@ -53,10 +58,20 @@ namespace GamePresenter
         /// </summary>
         void Bind()
         {
+            //view
             _gameStartView.IsGameStart
                 .Where(isGameStart => isGameStart == true)
                 .Subscribe(_ => StartGame())
                 .AddTo(this);
+
+            _playerPresenter.IsGameOver
+                .Where(isGameOver => isGameOver == true)
+                .Subscribe(_ => _gameModel.SetIsGameOver(true));
+
+            //model
+            _gameModel.IsGameOver
+                .Where(isGameOver => isGameOver == true)
+                .Subscribe(_ => GameOver());
         }
 
         /// <summary>
@@ -67,8 +82,14 @@ namespace GamePresenter
             _playerPresenter.SetCanStartGame(true);
         }
 
-        
-        //ゲームオーバー処理
+        /// <summary>
+        /// ゲームオーバー
+        /// </summary>
+        void GameOver()
+        {
+            _gameOverView.gameObject?.SetActive(true);
+        }
+
         //リトライ処理
         //クリア処理
     }

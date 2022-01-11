@@ -98,11 +98,13 @@ namespace PlayerPresenter
         IPointModel _pointModel;
         IStateModel _stateModel;
         bool _isBlink;//点滅状態か
+        BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
         bool _canStartGame;//ゲーム開始フラグ
         #endregion
 
-        #region
-        bool CanStartGame => _canStartGame;
+        #region//プロパティ
+        public bool CanStartGame => _canStartGame;
+        public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
         #endregion
 
         [Inject]
@@ -162,6 +164,7 @@ namespace PlayerPresenter
                 .Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
+            //状態の監視
             _actionView.State
                 .Where(x => x != null)
                 .Subscribe(x => {
@@ -237,7 +240,7 @@ namespace PlayerPresenter
             if (score <= 0) return;
             if (score % _scoreLineToGetHp == 0)
             {
-                _hpModel.AddHp(1);
+                _hpModel.AddHp(1);//hpを１つ増やします
                 _scoreLineToGetHp *= nextMagnification;
             }
         }
@@ -315,7 +318,7 @@ namespace PlayerPresenter
         /// </summary>
         void ChangeAttack()
         {
-            //if 武器があれば攻撃する
+            //todo 武器があれば攻撃する
 
             _actionView.State.Value = _attackView;
         }
@@ -327,8 +330,7 @@ namespace PlayerPresenter
         {
             if (_hpModel.Hp.Value > 0)
                 ChangeDown();
-            else
-                _actionView.State.Value = _deadView;
+            else ChangeDead();
         }
 
         /// <summary>
@@ -346,6 +348,12 @@ namespace PlayerPresenter
             _actionView.State.Value = _downView;
             //点滅処理
             PlayerBlinks().Forget();
+        }
+
+        void ChangeDead()
+        {
+            _actionView.State.Value = _deadView;
+            _isGameOver.Value = true;
         }
 
         /// <summary>
