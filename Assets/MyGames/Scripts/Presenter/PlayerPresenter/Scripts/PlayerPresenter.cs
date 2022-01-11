@@ -169,21 +169,16 @@ namespace PlayerPresenter
             });
 
             //入力の監視
-            //WAITとRUNのみ入力を受け付けます
             _inputView.InputDirection
-                .Where(_ => (_actionView.State.Value.State == RUN
-                || _actionView.State.Value.State == WAIT))
+                .Where(_ => IsControllableState())
                 .Subscribe(input => ChangeStateByInput(input));
 
             //攻撃入力
             _inputView.IsFired
                 .Where(x => (x == true)
                 && (_canStartGame)
-                && (_actionView.State.Value.State == RUN
-                || _actionView.State.Value.State == WAIT))
-                .Subscribe(x => {
-                    ChangeAttack();
-                });
+                && IsControllableState())
+                .Subscribe(_ => ChangeAttack());
 
             //アニメーションの監視
             _animTrigger.OnStateUpdateAsObservable()
@@ -204,6 +199,15 @@ namespace PlayerPresenter
         public void SetCanStartGame(bool can)
         {
             _canStartGame = can;
+        }
+
+        /// <summary>
+        /// 操作可能な状態か
+        /// </summary>
+        bool IsControllableState()
+        {
+            return (_actionView.State.Value.State == RUN
+                || _actionView.State.Value.State == WAIT);
         }
 
         /// <summary>
