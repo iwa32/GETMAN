@@ -5,7 +5,6 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using UniRx;
-using static GameViewStrings;
 
 namespace GameView
 {
@@ -27,6 +26,12 @@ namespace GameView
 
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
 
+        public void Initialize()
+        {
+            OpenUIFor(_countText.gameObject);
+            CloseUIFor(_gameStartText.gameObject);
+        }
+
         /// <summary>
         /// ゲーム開始までカウントします
         /// </summary>
@@ -40,13 +45,32 @@ namespace GameView
                 _gameStartCount--;
             }
 
-            _countText.text = "";
-            _gameStartText.text = GAME_START;
+            CloseUIFor(_countText.gameObject);
+            OpenUIFor(_gameStartText.gameObject);
 
             await UniTask.Delay(TimeSpan.FromSeconds(1));
 
-            _gameStartText.text = "";
+            CloseUIFor(_gameStartText.gameObject);
             _isGameStart.Value = true;
+            CloseUIFor(gameObject);
+        }
+
+        /// <summary>
+        /// UIを表示します
+        /// </summary>
+        /// <param name="target"></param>
+        void OpenUIFor(GameObject target)
+        {
+            target?.SetActive(true);
+        }
+
+        /// <summary>
+        /// UIを非表示にします
+        /// </summary>
+        /// <param name="target"></param>
+        void CloseUIFor(GameObject target)
+        {
+            target?.SetActive(false);
         }
     }
 
