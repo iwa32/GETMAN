@@ -55,10 +55,19 @@ namespace GamePresenter
         {
             _gameStartView.IsGameStart
                 .Where(isGameStart => isGameStart == true)
-                .Subscribe(_ => { Debug.Log("動かす"); });
+                .Subscribe(_ => StartGame())
+                .AddTo(this);
         }
 
-        //ゲーム開始処理
+        /// <summary>
+        /// ゲームを開始する
+        /// </summary>
+        void StartGame()
+        {
+            _playerPresenter.SetCanStartGame(true);
+        }
+
+        
         //ゲームオーバー処理
         //リトライ処理
         //クリア処理

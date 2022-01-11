@@ -98,6 +98,11 @@ namespace PlayerPresenter
         IPointModel _pointModel;
         IStateModel _stateModel;
         bool _isBlink;//点滅状態か
+        bool _canStartGame;//ゲーム開始フラグ
+        #endregion
+
+        #region
+        bool CanStartGame => _canStartGame;
         #endregion
 
         [Inject]
@@ -148,8 +153,13 @@ namespace PlayerPresenter
             _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
 
             //trigger, collisionの取得
-            _triggerView.OnTrigger().Subscribe(collider => CheckCollider(collider));
-            _collisionView.OnCollision().Subscribe(collision => CheckCollision(collision));
+            _triggerView.OnTrigger()
+                .Where(_ => _canStartGame)
+                .Subscribe(collider => CheckCollider(collider));
+
+            _collisionView.OnCollision()
+                .Where(_ => _canStartGame)
+                .Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
             _actionView.State
@@ -164,9 +174,11 @@ namespace PlayerPresenter
                 .Where(_ => (_actionView.State.Value.State == RUN
                 || _actionView.State.Value.State == WAIT))
                 .Subscribe(input => ChangeStateByInput(input));
+
             //攻撃入力
             _inputView.IsFired
                 .Where(x => (x == true)
+                && (_canStartGame)
                 && (_actionView.State.Value.State == RUN
                 || _actionView.State.Value.State == WAIT))
                 .Subscribe(x => {
@@ -186,10 +198,20 @@ namespace PlayerPresenter
         }
 
         /// <summary>
+        /// ゲーム開始フラグの設定
+        /// </summary>
+        /// <param name="can"></param>
+        public void SetCanStartGame(bool can)
+        {
+            _canStartGame = can;
+        }
+
+        /// <summary>
         /// fixedUpdate処理
         /// </summary>
         public void ManualFixedUpdate()
         {
+            if (_canStartGame == false) return;
             _actionView.Action();
         }
 
