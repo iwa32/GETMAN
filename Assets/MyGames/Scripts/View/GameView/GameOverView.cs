@@ -11,16 +11,16 @@ namespace GameView
     public class GameOverView : MonoBehaviour
     {
         [SerializeField]
-        [Header("リトライボタンを設定")]
-        Button _retryButton;
+        [Header("コンティニューボタンを設定")]
+        Button _continueButton;
 
         [SerializeField]
         [Header("タイトルボタンを設定")]
         Button _toTitleButton;
 
-        public IObservable<Unit> ClickRetryButton()
+        public IObservable<Unit> ClickContinueButton()
         {
-            return ObservableClickButton(_retryButton);
+            return ObservableClickButton(_continueButton);
         }
 
         public IObservable<Unit> ClickToTitleButton()

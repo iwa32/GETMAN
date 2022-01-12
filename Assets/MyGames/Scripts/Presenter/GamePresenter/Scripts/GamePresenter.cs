@@ -68,9 +68,9 @@ namespace GamePresenter
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => _gameModel.SetIsGameOver(true));
 
-            //リトライボタン
-            _gameOverView.ClickRetryButton()
-                .Subscribe(_ => Debug.Log("onclick"));
+            //コンティニューボタン
+            _gameOverView.ClickContinueButton()
+                .Subscribe(_ => _gameModel.SetIsGameContinue(true));
 
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
@@ -80,6 +80,9 @@ namespace GamePresenter
             _gameModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => GameOver());
+            _gameModel.IsGameContinue
+                .Where(isGameContinue => isGameContinue == true)
+                .Subscribe(_ => ContinueGame());
         }
 
         /// <summary>
@@ -88,6 +91,14 @@ namespace GamePresenter
         void StartGame()
         {
             _playerPresenter.SetCanStartGame(true);
+        }
+
+        /// <summary>
+        /// ゲームをコンティニューする
+        /// </summary>
+        void ContinueGame()
+        {
+
         }
 
         /// <summary>

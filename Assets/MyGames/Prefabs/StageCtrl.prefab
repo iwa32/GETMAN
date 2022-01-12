@@ -1374,7 +1374,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retry
+  m_Text: Continue
 --- !u!1 &7845309206025109857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,7 +1694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ade64001187c41bca85143005c244ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _retryButton: {fileID: 7845309206776724409}
+  _continueButton: {fileID: 0}
   _toTitleButton: {fileID: 1771592954145075444}
 --- !u!1 &7845309206704715078
 GameObject:
@@ -1789,7 +1789,7 @@ GameObject:
   - component: {fileID: 7845309206776724414}
   - component: {fileID: 7845309206776724409}
   m_Layer: 5
-  m_Name: RetryButton
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
