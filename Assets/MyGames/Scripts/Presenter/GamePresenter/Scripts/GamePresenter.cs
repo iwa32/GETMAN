@@ -68,6 +68,14 @@ namespace GamePresenter
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => _gameModel.SetIsGameOver(true));
 
+            //リトライボタン
+            _gameOverView.ClickRetryButton()
+                .Subscribe(_ => Debug.Log("onclick"));
+
+            //タイトルボタン
+            _gameOverView.ClickToTitleButton()
+                .Subscribe(_ => Debug.Log("ToTitle"));
+
             //model
             _gameModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)

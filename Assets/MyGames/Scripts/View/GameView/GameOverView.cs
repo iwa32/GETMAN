@@ -5,7 +5,6 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using UniRx;
-using static GameViewStrings;
 
 namespace GameView
 {
@@ -18,5 +17,26 @@ namespace GameView
         [SerializeField]
         [Header("タイトルボタンを設定")]
         Button _toTitleButton;
+
+        public IObservable<Unit> ClickRetryButton()
+        {
+            return ObservableClickButton(_retryButton);
+        }
+
+        public IObservable<Unit> ClickToTitleButton()
+        {
+            return ObservableClickButton(_toTitleButton);
+        }
+
+        /// <summary>
+        /// クリックイベントを通知します
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        IObservable<Unit> ObservableClickButton(Button button)
+        {
+            return button.OnClickAsObservable()
+                .ThrottleFirst(TimeSpan.FromMilliseconds(1000));//二重送信防止
+        }
     }
 }
