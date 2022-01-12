@@ -98,7 +98,11 @@ namespace GamePresenter
         /// </summary>
         void ContinueGame()
         {
-
+            _gameOverView.gameObject?.SetActive(false);
+            //todo フェードを出現させる
+            _playerPresenter.ResetData();
+            _gameStartView.Initialize();
+            _gameStartView.CountUntilGameStart().Forget();
         }
 
         /// <summary>
@@ -109,7 +113,6 @@ namespace GamePresenter
             _gameOverView.gameObject?.SetActive(true);
         }
 
-        //リトライ処理
         //クリア処理
     }
 }

@@ -120,7 +120,7 @@ namespace PlayerPresenter
             _hpModel = hp;
             _scoreModel = score;
             _pointModel = point;
-            _stateModel = state;
+            _stateModel = state;//todo不要？
         }
 
         /// <summary>
@@ -133,6 +133,9 @@ namespace PlayerPresenter
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
         }
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         public void Initialize()
         {
             _waitView.DelAction = Wait;
@@ -142,6 +145,19 @@ namespace PlayerPresenter
             _attackView.DelAction = Attack;
             _actionView.State.Value = _waitView;
             Bind();
+        }
+
+        /// <summary>
+        /// リセットします
+        /// </summary>
+        public void ResetData()
+        {
+            _actionView.State.Value = _waitView;
+            _canStartGame = false;
+            _isGameOver.Value = false;
+            _hpModel.ResetHp();
+            _pointModel.ResetPoint();
+            _scoreModel.ResetScore();
         }
 
         /// <summary>
