@@ -98,8 +98,8 @@ namespace PlayerPresenter
         IPointModel _pointModel;
         IStateModel _stateModel;
         bool _isBlink;//点滅状態か
-        BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
         bool _canStartGame;//ゲーム開始フラグ
+        BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
         #endregion
 
         #region//プロパティ
@@ -156,11 +156,11 @@ namespace PlayerPresenter
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
-                .Where(_ => _canStartGame)
+                .Where(_ => CanGame())
                 .Subscribe(collider => CheckCollider(collider));
 
             _collisionView.OnCollision()
-                .Where(_ => _canStartGame)
+                .Where(_ => CanGame())
                 .Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
@@ -179,7 +179,7 @@ namespace PlayerPresenter
             //攻撃入力
             _inputView.IsFired
                 .Where(x => (x == true)
-                && (_canStartGame)
+                && CanGame()
                 && IsControllableState())
                 .Subscribe(_ => ChangeAttack());
 
@@ -211,6 +211,15 @@ namespace PlayerPresenter
         {
             return (_actionView.State.Value.State == RUN
                 || _actionView.State.Value.State == WAIT);
+        }
+
+        /// <summary>
+        /// ゲームができるか
+        /// </summary>
+        /// <returns></returns>
+        bool CanGame()
+        {
+            return (_canStartGame && _isGameOver.Value == false);
         }
 
         /// <summary>
