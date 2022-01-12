@@ -12,7 +12,7 @@ namespace GameView
     {
         [SerializeField]
         [Header("ゲーム開始までの秒数")]
-        int _gameStartCount = 3;
+        int _maxGameStartCount = 3;
 
         [SerializeField]
         [Header("カウント用のテキストを設定")]
@@ -22,12 +22,17 @@ namespace GameView
         [Header("ゲーム開始のアナウンス用テキストを設定")]
         Text _gameStartText;
 
+        int _gameStartCount;
+        BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
+
         public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
 
-        BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
 
         public void Initialize()
         {
+            _isGameStart.Value = false;
+            _gameStartCount = _maxGameStartCount;
+            OpenUIFor(gameObject);
             OpenUIFor(_countText.gameObject);
             CloseUIFor(_gameStartText.gameObject);
         }
