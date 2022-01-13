@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 1776767213}
   - component: {fileID: 1776767215}
   - component: {fileID: 1776767214}
+  - component: {fileID: 3159619032468886715}
   m_Layer: 5
   m_Name: StageClearBG
   m_TagString: Untagged
@@ -289,6 +290,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!223 &3159619032468886715
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776767212}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1929028556
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,6 +770,7 @@ GameObject:
   - component: {fileID: 6395678336165958498}
   - component: {fileID: 8388578486517562179}
   - component: {fileID: 3180834301574300900}
+  - component: {fileID: 7093094222061621667}
   m_Layer: 5
   m_Name: GameStartBG
   m_TagString: Untagged
@@ -812,6 +835,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1c1879b2b5d4121917f454e6f6898b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &7093094222061621667
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166588086130860157}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &6190995628856240304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,6 +1106,7 @@ GameObject:
   - component: {fileID: 6505049448287323410}
   - component: {fileID: 5571096600850088282}
   - component: {fileID: 7948474650012921465}
+  - component: {fileID: 3025997395806150844}
   m_Layer: 5
   m_Name: LimitCountTimer
   m_TagString: Untagged
@@ -1138,6 +1183,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeText: {fileID: 2126198097304761320}
+--- !u!223 &3025997395806150844
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845309205668400541}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &7845309205718654646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,6 +1692,7 @@ GameObject:
   - component: {fileID: 7845309206269010734}
   - component: {fileID: 7845309206269010729}
   - component: {fileID: 1046826186593703922}
+  - component: {fileID: 781760510058584870}
   m_Layer: 5
   m_Name: GameOverBG
   m_TagString: Untagged
@@ -1707,6 +1774,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _continueButton: {fileID: 7845309206776724409}
   _toTitleButton: {fileID: 1771592954145075444}
+--- !u!223 &781760510058584870
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845309206269010731}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &7845309206704715078
 GameObject:
   m_ObjectHideFlags: 0
@@ -2202,7 +2290,7 @@ GameObject:
   - component: {fileID: 7845309207727869210}
   - component: {fileID: 7845309207727869205}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
