@@ -799,6 +799,7 @@ MonoBehaviour:
   _countText: {fileID: 1065951097865801449}
   _gameStartText: {fileID: 2873372430133600839}
   _gameStartCountDown: {fileID: 3180834301574300900}
+  _gameStartCount: 3
 --- !u!114 &3180834301574300900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,7 +812,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1c1879b2b5d4121917f454e6f6898b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxCountTime: 3
 --- !u!1 &6190995628856240304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,9 +1060,10 @@ GameObject:
   - component: {fileID: 7845309205668400514}
   - component: {fileID: 7845309205668400512}
   - component: {fileID: 7845309205668400515}
-  - component: {fileID: 7845309205668400513}
+  - component: {fileID: 6505049448287323410}
+  - component: {fileID: 5571096600850088282}
   m_Layer: 5
-  m_Name: LimitTimer
+  m_Name: GameLimitCountTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1129,7 +1130,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Timer 60.0
---- !u!114 &7845309205668400513
+--- !u!114 &6505049448287323410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1138,7 +1139,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 7845309205668400541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055e0de15a8b74c09ab9dce0f74878a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 425a033d7072845c7bb020040517363e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameLimitCountTime: 60
+  _countDownTimer: {fileID: 5571096600850088282}
+--- !u!114 &5571096600850088282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845309205668400541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1c1879b2b5d4121917f454e6f6898b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7845309205718654646

@@ -17,6 +17,10 @@ namespace GamePresenter
         PlayerPresenter.PlayerPresenter _playerPresenter;
 
         [SerializeField]
+        [Header("TimerのPresenterを設定")]
+        TimePresenter.TimePresenter _timePresenter;
+
+        [SerializeField]
         [Header("ゲーム開始UIを設定")]
         GameStartView _gameStartView;
 
@@ -44,6 +48,7 @@ namespace GamePresenter
         {
             _gameStartView.Initialize();
             _playerPresenter.Initialize();
+            _timePresenter.Initialize();
             Bind();
         }
 

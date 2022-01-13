@@ -1,13 +1,10 @@
 {
-    "name": "GamePresenter",
+    "name": "TimeInstaller",
     "rootNamespace": "",
     "references": [
-        "GUID:a4a9cacbb68b7438a8a9618d17282cc7",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:d74e98d7fd06340d499d3f9692a2f33e",
-        "GUID:6bc32bccc630a4779aa04a99dfcbc086",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:076fce4250f1747faa10780037228db6"
+        "GUID:82652372162894155b9573a14ee9c2c0",
+        "GUID:076fce4250f1747faa10780037228db6",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
