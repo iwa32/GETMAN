@@ -1398,6 +1398,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37997cc64362f4d0c8a33c7ff9c9046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialHp: 3
+  _initialPoint: 0
+  _initialScore: 0
+  _initialPower: 0
   _speed: 10
   _scoreLineToGetHp: 100
   nextMagnification: 5
@@ -1918,10 +1922,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 435e1c9164e794a4897772b809080afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialHp: 3
-  _initialPoint: 0
-  _initialScore: 0
-  _initialPower: 0
 --- !u!114 &1913342371
 MonoBehaviour:
   m_ObjectHideFlags: 0
