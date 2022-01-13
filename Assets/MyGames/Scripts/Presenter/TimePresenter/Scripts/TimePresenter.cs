@@ -5,6 +5,7 @@ using UnityEngine;
 using Zenject;
 using UniRx;
 using TimeModel;
+using TimeView;
 
 namespace TimePresenter
 {
@@ -18,9 +19,18 @@ namespace TimePresenter
         [Header("カウントダウン処理を設定")]
         CountDownTimer _countDownTimer;
 
+        [SerializeField]
+        [Header("タイマー表示用のUIを設定")]
+        TimeView.TimeView _timeView;
+
         #region//フィールド
         ITimeModel _timeModel;
         BoolReactiveProperty _canStartGame = new BoolReactiveProperty();//ゲーム開始フラグ
+        BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
+        #endregion
+
+        #region//プロパティ
+        public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
         #endregion
 
         [Inject]
@@ -46,18 +56,28 @@ namespace TimePresenter
         void Bind()
         {
             //ゲーム開始でカウント開始
-            CanGame()
+            _canStartGame
                 .Where(can => can == true)
                 .Subscribe(_ => _countDownTimer.Connect());
 
             //カウントダウン
             _countDownTimer.CountDownObservable
+                .Where(_ => CanGame())
                 .Subscribe(time =>
                 {
-                    Debug.Log(time);
+                    _timeModel.SetTime(time);
+                },
+                () => {
+                    //カウント終了でゲームオーバー
+                    _timeModel.SetTime(0);
+                    _isGameOver.Value = true;
                 });
 
-            //カウント終了でゲームオーバー
+            //Model to View
+            _timeModel.Time.Subscribe(time =>
+            {
+                _timeView.SetTimeText(time);
+            });
         }
 
         // <summary>
@@ -70,13 +90,20 @@ namespace TimePresenter
         }
 
         /// <summary>
+        /// ゲームオーバーフラグの設定
+        /// </summary>
+        public void SetIsGameOver(bool isGameOver)
+        {
+            _isGameOver.Value = isGameOver;
+        }
+
+        /// <summary>
         /// ゲームができるか
         /// </summary>
         /// <returns></returns>
-        IObservable<bool> CanGame()
+        bool CanGame()
         {
-            //return (_canStartGame && _isGameOver.Value == false);
-            return _canStartGame;
+            return (_canStartGame.Value && _isGameOver.Value == false);
         }
     }
 }

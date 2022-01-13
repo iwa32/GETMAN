@@ -68,7 +68,12 @@ namespace GamePresenter
                 .Subscribe(_ => StartGame())
                 .AddTo(this);
 
+            //ゲーム終了の監視
             _playerPresenter.IsGameOver
+                .Where(isGameOver => isGameOver == true)
+                .Subscribe(_ => _gameModel.SetIsGameOver(true));
+
+            _timePresenter.IsGameOver
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => _gameModel.SetIsGameOver(true));
 
@@ -84,6 +89,7 @@ namespace GamePresenter
             _gameModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => GameOver());
+
             _gameModel.IsGameContinue
                 .Where(isGameContinue => isGameContinue == true)
                 .Subscribe(_ => ContinueGame());
@@ -115,6 +121,9 @@ namespace GamePresenter
         void GameOver()
         {
             _gameOverView.gameObject?.SetActive(true);
+
+            _playerPresenter.ChangeDead();
+            _timePresenter.SetIsGameOver(true);
         }
 
         //クリア処理

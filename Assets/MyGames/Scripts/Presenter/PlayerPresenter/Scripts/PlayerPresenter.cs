@@ -221,6 +221,14 @@ namespace PlayerPresenter
         }
 
         /// <summary>
+        /// ゲームオーバーフラグの設定
+        /// </summary>
+        public void SetIsGameOver(bool isGameOver)
+        {
+            _isGameOver.Value = isGameOver;
+        }
+
+        /// <summary>
         /// 操作可能な状態か
         /// </summary>
         bool IsControllableState()
@@ -375,7 +383,7 @@ namespace PlayerPresenter
             PlayerBlinks().Forget();
         }
 
-        void ChangeDead()
+        public void ChangeDead()
         {
             _actionView.State.Value = _deadView;
             _isGameOver.Value = true;
