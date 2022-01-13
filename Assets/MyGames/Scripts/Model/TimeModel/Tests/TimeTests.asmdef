@@ -1,15 +1,13 @@
 {
-    "name": "GameModelTests",
+    "name": "TimeTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "UniRx",
-        "GameModel"
+        "TimeModel"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
