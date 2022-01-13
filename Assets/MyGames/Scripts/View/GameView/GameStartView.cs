@@ -65,7 +65,7 @@ namespace GameView
             _isOpendGameStartText.Value = false;
 
             _gameStartCountDown.SetCountTime(_gameStartCount);
-            _gameStartCountDown.StartCountDown();
+            _gameStartCountDown.StartImmediateCountDown();
 
             OpenUIFor(gameObject);
             OpenUIFor(_countText.gameObject);

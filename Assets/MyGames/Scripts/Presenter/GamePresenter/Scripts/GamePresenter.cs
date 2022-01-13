@@ -95,6 +95,7 @@ namespace GamePresenter
         void StartGame()
         {
             _playerPresenter.SetCanStartGame(true);
+            _timePresenter.SetCanStartGame(true);
         }
 
         /// <summary>

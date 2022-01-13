@@ -13,12 +13,22 @@ public class CountDownTimer : MonoBehaviour
     public IObservable<int> CountDownObservable => _countDownObservable;
 
     /// <summary>
-    /// カウントダウンを開始します
+    /// 即時カウントダウンを開始します
     /// </summary>
-    public void StartCountDown()
+    public void StartImmediateCountDown()
+    {
+        Publish();
+        Connect();
+    }
+
+    public void Publish()
     {
         //複数のObserverに購読させるため、hot変換する
         _countDownObservable = CreateCountDown(_maxCountTime).Publish();
+    }
+
+    public void Connect()
+    {
         _countDownObservable.Connect();
     }
 

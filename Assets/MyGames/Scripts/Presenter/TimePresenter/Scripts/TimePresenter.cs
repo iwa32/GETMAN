@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace TimePresenter
 
         #region//フィールド
         ITimeModel _timeModel;
+        BoolReactiveProperty _canStartGame = new BoolReactiveProperty();//ゲーム開始フラグ
         #endregion
 
         [Inject]
@@ -34,6 +36,7 @@ namespace TimePresenter
         {
             _timeModel.SetTime(_gameLimitCountTime);
             _countDownTimer.SetCountTime(_gameLimitCountTime);
+            _countDownTimer.Publish();//ゲーム開始までカウントを待機
             Bind();
         }
 
@@ -42,8 +45,38 @@ namespace TimePresenter
         /// </summary>
         void Bind()
         {
-            //ゲーム開始で、カウント
+            //ゲーム開始でカウント開始
+            CanGame()
+                .Where(can => can == true)
+                .Subscribe(_ => _countDownTimer.Connect());
+
+            //カウントダウン
+            _countDownTimer.CountDownObservable
+                .Subscribe(time =>
+                {
+                    Debug.Log(time);
+                });
+
             //カウント終了でゲームオーバー
+        }
+
+        // <summary>
+        /// ゲーム開始フラグの設定
+        /// </summary>
+        /// <param name="can"></param>
+        public void SetCanStartGame(bool can)
+        {
+            _canStartGame.Value = can;
+        }
+
+        /// <summary>
+        /// ゲームができるか
+        /// </summary>
+        /// <returns></returns>
+        IObservable<bool> CanGame()
+        {
+            //return (_canStartGame && _isGameOver.Value == false);
+            return _canStartGame;
         }
     }
 }
