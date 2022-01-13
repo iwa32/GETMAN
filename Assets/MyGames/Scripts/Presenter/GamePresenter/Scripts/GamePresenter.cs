@@ -38,12 +38,11 @@ namespace GamePresenter
         void Awake()
         {
             _playerPresenter.ManualAwake();
-            _gameStartView.Initialize();
         }
 
         void Start()
         {
-            _gameStartView.CountUntilGameStart().Forget();
+            _gameStartView.Initialize();
             _playerPresenter.Initialize();
             Bind();
         }
@@ -102,7 +101,6 @@ namespace GamePresenter
             //todo フェードを出現させる
             _playerPresenter.ResetData();
             _gameStartView.Initialize();
-            _gameStartView.CountUntilGameStart().Forget();
         }
 
         /// <summary>

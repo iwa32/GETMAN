@@ -747,6 +747,7 @@ GameObject:
   - component: {fileID: 6824849766544801371}
   - component: {fileID: 6395678336165958498}
   - component: {fileID: 8388578486517562179}
+  - component: {fileID: 3180834301574300900}
   m_Layer: 5
   m_Name: GameStartBG
   m_TagString: Untagged
@@ -795,9 +796,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fab2e87b66da4b1eac06b4046356b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameStartCount: 3
   _countText: {fileID: 1065951097865801449}
   _gameStartText: {fileID: 2873372430133600839}
+  _gameStartCountDown: {fileID: 3180834301574300900}
+--- !u!114 &3180834301574300900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166588086130860157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1c1879b2b5d4121917f454e6f6898b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxCountTime: 3
 --- !u!1 &6190995628856240304
 GameObject:
   m_ObjectHideFlags: 0

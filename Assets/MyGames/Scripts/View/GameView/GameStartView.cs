@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using UniRx;
 
@@ -11,10 +10,6 @@ namespace GameView
     public class GameStartView : MonoBehaviour
     {
         [SerializeField]
-        [Header("ゲーム開始までの秒数")]
-        int _maxGameStartCount = 3;
-
-        [SerializeField]
         [Header("カウント用のテキストを設定")]
         Text _countText;
 
@@ -22,42 +17,54 @@ namespace GameView
         [Header("ゲーム開始のアナウンス用テキストを設定")]
         Text _gameStartText;
 
-        int _gameStartCount;
+        [SerializeField]
+        [Header("ゲーム開始時のカウントダウンコンポーネントを設定")]
+        CountDownTimer _gameStartCountDown;
+
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
+        BoolReactiveProperty _isOpendGameStartText = new BoolReactiveProperty();
 
         public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
 
+        void Start()
+        {
+            ////カウントダウンをし、終了後Game開始のUIを表示
+            _gameStartCountDown.CountDownObservable
+                .Subscribe(time =>
+                {
+                    _countText.text = time.ToString();
+                },
+                () =>
+                {
+                    CloseUIFor(_countText.gameObject);
+                    OpenUIFor(_gameStartText.gameObject);
+                    _isOpendGameStartText.Value = true;
+                }
+                );
+
+            //ゲーム開始テキストを1秒後非表示にします
+            _isOpendGameStartText
+                .Where(isOpend => isOpend == true)
+                .Delay(TimeSpan.FromSeconds(1))
+                .Subscribe(_ =>
+                {
+                    CloseUIFor(_gameStartText.gameObject);
+                    CloseUIFor(gameObject);
+                    _isGameStart.Value = true;
+                })
+                .AddTo(this);
+        }
 
         public void Initialize()
         {
             _isGameStart.Value = false;
-            _gameStartCount = _maxGameStartCount;
+            _isOpendGameStartText.Value = false;
+
+            _gameStartCountDown.StartCountDown();
+
             OpenUIFor(gameObject);
             OpenUIFor(_countText.gameObject);
             CloseUIFor(_gameStartText.gameObject);
-        }
-
-        /// <summary>
-        /// ゲーム開始までカウントします
-        /// </summary>
-        public async UniTask CountUntilGameStart()
-        {
-            //1秒ずつカウントします
-            while (_gameStartCount > 0)
-            {
-                _countText.text = _gameStartCount.ToString();
-                await UniTask.Delay(TimeSpan.FromSeconds(1));
-                _gameStartCount--;
-            }
-
-            CloseUIFor(_countText.gameObject);
-            OpenUIFor(_gameStartText.gameObject);
-
-            await UniTask.Delay(TimeSpan.FromSeconds(1));
-
-            CloseUIFor(_gameStartText.gameObject);
-            _isGameStart.Value = true;
-            CloseUIFor(gameObject);
         }
 
         /// <summary>
