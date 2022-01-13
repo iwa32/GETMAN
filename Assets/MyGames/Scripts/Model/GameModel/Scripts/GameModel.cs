@@ -6,15 +6,15 @@ namespace GameModel
 {
     public class GameModel : IGameModel
     {
-        public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
-        public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
-        public IReadOnlyReactiveProperty<bool> IsGameClear => _isGameClear;
-        public IReadOnlyReactiveProperty<bool> IsGameContinue => _isGameContinue;
-
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
         BoolReactiveProperty _isGameOver = new BoolReactiveProperty();
         BoolReactiveProperty _isGameClear = new BoolReactiveProperty();
         BoolReactiveProperty _isGameContinue = new BoolReactiveProperty();
+
+        public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
+        public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
+        public IReadOnlyReactiveProperty<bool> IsGameClear => _isGameClear;
+        public IReadOnlyReactiveProperty<bool> IsGameContinue => _isGameContinue;
 
         public void SetIsGameStart(bool isGameStart)
         {
