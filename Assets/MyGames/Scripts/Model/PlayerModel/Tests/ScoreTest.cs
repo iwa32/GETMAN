@@ -14,7 +14,16 @@ namespace PlayerModel
         [SetUp]
         public void SetUp()
         {
-            _scoreModel = new ScoreModel(_initialScore);
+            _scoreModel = new ScoreModel();
+            _scoreModel.SetScore(_initialScore);
+        }
+
+        [Test, Description("スコアが正しくセットされているか")]
+        public void SetScoreTest([Values(1, -1, 2)] int expected)
+        {
+            _scoreModel.SetScore(expected);
+
+            Assert.That(_scoreModel.Score.Value, Is.EqualTo(expected));
         }
 
         [Test, Description("スコアが加算されているか")]
@@ -26,15 +35,6 @@ namespace PlayerModel
             _scoreModel.AddScore(input);
 
             Assert.That(_scoreModel.Score.Value, Is.EqualTo(expected));
-        }
-
-        [Test, Description("スコアがリセットされているか")]
-        public void ResetScoreTest([Values(1, -1, 2)] int input)
-        {
-            _scoreModel.AddScore(input);
-            _scoreModel.ResetScore();
-
-            Assert.That(_scoreModel.Score.Value, Is.EqualTo(_initialScore));
         }
     }
 }

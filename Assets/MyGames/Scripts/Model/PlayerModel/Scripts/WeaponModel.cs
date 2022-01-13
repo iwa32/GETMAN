@@ -11,11 +11,6 @@ namespace PlayerModel
 
         IntReactiveProperty _power = new IntReactiveProperty();
 
-        internal WeaponModel(int power)
-        {
-            _power.Value = power;
-        }
-
         public void SetPower(int power)
         {
             _power.Value = power;

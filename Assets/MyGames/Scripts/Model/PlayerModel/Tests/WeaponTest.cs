@@ -14,7 +14,8 @@ namespace PlayerModel
         [SetUp]
         public void SetUp()
         {
-            _weaponModel = new WeaponModel(_initialPower);
+            _weaponModel = new WeaponModel();
+            _weaponModel.SetPower(_initialPower);
         }
 
         [Test, Description("攻撃力が正しく設定されているか")]

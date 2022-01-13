@@ -13,8 +13,8 @@ namespace PlayerModel
         void AddPoint(int point);
 
         /// <summary>
-        /// ポイントのリセット
+        /// ポイントのセット
         /// </summary>
-        void ResetPoint();
+        void SetPoint(int point);
     }
 }

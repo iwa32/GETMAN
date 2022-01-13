@@ -19,8 +19,8 @@ namespace PlayerModel
         void ReduceHp(int hp);
 
         /// <summary>
-        /// Hpのリセット
+        /// Hpのセット
         /// </summary>
-        void ResetHp();
+        void SetHp(int hp);
     }
 }

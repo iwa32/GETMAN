@@ -16,6 +16,22 @@ namespace PlayerPresenter
     {
         #region//インスペクターから設定
         [SerializeField]
+        [Header("プレイヤーの初期hpを設定")]
+        int _initialHp = 3;
+
+        [SerializeField]
+        [Header("プレイヤーの初期ポイントを設定")]
+        int _initialPoint = 0;
+
+        [SerializeField]
+        [Header("プレイヤーの初期スコアを設定")]
+        int _initialScore = 0;
+
+        [SerializeField]
+        [Header("プレイヤーの武器の攻撃力を設定")]
+        int _initialPower = 0;
+
+        [SerializeField]
         [Header("プレイヤーの移動速度")]
         float _speed = 10.0f;
 
@@ -138,13 +154,33 @@ namespace PlayerPresenter
         /// </summary>
         public void Initialize()
         {
+            InitializeModel();
+            InitializeView();
+            Bind();
+        }
+
+        /// <summary>
+        /// モデルの初期化を行います
+        /// </summary>
+        void InitializeModel()
+        {
+            _weaponModel.SetPower(_initialPower);
+            _hpModel.SetHp(_initialHp);
+            _scoreModel.SetScore(_initialScore);
+            _pointModel.SetPoint(_initialPoint);
+        }
+
+        /// <summary>
+        /// ビューの初期化を行います
+        /// </summary>
+        void InitializeView()
+        {
             _waitView.DelAction = Wait;
             _runView.DelAction = Run;
             _downView.DelAction = Down;
             _deadView.DelAction = Dead;
             _attackView.DelAction = Attack;
             _actionView.State.Value = _waitView;
-            Bind();
         }
 
         /// <summary>
@@ -155,9 +191,7 @@ namespace PlayerPresenter
             _actionView.State.Value = _waitView;
             _canStartGame = false;
             _isGameOver.Value = false;
-            _hpModel.ResetHp();
-            _pointModel.ResetPoint();
-            _scoreModel.ResetScore();
+            InitializeModel();
         }
 
         /// <summary>

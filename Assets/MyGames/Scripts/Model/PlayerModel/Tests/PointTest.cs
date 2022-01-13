@@ -14,7 +14,16 @@ namespace PlayerModel
         [SetUp]
         public void SetUp()
         {
-            _pointModel = new PointModel(_initialPoint);
+            _pointModel = new PointModel();
+            _pointModel.SetPoint(_initialPoint);
+        }
+
+        [Test, Description("ポイントが正しくセットされているか")]
+        public void SetPointTest([Values(1, -1, 2)] int expected)
+        {
+            _pointModel.SetPoint(expected);
+
+            Assert.That(_pointModel.Point.Value, Is.EqualTo(expected));
         }
 
         [Test, Description("ポイントが加算されているか")]
@@ -25,15 +34,6 @@ namespace PlayerModel
         {
             _pointModel.AddPoint(input);
             Assert.That(_pointModel.Point.Value, Is.EqualTo(expected));
-        }
-
-        [Test, Description("ポイントがリセットされているか")]
-        public void ResetPointTest([Values(1, -1, 2)] int input)
-        {
-            _pointModel.AddPoint(input);
-            _pointModel.ResetPoint();
-
-            Assert.That(_pointModel.Point.Value, Is.EqualTo(_initialPoint));
         }
     }
 }

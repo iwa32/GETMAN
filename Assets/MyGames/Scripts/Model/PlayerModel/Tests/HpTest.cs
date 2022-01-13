@@ -10,13 +10,16 @@ namespace PlayerModel
         [SetUp]
         public void SetUp()
         {
-            _hpModel = new HpModel(_initialHp);
+            _hpModel = new HpModel();
+            _hpModel.SetHp(_initialHp);
         }
 
-        [Test, Description("Hpに初期値が正しく設定されているか")]
-        public void InitialHpTest()
+        [Test, Description("Hpが正しくセットされているか")]
+        public void SetHpTest([Values(1, -1, 2)] int expected)
         {
-            Assert.That(_hpModel.Hp.Value, Is.EqualTo(_initialHp));
+            _hpModel.SetHp(expected);
+
+            Assert.That(_hpModel.Hp.Value, Is.EqualTo(expected));
         }
 
         [Test, Description("Hpが増加しているか")]
@@ -39,15 +42,6 @@ namespace PlayerModel
             _hpModel.ReduceHp(input);
 
             Assert.That(_hpModel.Hp.Value, Is.EqualTo(expected));
-        }
-
-        [Test, Description("Hpがリセットされているか")]
-        public void ResetHpTest([Values(1, -1, 2)] int input)
-        {
-            _hpModel.AddHp(input);
-            _hpModel.ResetHp();
-
-            Assert.That(_hpModel.Hp.Value, Is.EqualTo(_initialHp));
         }
     }
 }

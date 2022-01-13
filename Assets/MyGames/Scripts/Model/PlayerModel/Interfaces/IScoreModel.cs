@@ -13,8 +13,8 @@ namespace PlayerModel
         void AddScore(int score);
 
         /// <summary>
-        /// スコアのリセット
+        /// スコアのセット
         /// </summary>
-        void ResetScore();
+        void SetScore(int score);
     }
 }

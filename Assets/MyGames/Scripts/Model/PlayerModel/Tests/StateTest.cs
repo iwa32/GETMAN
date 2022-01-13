@@ -14,7 +14,8 @@ namespace PlayerModel
         [SetUp]
         public void SetUp()
         {
-            _stateModel = new StateModel(WAIT);
+            _stateModel = new StateModel();
+            _stateModel.SetState(WAIT);
         }
 
         [Test, Description("プレイヤーの状態が正しく設定されているか")]
