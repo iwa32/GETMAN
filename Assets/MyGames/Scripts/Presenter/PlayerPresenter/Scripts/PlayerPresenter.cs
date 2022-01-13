@@ -175,11 +175,7 @@ namespace PlayerPresenter
         /// </summary>
         void InitializeView()
         {
-            _waitView.DelAction = Wait;
             _runView.DelAction = Run;
-            _downView.DelAction = Down;
-            _deadView.DelAction = Dead;
-            _attackView.DelAction = Attack;
             _actionView.State.Value = _waitView;
         }
 
@@ -400,16 +396,6 @@ namespace PlayerPresenter
             else ChangeDead();
         }
 
-        /// <summary>
-        /// 走ります
-        /// </summary>
-        void Run()
-        {
-            Vector2 input = _inputView.InputDirection.Value;
-            Move(input);
-            Rotation(input);
-        }
-
         void ChangeDown()
         {
             _actionView.State.Value = _downView;
@@ -470,10 +456,13 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// ダウンします
+        /// 走ります
         /// </summary>
-        void Down()
+        void Run()
         {
+            Vector2 input = _inputView.InputDirection.Value;
+            Move(input);
+            Rotation(input);
         }
 
         /// <summary>
@@ -497,30 +486,6 @@ namespace PlayerPresenter
         void Rotation(Vector2 input)
         {
             _rigidBody.rotation = Quaternion.LookRotation(new Vector3(input.x, 0, input.y));
-        }
-
-        /// <summary>
-        /// 待機状態
-        /// </summary>
-        void Wait()
-        {
-            
-        }
-
-        /// <summary>
-        /// やられてしまった
-        /// </summary>
-        void Dead()
-        {
-            Debug.Log("dead");
-        }
-
-        /// <summary>
-        /// 攻撃を行います
-        /// </summary>
-        void Attack()
-        {
-            Debug.Log("攻撃");
         }
     }
 }

@@ -27,6 +27,7 @@ namespace PlayerView
 
         public void Action()
         {
+            if (State.Value.DelAction == null) return;
             State.Value.Action();
         }
     }
