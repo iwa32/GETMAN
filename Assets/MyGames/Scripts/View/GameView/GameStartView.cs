@@ -21,6 +21,10 @@ namespace GameView
         [Header("ゲーム開始時のカウントダウンコンポーネントを設定")]
         CountDownTimer _gameStartCountDown;
 
+        [SerializeField]
+        [Header("ゲーム開始までのカウントの秒数")]
+        int _gameStartCount = 3;
+
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
         BoolReactiveProperty _isOpendGameStartText = new BoolReactiveProperty();
 
@@ -60,6 +64,7 @@ namespace GameView
             _isGameStart.Value = false;
             _isOpendGameStartText.Value = false;
 
+            _gameStartCountDown.SetCountTime(_gameStartCount);
             _gameStartCountDown.StartCountDown();
 
             OpenUIFor(gameObject);

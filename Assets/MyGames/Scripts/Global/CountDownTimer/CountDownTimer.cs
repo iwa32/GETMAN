@@ -6,9 +6,7 @@ using System;
 
 public class CountDownTimer : MonoBehaviour
 {
-    [SerializeField]
-    [Header("カウントの秒数")]
-    int _maxCountTime = 3;
+    int _maxCountTime;//カウントの秒数
 
     protected IConnectableObservable<int> _countDownObservable;
 
@@ -22,6 +20,14 @@ public class CountDownTimer : MonoBehaviour
         //複数のObserverに購読させるため、hot変換する
         _countDownObservable = CreateCountDown(_maxCountTime).Publish();
         _countDownObservable.Connect();
+    }
+
+    /// <summary>
+    /// カウントの秒数を設定
+    /// </summary>
+    public void SetCountTime(int time)
+    {
+        _maxCountTime = time;
     }
 
     IObservable<int> CreateCountDown(int countTime)
