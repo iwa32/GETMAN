@@ -27,8 +27,12 @@ public class EnemyData
     [SerializeField]
     IntReactiveProperty _speed = new IntReactiveProperty();
 
+    [SerializeField]
+    IntReactiveProperty _score = new IntReactiveProperty();
+
     public EnemyType EnemyType => _enemyType;
     public IReactiveProperty<int> Hp => _hp;
     public IReactiveProperty<int> Power => _power;
     public IReactiveProperty<int> Speed => _speed;
+    public IReactiveProperty<int> Score => _score;
 }
