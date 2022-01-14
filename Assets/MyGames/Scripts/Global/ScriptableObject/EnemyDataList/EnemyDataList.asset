@@ -15,8 +15,10 @@ MonoBehaviour:
   _enemyDataList:
   - _enemyType: 0
     _hp:
-      value: 0
+      value: 1
     _power:
-      value: 0
+      value: 1
     _speed:
-      value: 0
+      value: 1
+    _score:
+      value: 100

@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx.Triggers;
 using System;
 
-namespace PlayerView
+namespace TriggerView
 {
     public class TriggerView : MonoBehaviour
     {

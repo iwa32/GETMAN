@@ -9,6 +9,7 @@ using Zenject;
 using PlayerModel;
 using PlayerView;
 using StateView;
+using TriggerView;
 using static StateType;
 
 namespace PlayerPresenter
@@ -98,7 +99,7 @@ namespace PlayerPresenter
 
         [SerializeField]
         [Header("接触判定スクリプトを設定")]
-        TriggerView _triggerView;
+        TriggerView.TriggerView _triggerView;
 
         [SerializeField]
         [Header("衝突判定スクリプトを設定")]
