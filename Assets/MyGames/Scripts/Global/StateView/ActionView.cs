@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using StateView;
 using UniRx;
 
-namespace PlayerView
+namespace StateView
 {
+    /// <summary>
+    /// 各Stateの管理、呼び出し用スクリプト
+    /// </summary>
     public class ActionView : MonoBehaviour
     {
         Animator _animator;
 
-        public ReactiveProperty<StateView.StateView> State = new ReactiveProperty<StateView.StateView>();
+        public ReactiveProperty<StateView> State = new ReactiveProperty<StateView>();
 
         void Awake()
         {
@@ -18,7 +20,7 @@ namespace PlayerView
         }
 
         /// <summary>
-        /// プレイヤーの状態を切り替えます
+        /// キャラクターの状態を切り替えます
         /// </summary>
         /// <param name="state"></param>
         public void ChangeState(StateType state)
