@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using StateView;
+using TriggerView;
 using static StateType;
 
 namespace EnemyPresenter
@@ -13,30 +14,14 @@ namespace EnemyPresenter
         [Header("EnemyDataList(ScriptableObjectを設定)")]
         EnemyDataList _enemyDataList;
 
-        [SerializeField]
-        [Header("エネミーのアクション用スクリプトを設定")]
-        ActionView _actionView;
-
-        [SerializeField]
-        [Header("待機状態のスクリプトを設定")]
-        WaitView _waitView;
-
-        [SerializeField]
-        [Header("移動状態のスクリプトを設定")]
-        RunView _runView;
-
-        [SerializeField]
-        [Header("ダウン状態のスクリプトを設定")]
-        DownView _downView;
-
-        [SerializeField]
-        [Header("デッド状態のスクリプトを設定")]
-        DeadView _deadView;
-
-        [SerializeField]
-        [Header("攻撃状態のスクリプトを設定")]
-        AttackView _attackView;
-
+        ActionView _actionView;//エネミーのアクション用スクリプト
+        WaitView _waitView;//待機状態のスクリプト
+        RunView _runView;//移動状態のスクリプト
+        DownView _downView;//ダウン状態のスクリプト
+        DeadView _deadView;//デッド状態のスクリプト
+        AttackView _attackView;//攻撃状態のスクリプト
+        TriggerView.TriggerView _triggerView;//接触判定スクリプト
+        CollisionView _collisionView;//衝突判定スクリプト
         EnemyData _enemyData;
         Rigidbody _rigidbody;
         Animator _animator;
@@ -46,6 +31,15 @@ namespace EnemyPresenter
         {
             //todo 後で清書
             _enemyData = _enemyDataList.GetEnemyDataList[0];
+
+            _actionView = GetComponent<ActionView>();
+            _waitView = GetComponent<WaitView>();
+            _runView = GetComponent<RunView>();
+            _downView = GetComponent<DownView>();
+            _deadView = GetComponent<DeadView>();
+            _attackView = GetComponent<AttackView>();
+            _triggerView = GetComponent<TriggerView.TriggerView>();
+            _collisionView = GetComponent<CollisionView>();
             _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
         }
@@ -69,6 +63,14 @@ namespace EnemyPresenter
         {
             //model to view
             _enemyData.Hp.Subscribe(_ => Debug.Log(""));
+
+            //trigger, collisionの取得
+            _triggerView.OnTrigger()
+                .Subscribe(_ => Debug.Log("trigger"));
+
+            _collisionView.OnCollision()
+                .Subscribe(_ => Debug.Log("Collision"));
+
 
             //view to model
             //状態の監視

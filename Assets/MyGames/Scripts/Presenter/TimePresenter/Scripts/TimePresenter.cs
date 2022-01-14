@@ -15,15 +15,9 @@ namespace TimePresenter
         [Header("制限カウントを設定")]
         int _gameLimitCountTime = 60;
 
-        [SerializeField]
-        [Header("カウントダウン処理を設定")]
-        CountDownTimer _countDownTimer;
-
-        [SerializeField]
-        [Header("タイマー表示用のUIを設定")]
-        TimeView.TimeView _timeView;
-
         #region//フィールド
+        CountDownTimer _countDownTimer;//カウントダウン処理
+        TimeView.TimeView _timeView;//タイマー表示用のUI
         ITimeModel _timeModel;
         BoolReactiveProperty _canStartGame = new BoolReactiveProperty();//ゲーム開始フラグ
         BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
@@ -32,6 +26,15 @@ namespace TimePresenter
         #region//プロパティ
         public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
         #endregion
+
+        /// <summary>
+        /// プレハブのインスタンス直後の処理
+        /// </summary>
+        public void ManualAwake()
+        {
+            _countDownTimer = GetComponent<CountDownTimer>();
+            _timeView = GetComponent<TimeView.TimeView>();
+        }
 
         [Inject]
         public void Construct(ITimeModel timeModel)

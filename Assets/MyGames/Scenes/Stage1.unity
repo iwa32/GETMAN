@@ -232,6 +232,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3508a2296da984827b0f4c9afba90372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &140598822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140598815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97beb2610de5843dbaf09edd0ad2a675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &140598823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140598815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b727d7ded6a4049a9832362d3dcc21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &226379411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,15 +1514,6 @@ MonoBehaviour:
   _hpView: {fileID: 7845309207579905203}
   _scoreView: {fileID: 7845309207579905204}
   _pointView: {fileID: 7845309207579905205}
-  _actionView: {fileID: 1567685201}
-  _waitView: {fileID: 1567685204}
-  _runView: {fileID: 1567685205}
-  _downView: {fileID: 1567685206}
-  _deadView: {fileID: 1567685207}
-  _attackView: {fileID: 1567685209}
-  _inputView: {fileID: 1567685200}
-  _triggerView: {fileID: 1567685202}
-  _collisionView: {fileID: 1567685203}
 --- !u!114 &1567685199
 MonoBehaviour:
   m_ObjectHideFlags: 0

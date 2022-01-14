@@ -68,45 +68,18 @@ namespace PlayerPresenter
         [SerializeField]
         [Header("獲得ポイントのUIを設定")]
         PointView _pointView;
-
-        [SerializeField]
-        [Header("プレイヤーのアクション用スクリプトを設定")]
-        ActionView _actionView;
-
-        [SerializeField]
-        [Header("待機状態のスクリプトを設定")]
-        WaitView _waitView;
-
-        [SerializeField]
-        [Header("移動状態のスクリプトを設定")]
-        RunView _runView;
-
-        [SerializeField]
-        [Header("ダウン状態のスクリプトを設定")]
-        DownView _downView;
-
-        [SerializeField]
-        [Header("デッド状態のスクリプトを設定")]
-        DeadView _deadView;
-
-        [SerializeField]
-        [Header("攻撃状態のスクリプトを設定")]
-        AttackView _attackView;
-
-        [SerializeField]
-        [Header("プレイヤーの入力取得スクリプトを設定")]
-        InputView _inputView;
-
-        [SerializeField]
-        [Header("接触判定スクリプトを設定")]
-        TriggerView.TriggerView _triggerView;
-
-        [SerializeField]
-        [Header("衝突判定スクリプトを設定")]
-        CollisionView _collisionView;
         #endregion
 
         #region//フィールド
+        ActionView _actionView;//プレイヤーのアクション用スクリプト
+        WaitView _waitView;//待機状態のスクリプト
+        RunView _runView;//移動状態のスクリプト
+        DownView _downView;//ダウン状態のスクリプト
+        DeadView _deadView;//デッド状態のスクリプト
+        AttackView _attackView;//攻撃状態のスクリプト
+        TriggerView.TriggerView _triggerView;//接触判定スクリプト
+        CollisionView _collisionView;//衝突判定スクリプト
+        InputView _inputView;//プレイヤーの入力取得スクリプト
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
@@ -146,6 +119,15 @@ namespace PlayerPresenter
         /// </summary>
         public void ManualAwake()
         {
+            _actionView = GetComponent<ActionView>();
+            _waitView = GetComponent<WaitView>();
+            _runView = GetComponent<RunView>();
+            _downView = GetComponent<DownView>();
+            _deadView = GetComponent<DeadView>();
+            _attackView = GetComponent<AttackView>();
+            _triggerView = GetComponent<TriggerView.TriggerView>();
+            _collisionView = GetComponent<CollisionView>();
+            _inputView = GetComponent<InputView>();
             _rigidBody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();

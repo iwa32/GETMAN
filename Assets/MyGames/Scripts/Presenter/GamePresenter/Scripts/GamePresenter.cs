@@ -42,6 +42,7 @@ namespace GamePresenter
         void Awake()
         {
             _playerPresenter.ManualAwake();
+            _timePresenter.ManualAwake();
         }
 
         void Start()

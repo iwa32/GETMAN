@@ -18,17 +18,19 @@ namespace GameView
         Text _gameStartText;
 
         [SerializeField]
-        [Header("ゲーム開始時のカウントダウンコンポーネントを設定")]
-        CountDownTimer _gameStartCountDown;
-
-        [SerializeField]
         [Header("ゲーム開始までのカウントの秒数")]
         int _gameStartCount = 3;
 
+        CountDownTimer _gameStartCountDown;//ゲーム開始時のカウントダウンコンポーネント
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
         BoolReactiveProperty _isOpendGameStartText = new BoolReactiveProperty();
 
         public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
+
+        void Awake()
+        {
+            _gameStartCountDown = GetComponent<CountDownTimer>();
+        }
 
         void Start()
         {
