@@ -2,7 +2,8 @@
     "name": "EnemyDataList",
     "rootNamespace": "",
     "references": [
-        "GUID:231969241a33c435c889dcd1f750de0c"
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

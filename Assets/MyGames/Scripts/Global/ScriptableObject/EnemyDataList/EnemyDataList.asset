@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf93beffc2c264f72a76d113471280a8, type: 3}
   m_Name: EnemyDataList
   m_EditorClassIdentifier: 
-  _enemyDataList: []
+  _enemyDataList:
+  - _enemyType: 0
+    _hp:
+      value: 0
+    _power:
+      value: 0
+    _speed:
+      value: 0

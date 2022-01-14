@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 [CreateAssetMenu(fileName = "EnemyDataList", menuName = "ScriptableObject/Create EnemyDataList")]
 public class EnemyDataList : ScriptableObject
@@ -18,16 +19,16 @@ public class EnemyData
     EnemyType _enemyType;
 
     [SerializeField]
-    int _hp;
+    IntReactiveProperty _hp = new IntReactiveProperty();
 
     [SerializeField]
-    int _power;
+    IntReactiveProperty _power = new IntReactiveProperty();
 
     [SerializeField]
-    int _speed;
+    IntReactiveProperty _speed = new IntReactiveProperty();
 
     public EnemyType EnemyType => _enemyType;
-    public int Hp => _hp;
-    public int Power => _power;
-    public int Speed => _speed;
+    public IReactiveProperty<int> Hp => _hp;
+    public IReactiveProperty<int> Power => _power;
+    public IReactiveProperty<int> Speed => _speed;
 }
