@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace PlayerView
+namespace StateView
 {
     public abstract class StateView : MonoBehaviour
     {
         public Action DelAction { get; set; }
 
-        public abstract PlayerState State { get; set; }
+        public abstract StateType State { get; set; }
 
         public void Action()
         {

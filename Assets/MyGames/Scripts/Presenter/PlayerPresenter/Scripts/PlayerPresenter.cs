@@ -8,7 +8,8 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using PlayerModel;
 using PlayerView;
-using static PlayerState;
+using StateView;
+using static StateType;
 
 namespace PlayerPresenter
 {

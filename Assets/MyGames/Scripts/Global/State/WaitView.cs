@@ -1,10 +1,10 @@
-namespace PlayerView
+namespace StateView
 {
     public class WaitView : StateView
     {
-        public override PlayerState State
+        public override StateType State
         {
-            get => PlayerState.WAIT;
+            get => StateType.WAIT;
             set => State = value;
         }
     }

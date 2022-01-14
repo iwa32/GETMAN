@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using static PlayerState;
+using static StateType;
 
 namespace PlayerModel
 {
@@ -19,7 +19,7 @@ namespace PlayerModel
         }
 
         [Test, Description("プレイヤーの状態が正しく設定されているか")]
-        public void SetStateTest([Values]PlayerState state)
+        public void SetStateTest([Values] StateType state)
         {
             _stateModel.SetState(state);
 

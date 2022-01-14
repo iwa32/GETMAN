@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateView;
 using UniRx;
 
 namespace PlayerView
@@ -9,7 +10,7 @@ namespace PlayerView
     {
         Animator _animator;
 
-        public ReactiveProperty<StateView> State = new ReactiveProperty<StateView>();
+        public ReactiveProperty<StateView.StateView> State = new ReactiveProperty<StateView.StateView>();
 
         void Awake()
         {
@@ -20,7 +21,7 @@ namespace PlayerView
         /// プレイヤーの状態を切り替えます
         /// </summary>
         /// <param name="state"></param>
-        public void ChangeState(PlayerState state)
+        public void ChangeState(StateType state)
         {
             _animator.SetInteger("States", (int)state);
         }

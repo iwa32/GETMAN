@@ -1,10 +1,10 @@
-namespace PlayerView
+namespace StateView
 {
     public class DownView : StateView
     {
-        public override PlayerState State
+        public override StateType State
         {
-            get => PlayerState.DOWN;
+            get => StateType.DOWN;
             set => State = value;
         }
     }

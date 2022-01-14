@@ -44,8 +44,7 @@ GameObject:
   - component: {fileID: 2168791437354907253}
   - component: {fileID: 2254674662436491294}
   - component: {fileID: 2254674662436491280}
-  - component: {fileID: 2254674662436491281}
-  - component: {fileID: 8229794799093062064}
+  - component: {fileID: 9058259852163686945}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -118,7 +117,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &2254674662436491281
+--- !u!114 &9058259852163686945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,24 +126,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2254589433466840475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2302e83e79ebe43e2a6cbd20239fbbd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 86644a631ea3348bab0ccfa6c63f3152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  checkCollision: {fileID: 2254674661004161786}
---- !u!114 &8229794799093062064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2254589433466840475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e1b37da8f674b4e895723ecc3ea755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _power: 1
+  _enemyDataList: {fileID: 11400000, guid: c6856d859d4b649f0b1d615f65c98c5e, type: 2}
 --- !u!1 &2255403149493820235
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,14 +562,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4807440037014079597, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
   m_PrefabInstance: {fileID: 6772643728978688661}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2254674661004161786 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4807440037014079599, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
-  m_PrefabInstance: {fileID: 6772643728978688661}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32c66cf2c074f4a6fa901767e89e5b63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

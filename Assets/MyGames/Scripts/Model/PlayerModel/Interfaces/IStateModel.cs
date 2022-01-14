@@ -7,12 +7,12 @@ namespace PlayerModel
 {
     public interface IStateModel
     {
-        IReadOnlyReactiveProperty<PlayerState> State { get; }
+        IReadOnlyReactiveProperty<StateType> State { get; }
 
         /// <summary>
         /// プレイヤーの状態を設定します
         /// </summary>
         /// <param name="state"></param>
-        void SetState(PlayerState state);
+        void SetState(StateType state);
     }
 }

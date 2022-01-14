@@ -7,11 +7,11 @@ namespace PlayerModel
 {
     public class StateModel : IStateModel
     {
-        public IReadOnlyReactiveProperty<PlayerState> State => _state;
+        public IReadOnlyReactiveProperty<StateType> State => _state;
 
-        ReactiveProperty<PlayerState> _state = new ReactiveProperty<PlayerState>();
+        ReactiveProperty<StateType> _state = new ReactiveProperty<StateType>();
 
-        public void SetState(PlayerState state)
+        public void SetState(StateType state)
         {
             _state.Value = state;
         }

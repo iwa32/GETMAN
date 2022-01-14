@@ -1,7 +1,7 @@
 /// <summary>
-/// プレイヤーの状態
+/// キャラクター(プレイヤー、エネミー)の状態
 /// </summary>
-public enum PlayerState
+public enum StateType
 {
     WAIT = 0,
     RUN = 1,

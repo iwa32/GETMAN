@@ -1,10 +1,10 @@
-namespace PlayerView
+namespace StateView
 {
     public class DeadView : StateView
     {
-        public override PlayerState State
+        public override StateType State
         {
-            get => PlayerState.DEAD;
+            get => StateType.DEAD;
             set => State = value;
         }
     }
