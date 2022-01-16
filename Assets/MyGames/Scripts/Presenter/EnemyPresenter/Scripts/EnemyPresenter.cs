@@ -53,7 +53,7 @@ namespace EnemyPresenter
             _collisionView = GetComponent<CollisionView>();
             _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
-            _animTrigger = _animator?.GetBehaviour<ObservableStateMachineTrigger>();
+            _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
         }
 
         [Inject]
@@ -124,14 +124,22 @@ namespace EnemyPresenter
             //dead
 
             //アニメーションの監視
-            //todonull修正
-            //_animTrigger.OnStateUpdateAsObservable()
-            //    .Where(s => s.StateInfo.IsName("Down"))
-            //    .Where(s => s.StateInfo.normalizedTime >= 1)
-            //    .Subscribe(_ =>
-            //    {
-            //        _actionView.State.Value = _waitView;
-            //    }).AddTo(this);
+            //down
+            _animTrigger.OnStateUpdateAsObservable()
+                .Where(s => s.StateInfo.IsName("Down"))
+                .Where(s => s.StateInfo.normalizedTime >= 1)
+                .Subscribe(_ =>
+                {
+                    _actionView.State.Value = _runView;
+                }).AddTo(this);
+            //dead
+            _animTrigger.OnStateUpdateAsObservable()
+                .Where(s => s.StateInfo.IsName("Dead"))
+                .Where(s => s.StateInfo.normalizedTime >= 1)
+                .Subscribe(_ =>
+                {
+                    Destroy(gameObject);
+                }).AddTo(this);
         }
 
         //todo 後に修正
@@ -173,7 +181,7 @@ namespace EnemyPresenter
         {
             if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
             {
-                //hpを減らすtodo 後でmodelに変更
+                //hpを減らす
                 _hpModel.ReduceHp(playerWeapon.Power);
                 ChangeStateByDamege();
 
@@ -186,16 +194,21 @@ namespace EnemyPresenter
         void ChangeStateByDamege()
         {
             if (_hpModel.Hp.Value > 0)
-            {
-                _actionView.State.Value = _downView;
-                //一定時間無敵
-            }
+                ChangeDown();
             else
-            {
-                _actionView.State.Value = _deadView;
-                //スコア加算
-                //加算したらオブジェクトの削除
-            }
+                ChangeDead();
+        }
+
+        void ChangeDown()
+        {
+            _actionView.State.Value = _downView;
+            //一定時間無敵
+        }
+
+        void ChangeDead()
+        {
+            _actionView.State.Value = _deadView;
+            //スコア加算
         }
 
         /// <summary>
@@ -213,7 +226,6 @@ namespace EnemyPresenter
         {
             //velocityによる移動
             _rigidbody.velocity = transform.forward * _enemyData.Speed;
-            //isWalk = true;
         }
 
         /// <summary>
