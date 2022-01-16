@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ using Zenject;
 using StateView;
 using TriggerView;
 using EnemyModel;
+using GameModel;
+
 using static StateType;
 
 namespace EnemyPresenter
@@ -31,9 +34,11 @@ namespace EnemyPresenter
         EnemyData _enemyData;
         Rigidbody _rigidbody;
         Animator _animator;
+        Collider _collider;
         ObservableStateMachineTrigger _animTrigger;//アニメーションの監視
         IHpModel _hpModel;
-        IScoreModel _scoreModel;
+        EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
+        GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         IPowerModel _powerModel;
         #endregion
 
@@ -52,6 +57,7 @@ namespace EnemyPresenter
             _triggerView = GetComponent<TriggerView.TriggerView>();
             _collisionView = GetComponent<CollisionView>();
             _rigidbody = GetComponent<Rigidbody>();
+            _collider = GetComponent<Collider>();
             _animator = GetComponent<Animator>();
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
         }
@@ -59,13 +65,15 @@ namespace EnemyPresenter
         [Inject]
         public void Construct(
             IHpModel hp,
-            IScoreModel score,
-            IPowerModel power
+            IPowerModel power,
+            EnemyModel.IScoreModel enemyScore,
+            GameModel.IScoreModel gameScore
         )
         {
             _hpModel = hp;
-            _scoreModel = score;
             _powerModel = power;
+            _enemyScoreModel = enemyScore;
+            _gameScoreModel = gameScore;
         }
 
         void Start()
@@ -91,7 +99,7 @@ namespace EnemyPresenter
         {
             _hpModel.SetHp(_enemyData.Hp);
             _powerModel.SetPower(_enemyData.Power);
-            _scoreModel.SetScore(_enemyData.Score);
+            _enemyScoreModel.SetScore(_enemyData.Score);
         }
 
         void Bind()
@@ -101,9 +109,11 @@ namespace EnemyPresenter
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
+                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckCollider(collider)).AddTo(this);
 
             _collisionView.OnCollision()
+                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collision => CheckCollision(collision)).AddTo(this);
 
 
@@ -171,7 +181,7 @@ namespace EnemyPresenter
         /// </summary>
         void CheckCollision(Collision collision)
         {
-            //壁に接触で武器を変える
+            //壁に接触で向きを変える
         }
 
         /// <summary>
@@ -201,13 +211,13 @@ namespace EnemyPresenter
         void ChangeDown()
         {
             _actionView.State.Value = _downView;
-            //一定時間無敵
         }
 
         void ChangeDead()
         {
             _actionView.State.Value = _deadView;
-            //スコア加算
+            _gameScoreModel.AddScore(_enemyData.Score);
+            _collider.enabled = false;//スコア二重取得防止
         }
 
         /// <summary>
@@ -252,7 +262,7 @@ namespace EnemyPresenter
         /// <returns>ランダムな数値を出力</returns>
         int RandomDice(int min, int max)
         {
-            return Random.Range(min, max);
+            return UnityEngine.Random.Range(min, max);
         }
 
     }
