@@ -260,9 +260,9 @@ namespace PlayerPresenter
         void TryReceiveDamage(Collider collider)
         {
             if (_isBlink) return;
-            if (collider.TryGetComponent(out IAttacker attacker))
+            if (collider.TryGetComponent(out IDamager damager))
             {
-                _hpModel.ReduceHp(attacker.Power);
+                _hpModel.ReduceHp(damager.Damage);
                 ChangeStateByDamage();
                 KnockBack(collider?.gameObject);
             }

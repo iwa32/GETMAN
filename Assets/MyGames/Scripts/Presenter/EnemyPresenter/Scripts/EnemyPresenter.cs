@@ -8,13 +8,11 @@ using Zenject;
 using StateView;
 using TriggerView;
 using EnemyModel;
-using GameModel;
-
 using static StateType;
 
 namespace EnemyPresenter
 {
-    public class EnemyPresenter : MonoBehaviour, IEnemy
+    public class EnemyPresenter : MonoBehaviour, IEnemy, IDamager
     {
         #region//インスペクターから設定
         [SerializeField]
@@ -40,6 +38,10 @@ namespace EnemyPresenter
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         IPowerModel _powerModel;
+        #endregion
+
+        #region//プロパティ
+        public int Damage => _powerModel.Power.Value;
         #endregion
 
         // Start is called before the first frame update
