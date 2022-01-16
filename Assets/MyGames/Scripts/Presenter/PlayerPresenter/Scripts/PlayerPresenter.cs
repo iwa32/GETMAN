@@ -7,6 +7,7 @@ using UniRx.Triggers;
 using Cysharp.Threading.Tasks;
 using Zenject;
 using PlayerModel;
+using GameModel;
 using PlayerView;
 using StateView;
 using TriggerView;
@@ -61,6 +62,8 @@ namespace PlayerPresenter
         ObservableStateMachineTrigger _animTrigger;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
+        IScoreModel _scoreModel;
+        IPointModel _pointModel;
         IStateModel _stateModel;
         bool _isBlink;//点滅状態か
         bool _canStartGame;//ゲーム開始フラグ
@@ -76,12 +79,16 @@ namespace PlayerPresenter
         public void Construct(
             IWeaponModel weapon,
             IHpModel hp,
-            IStateModel state
+            IStateModel state,
+            IScoreModel score,
+            IPointModel point
         )
         {
             _weaponModel = weapon;
             _hpModel = hp;
             _stateModel = state;//todo不要？
+            _scoreModel = score;
+            _pointModel = point;
         }
 
         /// <summary>
@@ -149,8 +156,6 @@ namespace PlayerPresenter
         {
             //modelの監視
             _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp));
-            //_scoreModel.Score.Subscribe(score => CheckScore(score));
-            //_pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
@@ -245,8 +250,6 @@ namespace PlayerPresenter
         {
             TryGetPointItem(collider);
             //TryReceiveDamage(collider);todo ダメージ床用
-
-            //プレイヤーがエネミーの接触し、攻撃中でhitしたとき
         }
 
         /// <summary>
@@ -275,8 +278,8 @@ namespace PlayerPresenter
         {
             if (collider.TryGetComponent(out IPointItem pointItem))
             {
-                //_pointModel.AddPoint(pointItem.Point);
-                //_scoreModel.AddScore(pointItem.Score);
+                _pointModel.AddPoint(pointItem.Point);
+                _scoreModel.AddScore(pointItem.Score);
                 pointItem.Destroy();
             }
         }
@@ -293,6 +296,15 @@ namespace PlayerPresenter
                 ChangeStateByDamage();
                 KnockBack(collider?.gameObject);
             }
+        }
+
+        /// <summary>
+        /// hpを増やします
+        /// </summary>
+        /// <param name="hp"></param>
+        public void AddHp(int hp)
+        {
+            _hpModel.AddHp(hp);
         }
 
         /// <summary>

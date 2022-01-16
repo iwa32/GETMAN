@@ -150,8 +150,8 @@ namespace GamePresenter
             if (score <= 0) return;
             if (score % _scoreLineToGetHp == 0)
             {
-                //todo playerのHpを1つ増やす
-                //_hpModel.AddHp(1);//hpを１つ増やします
+                //playerのHpを1つ増やす
+                _playerPresenter.AddHp(1);
                 _scoreLineToGetHp *= nextMagnification;
             }
         }
