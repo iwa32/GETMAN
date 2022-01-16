@@ -20,7 +20,7 @@ namespace TimePresenter
         CountDownTimer _countDownTimer;//カウントダウン処理
         TimeView.TimeView _timeView;//タイマー表示用のUI
         ITimeModel _timeModel;
-        IGameModel _gameModel;
+        IDirectionModel _directionModel;
         #endregion
 
         /// <summary>
@@ -35,11 +35,11 @@ namespace TimePresenter
         [Inject]
         public void Construct(
             ITimeModel timeModel,
-            IGameModel gameModel
+            IDirectionModel directionModel
         )
         {
             _timeModel = timeModel;
-            _gameModel = gameModel;
+            _directionModel = directionModel;
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace TimePresenter
         void Bind()
         {
             //ゲーム開始でカウント開始
-            _gameModel.IsGameStart
+            _directionModel.IsGameStart
                 .Where(can => can == true)
                 .Subscribe(_ => _countDownTimer.Connect());
 
             //カウントダウン
             _countDownTimer.CountDownObservable
-                .Where(_ => _gameModel.CanGame())
+                .Where(_ => _directionModel.CanGame())
                 .Subscribe(time =>
                 {
                     _timeModel.SetTime(time);
@@ -73,7 +73,7 @@ namespace TimePresenter
                 () => {
                     //カウント終了でゲームオーバー
                     _timeModel.SetTime(0);
-                    _gameModel.SetIsGameOver(true);
+                    _directionModel.SetIsGameOver(true);
                 });
 
             //Model to View

@@ -2,7 +2,10 @@ using UniRx;
 
 namespace GameModel
 {
-    public interface IGameModel
+    /// <summary>
+    /// ゲームの進行に関するモデル
+    /// </summary>
+    public interface IDirectionModel
     {
         IReadOnlyReactiveProperty<bool> IsGameStart { get; }
         IReadOnlyReactiveProperty<bool> IsGameOver { get; }

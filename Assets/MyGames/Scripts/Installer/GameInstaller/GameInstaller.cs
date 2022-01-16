@@ -8,7 +8,7 @@ namespace GameInstaller
     {
         public override void InstallBindings()
         {
-            Container.Bind<IGameModel>().To<GameModel.GameModel>().AsSingle();
+            Container.Bind<IDirectionModel>().To<DirectionModel>().AsSingle();
             Container.Bind<IPointModel>().To<PointModel>().AsSingle();
             Container.Bind<IScoreModel>().To<ScoreModel>().AsSingle();
         }

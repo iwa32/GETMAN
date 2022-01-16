@@ -60,7 +60,7 @@ namespace PlayerPresenter
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
-        IGameModel _gameModel;
+        IDirectionModel _directionModel;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
         IScoreModel _scoreModel;
@@ -79,7 +79,7 @@ namespace PlayerPresenter
             IStateModel state,
             IScoreModel score,
             IPointModel point,
-            IGameModel game
+            IDirectionModel direction
         )
         {
             _weaponModel = weapon;
@@ -87,7 +87,7 @@ namespace PlayerPresenter
             _stateModel = state;//todo不要？
             _scoreModel = score;
             _pointModel = point;
-            _gameModel = game;
+            _directionModel = direction;
         }
 
         /// <summary>
@@ -156,11 +156,11 @@ namespace PlayerPresenter
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
-                .Where(_ => _gameModel.CanGame())
+                .Where(_ => _directionModel.CanGame())
                 .Subscribe(collider => CheckCollider(collider));
 
             _collisionView.OnCollision()
-                .Where(_ => _gameModel.CanGame())
+                .Where(_ => _directionModel.CanGame())
                 .Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
@@ -179,7 +179,7 @@ namespace PlayerPresenter
             //攻撃入力
             _inputView.IsFired
                 .Where(x => (x == true)
-                && _gameModel.CanGame()
+                && _directionModel.CanGame()
                 && IsControllableState())
                 .Subscribe(_ => ChangeAttack());
 
@@ -319,7 +319,7 @@ namespace PlayerPresenter
         public void ChangeDead()
         {
             _actionView.State.Value = _deadView;
-            _gameModel.SetIsGameOver(true);
+            _directionModel.SetIsGameOver(true);
         }
 
         /// <summary>

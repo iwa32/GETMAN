@@ -54,19 +54,19 @@ namespace GamePresenter
         #endregion
 
         #region//フィールド
-        IGameModel _gameModel;
+        IDirectionModel _directionModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         #endregion
 
         [Inject]
         public void Construct(
-            IGameModel gameModel,
+            IDirectionModel directionModel,
             IScoreModel score,
             IPointModel point
         )
         {
-            _gameModel = gameModel;
+            _directionModel = directionModel;
             _scoreModel = score;
             _pointModel = point;
         }
@@ -89,7 +89,7 @@ namespace GamePresenter
 
         void FixedUpdate()
         {
-            if (_gameModel.IsGameStart.Value == false) return;
+            if (_directionModel.IsGameStart.Value == false) return;
             _playerPresenter.ManualFixedUpdate();
         }
 
@@ -106,18 +106,18 @@ namespace GamePresenter
 
             //コンティニューボタン
             _gameOverView.ClickContinueButton()
-                .Subscribe(_ => _gameModel.SetIsGameContinue(true));
+                .Subscribe(_ => _directionModel.SetIsGameContinue(true));
 
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
                 .Subscribe(_ => Debug.Log("ToTitle"));
 
             //model
-            _gameModel.IsGameOver
+            _directionModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => GameOver());
 
-            _gameModel.IsGameContinue
+            _directionModel.IsGameContinue
                 .Where(isGameContinue => isGameContinue == true)
                 .Subscribe(_ => ContinueGame());
 
@@ -154,7 +154,7 @@ namespace GamePresenter
         /// </summary>
         void StartGame()
         {
-            _gameModel.SetIsGameStart(true);
+            _directionModel.SetIsGameStart(true);
         }
 
         /// <summary>
@@ -164,8 +164,8 @@ namespace GamePresenter
         {
             _gameOverView.gameObject?.SetActive(false);
             //todo フェードを出現させる
-            _gameModel.SetIsGameOver(false);
-            _gameModel.SetIsGameStart(false);
+            _directionModel.SetIsGameOver(false);
+            _directionModel.SetIsGameStart(false);
             _playerPresenter.ResetData();
             _gameStartView.Initialize();
         }

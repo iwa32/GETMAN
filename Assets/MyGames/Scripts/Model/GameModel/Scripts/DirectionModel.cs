@@ -4,7 +4,7 @@ using UniRx;
 
 namespace GameModel
 {
-    public class GameModel : IGameModel
+    public class DirectionModel : IDirectionModel
     {
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
         BoolReactiveProperty _isGameOver = new BoolReactiveProperty();
