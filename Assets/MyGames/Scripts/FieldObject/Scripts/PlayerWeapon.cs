@@ -9,7 +9,30 @@ public class PlayerWeapon : MonoBehaviour,
     [Header("武器の攻撃力を設定")]
     int _power;
 
+    Collider _collider;
+
     public int Power => _power;
+
+    void Awake()
+    {
+        _collider = GetComponent<Collider>();
+    }
+
+    /// <summary>
+    /// コライダーを有効にする
+    /// </summary>
+    public void EnableCollider()
+    {
+        _collider.enabled = true;
+    }
+
+    /// <summary>
+    /// コライダーを無効にする
+    /// </summary>
+    public void UnEnableCollider()
+    {
+        _collider.enabled = false;
+    }
 
     /// <summary>
 	/// パワーの設定
@@ -19,4 +42,6 @@ public class PlayerWeapon : MonoBehaviour,
     {
         _power = power;
     }
+
+
 }

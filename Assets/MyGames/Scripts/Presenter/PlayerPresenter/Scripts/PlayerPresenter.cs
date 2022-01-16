@@ -45,6 +45,10 @@ namespace PlayerPresenter
         [SerializeField]
         [Header("HPのUIを設定")]
         HpView _hpView;
+
+        [SerializeField]
+        [Header("装備武器を設定")]
+        PlayerWeapon _playerWeapon;
         #endregion
 
         #region//フィールド
@@ -135,6 +139,7 @@ namespace PlayerPresenter
         {
             _runView.DelAction = Run;
             _actionView.State.Value = _waitView;
+            _playerWeapon.UnEnableCollider();
         }
 
         /// <summary>
@@ -195,6 +200,7 @@ namespace PlayerPresenter
                 .Where(s => s.StateInfo.normalizedTime >= 1)
                 .Subscribe(_ =>
                 {
+                    _playerWeapon.UnEnableCollider();
                     _actionView.State.Value = _waitView;
                 })
                 .AddTo(this);
@@ -300,7 +306,8 @@ namespace PlayerPresenter
         void ChangeAttack()
         {
             //todo 武器があれば攻撃する
-
+            //武器のコライダーをオンにする
+            _playerWeapon.EnableCollider();
             _actionView.State.Value = _attackView;
         }
 
