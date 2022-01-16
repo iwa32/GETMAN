@@ -106,23 +106,31 @@ namespace GamePresenter
 
             //コンティニューボタン
             _gameOverView.ClickContinueButton()
-                .Subscribe(_ => _directionModel.SetIsGameContinue(true));
+                .Subscribe(_ => _directionModel.SetIsGameContinue(true))
+                .AddTo(this);
 
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
-                .Subscribe(_ => Debug.Log("ToTitle"));
+                .Subscribe(_ => Debug.Log("ToTitle"))
+                .AddTo(this);
 
             //model
             _directionModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
-                .Subscribe(_ => GameOver());
+                .Subscribe(_ => GameOver())
+                .AddTo(this);
 
             _directionModel.IsGameContinue
                 .Where(isGameContinue => isGameContinue == true)
-                .Subscribe(_ => ContinueGame());
+                .Subscribe(_ => ContinueGame())
+                .AddTo(this);
 
-            _scoreModel.Score.Subscribe(score => CheckScore(score));
-            _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
+            _scoreModel.Score
+                .Subscribe(score => CheckScore(score))
+                .AddTo(this);
+            _pointModel.Point
+                .Subscribe(point => _pointView.SetPointGauge(point))
+                .AddTo(this);
         }
 
         /// <summary>

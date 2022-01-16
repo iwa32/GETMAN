@@ -61,7 +61,8 @@ namespace TimePresenter
             //ゲーム開始でカウント開始
             _directionModel.IsGameStart
                 .Where(can => can == true)
-                .Subscribe(_ => _countDownTimer.Connect());
+                .Subscribe(_ => _countDownTimer.Connect())
+                .AddTo(this);
 
             //カウントダウン
             _countDownTimer.CountDownObservable

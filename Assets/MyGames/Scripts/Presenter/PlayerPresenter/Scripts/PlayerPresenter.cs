@@ -152,16 +152,18 @@ namespace PlayerPresenter
         void Bind()
         {
             //modelの監視
-            _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp));
+            _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp)).AddTo(this);
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(collider => CheckCollider(collider));
+                .Subscribe(collider => CheckCollider(collider))
+                .AddTo(this);
 
             _collisionView.OnCollision()
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(collision => CheckCollision(collision));
+                .Subscribe(collision => CheckCollision(collision))
+                .AddTo(this);
 
             //viewの監視
             //状態の監視
@@ -169,19 +171,22 @@ namespace PlayerPresenter
                 .Where(x => x != null)
                 .Subscribe(x => {
                     _actionView.ChangeState(x.State);
-            });
+                })
+                .AddTo(this);
 
             //入力の監視
             _inputView.InputDirection
                 .Where(_ => IsControllableState())
-                .Subscribe(input => ChangeStateByInput(input));
+                .Subscribe(input => ChangeStateByInput(input))
+                .AddTo(this);
 
             //攻撃入力
             _inputView.IsFired
                 .Where(x => (x == true)
                 && _directionModel.CanGame()
                 && IsControllableState())
-                .Subscribe(_ => ChangeAttack());
+                .Subscribe(_ => ChangeAttack())
+                .AddTo(this);
 
             //アニメーションの監視
             _animTrigger.OnStateUpdateAsObservable()
