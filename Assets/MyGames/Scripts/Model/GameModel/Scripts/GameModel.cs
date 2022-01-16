@@ -43,5 +43,10 @@ namespace GameModel
             _isGameClear.Value = false;
             _isGameContinue.Value = false;
         }
+
+        public bool CanGame()
+        {
+            return (_isGameStart.Value && _isGameOver.Value == false);
+        }
     }
 }

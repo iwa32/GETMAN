@@ -2614,6 +2614,10 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 32
       objectReference: {fileID: 0}
+    - target: {fileID: 6505049448287323410, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
+      propertyPath: _gameLimitCountTime
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7845309205718654644, guid: de1bb7af9f9054b6d8f39604b30d8155, type: 3}
       propertyPath: m_Enabled
       value: 0

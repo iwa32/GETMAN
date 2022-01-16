@@ -60,7 +60,8 @@ namespace GamePresenter
         #endregion
 
         [Inject]
-        public void Construct(IGameModel gameModel,
+        public void Construct(
+            IGameModel gameModel,
             IScoreModel score,
             IPointModel point
         )
@@ -88,6 +89,7 @@ namespace GamePresenter
 
         void FixedUpdate()
         {
+            if (_gameModel.IsGameStart.Value == false) return;
             _playerPresenter.ManualFixedUpdate();
         }
 
@@ -101,15 +103,6 @@ namespace GamePresenter
                 .Where(isGameStart => isGameStart == true)
                 .Subscribe(_ => StartGame())
                 .AddTo(this);
-
-            //ゲーム終了の監視
-            _playerPresenter.IsGameOver
-                .Where(isGameOver => isGameOver == true)
-                .Subscribe(_ => _gameModel.SetIsGameOver(true));
-
-            _timePresenter.IsGameOver
-                .Where(isGameOver => isGameOver == true)
-                .Subscribe(_ => _gameModel.SetIsGameOver(true));
 
             //コンティニューボタン
             _gameOverView.ClickContinueButton()
@@ -161,8 +154,7 @@ namespace GamePresenter
         /// </summary>
         void StartGame()
         {
-            _playerPresenter.SetCanStartGame(true);
-            _timePresenter.SetCanStartGame(true);
+            _gameModel.SetIsGameStart(true);
         }
 
         /// <summary>
@@ -172,6 +164,8 @@ namespace GamePresenter
         {
             _gameOverView.gameObject?.SetActive(false);
             //todo フェードを出現させる
+            _gameModel.SetIsGameOver(false);
+            _gameModel.SetIsGameStart(false);
             _playerPresenter.ResetData();
             _gameStartView.Initialize();
         }
@@ -182,9 +176,7 @@ namespace GamePresenter
         void GameOver()
         {
             _gameOverView.gameObject?.SetActive(true);
-
             _playerPresenter.ChangeDead();
-            _timePresenter.SetIsGameOver(true);
         }
 
         //クリア処理

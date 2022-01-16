@@ -60,19 +60,16 @@ namespace PlayerPresenter
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
+        IGameModel _gameModel;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         IStateModel _stateModel;
         bool _isBlink;//点滅状態か
-        bool _canStartGame;//ゲーム開始フラグ
-        BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
         #endregion
 
         #region//プロパティ
-        public bool CanStartGame => _canStartGame;
-        public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
         #endregion
 
         [Inject]
@@ -81,7 +78,8 @@ namespace PlayerPresenter
             IHpModel hp,
             IStateModel state,
             IScoreModel score,
-            IPointModel point
+            IPointModel point,
+            IGameModel game
         )
         {
             _weaponModel = weapon;
@@ -89,6 +87,7 @@ namespace PlayerPresenter
             _stateModel = state;//todo不要？
             _scoreModel = score;
             _pointModel = point;
+            _gameModel = game;
         }
 
         /// <summary>
@@ -144,8 +143,6 @@ namespace PlayerPresenter
         public void ResetData()
         {
             _actionView.State.Value = _waitView;
-            _canStartGame = false;
-            _isGameOver.Value = false;
             InitializeModel();
         }
 
@@ -159,11 +156,11 @@ namespace PlayerPresenter
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
-                .Where(_ => CanGame())
+                .Where(_ => _gameModel.CanGame())
                 .Subscribe(collider => CheckCollider(collider));
 
             _collisionView.OnCollision()
-                .Where(_ => CanGame())
+                .Where(_ => _gameModel.CanGame())
                 .Subscribe(collision => CheckCollision(collision));
 
             //viewの監視
@@ -182,7 +179,7 @@ namespace PlayerPresenter
             //攻撃入力
             _inputView.IsFired
                 .Where(x => (x == true)
-                && CanGame()
+                && _gameModel.CanGame()
                 && IsControllableState())
                 .Subscribe(_ => ChangeAttack());
 
@@ -199,23 +196,6 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// ゲーム開始フラグの設定
-        /// </summary>
-        /// <param name="can"></param>
-        public void SetCanStartGame(bool can)
-        {
-            _canStartGame = can;
-        }
-
-        /// <summary>
-        /// ゲームオーバーフラグの設定
-        /// </summary>
-        public void SetIsGameOver(bool isGameOver)
-        {
-            _isGameOver.Value = isGameOver;
-        }
-
-        /// <summary>
         /// 操作可能な状態か
         /// </summary>
         bool IsControllableState()
@@ -225,20 +205,10 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// ゲームができるか
-        /// </summary>
-        /// <returns></returns>
-        bool CanGame()
-        {
-            return (_canStartGame && _isGameOver.Value == false);
-        }
-
-        /// <summary>
         /// fixedUpdate処理
         /// </summary>
         public void ManualFixedUpdate()
         {
-            if (_canStartGame == false) return;
             _actionView.Action();
         }
 
@@ -349,7 +319,7 @@ namespace PlayerPresenter
         public void ChangeDead()
         {
             _actionView.State.Value = _deadView;
-            _isGameOver.Value = true;
+            _gameModel.SetIsGameOver(true);
         }
 
         /// <summary>

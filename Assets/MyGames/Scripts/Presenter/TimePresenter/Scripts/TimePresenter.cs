@@ -5,6 +5,7 @@ using UnityEngine;
 using Zenject;
 using UniRx;
 using TimeModel;
+using GameModel;
 using TimeView;
 
 namespace TimePresenter
@@ -19,12 +20,7 @@ namespace TimePresenter
         CountDownTimer _countDownTimer;//カウントダウン処理
         TimeView.TimeView _timeView;//タイマー表示用のUI
         ITimeModel _timeModel;
-        BoolReactiveProperty _canStartGame = new BoolReactiveProperty();//ゲーム開始フラグ
-        BoolReactiveProperty _isGameOver = new BoolReactiveProperty();//ゲームオーバー
-        #endregion
-
-        #region//プロパティ
-        public IReadOnlyReactiveProperty<bool> IsGameOver => _isGameOver;
+        IGameModel _gameModel;
         #endregion
 
         /// <summary>
@@ -37,9 +33,13 @@ namespace TimePresenter
         }
 
         [Inject]
-        public void Construct(ITimeModel timeModel)
+        public void Construct(
+            ITimeModel timeModel,
+            IGameModel gameModel
+        )
         {
             _timeModel = timeModel;
+            _gameModel = gameModel;
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace TimePresenter
         void Bind()
         {
             //ゲーム開始でカウント開始
-            _canStartGame
+            _gameModel.IsGameStart
                 .Where(can => can == true)
                 .Subscribe(_ => _countDownTimer.Connect());
 
             //カウントダウン
             _countDownTimer.CountDownObservable
-                .Where(_ => CanGame())
+                .Where(_ => _gameModel.CanGame())
                 .Subscribe(time =>
                 {
                     _timeModel.SetTime(time);
@@ -73,7 +73,7 @@ namespace TimePresenter
                 () => {
                     //カウント終了でゲームオーバー
                     _timeModel.SetTime(0);
-                    _isGameOver.Value = true;
+                    _gameModel.SetIsGameOver(true);
                 });
 
             //Model to View
@@ -81,32 +81,6 @@ namespace TimePresenter
             {
                 _timeView.SetTimeText(time);
             });
-        }
-
-        // <summary>
-        /// ゲーム開始フラグの設定
-        /// </summary>
-        /// <param name="can"></param>
-        public void SetCanStartGame(bool can)
-        {
-            _canStartGame.Value = can;
-        }
-
-        /// <summary>
-        /// ゲームオーバーフラグの設定
-        /// </summary>
-        public void SetIsGameOver(bool isGameOver)
-        {
-            _isGameOver.Value = isGameOver;
-        }
-
-        /// <summary>
-        /// ゲームができるか
-        /// </summary>
-        /// <returns></returns>
-        bool CanGame()
-        {
-            return (_canStartGame.Value && _isGameOver.Value == false);
         }
     }
 }

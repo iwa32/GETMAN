@@ -18,5 +18,11 @@ namespace GameModel
         /// ゲームの状態をリセットします
         /// </summary>
         void ResetGame();
+
+        /// <summary>
+        /// ゲームができるか
+        /// </summary>
+        /// <returns></returns>
+        bool CanGame();
     }
 }
