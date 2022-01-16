@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-namespace PlayerModel
+namespace GameModel
 {
     public class PointModel : IPointModel
     {

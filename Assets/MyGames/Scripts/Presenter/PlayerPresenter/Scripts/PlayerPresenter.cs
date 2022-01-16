@@ -22,28 +22,12 @@ namespace PlayerPresenter
         int _initialHp = 3;
 
         [SerializeField]
-        [Header("プレイヤーの初期ポイントを設定")]
-        int _initialPoint = 0;
-
-        [SerializeField]
-        [Header("プレイヤーの初期スコアを設定")]
-        int _initialScore = 0;
-
-        [SerializeField]
         [Header("プレイヤーの武器の攻撃力を設定")]
         int _initialPower = 0;
 
         [SerializeField]
         [Header("プレイヤーの移動速度")]
         float _speed = 10.0f;
-
-        [SerializeField]
-        [Header("Hpを取得するスコアライン")]
-        int _scoreLineToGetHp = 100;
-
-        [SerializeField]
-        [Header("次は〇倍後のスコアラインでHpを取得します")]
-        int nextMagnification = 5;
 
         [SerializeField]
         [Header("プレイヤーの点滅時間")]
@@ -60,14 +44,6 @@ namespace PlayerPresenter
         [SerializeField]
         [Header("HPのUIを設定")]
         HpView _hpView;
-
-        [SerializeField]
-        [Header("スコアのUIを設定")]
-        ScoreView _scoreView;
-
-        [SerializeField]
-        [Header("獲得ポイントのUIを設定")]
-        PointView _pointView;
         #endregion
 
         #region//フィールド
@@ -85,8 +61,6 @@ namespace PlayerPresenter
         ObservableStateMachineTrigger _animTrigger;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
-        IScoreModel _scoreModel;
-        IPointModel _pointModel;
         IStateModel _stateModel;
         bool _isBlink;//点滅状態か
         bool _canStartGame;//ゲーム開始フラグ
@@ -102,15 +76,11 @@ namespace PlayerPresenter
         public void Construct(
             IWeaponModel weapon,
             IHpModel hp,
-            IScoreModel score,
-            IPointModel point,
             IStateModel state
         )
         {
             _weaponModel = weapon;
             _hpModel = hp;
-            _scoreModel = score;
-            _pointModel = point;
             _stateModel = state;//todo不要？
         }
 
@@ -150,8 +120,6 @@ namespace PlayerPresenter
         {
             _weaponModel.SetPower(_initialPower);
             _hpModel.SetHp(_initialHp);
-            _scoreModel.SetScore(_initialScore);
-            _pointModel.SetPoint(_initialPoint);
         }
 
         /// <summary>
@@ -181,8 +149,8 @@ namespace PlayerPresenter
         {
             //modelの監視
             _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp));
-            _scoreModel.Score.Subscribe(score => CheckScore(score));
-            _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
+            //_scoreModel.Score.Subscribe(score => CheckScore(score));
+            //_pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
@@ -270,29 +238,6 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// スコアを監視する
-        /// </summary>
-        void CheckScore(int score)
-        {
-            CheckScoreToGetHp(score);
-            _scoreView.SetScore(score);
-        }
-
-        /// <summary>
-        /// Scoreを決められた数取得するとHPがアップします
-        /// </summary>
-        /// <param name="score"></param>
-        void CheckScoreToGetHp(int score)
-        {
-            if (score <= 0) return;
-            if (score % _scoreLineToGetHp == 0)
-            {
-                _hpModel.AddHp(1);//hpを１つ増やします
-                _scoreLineToGetHp *= nextMagnification;
-            }
-        }
-
-        /// <summary>
         /// 接触したコライダーを確認します
         /// </summary>
         /// <param name="collider"></param>
@@ -300,6 +245,8 @@ namespace PlayerPresenter
         {
             TryGetPointItem(collider);
             //TryReceiveDamage(collider);todo ダメージ床用
+
+            //プレイヤーがエネミーの接触し、攻撃中でhitしたとき
         }
 
         /// <summary>
@@ -328,8 +275,8 @@ namespace PlayerPresenter
         {
             if (collider.TryGetComponent(out IPointItem pointItem))
             {
-                _pointModel.AddPoint(pointItem.Point);
-                _scoreModel.AddScore(pointItem.Score);
+                //_pointModel.AddPoint(pointItem.Point);
+                //_scoreModel.AddScore(pointItem.Score);
                 pointItem.Destroy();
             }
         }

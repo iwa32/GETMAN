@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerView
+namespace GameView
 {
     public class ScoreView : MonoBehaviour
     {

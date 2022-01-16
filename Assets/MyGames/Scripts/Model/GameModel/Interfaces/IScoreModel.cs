@@ -1,6 +1,6 @@
 using UniRx;
 
-namespace PlayerModel
+namespace GameModel
 {
     public interface IScoreModel
     {

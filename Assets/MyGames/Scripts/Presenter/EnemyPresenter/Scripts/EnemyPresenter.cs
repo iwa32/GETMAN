@@ -11,7 +11,7 @@ using static StateType;
 
 namespace EnemyPresenter
 {
-    public class EnemyPresenter : MonoBehaviour
+    public class EnemyPresenter : MonoBehaviour, IEnemy
     {
         #region//インスペクターから設定
         [SerializeField]
@@ -184,7 +184,6 @@ namespace EnemyPresenter
                 //hpを減らす
                 _hpModel.ReduceHp(playerWeapon.Power);
                 ChangeStateByDamege();
-
             }
         }
 

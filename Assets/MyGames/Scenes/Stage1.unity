@@ -596,6 +596,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0508068b0ea343cf8af37c7c9f7466a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialPoint: 0
+  _initialScore: 0
+  _scoreLineToGetHp: 100
+  nextMagnification: 5
+  _scoreView: {fileID: 7845309207579905204}
+  _pointView: {fileID: 7845309207579905205}
   _playerPresenter: {fileID: 1567685198}
   _timePresenter: {fileID: 7845309207579905207}
   _gameStartView: {fileID: 7845309207579905211}
@@ -1502,18 +1508,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialHp: 3
-  _initialPoint: 0
-  _initialScore: 0
   _initialPower: 0
   _speed: 10
-  _scoreLineToGetHp: 100
-  nextMagnification: 5
   _blinkTime: 3
   _knockBackPower: 10
   _weaponView: {fileID: 0}
   _hpView: {fileID: 7845309207579905203}
-  _scoreView: {fileID: 7845309207579905204}
-  _pointView: {fileID: 7845309207579905205}
 --- !u!114 &1567685199
 MonoBehaviour:
   m_ObjectHideFlags: 0

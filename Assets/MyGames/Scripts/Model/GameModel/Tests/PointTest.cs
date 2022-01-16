@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace PlayerModel
+namespace GameModel
 {
     public class PointTest
     {

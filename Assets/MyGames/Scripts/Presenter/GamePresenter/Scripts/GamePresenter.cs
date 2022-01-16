@@ -13,6 +13,30 @@ namespace GamePresenter
     {
         #region//インスペクターから設定
         [SerializeField]
+        [Header("初期ポイントを設定")]
+        int _initialPoint = 0;
+
+        [SerializeField]
+        [Header("初期スコアを設定")]
+        int _initialScore = 0;
+
+        [SerializeField]
+        [Header("Hpを取得するスコアライン")]
+        int _scoreLineToGetHp = 100;
+
+        [SerializeField]
+        [Header("次は〇倍後のスコアラインでHpを取得します")]
+        int nextMagnification = 5;
+
+        [SerializeField]
+        [Header("スコアのUIを設定")]
+        ScoreView _scoreView;
+
+        [SerializeField]
+        [Header("獲得ポイントのUIを設定")]
+        PointView _pointView;
+
+        [SerializeField]
         [Header("プレイヤーのPresenterを設定")]
         PlayerPresenter.PlayerPresenter _playerPresenter;
 
@@ -31,12 +55,19 @@ namespace GamePresenter
 
         #region//フィールド
         IGameModel _gameModel;
+        IScoreModel _scoreModel;
+        IPointModel _pointModel;
         #endregion
 
         [Inject]
-        public void Construct(IGameModel gameModel)
+        public void Construct(IGameModel gameModel,
+            IScoreModel score,
+            IPointModel point
+        )
         {
             _gameModel = gameModel;
+            _scoreModel = score;
+            _pointModel = point;
         }
 
         void Awake()
@@ -47,6 +78,8 @@ namespace GamePresenter
 
         void Start()
         {
+            _scoreModel.SetScore(_initialScore);
+            _pointModel.SetPoint(_initialPoint);
             _gameStartView.Initialize();
             _playerPresenter.Initialize();
             _timePresenter.Initialize();
@@ -94,6 +127,33 @@ namespace GamePresenter
             _gameModel.IsGameContinue
                 .Where(isGameContinue => isGameContinue == true)
                 .Subscribe(_ => ContinueGame());
+
+            _scoreModel.Score.Subscribe(score => CheckScore(score));
+            _pointModel.Point.Subscribe(point => _pointView.SetPointGauge(point));
+        }
+
+        /// <summary>
+        /// スコアを監視する
+        /// </summary>
+        void CheckScore(int score)
+        {
+            CheckScoreToGetHp(score);
+            _scoreView.SetScore(score);
+        }
+
+        /// <summary>
+        /// Scoreを決められた数取得するとHPがアップします
+        /// </summary>
+        /// <param name="score"></param>
+        void CheckScoreToGetHp(int score)
+        {
+            if (score <= 0) return;
+            if (score % _scoreLineToGetHp == 0)
+            {
+                //todo playerのHpを1つ増やす
+                //_hpModel.AddHp(1);//hpを１つ増やします
+                _scoreLineToGetHp *= nextMagnification;
+            }
         }
 
         /// <summary>

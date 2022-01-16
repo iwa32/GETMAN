@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PlayerView
+namespace GameView
 {
     public class PointView : MonoBehaviour
     {
