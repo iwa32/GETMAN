@@ -79,14 +79,25 @@ namespace EnemyPresenter
         /// </summary>
         void Initialize()
         {
+            InitializeModel();
             _runView.DelAction = Run;
             _actionView.State.Value = _runView;
+        }
+
+        /// <summary>
+        /// モデルの初期化を行います
+        /// </summary>
+        void InitializeModel()
+        {
+            _hpModel.SetHp(_enemyData.Hp);
+            _powerModel.SetPower(_enemyData.Power);
+            _scoreModel.SetScore(_enemyData.Score);
         }
 
         void Bind()
         {
             //model to view
-            _enemyData.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
+            _hpModel.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
@@ -163,7 +174,7 @@ namespace EnemyPresenter
             if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
             {
                 //hpを減らすtodo 後でmodelに変更
-                _enemyData.ReduceHp(playerWeapon.Power);
+                _hpModel.ReduceHp(playerWeapon.Power);
                 ChangeStateByDamege();
 
             }
@@ -174,7 +185,7 @@ namespace EnemyPresenter
         /// </summary>
         void ChangeStateByDamege()
         {
-            if (_enemyData.Hp.Value > 0)
+            if (_hpModel.Hp.Value > 0)
             {
                 _actionView.State.Value = _downView;
                 //一定時間無敵
@@ -201,7 +212,7 @@ namespace EnemyPresenter
         void WalkToForward()
         {
             //velocityによる移動
-            _rigidbody.velocity = transform.forward * _enemyData.Speed.Value;
+            _rigidbody.velocity = transform.forward * _enemyData.Speed;
             //isWalk = true;
         }
 
