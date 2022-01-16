@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
+using Zenject;
 using StateView;
 using TriggerView;
+using EnemyModel;
 using static StateType;
 
 namespace EnemyPresenter
 {
     public class EnemyPresenter : MonoBehaviour
     {
+        #region//インスペクターから設定
         [SerializeField]
         [Header("EnemyDataList(ScriptableObjectを設定)")]
         EnemyDataList _enemyDataList;
+        #endregion
 
+        #region//フィールド
         ActionView _actionView;//エネミーのアクション用スクリプト
         WaitView _waitView;//待機状態のスクリプト
         RunView _runView;//移動状態のスクリプト
@@ -25,6 +31,11 @@ namespace EnemyPresenter
         EnemyData _enemyData;
         Rigidbody _rigidbody;
         Animator _animator;
+        ObservableStateMachineTrigger _animTrigger;//アニメーションの監視
+        IHpModel _hpModel;
+        IScoreModel _scoreModel;
+        IPowerModel _powerModel;
+        #endregion
 
         // Start is called before the first frame update
         void Awake()
@@ -42,6 +53,19 @@ namespace EnemyPresenter
             _collisionView = GetComponent<CollisionView>();
             _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
+            _animTrigger = _animator?.GetBehaviour<ObservableStateMachineTrigger>();
+        }
+
+        [Inject]
+        public void Construct(
+            IHpModel hp,
+            IScoreModel score,
+            IPowerModel power
+        )
+        {
+            _hpModel = hp;
+            _scoreModel = score;
+            _powerModel = power;
         }
 
         void Start()
@@ -62,14 +86,14 @@ namespace EnemyPresenter
         void Bind()
         {
             //model to view
-            _enemyData.Hp.Subscribe(_ => Debug.Log(""));
+            _enemyData.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
-                .Subscribe(_ => Debug.Log("trigger"));
+                .Subscribe(collider => CheckCollider(collider)).AddTo(this);
 
             _collisionView.OnCollision()
-                .Subscribe(_ => Debug.Log("Collision"));
+                .Subscribe(collision => CheckCollision(collision)).AddTo(this);
 
 
             //view to model
@@ -79,7 +103,7 @@ namespace EnemyPresenter
                 .Subscribe(x =>
                 {
                     _actionView.ChangeState(x.State);
-                });
+                }).AddTo(this);
 
             //wait
             //run
@@ -87,6 +111,16 @@ namespace EnemyPresenter
             //tracking
             //down
             //dead
+
+            //アニメーションの監視
+            //todonull修正
+            //_animTrigger.OnStateUpdateAsObservable()
+            //    .Where(s => s.StateInfo.IsName("Down"))
+            //    .Where(s => s.StateInfo.normalizedTime >= 1)
+            //    .Subscribe(_ =>
+            //    {
+            //        _actionView.State.Value = _waitView;
+            //    }).AddTo(this);
         }
 
         //todo 後に修正
@@ -101,6 +135,56 @@ namespace EnemyPresenter
             //}
 
             //SetAnimation();
+        }
+
+        /// <summary>
+        /// 接触したコライダーを確認します
+        /// </summary>
+        /// <param name="collider"></param>
+        void CheckCollider(Collider collider)
+        {
+            //武器に接触でダメージを受ける
+            TryCheckPlayerWeapon(collider);
+        }
+
+        /// <summary>
+        /// 衝突を確認します
+        /// </summary>
+        void CheckCollision(Collision collision)
+        {
+            //壁に接触で武器を変える
+        }
+
+        /// <summary>
+        /// プレイヤーの武器に接触したか
+        /// </summary>
+        void TryCheckPlayerWeapon(Collider collider)
+        {
+            if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
+            {
+                //hpを減らすtodo 後でmodelに変更
+                _enemyData.ReduceHp(playerWeapon.Power);
+                ChangeStateByDamege();
+
+            }
+        }
+
+        /// <summary>
+        /// ダメージによって状態を切り替えます
+        /// </summary>
+        void ChangeStateByDamege()
+        {
+            if (_enemyData.Hp.Value > 0)
+            {
+                _actionView.State.Value = _downView;
+                //一定時間無敵
+            }
+            else
+            {
+                _actionView.State.Value = _deadView;
+                //スコア加算
+                //加算したらオブジェクトの削除
+            }
         }
 
         /// <summary>
