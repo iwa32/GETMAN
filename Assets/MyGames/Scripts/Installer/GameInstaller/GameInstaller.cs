@@ -11,6 +11,7 @@ namespace GameInstaller
             Container.Bind<IDirectionModel>().To<DirectionModel>().AsSingle();
             Container.Bind<IPointModel>().To<PointModel>().AsSingle();
             Container.Bind<IScoreModel>().To<ScoreModel>().AsSingle();
+            Container.Bind<IStageNumModel>().To<StageNumModel>().AsSingle();
         }
     }
 }

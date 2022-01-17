@@ -21,6 +21,10 @@ namespace GamePresenter
         int _initialScore = 0;
 
         [SerializeField]
+        [Header("初期ステージ番号を設定")]
+        int _initialStageNum = 1;
+
+        [SerializeField]
         [Header("Hpを取得するスコアライン")]
         int _scoreLineToGetHp = 100;
 
@@ -45,6 +49,10 @@ namespace GamePresenter
         TimePresenter.TimePresenter _timePresenter;
 
         [SerializeField]
+        [Header("StageのPresenterを設定")]
+        StagePresenter.StagePresenter _stagePresenter;
+
+        [SerializeField]
         [Header("ゲーム開始UIを設定")]
         GameStartView _gameStartView;
 
@@ -57,33 +65,39 @@ namespace GamePresenter
         IDirectionModel _directionModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
+        IStageNumModel _stageNumModel;
         #endregion
 
         [Inject]
         public void Construct(
             IDirectionModel directionModel,
             IScoreModel score,
-            IPointModel point
+            IPointModel point,
+            IStageNumModel stageNum
         )
         {
             _directionModel = directionModel;
             _scoreModel = score;
             _pointModel = point;
+            _stageNumModel = stageNum;
         }
 
         void Awake()
         {
             _playerPresenter.ManualAwake();
             _timePresenter.ManualAwake();
+            _stagePresenter.ManualAwake();
         }
 
         void Start()
         {
             _scoreModel.SetScore(_initialScore);
             _pointModel.SetPoint(_initialPoint);
+            _stageNumModel.SetStageNum(_initialStageNum);
             _gameStartView.Initialize();
             _playerPresenter.Initialize();
             _timePresenter.Initialize();
+            _stagePresenter.Initialize();
             Bind();
         }
 
