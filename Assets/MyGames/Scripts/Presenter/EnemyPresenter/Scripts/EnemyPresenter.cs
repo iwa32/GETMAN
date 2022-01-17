@@ -169,12 +169,6 @@ namespace EnemyPresenter
         void FixedUpdate()
         {
             _actionView.Action();
-            //進行方向を変える
-            //if (checkCollision.isOn)
-            //{
-            //    //向きを回転
-            //    RandomRotateEnemy();
-            //}
         }
 
         /// <summary>
@@ -184,7 +178,7 @@ namespace EnemyPresenter
         void CheckCollider(Collider collider)
         {
             //武器に接触でダメージを受ける
-            TryCheckPlayerWeapon(collider);
+            CheckPlayerWeaponBy(collider);
         }
 
         /// <summary>
@@ -192,13 +186,26 @@ namespace EnemyPresenter
         /// </summary>
         void CheckCollision(Collision collision)
         {
-            //壁に接触で向きを変える
+            ChangeDirectionBy(collision);
+        }
+
+        /// <summary>
+        /// 衝突時に向きを変えます
+        /// </summary>
+        /// <param name="collision"></param>
+        void ChangeDirectionBy(Collision collision)
+        {
+            //プレイヤーと接触時と追跡中は何もしない
+            if (collision.collider.CompareTag("Player") == false) return;
+            if (_actionView.State.Value?.State == StateType.TRACK) return;
+
+            ChangeDirectionForRandom();
         }
 
         /// <summary>
         /// プレイヤーの武器に接触したか
         /// </summary>
-        void TryCheckPlayerWeapon(Collider collider)
+        void CheckPlayerWeaponBy(Collider collider)
         {
             if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
             {
@@ -263,9 +270,9 @@ namespace EnemyPresenter
         }
 
         /// <summary>
-        /// 進行方向を変える
+        /// ランダムに進行方向を変える
         /// </summary>
-        void RandomRotateEnemy()
+        void ChangeDirectionForRandom()
         {
             //進行方向はランダム
             int dice = RandomDice(1, 5);

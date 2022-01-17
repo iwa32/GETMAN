@@ -229,8 +229,8 @@ namespace PlayerPresenter
         /// <param name="collider"></param>
         void CheckCollider(Collider collider)
         {
-            TryGetPointItem(collider);
-            //TryReceiveDamage(collider);todo ダメージ床用
+            GetPointItemBy(collider);
+            //ReceiveDamageBy(collider);todo ダメージ床用
         }
 
         /// <summary>
@@ -238,24 +238,24 @@ namespace PlayerPresenter
         /// </summary>
         void CheckCollision(Collision collision)
         {
-            TryCheckEnemyCollision(collision);
+            CheckEnemyBy(collision);
         }
 
         /// <summary>
         /// 敵の接触の確認を試みます
         /// </summary>
-        void TryCheckEnemyCollision(Collision collision)
+        void CheckEnemyBy(Collision collision)
         {
             if (collision.gameObject.TryGetComponent(out IEnemy enemy))
             {
-                TryReceiveDamage(collision.collider);
+                ReceiveDamageBy(collision.collider);
             }
         }
 
         /// <summary>
         /// ポイントアイテムの取得を試みます
         /// </summary>
-        void TryGetPointItem(Collider collider)
+        void GetPointItemBy(Collider collider)
         {
             if (collider.TryGetComponent(out IPointItem pointItem))
             {
@@ -268,7 +268,7 @@ namespace PlayerPresenter
         /// <summary>
         /// ダメージを受けるか確認します
         /// </summary>
-        void TryReceiveDamage(Collider collider)
+        void ReceiveDamageBy(Collider collider)
         {
             if (_isBlink) return;
             if (collider.TryGetComponent(out IDamager damager))
