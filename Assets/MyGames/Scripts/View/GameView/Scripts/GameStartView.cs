@@ -67,11 +67,15 @@ namespace GameView
             _isOpendGameStartText.Value = false;
 
             _gameStartCountDown.SetCountTime(_gameStartCount);
-            _gameStartCountDown.StartImmediateCountDown();
-
+            _gameStartCountDown.Publish();
             OpenUIFor(gameObject);
             OpenUIFor(_countText.gameObject);
             CloseUIFor(_gameStartText.gameObject);
+        }
+
+        public void StartCount()
+        {
+            _gameStartCountDown.Connect();
         }
 
         /// <summary>

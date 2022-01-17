@@ -132,12 +132,19 @@ namespace GamePresenter
                 .Subscribe(_ => Debug.Log("ToTitle"))
                 .AddTo(this);
 
-            //ステージの生成を監視
+            //ステージ
+            //生成
             _stagePresenter.IsCreatedState
                 .Where(isCreatedStage => isCreatedStage == true)
                 .Subscribe(_ =>
-                _stagePresenter.PutPlayerToStage(_playerPresenter.transform)
+                _stagePresenter.PlacePlayerToStage(_playerPresenter.transform)
                 );
+
+            //プレイヤーの配置
+            _stagePresenter.IsPlacedPlayer
+                .Where(isPlacedPlayer => isPlacedPlayer == true)
+                .Subscribe(_ => _gameStartView.StartCount())
+                .AddTo(this);
 
             //model
             _directionModel.IsGameOver

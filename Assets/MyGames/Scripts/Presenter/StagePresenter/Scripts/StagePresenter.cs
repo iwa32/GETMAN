@@ -20,10 +20,12 @@ namespace StagePresenter
         IStageNumModel _stageNumModel;
         StageView.StageView _currentStageView;//現在のステージを保持しておく
         BoolReactiveProperty _isCreatedStage = new BoolReactiveProperty();
+        BoolReactiveProperty _isPlacedPlayer = new BoolReactiveProperty();
         #endregion
 
         #region//プロパティ
         public IReadOnlyReactiveProperty<bool> IsCreatedState => _isCreatedStage;
+        public IReadOnlyReactiveProperty<bool> IsPlacedPlayer => _isPlacedPlayer;
         #endregion
 
 
@@ -48,8 +50,6 @@ namespace StagePresenter
         /// </summary>
         public void Initialize()
         {
-            //prefabをフィールドに出す
-            //prefabの出現開始位置にPlayerを設定
             CreateStage();
             Bind();
         }
@@ -77,9 +77,10 @@ namespace StagePresenter
         /// <summary>
         /// プレイヤーをステージに配置します
         /// </summary>
-        public void PutPlayerToStage(Transform playerTransform)
+        public void PlacePlayerToStage(Transform playerTransform)
         {
             _currentStageView?.SetPlayerToStartPoint(playerTransform);
+            _isPlacedPlayer.Value = true;
         }
     }
 }
