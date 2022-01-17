@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UniRx;
 using UniRx.Triggers;
 using Zenject;
 using StateView;
 using TriggerView;
+using EnemyView;
 using EnemyModel;
-using static StateType;
 
 namespace EnemyPresenter
 {
@@ -18,22 +19,29 @@ namespace EnemyPresenter
         [SerializeField]
         [Header("EnemyDataList(ScriptableObjectを設定)")]
         EnemyDataList _enemyDataList;
+
+        [SerializeField]
+        [Header("追跡エリアのコンポーネントを設定")]
+        TrackingAreaView _trackingAreaView;
         #endregion
 
         #region//フィールド
+        //状態
         ActionView _actionView;//エネミーのアクション用スクリプト
         WaitView _waitView;//待機状態のスクリプト
         RunView _runView;//移動状態のスクリプト
         DownView _downView;//ダウン状態のスクリプト
         DeadView _deadView;//デッド状態のスクリプト
         AttackView _attackView;//攻撃状態のスクリプト
+        TrackView _trackView;//追跡状態のスクリプト
         TriggerView.TriggerView _triggerView;//接触判定スクリプト
         CollisionView _collisionView;//衝突判定スクリプト
         EnemyData _enemyData;
-        Rigidbody _rigidbody;
         Animator _animator;
         Collider _collider;
         ObservableStateMachineTrigger _animTrigger;//アニメーションの監視
+        NavMeshAgent _navMeshAgent;
+        //モデル
         IHpModel _hpModel;
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
@@ -56,12 +64,13 @@ namespace EnemyPresenter
             _downView = GetComponent<DownView>();
             _deadView = GetComponent<DeadView>();
             _attackView = GetComponent<AttackView>();
+            _trackView = GetComponent<TrackView>();
             _triggerView = GetComponent<TriggerView.TriggerView>();
             _collisionView = GetComponent<CollisionView>();
-            _rigidbody = GetComponent<Rigidbody>();
             _collider = GetComponent<Collider>();
             _animator = GetComponent<Animator>();
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         [Inject]
@@ -91,7 +100,9 @@ namespace EnemyPresenter
         {
             InitializeModel();
             _runView.DelAction = Run;
+            _trackView.DelAction = Track;
             _actionView.State.Value = _runView;
+            _navMeshAgent.speed = _enemyData.Speed;
         }
 
         /// <summary>
@@ -112,12 +123,18 @@ namespace EnemyPresenter
             //trigger, collisionの取得
             _triggerView.OnTrigger()
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
-                .Subscribe(collider => CheckCollider(collider)).AddTo(this);
+                .Subscribe(collider => CheckCollider(collider))
+                .AddTo(this);
 
             _collisionView.OnCollision()
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
-                .Subscribe(collision => CheckCollision(collision)).AddTo(this);
+                .Subscribe(collision => CheckCollision(collision))
+                .AddTo(this);
 
+            //プレイヤーの追跡
+            _trackingAreaView.CanTrack
+                .Subscribe(canTrack => CheckTracking(canTrack))
+                .AddTo(this);
 
             //view to model
             //状態の監視
@@ -128,12 +145,6 @@ namespace EnemyPresenter
                     _actionView.ChangeState(x.State);
                 }).AddTo(this);
 
-            //wait
-            //run
-            //attack
-            //tracking
-            //down
-            //dead
 
             //アニメーションの監視
             //down
@@ -164,8 +175,6 @@ namespace EnemyPresenter
             //    //向きを回転
             //    RandomRotateEnemy();
             //}
-
-            //SetAnimation();
         }
 
         /// <summary>
@@ -223,20 +232,34 @@ namespace EnemyPresenter
         }
 
         /// <summary>
+        /// 追跡の確認をします
+        /// </summary>
+        /// <param name="canTrack"></param>
+        void CheckTracking(bool canTrack)
+        {
+            //追跡もしくは前方を走ります
+            if (canTrack)
+                _actionView.State.Value = _trackView;
+            else
+                _actionView.State.Value = _runView;
+
+        }
+
+        /// <summary>
         /// 走ります
         /// </summary>
         void Run()
         {
-            WalkToForward();
+            //前方を移動します
+            _navMeshAgent.SetDestination(transform.position + transform.forward);
         }
 
         /// <summary>
-        /// 前方に歩く
+        /// 追跡します
         /// </summary>
-        void WalkToForward()
+        void Track()
         {
-            //velocityによる移動
-            _rigidbody.velocity = transform.forward * _enemyData.Speed;
+            _navMeshAgent.SetDestination(_trackingAreaView.TargetPlayerPosition);
         }
 
         /// <summary>

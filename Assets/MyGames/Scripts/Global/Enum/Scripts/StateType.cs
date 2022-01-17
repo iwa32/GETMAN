@@ -8,5 +8,6 @@ public enum StateType
     DOWN = 2,
     DEAD = 3,
     ATTACK = 4,
-    JOY = 5
+    JOY = 5,
+    TRACK = 6
 }
