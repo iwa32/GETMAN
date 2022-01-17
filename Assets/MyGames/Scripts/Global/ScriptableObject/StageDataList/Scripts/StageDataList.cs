@@ -9,6 +9,23 @@ public class StageDataList : ScriptableObject
     List<StageData> _stageDataList = new List<StageData>();
 
     public List<StageData> GetStageDataList => _stageDataList;
+
+    /// <summary>
+    /// idからステージデータを取得します
+    /// </summary>
+    /// <returns></returns>
+    public StageData GetStageById(int id)
+    {
+        try
+        {
+            return _stageDataList.Find(stage => stage.StageId == id);
+        }
+        catch
+        {
+            Debug.Log("ステージが見つかりませんでした");
+            return null;
+        }
+    }
 }
 
 [System.Serializable]
@@ -39,7 +56,7 @@ public class StageData
 
     [SerializeField]
     [Tooltip("ステージのPrefabを設定")]
-    GameObject _stagePrefab;
+    StageView.StageView _stagePrefab;
 
 
     public int StageId => _stageId;
@@ -48,5 +65,5 @@ public class StageData
     public EnemyType[] AppearingMonsters => _appearingMonsters;
     public AudioClip StageBgm => _stageBgm;
     public int MaxFieldObjectCount => _maxFieldObjectCount;
-    public GameObject StagePrefab => _stagePrefab;
+    public StageView.StageView StagePrefab => _stagePrefab;
 }

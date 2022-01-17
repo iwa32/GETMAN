@@ -41,6 +41,10 @@ namespace GamePresenter
         PointView _pointView;
 
         [SerializeField]
+        [Header("ステージ番号のUIを設定")]
+        StageNumView _stageNumView;
+
+        [SerializeField]
         [Header("プレイヤーのPresenterを設定")]
         PlayerPresenter.PlayerPresenter _playerPresenter;
 
@@ -128,6 +132,13 @@ namespace GamePresenter
                 .Subscribe(_ => Debug.Log("ToTitle"))
                 .AddTo(this);
 
+            //ステージの生成を監視
+            _stagePresenter.IsCreatedState
+                .Where(isCreatedStage => isCreatedStage == true)
+                .Subscribe(_ =>
+                _stagePresenter.PutPlayerToStage(_playerPresenter.transform)
+                );
+
             //model
             _directionModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
@@ -142,8 +153,13 @@ namespace GamePresenter
             _scoreModel.Score
                 .Subscribe(score => CheckScore(score))
                 .AddTo(this);
+
             _pointModel.Point
                 .Subscribe(point => _pointView.SetPointGauge(point))
+                .AddTo(this);
+
+            _stageNumModel.StageNum
+                .Subscribe(stageNum => _stageNumView.SetStageNum(stageNum))
                 .AddTo(this);
         }
 
