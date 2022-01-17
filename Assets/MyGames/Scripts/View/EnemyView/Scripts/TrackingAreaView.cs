@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UniRx;
 using UniRx.Triggers;
 
@@ -13,9 +14,13 @@ namespace EnemyView
         [Header("追跡範囲の角度を設定")]
         float _trackingAngle;
 
+        [SerializeField]
+        [Header("追跡範囲のコライダーを設定")]
+        SphereCollider _trackingAreaCollider;
+
         Vector3 _targetPlayerPosition;
-        //追跡フラグ
-        BoolReactiveProperty _canTrack = new BoolReactiveProperty();
+        BoolReactiveProperty _canTrack = new BoolReactiveProperty();//追跡フラグ
+
 
         public IReactiveProperty<bool> CanTrack => _canTrack;
         public Vector3 TargetPlayerPosition => _targetPlayerPosition;
@@ -69,5 +74,14 @@ namespace EnemyView
         {
             return this.OnTriggerExitAsObservable();
         }
+
+#if UNITY_EDITOR
+        //　サーチする角度表示
+        private void OnDrawGizmos()
+        {
+            Handles.color = Color.red;
+            Handles.DrawSolidArc(transform.position, Vector3.up, Quaternion.Euler(0f, -_trackingAngle, 0f) * transform.forward, _trackingAngle * 2f, _trackingAreaCollider.radius);
+        }
+#endif
     }
 }

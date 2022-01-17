@@ -365,6 +365,11 @@ Transform:
   m_Father: {fileID: 398513319}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &378035891 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 378035891, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
+  m_PrefabInstance: {fileID: 2137371762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &378035893 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9080834570282114075, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
@@ -2329,8 +2334,12 @@ PrefabInstance:
       objectReference: {fileID: 378035893}
     - target: {fileID: 9080834570282114075, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
       propertyPath: _trackingAngle
-      value: 130
+      value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 9080834570282114075, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
+      propertyPath: _trackingAreaCollider
+      value: 
+      objectReference: {fileID: 378035891}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
 --- !u!1 &2147365809
