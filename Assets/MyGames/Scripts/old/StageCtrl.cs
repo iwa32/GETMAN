@@ -31,7 +31,7 @@ public class StageCtrl : MonoBehaviour
     [Header("リトライボタンSE")]
     public AudioClip retrySE;
 
-    private PlayerController p;
+    //private PlayerController p;
     private int nextStageNum;
     private bool startFade;
     private bool doGameOver;
@@ -50,7 +50,7 @@ public class StageCtrl : MonoBehaviour
             stageClearObj.SetActive(false);
             //コンティニュー地点へプレイヤーを設置
             MovingPlayerIntoWaitPosition();
-            p = playerObj.GetComponent<PlayerController>();
+            //p = playerObj.GetComponent<PlayerController>();
         }
         else
         {
@@ -69,12 +69,12 @@ public class StageCtrl : MonoBehaviour
             doGameOver = true;
         }
         //プレイヤーがやられた時の処理
-        else if(p != null && p.IsContinueWaiting())
-        {
-            //プレイヤーがコンティニュー待機中なら地点へ設置
-            MovingPlayerIntoWaitPosition();
-            p.ContinuePlayer();
-        }
+        //else if(p != null && p.IsContinueWaiting())
+        //{
+        //    //プレイヤーがコンティニュー待機中なら地点へ設置
+        //    MovingPlayerIntoWaitPosition();
+        //    p.ContinuePlayer();
+        //}
         //ステージクリア時の処理
         else if (GameManager.instance.isStageClear && !doStageClear)
         {
