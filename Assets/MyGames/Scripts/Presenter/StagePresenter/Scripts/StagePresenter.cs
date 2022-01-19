@@ -7,7 +7,7 @@ using Zenject;
 using GameModel;
 using EP = EnemyPresenter;
 using SV = StageView;
-using EF = EnemyFactory;
+using BehaviourFactory;
 
 namespace StagePresenter
 {
@@ -22,7 +22,7 @@ namespace StagePresenter
         #region//フィールド
         StageData _currentStageData;
         SV.StageView _currentStageView;//現在のステージオブジェクトを保持しておく
-        EF.EnemyFactory _enemyFactory;//エネミー生成用スクリプト
+        EnemyFactory _enemyFactory;//エネミー生成用スクリプト
         List<EP.EnemyPresenter> _stageEnemyList = new List<EP.EnemyPresenter>();//ステージの敵を格納する
         //フラグ
         BoolReactiveProperty _isCreatedStage = new BoolReactiveProperty();
@@ -53,7 +53,7 @@ namespace StagePresenter
         /// </summary>
         public void ManualAwake()
         {
-            _enemyFactory = GetComponent<EF.EnemyFactory>();
+            _enemyFactory = GetComponent<EnemyFactory>();
         }
 
         /// <summary>
@@ -68,25 +68,43 @@ namespace StagePresenter
 
         void Bind()
         {
-            //エネミーを一定間隔で生成する準備
-            IConnectableObservable<long> EnemyAppearanceInterval
+            //エネミーを一定間隔で自動生成
+            IConnectableObservable<long> enemyAppearanceInterval
                 = CreateAppearanceInterval(_currentStageData.EnemyAppearanceInterval);
+            //ポイントアイテムを一定間隔で自動生成
+            IConnectableObservable<long> pointItemAppearanceInterval
+                = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
 
-            //ゲーム開始でエネミーの生成開始
+
+            //ゲーム開始でエネミーとポイントアイテムの自動生成を開始する
             _directionModel.IsGameStart
                 .Where(isGameStart => isGameStart == true)
-                .Subscribe(_ => EnemyAppearanceInterval.Connect())
+                .Subscribe(_ =>
+                {
+                    enemyAppearanceInterval.Connect();
+                    pointItemAppearanceInterval.Connect();
+                })
                 .AddTo(this);
 
-            IDisposable enemyAppearanceDisposable =
-                EnemyAppearanceInterval
+
+            IDisposable enemyAppearanceDisposable
+                = enemyAppearanceInterval
                 .Subscribe(_ => PlaceEnemyToStage())
                 .AddTo(this);
 
-            //ゲームオーバーで生成を停止します
+            IDisposable pointItemAppearanceDisposable
+                = pointItemAppearanceInterval
+                .Subscribe(_ => Debug.Log("ポイントアイテム生成"))
+                .AddTo(this);
+
+
+            //ゲームオーバーでエネミーとポイントアイテムの自動生成を停止する
             _directionModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
-                .Subscribe(_ => enemyAppearanceDisposable.Dispose())
+                .Subscribe(_ => {
+                    enemyAppearanceDisposable.Dispose();
+                    pointItemAppearanceDisposable.Dispose();
+                })
                 .AddTo(this);
         }
 
@@ -170,7 +188,7 @@ namespace StagePresenter
         /// <param name="enemy"></param>
         void ObserveStageEnemy(EP.EnemyPresenter stageEnemy)
         {
-            //死亡の確認
+            //死亡の監視
             stageEnemy.IsDead
                 .Where(isDead => isDead == true)
                 .Subscribe(_ => {
