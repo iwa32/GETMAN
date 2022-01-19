@@ -17,10 +17,6 @@ namespace EnemyPresenter
     {
         #region//インスペクターから設定
         [SerializeField]
-        [Header("EnemyDataList(ScriptableObjectを設定)")]
-        EnemyDataList _enemyDataList;
-
-        [SerializeField]
         [Header("追跡エリアのコンポーネントを設定")]
         TrackingAreaView _trackingAreaView;
         #endregion
@@ -36,11 +32,12 @@ namespace EnemyPresenter
         TrackView _trackView;//追跡状態のスクリプト
         TriggerView.TriggerView _triggerView;//接触判定スクリプト
         CollisionView _collisionView;//衝突判定スクリプト
-        EnemyData _enemyData;
         Animator _animator;
         Collider _collider;
         ObservableStateMachineTrigger _animTrigger;//アニメーションの監視
         NavMeshAgent _navMeshAgent;
+        //フラグ
+        BoolReactiveProperty _isDead = new BoolReactiveProperty();//死亡フラグ
         //モデル
         IHpModel _hpModel;
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
@@ -50,14 +47,12 @@ namespace EnemyPresenter
 
         #region//プロパティ
         public int Damage => _powerModel.Power.Value;
+        public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
         #endregion
 
         // Start is called before the first frame update
         void Awake()
         {
-            //todo 後で清書
-            _enemyData = _enemyDataList.GetEnemyDataList[0];
-
             _actionView = GetComponent<ActionView>();
             _waitView = GetComponent<WaitView>();
             _runView = GetComponent<RunView>();
@@ -87,38 +82,33 @@ namespace EnemyPresenter
             _gameScoreModel = gameScore;
         }
 
-        void Start()
-        {
-            Initialize();
-            Bind();
-        }
-
         /// <summary>
         /// 初期化処理
         /// </summary>
-        void Initialize()
+        public void Initialize(int hp, int power, int speed, int score)
         {
-            InitializeModel();
+            InitializeModel(hp, power, score);
             _runView.DelAction = Run;
             _trackView.DelAction = Track;
             _actionView.State.Value = _runView;
-            _navMeshAgent.speed = _enemyData.Speed;
+            _navMeshAgent.speed = speed;
+            Bind();
         }
 
         /// <summary>
         /// モデルの初期化を行います
         /// </summary>
-        void InitializeModel()
+        void InitializeModel(int hp, int power, int score)
         {
-            _hpModel.SetHp(_enemyData.Hp);
-            _powerModel.SetPower(_enemyData.Power);
-            _enemyScoreModel.SetScore(_enemyData.Score);
+            _hpModel.SetHp(hp);
+            _powerModel.SetPower(power);
+            _enemyScoreModel.SetScore(score);
         }
 
         void Bind()
         {
             //model to view
-            _hpModel.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
+            //_hpModel.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
@@ -161,7 +151,7 @@ namespace EnemyPresenter
                 .Where(s => s.StateInfo.normalizedTime >= 1)
                 .Subscribe(_ =>
                 {
-                    Destroy(gameObject);
+                    _isDead.Value = true;
                 }).AddTo(this);
         }
 
@@ -234,7 +224,7 @@ namespace EnemyPresenter
         void ChangeDead()
         {
             _actionView.State.Value = _deadView;
-            _gameScoreModel.AddScore(_enemyData.Score);
+            _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
             _collider.enabled = false;//スコア二重取得防止
         }
 
