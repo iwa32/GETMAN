@@ -29,9 +29,15 @@ public class EnemyData
     [SerializeField]
     int _score;
 
+    [SerializeField]
+    [Tooltip("生成するエネミーのプレハブを設定します")]
+    EnemyPresenter.EnemyPresenter _enemyPrefab;
+
+
     public EnemyType EnemyType => _enemyType;
     public int Hp => _hp;
     public int Power => _power;
     public int Speed => _speed;
     public int Score => _score;
+    public EnemyPresenter.EnemyPresenter EnemyPrefab => _enemyPrefab;
 }
