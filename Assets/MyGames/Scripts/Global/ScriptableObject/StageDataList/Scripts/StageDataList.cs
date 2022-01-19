@@ -40,19 +40,23 @@ public class StageData
     int _clearPointCount;
 
     [SerializeField]
-    [Tooltip("フィールドオブジェクトの生成間隔(○秒ごとに生成)")]
-    float _filedObjectAppearanceInterval;
+    [Tooltip("エネミーの生成間隔(○秒ごとに生成)")]
+    float _enemyAppearanceInterval;
 
     [SerializeField]
-    [Tooltip("出現モンスターを設定")]
-    EnemyType[] _appearingMonsters;
+    [Tooltip("ポイントアイテムの生成間隔(○秒ごとに生成)")]
+    float _pointItemAppearanceInterval;
+
+    [SerializeField]
+    [Tooltip("出現エネミーを設定")]
+    EnemyType[] _appearingEnemies;
 
     [SerializeField]
     AudioClip _stageBgm;
 
     [SerializeField]
-    [Tooltip("フィールドオブジェクト最大出現数")]
-    int _maxFieldObjectCount;
+    [Tooltip("エネミーの最大出現数")]
+    int _maxEnemyCount;
 
     [SerializeField]
     [Tooltip("ステージのPrefabを設定")]
@@ -61,9 +65,10 @@ public class StageData
 
     public int StageId => _stageId;
     public int ClearPointCount =>  _clearPointCount;
-    public float FiledObjectAppearanceInterval => _filedObjectAppearanceInterval;
-    public EnemyType[] AppearingMonsters => _appearingMonsters;
+    public float EnemyAppearanceInterval => _enemyAppearanceInterval;
+    public float PointItemAppearanceInterval => _pointItemAppearanceInterval;
+    public EnemyType[] AppearingEnemies => _appearingEnemies;
     public AudioClip StageBgm => _stageBgm;
-    public int MaxFieldObjectCount => _maxFieldObjectCount;
+    public int MaxEnemyCount => _maxEnemyCount;
     public StageView.StageView StagePrefab => _stagePrefab;
 }
