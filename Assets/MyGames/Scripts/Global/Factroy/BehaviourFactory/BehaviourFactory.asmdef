@@ -1,5 +1,5 @@
 {
-    "name": "EnemyFactory",
+    "name": "BehaviourFactory",
     "rootNamespace": "",
     "references": [
         "GUID:3995a511bad904897b47327a765c2e53",
