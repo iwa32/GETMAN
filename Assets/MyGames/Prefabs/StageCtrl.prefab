@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retry
+  m_Text: Continue
 --- !u!1 &1353550204
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 1353550207}
   - component: {fileID: 1353550206}
   m_Layer: 5
-  m_Name: RetryButton
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,8 +224,9 @@ GameObject:
   - component: {fileID: 1776767215}
   - component: {fileID: 1776767214}
   - component: {fileID: 3159619032468886715}
+  - component: {fileID: 8524252778524094298}
   m_Layer: 5
-  m_Name: StageClearBG
+  m_Name: GameClearBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,6 +312,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &8524252778524094298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776767212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 689c684c4376f44a987b1d98c046dda7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1929028556
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +337,7 @@ GameObject:
   - component: {fileID: 1929028559}
   - component: {fileID: 1929028558}
   m_Layer: 5
-  m_Name: StageClearText
+  m_Name: GameClearText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,7 +403,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: STAGE CLEAR
+  m_Text: GAME CLEAR
 --- !u!114 &1929028558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1774,7 +1787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7845309206269010728
 RectTransform:
   m_ObjectHideFlags: 0

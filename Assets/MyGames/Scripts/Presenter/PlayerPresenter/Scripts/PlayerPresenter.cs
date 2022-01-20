@@ -181,7 +181,9 @@ namespace PlayerPresenter
 
             //入力の監視
             _inputView.InputDirection
-                .Where(_ => IsControllableState())
+                .Where(_ => IsControllableState()
+                && _directionModel.CanGame()
+                )
                 .Subscribe(input => ChangeStateByInput(input))
                 .AddTo(this);
 
@@ -385,6 +387,8 @@ namespace PlayerPresenter
         /// </summary>
         void Run()
         {
+            if (_directionModel.CanGame() == false) return;
+
             Vector2 input = _inputView.InputDirection.Value;
             Move(input);
             Rotation(input);

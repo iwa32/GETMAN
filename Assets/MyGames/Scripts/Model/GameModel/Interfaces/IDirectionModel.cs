@@ -27,5 +27,11 @@ namespace GameModel
         /// </summary>
         /// <returns></returns>
         bool CanGame();
+
+        /// <summary>
+        /// ゲームが終了したか
+        /// </summary>
+        /// <returns></returns>
+        bool IsEndedGame();
     }
 }

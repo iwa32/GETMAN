@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
 using Zenject;
 using GameModel;
 using EP = EnemyPresenter;
@@ -33,6 +34,7 @@ namespace StagePresenter
         //モデル
         IStageNumModel _stageNumModel;
         IDirectionModel _directionModel;
+        IPointModel _pointModel;
         #endregion
 
         #region//プロパティ
@@ -44,11 +46,13 @@ namespace StagePresenter
         [Inject]
         public void Construct(
             IStageNumModel stageNum,
-            IDirectionModel direction
+            IDirectionModel direction,
+            IPointModel point
         )
         {
             _stageNumModel = stageNum;
             _directionModel = direction;
+            _pointModel = point;
         }
 
         /// <summary>
@@ -101,11 +105,17 @@ namespace StagePresenter
                 .Subscribe(_ => PlacePointItemToStage())
                 .AddTo(this);
 
+            //獲得ポイント数でゲームクリアを観察
+            _pointModel.Point
+                .Where(point => point >= _currentStageData.ClearPointCount)
+                .Subscribe(_ => _directionModel.SetIsGameClear(true))
+                .AddTo(this);
 
-            //ゲームオーバーでエネミーとポイントアイテムの自動生成を停止する
-            _directionModel.IsGameOver
-                .Where(isGameOver => isGameOver == true)
-                .Subscribe(_ => {
+            //ゲーム終了でエネミーとポイントアイテムの自動生成を停止する
+            this.UpdateAsObservable()
+                .First(_ => _directionModel.IsEndedGame())
+                .Subscribe(_ =>
+                {
                     enemyAppearanceDisposable.Dispose();
                     pointItemAppearanceDisposable.Dispose();
                 })

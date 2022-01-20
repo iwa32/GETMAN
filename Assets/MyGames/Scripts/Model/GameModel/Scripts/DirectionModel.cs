@@ -46,7 +46,14 @@ namespace GameModel
 
         public bool CanGame()
         {
-            return (_isGameStart.Value && _isGameOver.Value == false);
+            return (_isGameStart.Value
+                && _isGameOver.Value == false
+                && _isGameClear.Value == false);
+        }
+
+        public bool IsEndedGame()
+        {
+            return (_isGameOver.Value || _isGameClear.Value);
         }
     }
 }

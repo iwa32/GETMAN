@@ -63,6 +63,10 @@ namespace GamePresenter
         [SerializeField]
         [Header("ゲームオーバーUIを設定")]
         GameOverView _gameOverView;
+
+        [SerializeField]
+        [Header("ゲームクリアUIを設定")]
+        GameClearView _gameClearView;
         #endregion
 
         #region//フィールド
@@ -157,6 +161,11 @@ namespace GamePresenter
                 .Subscribe(_ => ContinueGame())
                 .AddTo(this);
 
+            _directionModel.IsGameClear
+                .Where(isGameClear => isGameClear == true)
+                .Subscribe(_ => GameClear())
+                .AddTo(this);
+
             _scoreModel.Score
                 .Subscribe(score => CheckScore(score))
                 .AddTo(this);
@@ -211,6 +220,7 @@ namespace GamePresenter
             //todo フェードを出現させる
             _directionModel.SetIsGameOver(false);
             _directionModel.SetIsGameStart(false);
+            _directionModel.SetIsGameClear(false);
             _playerPresenter.ResetData();
             _gameStartView.Initialize();
         }
@@ -224,6 +234,12 @@ namespace GamePresenter
             _playerPresenter.ChangeDead();
         }
 
-        //クリア処理
+        /// <summary>
+        /// ゲームクリア
+        /// </summary>
+        void GameClear()
+        {
+            _gameClearView.gameObject?.SetActive(true);
+        }
     }
 }
