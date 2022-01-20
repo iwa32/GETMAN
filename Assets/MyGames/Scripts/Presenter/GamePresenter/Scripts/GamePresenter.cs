@@ -131,8 +131,16 @@ namespace GamePresenter
                 .Subscribe(_ => _directionModel.SetIsGameContinue(true))
                 .AddTo(this);
 
+            _gameClearView.ClickContinueButton()
+                .Subscribe(_ => _directionModel.SetIsGameContinue(true))
+                .AddTo(this);
+
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
+                .Subscribe(_ => Debug.Log("ToTitle"))
+                .AddTo(this);
+
+            _gameClearView.ClickToTitleButton()
                 .Subscribe(_ => Debug.Log("ToTitle"))
                 .AddTo(this);
 

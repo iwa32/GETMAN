@@ -1,12 +1,8 @@
 {
-    "name": "GameView",
+    "name": "UIUtility",
     "rootNamespace": "",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:0c94835073c984f9ba10eb8a9333c211",
-        "GUID:078afaf160f5b4d1ebbcaf11342de07c",
-        "GUID:e69bbf1a1fd6e4729ae0117481bccb88"
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
