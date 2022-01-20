@@ -26,10 +26,10 @@ public class Title : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.instance == null)
-        {
-            Debug.Log("ゲームマネージャーがセットされていません");
-        }
+        //if (GameManager.instance == null)
+        //{
+        //    Debug.Log("ゲームマネージャーがセットされていません");
+        //}
     }
 
     // Update is called once per frame
@@ -43,7 +43,7 @@ public class Title : MonoBehaviour
         if (!goNextScene && fade.IsCompFadeOut)
         {
             SceneManager.LoadScene("Stage1");
-            GameManager.instance.isGameStart = true;
+            //GameManager.instance.isGameStart = true;
             goNextScene = true;
         }
     }
@@ -53,7 +53,7 @@ public class Title : MonoBehaviour
         //二重送信防止
         if (firstPush) return;
         firstPush = true;
-        GameManager.instance.PlaySE(clickSE);
+        //GameManager.instance.PlaySE(clickSE);
         StartCoroutine("IntervalBlink");
     }
 

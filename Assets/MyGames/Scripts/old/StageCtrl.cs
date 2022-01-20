@@ -63,11 +63,11 @@ public class StageCtrl : MonoBehaviour
     void Update()
     {
         //ゲームオーバーのときの処理
-        if(GameManager.instance.isGameOver && !doGameOver)
-        {
-            GameOver();
-            doGameOver = true;
-        }
+        //if(GameManager.instance.isGameOver && !doGameOver)
+        //{
+        //    GameOver();
+        //    doGameOver = true;
+        //}
         //プレイヤーがやられた時の処理
         //else if(p != null && p.IsContinueWaiting())
         //{
@@ -76,11 +76,11 @@ public class StageCtrl : MonoBehaviour
         //    p.ContinuePlayer();
         //}
         //ステージクリア時の処理
-        else if (GameManager.instance.isStageClear && !doStageClear)
-        {
-            StageClear();
-            doStageClear = true;
-        }
+        //else if (GameManager.instance.isStageClear && !doStageClear)
+        //{
+        //    StageClear();
+        //    doStageClear = true;
+        //}
 
         //ステージを切り替える
         if(fade != null && startFade && !doSceneChange)
@@ -88,14 +88,14 @@ public class StageCtrl : MonoBehaviour
             if (fade.IsCompFadeOut == false) return;
 
             //ゲームリトライ
-            if(retryGame)
-            {
-                GameManager.instance.RetryGame();
-            }
-            else
-            {
-                GameManager.instance.StageNum = nextStageNum;
-            }
+            //if(retryGame)
+            //{
+            //    GameManager.instance.RetryGame();
+            //}
+            //else
+            //{
+            //    GameManager.instance.StageNum = nextStageNum;
+            //}
             SceneManager.LoadScene("Stage" + nextStageNum);
             doSceneChange = true;
         }
@@ -108,7 +108,7 @@ public class StageCtrl : MonoBehaviour
     public void Retry()
     {
         ChangeScene(1);
-        GameManager.instance.PlaySE(retrySE);
+        //GameManager.instance.PlaySE(retrySE);
         retryGame = true;
     }
 
@@ -139,7 +139,7 @@ public class StageCtrl : MonoBehaviour
     void GameOver()
     {
         gameOverObj.SetActive(true);
-        GameManager.instance.PlaySE(gameOverSE);
+        //GameManager.instance.PlaySE(gameOverSE);
     }
 
     /// <summary>
@@ -148,6 +148,6 @@ public class StageCtrl : MonoBehaviour
     void StageClear()
     {
         stageClearObj.SetActive(true);
-        GameManager.instance.PlaySE(stageClearSE);
+        //GameManager.instance.PlaySE(stageClearSE);
     }
 }
