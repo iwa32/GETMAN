@@ -240,6 +240,7 @@ namespace GamePresenter
         void GameClear()
         {
             _gameClearView.gameObject?.SetActive(true);
+            _playerPresenter.ChangeJoy();
         }
     }
 }

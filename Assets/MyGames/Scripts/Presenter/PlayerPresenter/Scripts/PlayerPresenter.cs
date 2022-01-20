@@ -58,6 +58,7 @@ namespace PlayerPresenter
         DownView _downView;//ダウン状態のスクリプト
         DeadView _deadView;//デッド状態のスクリプト
         AttackView _attackView;//攻撃状態のスクリプト
+        JoyView _joyView;//喜び状態のスクリプト
         TriggerView.TriggerView _triggerView;//接触判定スクリプト
         CollisionView _collisionView;//衝突判定スクリプト
         InputView _inputView;//プレイヤーの入力取得スクリプト
@@ -105,6 +106,7 @@ namespace PlayerPresenter
             _downView = GetComponent<DownView>();
             _deadView = GetComponent<DeadView>();
             _attackView = GetComponent<AttackView>();
+            _joyView = GetComponent<JoyView>();
             _triggerView = GetComponent<TriggerView.TriggerView>();
             _collisionView = GetComponent<CollisionView>();
             _inputView = GetComponent<InputView>();
@@ -334,6 +336,11 @@ namespace PlayerPresenter
         {
             _actionView.State.Value = _deadView;
             _directionModel.SetIsGameOver(true);
+        }
+
+        public void ChangeJoy()
+        {
+            _actionView.State.Value = _joyView;
         }
 
         /// <summary>
