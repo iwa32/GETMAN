@@ -8,6 +8,7 @@ using GameModel;
 using EP = EnemyPresenter;
 using SV = StageView;
 using BehaviourFactory;
+using FieldObject;
 
 namespace StagePresenter
 {
@@ -23,7 +24,9 @@ namespace StagePresenter
         StageData _currentStageData;
         SV.StageView _currentStageView;//現在のステージオブジェクトを保持しておく
         EnemyFactory _enemyFactory;//エネミー生成用スクリプト
+        PointItemFactory _pointItemFactory;//ポイントアイテム生成用スクリプト
         List<EP.EnemyPresenter> _stageEnemyList = new List<EP.EnemyPresenter>();//ステージの敵を格納する
+        int _stagePointItemCount;//ステージのポイントアイテムの数をカウント
         //フラグ
         BoolReactiveProperty _isCreatedStage = new BoolReactiveProperty();
         BoolReactiveProperty _isPlacedPlayer = new BoolReactiveProperty();
@@ -54,6 +57,7 @@ namespace StagePresenter
         public void ManualAwake()
         {
             _enemyFactory = GetComponent<EnemyFactory>();
+            _pointItemFactory = GetComponent<PointItemFactory>();
         }
 
         /// <summary>
@@ -94,7 +98,7 @@ namespace StagePresenter
 
             IDisposable pointItemAppearanceDisposable
                 = pointItemAppearanceInterval
-                .Subscribe(_ => Debug.Log("ポイントアイテム生成"))
+                .Subscribe(_ => PlacePointItemToStage())
                 .AddTo(this);
 
 
@@ -180,6 +184,20 @@ namespace StagePresenter
 
             //配置
             _currentStageView?.SetEnemyToRandomAppearancePoint(stageEnemy.transform);
+        }
+
+        /// <summary>
+        /// ポイントアイテムを配置します
+        /// </summary>
+        void PlacePointItemToStage()
+        {
+            //クリアの必要ポイント数以上は生成しない
+            if (_stagePointItemCount >= _currentStageData.ClearPointCount) return;
+
+            PointItem pointItem = _pointItemFactory.Create();
+            _stagePointItemCount++;
+
+            _currentStageView?.SetPointItemToRandomAppearancePoint(pointItem.transform);
         }
 
         /// <summary>

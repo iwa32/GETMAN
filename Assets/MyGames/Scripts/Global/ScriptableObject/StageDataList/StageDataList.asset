@@ -16,7 +16,7 @@ MonoBehaviour:
   - _stageId: 1
     _clearPointCount: 3
     _enemyAppearanceInterval: 5
-    _pointItemAppearanceInterval: 5
+    _pointItemAppearanceInterval: 10
     _appearingEnemies: 00000000
     _stageBgm: {fileID: 0}
     _maxEnemyCount: 5
