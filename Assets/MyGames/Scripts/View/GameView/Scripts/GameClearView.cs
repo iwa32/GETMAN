@@ -12,8 +12,8 @@ namespace GameView
     public class GameClearView : MonoBehaviour
     {
         [SerializeField]
-        [Header("コンティニューボタンを設定")]
-        Button _continueButton;
+        [Header("次のステージへのボタンを設定")]
+        Button _nextStageButton;
 
         [SerializeField]
         [Header("タイトルボタンを設定")]
@@ -29,9 +29,9 @@ namespace GameView
             _observableClickButton = observableClickButton;
         }
 
-        public IObservable<Unit> ClickContinueButton()
+        public IObservable<Unit> ClickNextStageButton()
         {
-            return _observableClickButton.CreateObservableClickButton(_continueButton);
+            return _observableClickButton.CreateObservableClickButton(_nextStageButton);
         }
 
         public IObservable<Unit> ClickToTitleButton()

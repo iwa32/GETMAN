@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using Zenject;
 using GameModel;
 using GameView;
+using SaveData;
 
 namespace GamePresenter
 {
@@ -74,6 +76,7 @@ namespace GamePresenter
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         IStageNumModel _stageNumModel;
+        ISaveData _saveData;
         #endregion
 
         [Inject]
@@ -81,13 +84,15 @@ namespace GamePresenter
             IDirectionModel directionModel,
             IScoreModel score,
             IPointModel point,
-            IStageNumModel stageNum
+            IStageNumModel stageNum,
+            ISaveData saveData
         )
         {
             _directionModel = directionModel;
             _scoreModel = score;
             _pointModel = point;
             _stageNumModel = stageNum;
+            _saveData = saveData;
         }
 
         void Awake()
@@ -131,8 +136,8 @@ namespace GamePresenter
                 .Subscribe(_ => _directionModel.SetIsGameContinue(true))
                 .AddTo(this);
 
-            _gameClearView.ClickContinueButton()
-                .Subscribe(_ => _directionModel.SetIsGameContinue(true))
+            _gameClearView.ClickNextStageButton()
+                .Subscribe(_ => Debug.Log("次のステージへ"))
                 .AddTo(this);
 
             //タイトルボタン
@@ -224,13 +229,16 @@ namespace GamePresenter
         /// </summary>
         void ContinueGame()
         {
-            _gameOverView.gameObject?.SetActive(false);
-            //todo フェードを出現させる
-            _directionModel.SetIsGameOver(false);
-            _directionModel.SetIsGameStart(false);
-            _directionModel.SetIsGameClear(false);
-            _playerPresenter.ResetData();
-            _gameStartView.Initialize();
+            //シーンの再読み込みをする
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+            //_gameOverView.gameObject?.SetActive(false);
+            ////todo フェードを出現させる
+            //_directionModel.SetIsGameOver(false);
+            //_directionModel.SetIsGameStart(false);
+            //_directionModel.SetIsGameClear(false);
+            //_playerPresenter.ResetData();
+            //_gameStartView.Initialize();
         }
 
         /// <summary>
@@ -238,6 +246,7 @@ namespace GamePresenter
         /// </summary>
         void GameOver()
         {
+            SaveGameData();
             _gameOverView.gameObject?.SetActive(true);
             _playerPresenter.ChangeDead();
         }
@@ -247,8 +256,20 @@ namespace GamePresenter
         /// </summary>
         void GameClear()
         {
+            SaveGameData();
             _gameClearView.gameObject?.SetActive(true);
             _playerPresenter.ChangeJoy();
+        }
+
+        /// <summary>
+        /// ゲームデータを保存する
+        /// </summary>
+        void SaveGameData()
+        {
+            //ステージ番号、スコアを保存
+            _saveData.SetStageNum(_stageNumModel.StageNum.Value);
+            _saveData.SetHighScore(_scoreModel.Score.Value);
+            _saveData.Save();
         }
     }
 }

@@ -2685,7 +2685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689c684c4376f44a987b1d98c046dda7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _continueButton: {fileID: 7845309206227535308}
+  _nextStageButton: {fileID: 7845309206227535308}
   _toTitleButton: {fileID: 1494225097}
 --- !u!1 &2094809417050377576
 GameObject:
@@ -3734,7 +3734,7 @@ GameObject:
   - component: {fileID: 7845309206227535309}
   - component: {fileID: 7845309206227535308}
   m_Layer: 5
-  m_Name: ContinueButton
+  m_Name: NextStageButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3793,7 +3793,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Continue
+  m_Text: Next
 --- !u!222 &7845309207554519393
 CanvasRenderer:
   m_ObjectHideFlags: 0
