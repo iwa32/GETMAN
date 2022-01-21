@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using UniRx;
+using UniRx.Triggers;
 using TimeModel;
 using GameModel;
-using TimeView;
 
 namespace TimePresenter
 {
@@ -65,7 +65,8 @@ namespace TimePresenter
                 .AddTo(this);
 
             //カウントダウン
-            _countDownTimer.CountDownObservable
+            IDisposable countDownDisposable
+                = _countDownTimer.CountDownObservable
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(time =>
                 {
@@ -76,6 +77,15 @@ namespace TimePresenter
                     _timeModel.SetTime(0);
                     _directionModel.SetIsGameOver(true);
                 });
+
+            //ゲーム終了でカウント終了
+            this.UpdateAsObservable()
+                .First(_ => _directionModel.IsEndedGame())
+                .Subscribe(_ =>
+                {
+                    countDownDisposable.Dispose();
+                })
+                .AddTo(this);
 
             //Model to View
             _timeModel.Time.Subscribe(time =>
