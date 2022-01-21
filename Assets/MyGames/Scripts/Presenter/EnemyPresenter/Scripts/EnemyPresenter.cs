@@ -10,6 +10,7 @@ using StateView;
 using TriggerView;
 using EnemyView;
 using EnemyModel;
+using GameModel;
 
 namespace EnemyPresenter
 {
@@ -43,6 +44,7 @@ namespace EnemyPresenter
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         IPowerModel _powerModel;
+        IDirectionModel _directionModel;
         #endregion
 
         #region//プロパティ
@@ -73,13 +75,15 @@ namespace EnemyPresenter
             IHpModel hp,
             IPowerModel power,
             EnemyModel.IScoreModel enemyScore,
-            GameModel.IScoreModel gameScore
+            GameModel.IScoreModel gameScore,
+            IDirectionModel direction
         )
         {
             _hpModel = hp;
             _powerModel = power;
             _enemyScoreModel = enemyScore;
             _gameScoreModel = gameScore;
+            _directionModel = direction;
         }
 
         /// <summary>
@@ -112,11 +116,13 @@ namespace EnemyPresenter
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
+                .Where(_ => _directionModel.CanGame())
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
 
             _collisionView.OnCollision()
+                .Where(_ => _directionModel.CanGame())
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collision => CheckCollision(collision))
                 .AddTo(this);
