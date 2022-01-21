@@ -13,11 +13,15 @@ namespace SaveData
         int _stageNum;
         [SerializeField]
         int _highScore;
+        [SerializeField]
+        int _currentScore;
+
         string _savePath = Application.dataPath + "/MyGames/SaveData/playerData.json";
         //float _bgmVolume;
         //float _seVolume;
 
         public int StageNum => _stageNum;
+        public int CurrentScore => _currentScore;
         public int HighScore => _highScore;
         
 
@@ -26,9 +30,13 @@ namespace SaveData
             _stageNum = stageNum;
         }
 
-        public void SetHighScore(int highScore)
+        public void SetScore(int score)
         {
-            _highScore = highScore;
+            //ハイスコアを更新
+            if (score > _highScore)
+                _highScore = score;
+
+            _currentScore = score;
         }
 
         public bool SaveDataExists()

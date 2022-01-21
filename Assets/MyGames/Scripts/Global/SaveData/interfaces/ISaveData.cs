@@ -7,6 +7,7 @@ namespace SaveData
     public interface ISaveData
     {
         public int StageNum { get; }
+        public int CurrentScore { get; }
         public int HighScore { get; }
 
         /// <summary>
@@ -16,11 +17,11 @@ namespace SaveData
         void SetStageNum(int stageNum);
 
         /// <summary>
-        /// ハイスコアを設定
+        /// スコアを設定
         /// </summary>
-        /// <param name="highScore"></param>
-        void SetHighScore(int highScore);
-
+        /// <param name="score"></param>
+        void SetScore(int score);
+        
         /// <summary>
         /// セーブデータが存在しているか
         /// </summary>

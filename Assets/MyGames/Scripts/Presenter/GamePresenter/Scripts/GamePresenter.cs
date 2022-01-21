@@ -245,7 +245,7 @@ namespace GamePresenter
         /// </summary>
         void GameOver()
         {
-            SaveGameData();
+            SaveGameData(true);
             _gameOverView.gameObject?.SetActive(true);
             _playerPresenter.ChangeDead();
         }
@@ -255,7 +255,7 @@ namespace GamePresenter
         /// </summary>
         void GameClear()
         {
-            SaveGameData();
+            SaveGameData(false);
             _gameClearView.gameObject?.SetActive(true);
             _playerPresenter.ChangeJoy();
         }
@@ -263,11 +263,15 @@ namespace GamePresenter
         /// <summary>
         /// ゲームデータを保存する
         /// </summary>
-        void SaveGameData()
+        void SaveGameData(bool isReset)
         {
             //ステージ番号、スコアを保存
             _saveData.SetStageNum(_stageNumModel.StageNum.Value);
-            _saveData.SetHighScore(_scoreModel.Score.Value);
+            _saveData.SetScore(_scoreModel.Score.Value);
+
+            if (isReset)
+                _saveData.SetScore(_initialScore);//現在のスコアを初期値にします
+
             _saveData.Save();
         }
 
@@ -283,7 +287,7 @@ namespace GamePresenter
             if (_saveData.SaveDataExists())
             {
                 _saveData.Load();
-                score = _saveData.HighScore;
+                score = _saveData.CurrentScore;
                 stageNum = _saveData.StageNum;
             }
 
