@@ -13,13 +13,19 @@ namespace SaveData
         /// ステージ番号を設定
         /// </summary>
         /// <param name="stageNum"></param>
-        public void SetStageNum(int stageNum);
+        void SetStageNum(int stageNum);
 
         /// <summary>
         /// ハイスコアを設定
         /// </summary>
         /// <param name="highScore"></param>
-        public void SetHighScore(int highScore);
+        void SetHighScore(int highScore);
+
+        /// <summary>
+        /// セーブデータが存在しているか
+        /// </summary>
+        /// <returns></returns>
+        bool SaveDataExists();
 
         /// <summary>
         /// セーブデータの保存

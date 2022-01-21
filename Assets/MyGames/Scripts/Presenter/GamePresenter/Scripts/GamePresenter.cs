@@ -104,9 +104,8 @@ namespace GamePresenter
 
         void Start()
         {
-            _scoreModel.SetScore(_initialScore);
+            LoadGameData();
             _pointModel.SetPoint(_initialPoint);
-            _stageNumModel.SetStageNum(_initialStageNum);
             _gameStartView.Initialize();
             _playerPresenter.Initialize();
             _timePresenter.Initialize();
@@ -270,6 +269,26 @@ namespace GamePresenter
             _saveData.SetStageNum(_stageNumModel.StageNum.Value);
             _saveData.SetHighScore(_scoreModel.Score.Value);
             _saveData.Save();
+        }
+
+        /// <summary>
+        /// ゲームデータを読み込む
+        /// </summary>
+        void LoadGameData()
+        {
+            int score = _initialScore;
+            int stageNum = _initialStageNum;
+
+            //saveDataがあればそちらを取得し設定する
+            if (_saveData.SaveDataExists())
+            {
+                _saveData.Load();
+                score = _saveData.HighScore;
+                stageNum = _saveData.StageNum;
+            }
+
+            _scoreModel.SetScore(score);
+            _stageNumModel.SetStageNum(stageNum);
         }
     }
 }

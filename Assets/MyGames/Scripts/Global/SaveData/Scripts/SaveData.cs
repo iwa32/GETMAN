@@ -13,7 +13,7 @@ namespace SaveData
         int _stageNum;
         [SerializeField]
         int _highScore;
-        string _savePath = Application.dataPath + "/playerData.json";
+        string _savePath = Application.dataPath + "/MyGames/SaveData/playerData.json";
         //float _bgmVolume;
         //float _seVolume;
 
@@ -29,6 +29,11 @@ namespace SaveData
         public void SetHighScore(int highScore)
         {
             _highScore = highScore;
+        }
+
+        public bool SaveDataExists()
+        {
+            return File.Exists(_savePath);
         }
 
         public void Save()
@@ -53,8 +58,18 @@ namespace SaveData
 
         public void Load()
         {
-            //ファイルの読み込み
-            //オブジェクトに反映
+            using (StreamReader sr = new StreamReader(_savePath))
+            {
+                try
+                {
+                    JsonUtility.FromJsonOverwrite(sr.ReadToEnd(), this);
+                    sr.Close();
+                }
+                catch
+                {
+                    Debug.Log("データを読み込めませんでした。");
+                }
+            }
         }
     }
 }
