@@ -238,5 +238,13 @@ namespace StagePresenter
                 enemy.gameObject.GetInstanceID() == stageEnemy.gameObject.GetInstanceID())
                 );
         }
+
+        /// <summary>
+        /// 次のステージが存在するか確認します
+        /// </summary>
+        public bool CheckStage(int stageNum)
+        {
+            return (_stageDataList.GetStageById(stageNum) != null);
+        }
     }
 }

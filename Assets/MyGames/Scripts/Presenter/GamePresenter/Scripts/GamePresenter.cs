@@ -8,6 +8,7 @@ using GameModel;
 using GameView;
 using SaveData;
 using CustomSceneManager;
+using static SceneType;
 
 namespace GamePresenter
 {
@@ -135,20 +136,20 @@ namespace GamePresenter
 
             //コンティニューボタン
             _gameOverView.ClickContinueButton()
-                .Subscribe(_ => _directionModel.SetIsGameContinue(true))
+                .Subscribe(_ => ContinueGame())
                 .AddTo(this);
 
             _gameClearView.ClickNextStageButton()
-                .Subscribe(_ => Debug.Log("次のステージへ"))
+                .Subscribe(_ => LoadNextStage())
                 .AddTo(this);
 
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
-                .Subscribe(_ => Debug.Log("ToTitle"))
+                .Subscribe(_ => _customSceneManager.LoadScene(TITLE))
                 .AddTo(this);
 
             _gameClearView.ClickToTitleButton()
-                .Subscribe(_ => Debug.Log("ToTitle"))
+                .Subscribe(_ => _customSceneManager.LoadScene(TITLE))
                 .AddTo(this);
 
             //ステージ
@@ -171,10 +172,11 @@ namespace GamePresenter
                 .Subscribe(_ => GameOver())
                 .AddTo(this);
 
-            _directionModel.IsGameContinue
-                .Where(isGameContinue => isGameContinue == true)
-                .Subscribe(_ => ContinueGame())
-                .AddTo(this);
+            //todo 不要？
+            //_directionModel.IsGameContinue
+            //    .Where(isGameContinue => isGameContinue == true)
+            //    .Subscribe(_ => ContinueGame())
+            //    .AddTo(this);
 
             _directionModel.IsGameClear
                 .Where(isGameClear => isGameClear == true)
@@ -232,13 +234,27 @@ namespace GamePresenter
         void ContinueGame()
         {
             //シーンの再読み込みをする
-            _customSceneManager.LoadScene(SceneType.STAGE);
-            //_gameOverView.gameObject?.SetActive(false);
-            //_directionModel.SetIsGameOver(false);
-            //_directionModel.SetIsGameStart(false);
-            //_directionModel.SetIsGameClear(false);
-            //_playerPresenter.ResetData();
-            //_gameStartView.Initialize();
+            _customSceneManager.LoadScene(STAGE);
+        }
+
+        /// <summary>
+        /// 次のステージを読み込みます
+        /// </summary>
+        void LoadNextStage()
+        {
+            //次のステージが存在する場合
+            int nextStageNum = _stageNumModel.StageNum.Value + 1;
+            if (_stagePresenter.CheckStage(nextStageNum))
+            {
+                _saveData.SetStageNum(nextStageNum);
+                _saveData.Save();
+                _customSceneManager.LoadScene(STAGE);
+            }
+            else
+            {
+                //todo ダイアログUIを表示する 
+                Debug.Log("ステージが見つかりませんでした");
+            }
         }
 
         /// <summary>
@@ -270,8 +286,9 @@ namespace GamePresenter
             _saveData.SetStageNum(_stageNumModel.StageNum.Value);
             _saveData.SetScore(_scoreModel.Score.Value);
 
+            //現在のスコアを初期値にします
             if (isReset)
-                _saveData.SetScore(_initialScore);//現在のスコアを初期値にします
+                _saveData.SetScore(_initialScore);
 
             _saveData.Save();
         }
