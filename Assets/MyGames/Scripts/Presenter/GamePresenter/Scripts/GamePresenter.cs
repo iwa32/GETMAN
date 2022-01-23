@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using Zenject;
 using GameModel;
 using GameView;
 using SaveData;
+using CustomSceneManager;
 
 namespace GamePresenter
 {
@@ -77,6 +77,7 @@ namespace GamePresenter
         IPointModel _pointModel;
         IStageNumModel _stageNumModel;
         ISaveData _saveData;
+        ICustomSceneManager _customSceneManager;
         #endregion
 
         [Inject]
@@ -85,7 +86,8 @@ namespace GamePresenter
             IScoreModel score,
             IPointModel point,
             IStageNumModel stageNum,
-            ISaveData saveData
+            ISaveData saveData,
+            ICustomSceneManager customSceneManager
         )
         {
             _directionModel = directionModel;
@@ -93,6 +95,7 @@ namespace GamePresenter
             _pointModel = point;
             _stageNumModel = stageNum;
             _saveData = saveData;
+            _customSceneManager = customSceneManager;
         }
 
         void Awake()
@@ -229,10 +232,8 @@ namespace GamePresenter
         void ContinueGame()
         {
             //シーンの再読み込みをする
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+            _customSceneManager.LoadScene(SceneType.STAGE);
             //_gameOverView.gameObject?.SetActive(false);
-            ////todo フェードを出現させる
             //_directionModel.SetIsGameOver(false);
             //_directionModel.SetIsGameStart(false);
             //_directionModel.SetIsGameClear(false);

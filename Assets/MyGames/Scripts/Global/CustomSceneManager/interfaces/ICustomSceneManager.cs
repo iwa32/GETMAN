@@ -5,6 +5,6 @@ namespace CustomSceneManager
 {
     public interface ICustomSceneManager
     {
-        void LoadScene(string sceneName);
+        void LoadScene(SceneType sceneName);
     }
 }

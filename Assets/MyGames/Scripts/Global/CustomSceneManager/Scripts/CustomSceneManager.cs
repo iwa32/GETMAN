@@ -7,10 +7,10 @@ namespace CustomSceneManager
 {
     public class CustomSceneManager : MonoBehaviour, ICustomSceneManager
     {
-        public void LoadScene(string sceneName)
+        public void LoadScene(SceneType sceneName)
         {
-            //フェード
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //todo フェードを出現させる
+            SceneManager.LoadScene(CommonAttribute.GetStringValue(sceneName));
         }
     }
 }
