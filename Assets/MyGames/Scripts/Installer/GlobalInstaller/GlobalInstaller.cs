@@ -10,10 +10,10 @@ namespace GlobalInstaller
         public override void InstallBindings()
         {
             Container.Bind<IObservableClickButton>()
-                .To<ObservableClickButton>().AsSingle();
+                .To<ObservableClickButton>().AsSingle().NonLazy();
 
             Container.Bind<ISaveData>()
-                .To<SaveData.SaveData>().AsSingle();
+                .To<SaveData.SaveData>().AsSingle().NonLazy();
         }
     }
 }

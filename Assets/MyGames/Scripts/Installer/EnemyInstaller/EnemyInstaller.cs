@@ -8,9 +8,9 @@ namespace EnemyInstaller
     {
         public override void InstallBindings()
         {
-            Container.Bind<IHpModel>().To<HpModel>().AsTransient();
-            Container.Bind<IPowerModel>().To<PowerModel>().AsTransient();
-            Container.Bind<IScoreModel>().To<ScoreModel>().AsTransient();
+            Container.Bind<IHpModel>().To<HpModel>().AsTransient().NonLazy();
+            Container.Bind<IPowerModel>().To<PowerModel>().AsTransient().NonLazy();
+            Container.Bind<IScoreModel>().To<ScoreModel>().AsTransient().NonLazy();
         }
     }
 }
