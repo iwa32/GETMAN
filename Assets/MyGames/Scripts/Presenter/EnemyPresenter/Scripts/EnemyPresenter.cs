@@ -120,7 +120,9 @@ namespace EnemyPresenter
 
             //trigger, collisionの取得
             _triggerView.OnTrigger()
-                .Where(_ => _directionModel.CanGame())
+                .Where(_ => _directionModel.CanGame()
+                && (_actionView.State.Value?.State != StateType.DEAD)
+                )
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
@@ -167,6 +169,7 @@ namespace EnemyPresenter
                 .Where(s => s.StateInfo.normalizedTime >= 1)
                 .Subscribe(_ =>
                 {
+                    //エネミーの削除はStagePresenterで行います
                     _isDead.Value = true;
                 }).AddTo(this);
         }
@@ -239,9 +242,9 @@ namespace EnemyPresenter
 
         void ChangeDead()
         {
+            _collider.enabled = false;//スコア二重取得防止
             _actionView.State.Value = _deadView;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
-            _collider.enabled = false;//スコア二重取得防止
         }
 
         /// <summary>
@@ -255,7 +258,6 @@ namespace EnemyPresenter
                 _actionView.State.Value = _trackView;
             else
                 _actionView.State.Value = _runView;
-
         }
 
         /// <summary>
