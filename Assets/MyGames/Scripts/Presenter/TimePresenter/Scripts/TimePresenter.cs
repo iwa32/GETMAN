@@ -7,6 +7,7 @@ using UniRx;
 using UniRx.Triggers;
 using TimeModel;
 using GameModel;
+using CountDownTimer;
 
 namespace TimePresenter
 {
@@ -17,10 +18,10 @@ namespace TimePresenter
         int _gameLimitCountTime = 60;
 
         #region//フィールド
-        CountDownTimer _countDownTimer;//カウントダウン処理
         TimeView.TimeView _timeView;//タイマー表示用のUI
         ITimeModel _timeModel;
         IDirectionModel _directionModel;
+        IObservableCountDownTimer _countDownTimer;//カウントダウン処理
         #endregion
 
         /// <summary>
@@ -28,18 +29,19 @@ namespace TimePresenter
         /// </summary>
         public void ManualAwake()
         {
-            _countDownTimer = GetComponent<CountDownTimer>();
             _timeView = GetComponent<TimeView.TimeView>();
         }
 
         [Inject]
         public void Construct(
             ITimeModel timeModel,
-            IDirectionModel directionModel
+            IDirectionModel directionModel,
+            IObservableCountDownTimer countDownTimer
         )
         {
             _timeModel = timeModel;
             _directionModel = directionModel;
+            _countDownTimer = countDownTimer;
         }
 
         /// <summary>

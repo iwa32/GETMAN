@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using Zenject;
+using CountDownTimer;
 
 namespace GameView
 {
@@ -21,15 +23,18 @@ namespace GameView
         [Header("ゲーム開始までのカウントの秒数")]
         int _gameStartCount = 3;
 
-        CountDownTimer _gameStartCountDown;//ゲーム開始時のカウントダウンコンポーネント
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
         BoolReactiveProperty _isOpendGameStartText = new BoolReactiveProperty();
+        IObservableCountDownTimer _gameStartCountDown;//ゲーム開始時のカウントダウン
 
         public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
 
-        void Awake()
+        [Inject]
+        public void Construct(
+            IObservableCountDownTimer countDownTimer
+        )
         {
-            _gameStartCountDown = GetComponent<CountDownTimer>();
+            _gameStartCountDown = countDownTimer;
         }
 
         void Start()
