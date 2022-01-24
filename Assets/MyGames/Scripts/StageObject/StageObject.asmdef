@@ -1,5 +1,5 @@
 {
-    "name": "FieldObject",
+    "name": "StageObject",
     "rootNamespace": "",
     "references": [
         "GUID:c0fe760af10574953a442566f0517c78"
