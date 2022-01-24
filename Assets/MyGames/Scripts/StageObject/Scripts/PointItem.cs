@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FieldObject
+namespace StageObject
 {
     public class PointItem : MonoBehaviour,
     IPointItem

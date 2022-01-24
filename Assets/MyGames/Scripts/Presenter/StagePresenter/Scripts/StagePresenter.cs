@@ -9,7 +9,7 @@ using GameModel;
 using EP = EnemyPresenter;
 using SV = StageView;
 using BehaviourFactory;
-using FieldObject;
+using StageObject;
 
 namespace StagePresenter
 {
