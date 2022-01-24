@@ -42,7 +42,7 @@ public class Title : MonoBehaviour
 
         if (!goNextScene && fade.IsCompFadeOut)
         {
-            SceneManager.LoadScene("Stage1");
+            SceneManager.LoadScene("Stage");
             //GameManager.instance.isGameStart = true;
             goNextScene = true;
         }
