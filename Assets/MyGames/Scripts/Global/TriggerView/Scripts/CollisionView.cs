@@ -8,9 +8,31 @@ namespace TriggerView
 {
     public class CollisionView : MonoBehaviour
     {
-        public IObservable<Collision> OnCollision()
+        /// <summary>
+        /// 衝突時
+        /// </summary>
+        /// <returns></returns>
+        public IObservable<Collision> OnCollisionEnter()
         {
             return this.OnCollisionEnterAsObservable();
+        }
+
+        /// <summary>
+        /// 衝突中
+        /// </summary>
+        /// <returns></returns>
+        public IObservable<Collision> OnCollisionStay()
+        {
+            return this.OnCollisionStayAsObservable();
+        }
+
+        /// <summary>
+        /// 衝突後
+        /// </summary>
+        /// <returns></returns>
+        public IObservable<Collision> OnCollisionExit()
+        {
+            return this.OnCollisionExitAsObservable();
         }
     }
 }

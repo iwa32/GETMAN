@@ -167,7 +167,7 @@ namespace PlayerPresenter
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
 
-            _collisionView.OnCollision()
+            _collisionView.OnCollisionEnter()
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(collision => CheckCollision(collision))
                 .AddTo(this);

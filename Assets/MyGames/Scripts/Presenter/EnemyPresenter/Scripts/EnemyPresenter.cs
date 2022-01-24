@@ -20,6 +20,10 @@ namespace EnemyPresenter
         [SerializeField]
         [Header("追跡エリアのコンポーネントを設定")]
         TrackingAreaView _trackingAreaView;
+
+        [SerializeField]
+        [Header("forwardCollisionCheckを設定する")]
+        CollisionView _forwardCollisionCheck;
         #endregion
 
         #region//フィールド
@@ -121,10 +125,16 @@ namespace EnemyPresenter
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
 
-            _collisionView.OnCollision()
-                .Where(_ => _directionModel.CanGame())
+            //_collisionView.OnCollisionEnter()
+            //    .Where(_ => _directionModel.CanGame())
+            //    .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
+            //    .Subscribe(collision => CheckCollision(collision))
+            //    .AddTo(this);
+
+            //前方の衝突を監視
+            _forwardCollisionCheck.OnCollisionStay()
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
-                .Subscribe(collision => CheckCollision(collision))
+                .Subscribe(collision => ChangeDirectionBy(collision))
                 .AddTo(this);
 
             //プレイヤーの追跡
@@ -182,7 +192,7 @@ namespace EnemyPresenter
         /// </summary>
         void CheckCollision(Collision collision)
         {
-            ChangeDirectionBy(collision);
+            
         }
 
         /// <summary>
