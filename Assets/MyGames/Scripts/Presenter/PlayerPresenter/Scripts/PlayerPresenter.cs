@@ -70,7 +70,6 @@ namespace PlayerPresenter
         IHpModel _hpModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
-        IStateModel _stateModel;
         bool _isBlink;//点滅状態か
         #endregion
 
@@ -81,7 +80,6 @@ namespace PlayerPresenter
         public void Construct(
             IWeaponModel weapon,
             IHpModel hp,
-            IStateModel state,
             IScoreModel score,
             IPointModel point,
             IDirectionModel direction
@@ -89,7 +87,6 @@ namespace PlayerPresenter
         {
             _weaponModel = weapon;
             _hpModel = hp;
-            _stateModel = state;//todo不要？
             _scoreModel = score;
             _pointModel = point;
             _directionModel = direction;
