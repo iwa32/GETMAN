@@ -13,6 +13,9 @@ namespace GlobalInstaller
             //クリックボタン
             Container.Bind<IObservableClickButton>()
                 .To<ObservableClickButton>().AsSingle().NonLazy();
+            //UIの表示非表示処理
+            Container.Bind<IToggleableUI>()
+                .To<ToggleableUI>().AsSingle().NonLazy();
             //セーブデータ
             Container.Bind<ISaveData>()
                 .To<SaveData.SaveData>().AsSingle().NonLazy();

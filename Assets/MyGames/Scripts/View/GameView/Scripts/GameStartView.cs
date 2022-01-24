@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UniRx;
 using Zenject;
 using CountDownTimer;
+using UIUtility;
 
 namespace GameView
 {
@@ -26,15 +27,18 @@ namespace GameView
         BoolReactiveProperty _isGameStart = new BoolReactiveProperty();
         BoolReactiveProperty _isOpendGameStartText = new BoolReactiveProperty();
         IObservableCountDownTimer _gameStartCountDown;//ゲーム開始時のカウントダウン
+        IToggleableUI _toggleableUI;
 
         public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
 
         [Inject]
         public void Construct(
-            IObservableCountDownTimer countDownTimer
+            IObservableCountDownTimer countDownTimer,
+            IToggleableUI toggleableUI
         )
         {
             _gameStartCountDown = countDownTimer;
+            _toggleableUI = toggleableUI;
         }
 
         void Start()
@@ -47,8 +51,8 @@ namespace GameView
                 },
                 () =>
                 {
-                    CloseUIFor(_countText.gameObject);
-                    OpenUIFor(_gameStartText.gameObject);
+                    _toggleableUI.CloseUIFor(_countText.gameObject);
+                    _toggleableUI.OpenUIFor(_gameStartText.gameObject);
                     _isOpendGameStartText.Value = true;
                 }
                 );
@@ -59,8 +63,8 @@ namespace GameView
                 .Delay(TimeSpan.FromSeconds(1))
                 .Subscribe(_ =>
                 {
-                    CloseUIFor(_gameStartText.gameObject);
-                    CloseUIFor(gameObject);
+                    _toggleableUI.CloseUIFor(_gameStartText.gameObject);
+                    _toggleableUI.CloseUIFor(gameObject);
                     _isGameStart.Value = true;
                 })
                 .AddTo(this);
@@ -73,33 +77,14 @@ namespace GameView
 
             _gameStartCountDown.SetCountTime(_gameStartCount);
             _gameStartCountDown.Publish();
-            OpenUIFor(gameObject);
-            OpenUIFor(_countText.gameObject);
-            CloseUIFor(_gameStartText.gameObject);
+            _toggleableUI.OpenUIFor(gameObject);
+            _toggleableUI.OpenUIFor(_countText.gameObject);
+            _toggleableUI.CloseUIFor(_gameStartText.gameObject);
         }
 
         public void StartCount()
         {
             _gameStartCountDown.Connect();
         }
-
-        /// <summary>
-        /// UIを表示します
-        /// </summary>
-        /// <param name="target"></param>
-        void OpenUIFor(GameObject target)
-        {
-            target?.SetActive(true);
-        }
-
-        /// <summary>
-        /// UIを非表示にします
-        /// </summary>
-        /// <param name="target"></param>
-        void CloseUIFor(GameObject target)
-        {
-            target?.SetActive(false);
-        }
     }
-
 }
