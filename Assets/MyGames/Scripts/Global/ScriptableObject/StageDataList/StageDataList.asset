@@ -28,4 +28,4 @@ MonoBehaviour:
     _appearingEnemies: 00000000
     _stageBgm: {fileID: 0}
     _maxEnemyCount: 5
-    _stagePrefab: {fileID: 2086473840, guid: 790c9bb1743fc438995e1ba67ffad186, type: 3}
+    _stagePrefab: {fileID: 2086473840, guid: 3d61413cd28e943868ad776c3c977813, type: 3}
