@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace TimeView
 {
@@ -9,7 +10,7 @@ namespace TimeView
     {
         [SerializeField]
         [Header("timer表示用テキストを設定")]
-        Text _timeText;
+        TextMeshProUGUI _timeText;
 
         /// <summary>
         /// timeをテキストに設定します

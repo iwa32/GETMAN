@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UniRx;
 using Zenject;
 using CountDownTimer;
@@ -14,11 +15,11 @@ namespace GameView
     {
         [SerializeField]
         [Header("カウント用のテキストを設定")]
-        Text _countText;
+        TextMeshProUGUI _countText;
 
         [SerializeField]
         [Header("ゲーム開始のアナウンス用テキストを設定")]
-        Text _gameStartText;
+        TextMeshProUGUI _gameStartText;
 
         [SerializeField]
         [Header("ゲーム開始までのカウントの秒数")]

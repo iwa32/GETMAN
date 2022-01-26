@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace GameView
 {
@@ -9,7 +10,7 @@ namespace GameView
     {
         [SerializeField]
         [Header("ステージ番号表示用テキストを設定")]
-        Text stageNumText;
+        TextMeshProUGUI stageNumText;
 
         /// <summary>
         /// ステージ番号の更新
