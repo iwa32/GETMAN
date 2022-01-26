@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using CustomSceneManager;
 using UIUtility;
+using TMPro;
 
 namespace Title
 {
@@ -15,7 +16,7 @@ namespace Title
     {
         [SerializeField]
         [Header("スタートボタンのテキスト")]
-        Text _startButtonText;
+        TextMeshProUGUI _startButtonText;
 
         [SerializeField]
         [Header("StartButtonを設定")]
