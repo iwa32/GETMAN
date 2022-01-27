@@ -33,5 +33,15 @@ namespace StateView
             if (State.Value.DelAction == null) return;
             State.Value.Action();
         }
+
+        /// <summary>
+        /// Stateの状態であればtrue
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public bool HasActionBy(StateType state)
+        {
+            return (State.Value?.State == state);
+        }
     }
 }

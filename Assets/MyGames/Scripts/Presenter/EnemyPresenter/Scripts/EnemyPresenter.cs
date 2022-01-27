@@ -22,8 +22,8 @@ namespace EnemyPresenter
         TrackingAreaView _trackingAreaView;
 
         [SerializeField]
-        [Header("forwardCollisionCheckを設定する")]
-        CollisionView _forwardCollisionCheck;
+        [Header("障害物チェックのコンポーネントを設定する")]
+        ForwardObstacleCheckView _forwardObstacleCheckView;
         #endregion
 
         #region//フィールド
@@ -119,24 +119,20 @@ namespace EnemyPresenter
             //_hpModel.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
 
             //trigger, collisionの取得
-            _triggerView.OnTrigger()
+            _triggerView.OnTriggerEnter()
                 .Where(_ => _directionModel.CanGame()
-                && (_actionView.State.Value?.State != StateType.DEAD)
+                && (_actionView.HasActionBy(StateType.DEAD) == false)
                 )
                 .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
 
-            //_collisionView.OnCollisionEnter()
-            //    .Where(_ => _directionModel.CanGame())
-            //    .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
-            //    .Subscribe(collision => CheckCollision(collision))
-            //    .AddTo(this);
-
             //前方の衝突を監視
-            _forwardCollisionCheck.OnCollisionStay()
-                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
-                .Subscribe(collision => ChangeDirectionBy(collision))
+            _forwardObstacleCheckView.IsOn
+                .Where(isOn => isOn == true
+                && (_actionView.HasActionBy(StateType.TRACK) == false)
+                )
+                .Subscribe(_ => ChangeDirectionForRandom())
                 .AddTo(this);
 
             //プレイヤーの追跡
@@ -196,19 +192,6 @@ namespace EnemyPresenter
         void CheckCollision(Collision collision)
         {
             
-        }
-
-        /// <summary>
-        /// 衝突時に向きを変えます
-        /// </summary>
-        /// <param name="collision"></param>
-        void ChangeDirectionBy(Collision collision)
-        {
-            //プレイヤーと接触時と追跡中は何もしない
-            if (collision.collider.CompareTag("Player") == false) return;
-            if (_actionView.State.Value?.State == StateType.TRACK) return;
-
-            ChangeDirectionForRandom();
         }
 
         /// <summary>
@@ -304,6 +287,5 @@ namespace EnemyPresenter
         {
             return UnityEngine.Random.Range(min, max);
         }
-
     }
 }
