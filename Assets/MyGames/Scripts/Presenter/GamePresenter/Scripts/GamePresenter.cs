@@ -172,12 +172,6 @@ namespace GamePresenter
                 .Subscribe(_ => GameOver())
                 .AddTo(this);
 
-            //todo 不要？
-            //_directionModel.IsGameContinue
-            //    .Where(isGameContinue => isGameContinue == true)
-            //    .Subscribe(_ => ContinueGame())
-            //    .AddTo(this);
-
             _directionModel.IsGameClear
                 .Where(isGameClear => isGameClear == true)
                 .Subscribe(_ => GameClear())
