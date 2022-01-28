@@ -6,7 +6,7 @@ using CountDownTimer;
 
 namespace GlobalInstaller
 {
-    public class GlobalInstaller : MonoInstaller
+    public class SceneMonoInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
