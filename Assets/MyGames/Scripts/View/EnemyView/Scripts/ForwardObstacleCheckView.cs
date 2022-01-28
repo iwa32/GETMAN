@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UniRx;
-using UniRx.Triggers;
 using TriggerView;
 
 namespace EnemyView

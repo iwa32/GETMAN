@@ -1,7 +1,10 @@
-/// <summary>
-/// ポイントを持っている
-/// </summary>
-public interface IPoint
+namespace StageObject
 {
-    int Point { get; }
+    /// <summary>
+    /// ポイントを持っている
+    /// </summary>
+    public interface IPoint
+    {
+        int Point { get; }
+    }
 }

@@ -1,7 +1,10 @@
-/// <summary>
-/// ダメージを与えるもの
-/// </summary>
-public interface IDamager
+namespace StageObject
 {
-    int Damage { get; }
+    /// <summary>
+    /// ダメージを与えるもの
+    /// </summary>
+    public interface IDamager
+    {
+        int Damage { get; }
+    }
 }

@@ -1,13 +1,16 @@
-/// <summary>
-/// ポイントアイテム
-/// </summary>
-public interface IWeaponItem : IScore
+namespace StageObject
 {
-    int Power { get; }
-    int Id { get; }
-
     /// <summary>
-    /// 削除処理
+    /// ポイントアイテム
     /// </summary>
-    void Destroy();
+    public interface IWeaponItem : IScore
+    {
+        int Power { get; }
+        int Id { get; }
+
+        /// <summary>
+        /// 削除処理
+        /// </summary>
+        void Destroy();
+    }
 }

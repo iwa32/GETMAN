@@ -1,10 +1,13 @@
-/// <summary>
-/// ポイントアイテム
-/// </summary>
-public interface IPointItem : IPoint, IScore
+namespace StageObject
 {
     /// <summary>
-    /// 削除処理
+    /// ポイントアイテム
     /// </summary>
-    void Destroy();
+    public interface IPointItem : IPoint, IScore
+    {
+        /// <summary>
+        /// 削除処理
+        /// </summary>
+        void Destroy();
+    }
 }

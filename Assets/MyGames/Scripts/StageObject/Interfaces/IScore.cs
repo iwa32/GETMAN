@@ -1,7 +1,10 @@
-/// <summary>
-/// スコアを持っている
-/// </summary>
-public interface IScore
+namespace StageObject
 {
-    int Score { get; }
+    /// <summary>
+    /// スコアを持っている
+    /// </summary>
+    public interface IScore
+    {
+        int Score { get; }
+    }
 }

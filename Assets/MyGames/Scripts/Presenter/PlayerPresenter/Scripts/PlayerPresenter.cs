@@ -11,6 +11,7 @@ using GameModel;
 using PlayerView;
 using StateView;
 using TriggerView;
+using StageObject;
 using static StateType;
 
 namespace PlayerPresenter

@@ -11,6 +11,7 @@ using TriggerView;
 using EnemyView;
 using EnemyModel;
 using GameModel;
+using StageObject;
 
 namespace EnemyPresenter
 {
