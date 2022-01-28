@@ -6,7 +6,8 @@ using DG.Tweening;
 
 namespace Fade
 {
-    public class Fade : MonoBehaviour
+    public class Fade : MonoBehaviour,
+        IFade
     {
         [SerializeField]
         [Header("フェードする時間を指定する")]
@@ -23,10 +24,6 @@ namespace Fade
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        /// <summary>
-        /// フェードアウトを開始します
-        /// </summary>
-        /// <returns></returns>
         public async UniTask StartFadeOut()
         {
             _canvasGroup.alpha = 0;
@@ -34,10 +31,6 @@ namespace Fade
             await DoFade(1);
         }
 
-        /// <summary>
-        /// フェードインを開始します
-        /// </summary>
-        /// <returns></returns>
         public async UniTask StartFadeIn()
         {
             if (CheckFirstFadeInComp()) return;

@@ -2,7 +2,9 @@
     "name": "CustomSceneManager",
     "rootNamespace": "",
     "references": [
-        "GUID:231969241a33c435c889dcd1f750de0c"
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:ea3564fcb6e7f4fdd87b050659e535d1",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
