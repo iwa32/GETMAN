@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 
 namespace Fade
 {
@@ -22,6 +23,15 @@ namespace Fade
         void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
+            Initialize();
+        }
+
+        void Initialize()
+        {
+            if (_canvasGroup == null) return;
+            //初期化時は非表示として扱う
+            _canvasGroup.alpha = 0;
+            _canvasGroup.blocksRaycasts = false;
         }
 
         public async UniTask StartFadeOut()
@@ -39,6 +49,18 @@ namespace Fade
             _canvasGroup.blocksRaycasts = false;
 
             await DoFade(0);
+        }
+
+        public async UniTask FadeInBeforeAction(Action action)
+        {
+            await StartFadeIn();
+            action();
+        }
+
+        public async UniTask FadeOutBeforeAction(Action action)
+        {
+            await StartFadeOut();
+            action();
         }
 
         /// <summary>

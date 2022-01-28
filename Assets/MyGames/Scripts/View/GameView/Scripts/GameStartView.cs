@@ -76,8 +76,10 @@ namespace GameView
             _isGameStart.Value = false;
             _isOpendGameStartText.Value = false;
 
+            //カウントダウンの設定、呼び出しの待機
             _gameStartCountDown.SetCountTime(_gameStartCount);
             _gameStartCountDown.Publish();
+            //uiの初期表示状態
             _toggleableUI.OpenUIFor(gameObject);
             _toggleableUI.OpenUIFor(_countText.gameObject);
             _toggleableUI.CloseUIFor(_gameStartText.gameObject);

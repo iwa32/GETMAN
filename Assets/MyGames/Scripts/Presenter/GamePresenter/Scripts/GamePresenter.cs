@@ -8,6 +8,7 @@ using GameModel;
 using GameView;
 using SaveData;
 using CustomSceneManager;
+using Fade;
 using static SceneType;
 
 namespace GamePresenter
@@ -79,6 +80,7 @@ namespace GamePresenter
         IStageNumModel _stageNumModel;
         ISaveData _saveData;
         ICustomSceneManager _customSceneManager;
+        IFade _fade;
         #endregion
 
         [Inject]
@@ -88,7 +90,8 @@ namespace GamePresenter
             IPointModel point,
             IStageNumModel stageNum,
             ISaveData saveData,
-            ICustomSceneManager customSceneManager
+            ICustomSceneManager customSceneManager,
+            IFade fade
         )
         {
             _directionModel = directionModel;
@@ -97,6 +100,7 @@ namespace GamePresenter
             _stageNumModel = stageNum;
             _saveData = saveData;
             _customSceneManager = customSceneManager;
+            _fade = fade;
         }
 
         void Awake()
@@ -134,6 +138,7 @@ namespace GamePresenter
                 .Subscribe(_ => StartGame())
                 .AddTo(this);
 
+            //プレイヤーのボタン入力
             //コンティニューボタン
             _gameOverView.ClickContinueButton()
                 .Subscribe(_ => ContinueGame())
@@ -152,20 +157,21 @@ namespace GamePresenter
                 .Subscribe(_ => _customSceneManager.LoadScene(TITLE))
                 .AddTo(this);
 
-            //ステージ
-            //生成
+            //ゲームの準備
+            //ステージの生成、プレイヤーの配置
             _stagePresenter.IsCreatedState
                 .Where(isCreatedStage => isCreatedStage == true)
                 .Subscribe(_ =>
                 _stagePresenter.PlacePlayerToStage(_playerPresenter.transform)
                 );
 
-            //プレイヤーの配置
+            //プレイヤーの配置が完了後、フェードインとゲーム開始の準備のカウントを行う
             _stagePresenter.IsPlacedPlayer
                 .Where(isPlacedPlayer => isPlacedPlayer == true)
-                .Subscribe(_ => _gameStartView.StartCount())
+                .Subscribe(_ => _fade.FadeInBeforeAction(_gameStartView.StartCount).Forget())
                 .AddTo(this);
 
+            //ゲームの進行
             //model
             _directionModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
@@ -177,6 +183,7 @@ namespace GamePresenter
                 .Subscribe(_ => GameClear())
                 .AddTo(this);
 
+            //ゲームデータの監視
             _scoreModel.Score
                 .Subscribe(score => CheckScore(score))
                 .AddTo(this);
