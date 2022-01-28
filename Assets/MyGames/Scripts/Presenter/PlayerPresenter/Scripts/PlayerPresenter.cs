@@ -276,6 +276,8 @@ namespace PlayerPresenter
         /// <param name="hp"></param>
         public void AddHp(int hp)
         {
+            //hpは初期値以上は増えないようにする
+            if (_hpModel.Hp.Value >= _initialHp) return;
             _hpModel.AddHp(hp);
         }
 
