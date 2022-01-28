@@ -15,7 +15,7 @@ using StageObject;
 
 namespace EnemyPresenter
 {
-    public class EnemyPresenter : MonoBehaviour, IEnemy, IDamager
+    public class EnemyPresenter : MonoBehaviour, IDamager
     {
         #region//インスペクターから設定
         [SerializeField]

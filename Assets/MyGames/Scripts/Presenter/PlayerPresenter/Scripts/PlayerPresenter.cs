@@ -232,7 +232,7 @@ namespace PlayerPresenter
         void CheckCollider(Collider collider)
         {
             GetPointItemBy(collider);
-            //ReceiveDamageBy(collider);todo ダメージ床用
+            ReceiveDamageBy(collider);
         }
 
         /// <summary>
@@ -240,18 +240,7 @@ namespace PlayerPresenter
         /// </summary>
         void CheckCollision(Collision collision)
         {
-            CheckEnemyBy(collision);
-        }
-
-        /// <summary>
-        /// 敵の接触の確認を試みます
-        /// </summary>
-        void CheckEnemyBy(Collision collision)
-        {
-            if (collision.gameObject.TryGetComponent(out IEnemy enemy))
-            {
-                ReceiveDamageBy(collision.collider);
-            }
+            ReceiveDamageBy(collision.collider);
         }
 
         /// <summary>
