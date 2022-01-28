@@ -9,6 +9,7 @@ using Zenject;
 using CustomSceneManager;
 using UIUtility;
 using TMPro;
+using Fade;
 
 namespace Title
 {
@@ -46,20 +47,24 @@ namespace Title
         #region//フィールド
         ICustomSceneManager _customSceneManager;
         IObservableClickButton _observableClickButton;
+        IFade _fade;
         #endregion
 
         [Inject]
         public void Construct(
             ICustomSceneManager customSceneManager,
-            IObservableClickButton observableClickButton
+            IObservableClickButton observableClickButton,
+            IFade fade
         )
         {
             _customSceneManager = customSceneManager;
             _observableClickButton = observableClickButton;
+            _fade = fade;
         }
 
         void Start()
         {
+            _fade.StartFadeIn().Forget();
             Bind();
         }
 
