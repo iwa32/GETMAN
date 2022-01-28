@@ -33,7 +33,7 @@ namespace GamePresenter
 
         [SerializeField]
         [Header("次は〇倍後のスコアラインでHpを取得します")]
-        int nextMagnification = 5;
+        int _nextMagnification = 5;
 
         [SerializeField]
         [Header("スコアのUIを設定")]
@@ -211,12 +211,12 @@ namespace GamePresenter
         /// <param name="score"></param>
         void CheckScoreToGetHp(int score)
         {
-            if (score <= 0) return;
+            if (score <= 0) return;//scoreが0の時はアップしない
             if (score % _scoreLineToGetHp == 0)
             {
                 //playerのHpを1つ増やす
                 _playerPresenter.AddHp(1);
-                _scoreLineToGetHp *= nextMagnification;
+                _scoreLineToGetHp *= _nextMagnification;
             }
         }
 
@@ -282,14 +282,19 @@ namespace GamePresenter
         /// </summary>
         void SaveGameData(bool isReset)
         {
-            //ステージ番号、スコアを保存
-            _saveData.SetStageNum(_stageNumModel.StageNum.Value);
-            _saveData.SetScore(_scoreModel.Score.Value);
+            int score = _scoreModel.Score.Value;
+            int stageNum = _stageNumModel.StageNum.Value;
 
             //現在のスコアを初期値にします
             if (isReset)
-                _saveData.SetScore(_initialScore);
+            {
+                score = _initialScore;
+                stageNum = _initialStageNum;
+            }
 
+            //ステージ番号、スコアを保存
+            _saveData.SetScore(score);
+            _saveData.SetStageNum(stageNum);
             _saveData.Save();
         }
 
