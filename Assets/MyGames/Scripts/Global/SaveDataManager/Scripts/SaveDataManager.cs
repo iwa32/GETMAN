@@ -2,7 +2,6 @@ using System.IO;
 using static System.Text.Encoding;
 using UnityEngine;
 using Zenject;
-using GameModel;
 
 /// <summary>
 /// セーブデータ保存クラス

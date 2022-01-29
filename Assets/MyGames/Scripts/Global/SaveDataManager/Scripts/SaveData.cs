@@ -14,9 +14,6 @@ namespace SaveDataManager
         [SerializeField]
         int _currentScore;
 
-        //float _bgmVolume;
-        //float _seVolume;
-
         public int StageNum => _stageNum;
         public int CurrentScore => _currentScore;
         public int HighScore => _highScore;
