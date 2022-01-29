@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using GameModel;
 using GameView;
-using SaveData;
+using SaveDataManager;
 using CustomSceneManager;
 using Fade;
 using static SceneType;
@@ -78,7 +78,7 @@ namespace GamePresenter
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         IStageNumModel _stageNumModel;
-        ISaveData _saveData;
+        ISaveDataManager _saveDataManager;
         ICustomSceneManager _customSceneManager;
         IFade _fade;
         #endregion
@@ -89,7 +89,7 @@ namespace GamePresenter
             IScoreModel score,
             IPointModel point,
             IStageNumModel stageNum,
-            ISaveData saveData,
+            ISaveDataManager saveDataManager,
             ICustomSceneManager customSceneManager,
             IFade fade
         )
@@ -98,7 +98,7 @@ namespace GamePresenter
             _scoreModel = score;
             _pointModel = point;
             _stageNumModel = stageNum;
-            _saveData = saveData;
+            _saveDataManager = saveDataManager;
             _customSceneManager = customSceneManager;
             _fade = fade;
         }
@@ -247,8 +247,8 @@ namespace GamePresenter
             int nextStageNum = _stageNumModel.StageNum.Value + 1;
             if (_stagePresenter.CheckStage(nextStageNum))
             {
-                _saveData.SetStageNum(nextStageNum);
-                _saveData.Save();
+                _saveDataManager.SetStageNum(nextStageNum);
+                _saveDataManager.Save();
                 _customSceneManager.LoadScene(STAGE);
             }
             else
@@ -294,9 +294,9 @@ namespace GamePresenter
             }
 
             //ステージ番号、スコアを保存
-            _saveData.SetScore(score);
-            _saveData.SetStageNum(stageNum);
-            _saveData.Save();
+            _saveDataManager.SetScore(score);
+            _saveDataManager.SetStageNum(stageNum);
+            _saveDataManager.Save();
         }
 
         /// <summary>
@@ -308,11 +308,11 @@ namespace GamePresenter
             int stageNum = _initialStageNum;
 
             //saveDataがあればそちらを取得し設定する
-            if (_saveData.SaveDataExists())
+            if (_saveDataManager.SaveDataExists())
             {
-                _saveData.Load();
-                score = _saveData.CurrentScore;
-                stageNum = _saveData.StageNum;
+                _saveDataManager.Load();
+                score = _saveDataManager.SaveData.CurrentScore;
+                stageNum = _saveDataManager.SaveData.StageNum;
             }
 
             _scoreModel.SetScore(score);

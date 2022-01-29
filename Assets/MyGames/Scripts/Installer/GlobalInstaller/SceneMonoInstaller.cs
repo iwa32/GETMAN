@@ -1,7 +1,6 @@
 using UnityEngine;
 using Zenject;
 using UIUtility;
-using SaveData;
 using CountDownTimer;
 
 namespace GlobalInstaller
@@ -16,9 +15,6 @@ namespace GlobalInstaller
             //UIの表示非表示処理
             Container.Bind<IToggleableUI>()
                 .To<ToggleableUI>().AsSingle().NonLazy();
-            //セーブデータ
-            Container.Bind<ISaveData>()
-                .To<SaveData.SaveData>().AsSingle().NonLazy();
             //カウントダウン
             Container.Bind<IObservableCountDownTimer>()
                 .To<ObservableCountDownTimer>().AsTransient().NonLazy();

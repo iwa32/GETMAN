@@ -74,4 +74,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fadePrefab: {fileID: 2532652182056501779, guid: a549fff3639c640aa8b704d67da04f6d, type: 3}
-  _customSceneManager: {fileID: 9126874650064645171, guid: 7ea37bdfa89f64b959383ef248a844ad, type: 3}
+  _customSceneManagerPrefab: {fileID: 9126874650064645171, guid: 7ea37bdfa89f64b959383ef248a844ad, type: 3}
+  _saveDataManagerPrefab: {fileID: 5810059359157550783, guid: 4d41209ddfbd34213b8590a3946555b4, type: 3}

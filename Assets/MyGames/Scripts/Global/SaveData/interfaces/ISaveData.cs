@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace SaveData
+/// <summary>
+/// セーブデータ保存クラス
+/// </summary>
+namespace SaveDataManager
 {
     public interface ISaveData
     {
-        public int StageNum { get; }
-        public int CurrentScore { get; }
-        public int HighScore { get; }
+        int StageNum { get; }
+        int CurrentScore { get; }
+        int HighScore { get; }
 
         /// <summary>
         /// ステージ番号を設定
@@ -21,22 +20,5 @@ namespace SaveData
         /// </summary>
         /// <param name="score"></param>
         void SetScore(int score);
-        
-        /// <summary>
-        /// セーブデータが存在しているか
-        /// </summary>
-        /// <returns></returns>
-        bool SaveDataExists();
-
-        /// <summary>
-        /// セーブデータの保存
-        /// </summary>
-        void Save();
-
-        /// <summary>
-        /// セーブデータの読み込み
-        /// 
-        /// </summary>
-        void Load();
     }
 }
