@@ -12,7 +12,9 @@ using PlayerView;
 using StateView;
 using TriggerView;
 using StageObject;
+using SoundManager;
 using static StateType;
+using static SEType;
 
 namespace PlayerPresenter
 {
@@ -71,6 +73,7 @@ namespace PlayerPresenter
         IHpModel _hpModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
+        ISoundManager _soundManager;
         bool _isBlink;//点滅状態か
         #endregion
 
@@ -83,7 +86,8 @@ namespace PlayerPresenter
             IHpModel hp,
             IScoreModel score,
             IPointModel point,
-            IDirectionModel direction
+            IDirectionModel direction,
+            ISoundManager soundManager
         )
         {
             _weaponModel = weapon;
@@ -91,6 +95,7 @@ namespace PlayerPresenter
             _scoreModel = score;
             _pointModel = point;
             _directionModel = direction;
+            _soundManager = soundManager;
         }
 
         /// <summary>
@@ -199,7 +204,7 @@ namespace PlayerPresenter
             _animTrigger.OnStateUpdateAsObservable()
                 .Where(s => s.StateInfo.IsName("Attack")
                 || s.StateInfo.IsName("Down"))
-                .Where(s => s.StateInfo.normalizedTime >= 1)
+                .Where(s => s.StateInfo.normalizedTime >= 1)//todoマジックナンバー修正
                 .Subscribe(_ =>
                 {
                     _playerWeapon.UnEnableCollider();
@@ -250,6 +255,7 @@ namespace PlayerPresenter
         {
             if (collider.TryGetComponent(out IPointItem pointItem))
             {
+                _soundManager.PlaySE(POINT_GET);
                 _pointModel.AddPoint(pointItem.Point);
                 _scoreModel.AddScore(pointItem.Score);
                 pointItem.Destroy();

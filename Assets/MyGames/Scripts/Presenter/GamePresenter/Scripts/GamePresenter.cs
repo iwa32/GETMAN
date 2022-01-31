@@ -8,8 +8,10 @@ using GameModel;
 using GameView;
 using SaveDataManager;
 using CustomSceneManager;
+using SoundManager;
 using Fade;
 using static SceneType;
+using static SEType;
 
 namespace GamePresenter
 {
@@ -80,6 +82,7 @@ namespace GamePresenter
         IStageNumModel _stageNumModel;
         ISaveDataManager _saveDataManager;
         ICustomSceneManager _customSceneManager;
+        ISoundManager _soundManager;
         IFade _fade;
         #endregion
 
@@ -91,6 +94,7 @@ namespace GamePresenter
             IStageNumModel stageNum,
             ISaveDataManager saveDataManager,
             ICustomSceneManager customSceneManager,
+            ISoundManager soundManager,
             IFade fade
         )
         {
@@ -100,6 +104,7 @@ namespace GamePresenter
             _stageNumModel = stageNum;
             _saveDataManager = saveDataManager;
             _customSceneManager = customSceneManager;
+            _soundManager = soundManager;
             _fade = fade;
         }
 
@@ -143,18 +148,18 @@ namespace GamePresenter
             _gameOverView.ClickContinueButton()
                 .Subscribe(_ => ContinueGame())
                 .AddTo(this);
-
+            //次のステージへ
             _gameClearView.ClickNextStageButton()
                 .Subscribe(_ => LoadNextStage())
                 .AddTo(this);
 
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
-                .Subscribe(_ => _customSceneManager.LoadScene(TITLE))
+                .Subscribe(_ => MoveToTitle())
                 .AddTo(this);
 
             _gameClearView.ClickToTitleButton()
-                .Subscribe(_ => _customSceneManager.LoadScene(TITLE))
+                .Subscribe(_ => MoveToTitle())
                 .AddTo(this);
 
             //ゲームの準備
@@ -234,6 +239,7 @@ namespace GamePresenter
         /// </summary>
         void ContinueGame()
         {
+            _soundManager.PlaySE(COMMON_BUTTON_CLICK);
             //シーンの再読み込みをする
             _customSceneManager.LoadScene(STAGE);
         }
@@ -247,6 +253,7 @@ namespace GamePresenter
             int nextStageNum = _stageNumModel.StageNum.Value + 1;
             if (_stagePresenter.CheckStage(nextStageNum))
             {
+                _soundManager.PlaySE(COMMON_BUTTON_CLICK);
                 _saveDataManager.SetStageNum(nextStageNum);
                 _saveDataManager.Save();
                 _customSceneManager.LoadScene(STAGE);
@@ -256,6 +263,15 @@ namespace GamePresenter
                 //todo ダイアログUIを表示する 
                 Debug.Log("ステージが見つかりませんでした");
             }
+        }
+
+        /// <summary>
+        /// タイトルへ移動します
+        /// </summary>
+        void MoveToTitle()
+        {
+            _soundManager.PlaySE(COMMON_BUTTON_CLICK);
+            _customSceneManager.LoadScene(TITLE);
         }
 
         /// <summary>
