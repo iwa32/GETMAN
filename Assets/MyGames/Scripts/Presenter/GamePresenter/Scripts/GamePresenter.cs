@@ -279,6 +279,7 @@ namespace GamePresenter
         /// </summary>
         void GameOver()
         {
+            _soundManager.PlaySE(GAME_OVER);
             SaveGameData(true);
             _gameOverView.gameObject?.SetActive(true);
             _playerPresenter.ChangeDead();
@@ -289,6 +290,7 @@ namespace GamePresenter
         /// </summary>
         void GameClear()
         {
+            _soundManager.PlaySE(GAME_CLEAR);
             SaveGameData(false);
             _gameClearView.gameObject?.SetActive(true);
             _playerPresenter.ChangeJoy();
