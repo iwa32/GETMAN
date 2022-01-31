@@ -15,13 +15,17 @@ MonoBehaviour:
   _seDataList:
   - _type: 0
     _clip: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
-  - _type: 5
+  - _type: 6
     _clip: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
-  - _type: 1
-    _clip: {fileID: 8300000, guid: 130a177e727814a2ea78a886ab72213d, type: 3}
-  - _type: 4
-    _clip: {fileID: 8300000, guid: 48b5a741f2d1b443ca3f77eba4bdf360, type: 3}
   - _type: 2
-    _clip: {fileID: 8300000, guid: a0ca8964c08d54c5dbebf245bdc474ca, type: 3}
+    _clip: {fileID: 8300000, guid: 130a177e727814a2ea78a886ab72213d, type: 3}
+  - _type: 5
+    _clip: {fileID: 8300000, guid: 48b5a741f2d1b443ca3f77eba4bdf360, type: 3}
   - _type: 3
+    _clip: {fileID: 8300000, guid: a0ca8964c08d54c5dbebf245bdc474ca, type: 3}
+  - _type: 4
     _clip: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+  - _type: 7
+    _clip: {fileID: 8300000, guid: 5b437e4c6ae79485e99d70535ce2f3be, type: 3}
+  - _type: 1
+    _clip: {fileID: 8300000, guid: aea5abbdff0bb42088bd961dd3cf351e, type: 3}

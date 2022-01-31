@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using UniRx;
 using Zenject;
 using CountDownTimer;
 using UIUtility;
+using SoundManager;
+using static SEType;
 
 namespace GameView
 {
@@ -29,29 +30,34 @@ namespace GameView
         BoolReactiveProperty _isOpendGameStartText = new BoolReactiveProperty();
         IObservableCountDownTimer _gameStartCountDown;//ゲーム開始時のカウントダウン
         IToggleableUI _toggleableUI;
+        ISoundManager _soundManager;
 
         public IReadOnlyReactiveProperty<bool> IsGameStart => _isGameStart;
 
         [Inject]
         public void Construct(
             IObservableCountDownTimer countDownTimer,
-            IToggleableUI toggleableUI
+            IToggleableUI toggleableUI,
+            ISoundManager soundManager
         )
         {
             _gameStartCountDown = countDownTimer;
             _toggleableUI = toggleableUI;
+            _soundManager = soundManager;
         }
 
         void Start()
         {
-            ////カウントダウンをし、終了後Game開始のUIを表示
+            //カウントダウンをし、終了後Game開始のUIを表示
             _gameStartCountDown.CountDownObservable
                 .Subscribe(time =>
                 {
+                    _soundManager.PlaySE(COUNT);
                     _countText.text = time.ToString();
                 },
                 () =>
                 {
+                    _soundManager.PlaySE(GAME_START);
                     _toggleableUI.CloseUIFor(_countText.gameObject);
                     _toggleableUI.OpenUIFor(_gameStartText.gameObject);
                     _isOpendGameStartText.Value = true;
