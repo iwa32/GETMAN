@@ -71,7 +71,7 @@ namespace SoundManager
         /// SEを再生します
         /// </summary>
         /// <param name="seType"></param>
-        public void PlayerSE(SEType seType)
+        public void PlaySE(SEType seType)
         {
             AudioClip seClip = _seDataList.FindSEDataByType(seType);
             if (seClip == null) return;

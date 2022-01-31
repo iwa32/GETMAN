@@ -12,6 +12,6 @@ namespace SoundManager
         /// SEを再生します
         /// </summary>
         /// <param name="seType"></param>
-        void PlayerSE(SEType seType);
+        void PlaySE(SEType seType);
     }
 }
