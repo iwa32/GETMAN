@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
+using SoundManager;
+using static SEType;
 
 namespace StageObject
 {
@@ -12,6 +15,7 @@ namespace StageObject
         int _power;
 
         Collider _collider;
+        ISoundManager _soundManager;
 
         public int Power => _power;
 
@@ -20,10 +24,33 @@ namespace StageObject
             _collider = GetComponent<Collider>();
         }
 
+        [Inject]
+        void Construct(ISoundManager soundManager)
+        {
+            _soundManager = soundManager;
+        }
+
+        public void Initialize()
+        {
+            //武器判定をオフに
+            UnEnableCollider();
+        }
+
+        public void StartMotion()
+        {
+            _soundManager.PlaySE(SWORD_SLASH);
+            EnableCollider();
+        }
+
+        public void EndMotion()
+        {
+            UnEnableCollider();
+        }
+
         /// <summary>
         /// コライダーを有効にする
         /// </summary>
-        public void EnableCollider()
+        void EnableCollider()
         {
             _collider.enabled = true;
         }
@@ -31,7 +58,7 @@ namespace StageObject
         /// <summary>
         /// コライダーを無効にする
         /// </summary>
-        public void UnEnableCollider()
+        void UnEnableCollider()
         {
             _collider.enabled = false;
         }
@@ -44,7 +71,5 @@ namespace StageObject
         {
             _power = power;
         }
-
-
     }
 }

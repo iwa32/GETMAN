@@ -2,7 +2,8 @@
     "name": "StageObject",
     "rootNamespace": "",
     "references": [
-        "GUID:c0fe760af10574953a442566f0517c78"
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:b3f420edca8ab44e2bb6d1642f3ae6de"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

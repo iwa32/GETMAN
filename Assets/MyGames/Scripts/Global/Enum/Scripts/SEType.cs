@@ -9,5 +9,5 @@ public enum SEType
     GAME_CLEAR,
     HP_UP,
     POINT_GET,
-    SWORD
+    SWORD_SLASH
 }

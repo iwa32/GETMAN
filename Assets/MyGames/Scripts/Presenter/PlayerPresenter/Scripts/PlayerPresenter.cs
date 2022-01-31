@@ -144,7 +144,7 @@ namespace PlayerPresenter
         {
             _runView.DelAction = Run;
             _actionView.State.Value = _waitView;
-            _playerWeapon.UnEnableCollider();
+            _playerWeapon.Initialize();
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace PlayerPresenter
                 .Where(s => s.StateInfo.normalizedTime >= 1)//todoマジックナンバー修正
                 .Subscribe(_ =>
                 {
-                    _playerWeapon.UnEnableCollider();
+                    _playerWeapon.EndMotion();
                     _actionView.State.Value = _waitView;
                 })
                 .AddTo(this);
@@ -307,8 +307,7 @@ namespace PlayerPresenter
         void ChangeAttack()
         {
             //todo 武器があれば攻撃する
-            //武器のコライダーをオンにする
-            _playerWeapon.EnableCollider();
+            _playerWeapon.StartMotion();
             _actionView.State.Value = _attackView;
         }
 
