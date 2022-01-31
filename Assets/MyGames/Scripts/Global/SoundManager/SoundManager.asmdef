@@ -2,7 +2,9 @@
     "name": "SoundManager",
     "rootNamespace": "",
     "references": [
-        "GUID:231969241a33c435c889dcd1f750de0c"
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:22fac205732b241ea8da30ad780cc380",
+        "GUID:99b360a8d03e14f9cbe81d064803bd3c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

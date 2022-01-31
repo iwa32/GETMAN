@@ -15,6 +15,14 @@ namespace SoundManager
         [Header("SEの音量")]
         float _seVolume = 0.3f;
 
+        [SerializeField]
+        [Header("Bgmのスクリプタブルオブジェクトを設定")]
+        BgmDataList _bgmDataList;
+
+        [SerializeField]
+        [Header("SEのスクリプタブルオブジェクトを設定")]
+        SEDataList _seDataList;
+
         AudioSource _bgmSource;
         AudioSource _seSource;
 
@@ -45,14 +53,30 @@ namespace SoundManager
             _seSource.playOnAwake = false;
         }
 
+        /// <summary>
+        /// Bgmを再生します
+        /// </summary>
+        /// <param name="bgmType"></param>
         public void PlayBgm(BgmType bgmType)
         {
+            AudioClip bgmClip = _bgmDataList.FindBgmClipByType(bgmType);
+            if (bgmClip == null) return;
 
+            _bgmSource.Stop();//現在流れているbgmを停止
+            _bgmSource.clip = bgmClip;
+            _bgmSource.Play();
         }
 
-        public void PlayerSE(SEType seType )
+        /// <summary>
+        /// SEを再生します
+        /// </summary>
+        /// <param name="seType"></param>
+        public void PlayerSE(SEType seType)
         {
+            AudioClip seClip = _seDataList.FindSEDataByType(seType);
+            if (seClip == null) return;
 
+            _seSource.PlayOneShot(seClip, _seVolume);
         }
     }
 }
