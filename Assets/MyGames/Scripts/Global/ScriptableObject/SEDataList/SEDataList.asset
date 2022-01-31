@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27fcc0c14e48a4ce7bdb029d72b6a5bd, type: 3}
   m_Name: SEDataList
   m_EditorClassIdentifier: 
-  _seDataList: []
+  _seDataList:
+  - _type: 0
+    _clip: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}

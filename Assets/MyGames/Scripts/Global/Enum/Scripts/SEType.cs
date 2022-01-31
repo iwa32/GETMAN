@@ -3,5 +3,5 @@
 /// </summary>
 public enum SEType
 {
-    
+    COMMON_BUTTON_CLICK,
 }

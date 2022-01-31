@@ -10,6 +10,7 @@ using CustomSceneManager;
 using UIUtility;
 using TMPro;
 using Fade;
+using SoundManager;
 
 namespace Title
 {
@@ -35,10 +36,6 @@ namespace Title
         [Header("ボタンの点滅時間")]
         float _maxBlinkTime = 1.0f;
 
-        [SerializeField]
-        [Header("クリック時のSE")]
-        AudioClip _clickSE;
-
 
         float _elapsedBlinkTime;
         float _blinkTime;
@@ -46,6 +43,7 @@ namespace Title
 
         #region//フィールド
         ICustomSceneManager _customSceneManager;
+        ISoundManager _soundManager;
         IObservableClickButton _observableClickButton;
         IFade _fade;
         #endregion
@@ -53,11 +51,13 @@ namespace Title
         [Inject]
         public void Construct(
             ICustomSceneManager customSceneManager,
+            ISoundManager soundManager,
             IObservableClickButton observableClickButton,
             IFade fade
         )
         {
             _customSceneManager = customSceneManager;
+            _soundManager = soundManager;
             _observableClickButton = observableClickButton;
             _fade = fade;
         }
@@ -81,6 +81,7 @@ namespace Title
 
         async UniTask StartGame()
         {
+            _soundManager.PlayerSE(SEType.COMMON_BUTTON_CLICK);
             await BlinkClickedButton();
 
             _customSceneManager.LoadScene(SceneType.STAGE);
