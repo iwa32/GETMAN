@@ -167,12 +167,12 @@ namespace PlayerPresenter
             //trigger, collisionの取得
             _triggerView.OnTriggerEnter()
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(collider => CheckCollider(collider))
+                .Subscribe(collider => CheckColliderEnter(collider))
                 .AddTo(this);
 
             _collisionView.OnCollisionEnter()
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(collision => CheckCollision(collision))
+                .Subscribe(collision => CheckCollisionEnter(collision))
                 .AddTo(this);
 
             //viewの監視
@@ -231,19 +231,19 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// 接触したコライダーを確認します
+        /// 接触時に確認します
         /// </summary>
         /// <param name="collider"></param>
-        void CheckCollider(Collider collider)
+        void CheckColliderEnter(Collider collider)
         {
             GetPointItemBy(collider);
             ReceiveDamageBy(collider);
         }
 
         /// <summary>
-        /// 衝突を確認します
+        /// 衝突時に確認します
         /// </summary>
-        void CheckCollision(Collision collision)
+        void CheckCollisionEnter(Collision collision)
         {
             ReceiveDamageBy(collision.collider);
         }
