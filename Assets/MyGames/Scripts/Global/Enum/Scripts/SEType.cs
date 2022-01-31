@@ -4,5 +4,6 @@
 public enum SEType
 {
     COMMON_BUTTON_CLICK,
-    POINT_GET
+    POINT_GET,
+    DAMAGED
 }

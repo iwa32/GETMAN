@@ -270,6 +270,7 @@ namespace PlayerPresenter
             if (_isBlink) return;
             if (collider.TryGetComponent(out IDamager damager))
             {
+                _soundManager.PlaySE(DAMAGED);
                 _hpModel.ReduceHp(damager.Damage);
                 ChangeStateByDamage();
                 KnockBack(collider?.gameObject);
@@ -323,8 +324,7 @@ namespace PlayerPresenter
         void ChangeDown()
         {
             _actionView.State.Value = _downView;
-            //点滅処理
-            PlayerBlinks().Forget();
+            PlayerBlinks().Forget();//点滅処理
         }
 
         public void ChangeDead()
