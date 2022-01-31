@@ -15,3 +15,7 @@ MonoBehaviour:
   _seDataList:
   - _type: 0
     _clip: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  - _type: 1
+    _clip: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  - _type: 2
+    _clip: {fileID: 8300000, guid: 130a177e727814a2ea78a886ab72213d, type: 3}

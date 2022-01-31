@@ -285,6 +285,7 @@ namespace PlayerPresenter
         {
             //hpは初期値以上は増えないようにする
             if (_hpModel.Hp.Value >= _initialHp) return;
+            _soundManager.PlaySE(HP_UP);
             _hpModel.AddHp(hp);
         }
 
