@@ -14,6 +14,10 @@ namespace StageObject
         [Header("武器の攻撃力を設定")]
         int _power;
 
+        [SerializeField]
+        [Header("エフェクトのトレイルを設定")]
+        TrailRenderer _trailRenderer;
+
         Collider _collider;
         ISoundManager _soundManager;
 
@@ -34,17 +38,20 @@ namespace StageObject
         {
             //武器判定をオフに
             UnEnableCollider();
+            _trailRenderer.emitting = false;
         }
 
         public void StartMotion()
         {
             _soundManager.PlaySE(SWORD_SLASH);
             EnableCollider();
+            _trailRenderer.emitting = true;
         }
 
         public void EndMotion()
         {
             UnEnableCollider();
+            _trailRenderer.emitting = false;
         }
 
         /// <summary>
