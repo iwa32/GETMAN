@@ -268,6 +268,7 @@ namespace PlayerPresenter
         void ReceiveDamageBy(Collider collider)
         {
             if (_isBlink) return;
+            if (_actionView.HasActionBy(ATTACK)) return;//攻撃中はダメージを受けない
             if (collider.TryGetComponent(out IDamager damager))
             {
                 _soundManager.PlaySE(DAMAGED);
