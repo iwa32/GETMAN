@@ -18,7 +18,7 @@ namespace SaveDataManager
 
         void Awake()
         {
-            _savePath = Application.dataPath + "/MyGames/SaveData/playerData.json";
+            _savePath = Application.dataPath + "/playerData.json";
         }
 
         [Inject]
