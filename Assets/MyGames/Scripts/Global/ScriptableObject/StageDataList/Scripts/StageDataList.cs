@@ -52,7 +52,8 @@ public class StageData
     EnemyType[] _appearingEnemies;
 
     [SerializeField]
-    AudioClip _stageBgm;
+    [Tooltip("Bgmの種類を設定")]
+    BgmType _bgmType;
 
     [SerializeField]
     [Tooltip("エネミーの最大出現数")]
@@ -68,7 +69,7 @@ public class StageData
     public float EnemyAppearanceInterval => _enemyAppearanceInterval;
     public float PointItemAppearanceInterval => _pointItemAppearanceInterval;
     public EnemyType[] AppearingEnemies => _appearingEnemies;
-    public AudioClip StageBgm => _stageBgm;
+    public BgmType BgmType => _bgmType;
     public int MaxEnemyCount => _maxEnemyCount;
     public StageView.StageView StagePrefab => _stagePrefab;
 }

@@ -9,6 +9,11 @@ namespace SoundManager
         void PlayBgm(BgmType bgmType);
 
         /// <summary>
+        /// BGMを停止します
+        /// </summary>
+        void StopBgm();
+
+        /// <summary>
         /// SEを再生します
         /// </summary>
         /// <param name="seType"></param>

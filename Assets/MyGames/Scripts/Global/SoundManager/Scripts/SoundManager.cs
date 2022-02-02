@@ -68,6 +68,14 @@ namespace SoundManager
         }
 
         /// <summary>
+        /// bgmを停止します
+        /// </summary>
+        public void StopBgm()
+        {
+            _bgmSource.Stop();
+        }
+
+        /// <summary>
         /// SEを再生します
         /// </summary>
         /// <param name="seType"></param>

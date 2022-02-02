@@ -10,6 +10,7 @@ using EP = EnemyPresenter;
 using SV = StageView;
 using BehaviourFactory;
 using StageObject;
+using SoundManager;
 
 namespace StagePresenter
 {
@@ -31,6 +32,8 @@ namespace StagePresenter
         //フラグ
         BoolReactiveProperty _isCreatedStage = new BoolReactiveProperty();
         BoolReactiveProperty _isPlacedPlayer = new BoolReactiveProperty();
+        //音声
+        ISoundManager _soundManager;
         //モデル
         IStageNumModel _stageNumModel;
         IDirectionModel _directionModel;
@@ -47,12 +50,14 @@ namespace StagePresenter
         public void Construct(
             IStageNumModel stageNum,
             IDirectionModel direction,
-            IPointModel point
+            IPointModel point,
+            ISoundManager soundManager
         )
         {
             _stageNumModel = stageNum;
             _directionModel = direction;
             _pointModel = point;
+            _soundManager = soundManager;
         }
 
         /// <summary>
@@ -84,13 +89,16 @@ namespace StagePresenter
                 = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
 
 
-            //ゲーム開始でエネミーとポイントアイテムの自動生成を開始する
+            //ゲーム開始時の処理
             _directionModel.IsGameStart
                 .Where(isGameStart => isGameStart == true)
                 .Subscribe(_ =>
                 {
+                    //エネミーとポイントアイテムの自動生成開始
                     enemyAppearanceInterval.Connect();
                     pointItemAppearanceInterval.Connect();
+                    //音声の再生
+                    PlayCurrentStageBgm();
                 })
                 .AddTo(this);
 
@@ -111,13 +119,16 @@ namespace StagePresenter
                 .Subscribe(_ => _directionModel.SetIsGameClear(true))
                 .AddTo(this);
 
-            //ゲーム終了でエネミーとポイントアイテムの自動生成を停止する
+            //ゲーム終了で
             this.UpdateAsObservable()
                 .First(_ => _directionModel.IsEndedGame())
                 .Subscribe(_ =>
                 {
+                    //エネミーとポイントアイテムの自動生成を停止する
                     enemyAppearanceDisposable.Dispose();
                     pointItemAppearanceDisposable.Dispose();
+                    //音声の停止
+                    _soundManager.StopBgm();
                 })
                 .AddTo(this);
         }
@@ -143,6 +154,15 @@ namespace StagePresenter
             _currentStageData = _stageDataList.GetStageById(stageNum);
             //出現エネミーの設定
             RegisterAppearingEnemyForStage();
+        }
+
+        /// <summary>
+        /// 現在のステージのBGMを再生します
+        /// </summary>
+        void PlayCurrentStageBgm()
+        {
+            if (_currentStageData == null) return;
+            _soundManager.PlayBgm(_currentStageData.BgmType);
         }
 
         /// <summary>

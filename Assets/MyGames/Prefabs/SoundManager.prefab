@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b8a0b4a136348bfae42263831d9675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bgmVolume: 1
-  _seVolume: 0.3
+  _bgmVolume: 0.3
+  _seVolume: 0.5
   _bgmDataList: {fileID: 11400000, guid: 9872b682ebe6b457e84a0e9dc8d76871, type: 2}
   _seDataList: {fileID: 11400000, guid: 2b66246a750934a26b391f52948db481, type: 2}
