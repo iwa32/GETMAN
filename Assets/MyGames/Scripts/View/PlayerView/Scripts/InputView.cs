@@ -26,7 +26,7 @@ namespace PlayerView
         /// <summary>
         /// 発火入力
         /// </summary>
-        public void OnFire(InputAction.CallbackContext context)
+        public void OnAction(InputAction.CallbackContext context)
         {
             //入力時にフラグをオンにし、入力後にフラグをオフにする
             if (context.phase == InputActionPhase.Started)

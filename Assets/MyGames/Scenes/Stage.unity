@@ -1879,19 +1879,7 @@ MonoBehaviour:
     m_ActionId: 5f73d8a0-993c-4818-a76c-ce7a6f79b56f
     m_ActionName: Player/Look[/Mouse/delta,/Pen/delta]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1567685200}
-        m_TargetAssemblyTypeName: PlayerView.InputView, PlayerView
-        m_MethodName: OnFire
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 1079ed52-ee46-4f31-b7b1-21781fd12c4c
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -1934,6 +1922,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e7bfe1df-b78d-4077-87ef-4ba884fc1df3
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1567685200}
+        m_TargetAssemblyTypeName: PlayerView.InputView, PlayerView
+        m_MethodName: OnAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3f8d8889-ad0c-4c70-be3c-47ca2d2e1973
+    m_ActionName: Player/Attack[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -4821,6 +4825,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1567685208}
     m_Modifications:
+    - target: {fileID: 7466261615721351002, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 4.0286163e-11
+      objectReference: {fileID: 0}
     - target: {fileID: 8585597016356387376, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
       propertyPath: m_RootOrder
       value: 0
