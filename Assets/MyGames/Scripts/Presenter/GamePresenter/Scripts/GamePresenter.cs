@@ -40,6 +40,10 @@ namespace GamePresenter
         int _nextMagnification = 5;
 
         [SerializeField]
+        [Header("ゲームクリア後、次のステージがない場合に表示するメッセージを設定します")]
+        string _gameClearMessage = "ステージクリアおめでとうございます。次のステージ追加をお待ちください。";
+
+        [SerializeField]
         [Header("スコアのUIを設定")]
         ScoreView _scoreView;
 
@@ -264,7 +268,7 @@ namespace GamePresenter
             }
             else
             {
-                _dialog.SetText("ステージクリアおめでとうございます。次のステージ追加をお待ちください。");
+                _dialog.SetText(_gameClearMessage);
                 _dialog.OpenDialog();
             }
         }
