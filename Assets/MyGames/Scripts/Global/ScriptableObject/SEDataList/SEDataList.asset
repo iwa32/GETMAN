@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SEDataList
   m_EditorClassIdentifier: 
   _seDataList:
-  - _type: 0
+  - _type: 9
     _clip: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
   - _type: 6
     _clip: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
@@ -31,3 +31,5 @@ MonoBehaviour:
     _clip: {fileID: 8300000, guid: aea5abbdff0bb42088bd961dd3cf351e, type: 3}
   - _type: 8
     _clip: {fileID: 8300000, guid: a8c9797244ac74de287fdb8c22c6ae10, type: 3}
+  - _type: 0
+    _clip: {fileID: 8300000, guid: e47b15ab2b0ad40f98905f1187707999, type: 3}
