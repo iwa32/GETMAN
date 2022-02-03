@@ -73,6 +73,7 @@ namespace Dialog
 
         public void OpenDialog()
         {
+            _soundManager.PlaySE(COMMON_BUTTON_CLICK);
             _toggleableUI.OpenUIFor(gameObject);
         }
 

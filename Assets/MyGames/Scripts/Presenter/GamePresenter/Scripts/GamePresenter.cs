@@ -253,12 +253,11 @@ namespace GamePresenter
         /// </summary>
         void LoadNextStage()
         {
-            _soundManager.PlaySE(SCENE_MOVEMENT);
-
             //次のステージが存在する場合
             int nextStageNum = _stageNumModel.StageNum.Value + 1;
             if (_stagePresenter.CheckStage(nextStageNum))
             {
+                _soundManager.PlaySE(SCENE_MOVEMENT);
                 _saveDataManager.SetStageNum(nextStageNum);
                 _saveDataManager.Save();
                 _customSceneManager.LoadScene(STAGE);
