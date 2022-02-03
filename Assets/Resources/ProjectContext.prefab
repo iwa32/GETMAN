@@ -77,3 +77,4 @@ MonoBehaviour:
   _customSceneManagerPrefab: {fileID: 9126874650064645171, guid: 7ea37bdfa89f64b959383ef248a844ad, type: 3}
   _saveDataManagerPrefab: {fileID: 5810059359157550783, guid: 4d41209ddfbd34213b8590a3946555b4, type: 3}
   _soundManagerPrefab: {fileID: 7143160660014649334, guid: 81ad241e0bce44a518d0c394279c9c03, type: 3}
+  _dialogPrefab: {fileID: 7049795114390196755, guid: 2e8f7c6c66e4b40b6b28769790adda86, type: 3}

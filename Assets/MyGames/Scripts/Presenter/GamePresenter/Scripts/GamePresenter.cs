@@ -10,6 +10,7 @@ using SaveDataManager;
 using CustomSceneManager;
 using SoundManager;
 using Fade;
+using Dialog;
 using static SceneType;
 using static SEType;
 
@@ -84,6 +85,7 @@ namespace GamePresenter
         ICustomSceneManager _customSceneManager;
         ISoundManager _soundManager;
         IFade _fade;
+        IDialog _dialog;
         #endregion
 
         [Inject]
@@ -95,7 +97,8 @@ namespace GamePresenter
             ISaveDataManager saveDataManager,
             ICustomSceneManager customSceneManager,
             ISoundManager soundManager,
-            IFade fade
+            IFade fade,
+            IDialog dialog
         )
         {
             _directionModel = directionModel;
@@ -106,6 +109,7 @@ namespace GamePresenter
             _customSceneManager = customSceneManager;
             _soundManager = soundManager;
             _fade = fade;
+            _dialog = dialog;
         }
 
         void Awake()
@@ -260,8 +264,8 @@ namespace GamePresenter
             }
             else
             {
-                //todo ダイアログUIを表示する 
-                Debug.Log("ステージが見つかりませんでした");
+                _dialog.SetText("ステージクリアおめでとうございます。次のステージ追加をお待ちください。");
+                _dialog.OpenDialog();
             }
         }
 
