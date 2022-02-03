@@ -81,7 +81,7 @@ namespace Title
 
         async UniTask StartGame()
         {
-            _soundManager.PlaySE(SEType.COMMON_BUTTON_CLICK);
+            _soundManager.PlaySE(SEType.SCENE_MOVEMENT);
             await BlinkClickedButton();
 
             _customSceneManager.LoadScene(SceneType.STAGE);

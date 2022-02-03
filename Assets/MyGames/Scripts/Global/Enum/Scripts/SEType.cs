@@ -12,5 +12,6 @@ public enum SEType
     HP_UP,
     POINT_GET,
     SWORD_SLASH,
-    GAME_START
+    GAME_START,
+    SCENE_MOVEMENT
 }

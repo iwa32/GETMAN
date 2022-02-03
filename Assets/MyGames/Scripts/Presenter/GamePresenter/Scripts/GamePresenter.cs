@@ -243,7 +243,7 @@ namespace GamePresenter
         /// </summary>
         void ContinueGame()
         {
-            _soundManager.PlaySE(COMMON_BUTTON_CLICK);
+            _soundManager.PlaySE(SCENE_MOVEMENT);
             //シーンの再読み込みをする
             _customSceneManager.LoadScene(STAGE);
         }
@@ -253,11 +253,12 @@ namespace GamePresenter
         /// </summary>
         void LoadNextStage()
         {
+            _soundManager.PlaySE(SCENE_MOVEMENT);
+
             //次のステージが存在する場合
             int nextStageNum = _stageNumModel.StageNum.Value + 1;
             if (_stagePresenter.CheckStage(nextStageNum))
             {
-                _soundManager.PlaySE(COMMON_BUTTON_CLICK);
                 _saveDataManager.SetStageNum(nextStageNum);
                 _saveDataManager.Save();
                 _customSceneManager.LoadScene(STAGE);
@@ -274,7 +275,7 @@ namespace GamePresenter
         /// </summary>
         void MoveToTitle()
         {
-            _soundManager.PlaySE(COMMON_BUTTON_CLICK);
+            _soundManager.PlaySE(SCENE_MOVEMENT);
             _customSceneManager.LoadScene(TITLE);
         }
 

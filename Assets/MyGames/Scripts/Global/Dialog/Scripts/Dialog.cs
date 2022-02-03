@@ -7,6 +7,7 @@ using TMPro;
 using UIUtility;
 using UnityEngine.UI;
 using SoundManager;
+using static SEType;
 
 namespace Dialog
 {
@@ -77,6 +78,7 @@ namespace Dialog
 
         public void CloseDialog()
         {
+            _soundManager.PlaySE(COMMON_BUTTON_CLICK);
             _toggleableUI.CloseUIFor(gameObject);
             SetText("");//文字を空にする
         }
