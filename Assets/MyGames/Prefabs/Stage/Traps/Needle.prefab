@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 7652840201378310101}
   m_Layer: 3
   m_Name: Needle
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

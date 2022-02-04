@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UniRx;
 using UniRx.Triggers;
+using TriggerView;
 
 namespace EnemyView
 {
@@ -20,18 +21,25 @@ namespace EnemyView
 
         Vector3 _targetPlayerPosition;
         BoolReactiveProperty _canTrack = new BoolReactiveProperty();//追跡フラグ
+        TriggerView.TriggerView _triggerView;
 
 
         public IReactiveProperty<bool> CanTrack => _canTrack;
         public Vector3 TargetPlayerPosition => _targetPlayerPosition;
 
+        void Awake()
+        {
+            _triggerView = GetComponent<TriggerView.TriggerView>();
+        }
 
         void Start()
         {
-            OnTrackingAreaStay()
+            _triggerView.OnTriggerStay()
+                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckPlayer(collider));
 
-            OnTrackingAreaExit()
+            _triggerView.OnTriggerExit()
+                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(_ =>
                 {
                     _canTrack.Value = false;
@@ -55,24 +63,6 @@ namespace EnemyView
 
             _targetPlayerPosition = collider.gameObject.transform.position;
             _canTrack.Value = true;
-        }
-
-        /// <summary>
-        /// 追跡エリアに入っている間
-        /// </summary>
-        /// <returns></returns>
-        IObservable<Collider> OnTrackingAreaStay()
-        {
-            return this.OnTriggerStayAsObservable();
-        }
-
-        /// <summary>
-        /// 追跡エリアを出たか
-        /// </summary>
-        /// <returns></returns>
-        IObservable<Collider> OnTrackingAreaExit()
-        {
-            return this.OnTriggerExitAsObservable();
         }
 
 #if UNITY_EDITOR

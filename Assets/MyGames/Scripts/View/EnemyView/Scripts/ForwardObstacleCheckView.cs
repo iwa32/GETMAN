@@ -65,5 +65,14 @@ namespace EnemyView
                 _isOn.Value = true;
             }
         }
+
+        /// <summary>
+        /// 障害物判定のフラグを設定
+        /// </summary>
+        /// <param name="isOn"></param>
+        public void SetIsOn(bool isOn)
+        {
+            _isOn.Value = isOn;
+        }
     }
 }

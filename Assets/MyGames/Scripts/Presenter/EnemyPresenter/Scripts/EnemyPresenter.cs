@@ -133,7 +133,7 @@ namespace EnemyPresenter
                 .Where(isOn => isOn == true
                 && (_actionView.HasActionBy(StateType.TRACK) == false)
                 )
-                .Subscribe(_ => ChangeDirectionForRandom())
+                .Subscribe(_ => ChangeDirection())
                 .AddTo(this);
 
             //プレイヤーの追跡
@@ -259,6 +259,15 @@ namespace EnemyPresenter
         void Track()
         {
             _navMeshAgent.SetDestination(_trackingAreaView.TargetPlayerPosition);
+        }
+
+        /// <summary>
+        /// 進行方向を変えます
+        /// </summary>
+        void ChangeDirection()
+        {
+            ChangeDirectionForRandom();
+            _forwardObstacleCheckView.SetIsOn(false);
         }
 
         /// <summary>
