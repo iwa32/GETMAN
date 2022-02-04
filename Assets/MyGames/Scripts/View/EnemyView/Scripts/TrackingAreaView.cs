@@ -35,11 +35,9 @@ namespace EnemyView
         void Start()
         {
             _triggerView.OnTriggerStay()
-                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckPlayer(collider));
 
             _triggerView.OnTriggerExit()
-                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(_ =>
                 {
                     _canTrack.Value = false;
@@ -53,7 +51,6 @@ namespace EnemyView
         void CheckPlayer(Collider collider)
         {
             if (collider.CompareTag("Player") == false) return;
-
             //プレイヤーの方向から角度を取得します
             Vector3 playerDirection
                 = collider.gameObject.transform.position - transform.position;
