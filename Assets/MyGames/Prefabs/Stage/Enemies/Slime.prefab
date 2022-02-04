@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9080834570282114075}
   - component: {fileID: 378035892}
   - component: {fileID: 8541480249352932883}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TrackingArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378035889}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 3
@@ -744,6 +744,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForwardCollisionCheck
       objectReference: {fileID: 0}
+    - target: {fileID: 4807440037014079596, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807440037014079596, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4807440037014079597, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -786,18 +794,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4807440037014079597, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6916161341167182791, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6916161341167182791, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
-      propertyPath: m_Constraints
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6916161341167182791, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
-      propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
