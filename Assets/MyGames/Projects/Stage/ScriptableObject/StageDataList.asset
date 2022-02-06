@@ -27,5 +27,5 @@ MonoBehaviour:
     _pointItemAppearanceInterval: 10
     _appearingEnemies: 00000000
     _bgmType: 2
-    _maxEnemyCount: 1
+    _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: 3d61413cd28e943868ad776c3c977813, type: 3}
