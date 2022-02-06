@@ -349,6 +349,7 @@ namespace PlayerPresenter
 
             //速度ベクトルをリセット
             _rigidBody.velocity = Vector3.zero;
+            knockBackDirection.y = 0;//Y方向には飛ばないようにする
             _rigidBody.AddForce(knockBackDirection * _knockBackPower, ForceMode.VelocityChange);
         }
 
