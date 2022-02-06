@@ -8,7 +8,7 @@ namespace StageView
     {
         [SerializeField]
         [Header("プレイヤーの開始地点を設定")]
-        GameObject _playerStartingPoint;
+        Transform _playerStartingPoint;
 
         [SerializeField]
         [Header("エネミーの出現地点を設定")]
@@ -23,7 +23,7 @@ namespace StageView
 		/// </summary>
         public void SetPlayerToStartPoint(Transform playerTransform)
         {
-            playerTransform.position = transform.position;
+            playerTransform.position = _playerStartingPoint.position;
         }
 
         /// <summary>
