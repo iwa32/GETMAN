@@ -214,7 +214,7 @@ namespace StagePresenter
 
             //配置
             Transform appearancePoint = _currentStageView?.GetEnemyAppearancePoint();
-            stageEnemy.SetTransform(appearancePoint);
+            stageEnemy?.SetTransform(appearancePoint);
         }
 
         /// <summary>

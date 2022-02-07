@@ -30,7 +30,7 @@ namespace StateView
 
         public void Action()
         {
-            if (State.Value.DelAction == null) return;
+            if (State.Value?.DelAction == null) return;
             State.Value.Action();
         }
 

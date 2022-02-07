@@ -197,7 +197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2254589433466840475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86644a631ea3348bab0ccfa6c63f3152, type: 3}
+  m_Script: {fileID: 11500000, guid: 88f9d4930100b42b485b9d4a2bd0a3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _trackingAreaView: {fileID: 9080834570282114075}
@@ -742,7 +742,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4807440037014079596, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
       propertyPath: m_Name
-      value: ForwardCollisionCheck
+      value: ForwardObstacleCheck
       objectReference: {fileID: 0}
     - target: {fileID: 4807440037014079596, guid: 351478c507d644b388ddb0d29a0c9aa5, type: 3}
       propertyPath: m_Layer
