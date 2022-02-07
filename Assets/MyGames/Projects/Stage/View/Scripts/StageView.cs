@@ -27,13 +27,13 @@ namespace StageView
         }
 
         /// <summary>
-        /// エネミーをランダムな出現地点に設定します
+        /// エネミーの出現地点を取得します
         /// </summary>
         /// <param name="enemyTransform"></param>
-        public void SetEnemyToRandomAppearancePoint(Transform enemyTransform)
+        public Transform GetEnemyAppearancePoint()
         {
-            GameObject randomPoint = GetRandomAppearancePointFor(_enemyAppearancePoints);
-            SetTargetToAppearancePoint(enemyTransform, randomPoint);
+            Transform randomPoint = GetRandomAppearancePointFor(_enemyAppearancePoints);
+            return randomPoint;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace StageView
         /// <param name="enemyTransform"></param>
         public void SetPointItemToRandomAppearancePoint(Transform pointItemTransform)
         {
-            GameObject randomPoint = GetRandomAppearancePointFor(_pointItemAppearancePoints);
+            Transform randomPoint = GetRandomAppearancePointFor(_pointItemAppearancePoints);
             SetTargetToAppearancePoint(pointItemTransform, randomPoint);
         }
 
@@ -50,9 +50,9 @@ namespace StageView
         /// ランダムな出現地点を取得します
         /// </summary>
         /// <param name="AppearancePoints"></param>
-        GameObject GetRandomAppearancePointFor(GameObject[] appearancePoints)
+        Transform GetRandomAppearancePointFor(GameObject[] appearancePoints)
         {
-            return appearancePoints[Random.Range(0, appearancePoints.Length)];
+            return appearancePoints[Random.Range(0, appearancePoints.Length)].transform;
         }
 
         /// <summary>
@@ -60,10 +60,10 @@ namespace StageView
         /// </summary>
         /// <param name="target"></param>
         /// <param name="appearancePoint"></param>
-        void SetTargetToAppearancePoint(Transform target, GameObject appearancePoint)
+        void SetTargetToAppearancePoint(Transform target, Transform appearancePoint)
         {
-            target.position = appearancePoint.transform.position;
-            target.rotation = appearancePoint.transform.rotation;
+            target.position = appearancePoint.position;
+            target.rotation = appearancePoint.rotation;
         }
     }
 }
