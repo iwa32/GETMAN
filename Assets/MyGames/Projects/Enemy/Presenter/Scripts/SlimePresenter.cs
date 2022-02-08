@@ -12,6 +12,7 @@ using EnemyView;
 using EnemyModel;
 using GameModel;
 using StageObject;
+using StrategyView;
 
 namespace EnemyPresenter
 {
@@ -28,8 +29,9 @@ namespace EnemyPresenter
         #endregion
 
         #region//フィールド
-        //状態
+        //run
         RunView _runView;//移動状態のスクリプト
+        RunStrategy _runStrategy;
         TrackView _trackView;//追跡状態のスクリプト
         #endregion
 
@@ -42,6 +44,7 @@ namespace EnemyPresenter
         {
             base.Awake();
             _runView = GetComponent<RunView>();
+            _runStrategy = GetComponent<RunStrategy>();
             _trackView = GetComponent<TrackView>();
         }
 
@@ -55,7 +58,7 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize()
         {
-            _runView.DelAction = Run;
+            _runView.DelAction = _runStrategy.Strategy;
             _trackView.DelAction = Track;
             DefaultState();
             Bind();
@@ -129,15 +132,6 @@ namespace EnemyPresenter
                 _actionView.State.Value = _trackView;
             else
                 _actionView.State.Value = _runView;
-        }
-
-        /// <summary>
-        /// 走ります
-        /// </summary>
-        void Run()
-        {
-            //前方を移動します
-            _navMeshAgent.SetDestination(transform.position + transform.forward);
         }
 
         /// <summary>
