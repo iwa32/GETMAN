@@ -1,16 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UniRx;
-using UniRx.Triggers;
-using Zenject;
 using StateView;
-using TriggerView;
 using EnemyView;
-using EnemyModel;
-using GameModel;
 using StageObject;
 using StrategyView;
 
@@ -21,7 +14,7 @@ namespace EnemyPresenter
         #region//インスペクターから設定
         [SerializeField]
         [Header("追跡エリアのコンポーネントを設定")]
-        TrackingAreaView _trackingAreaView;
+        TrackingAreaView.TrackingAreaView _trackingAreaView;
 
         [SerializeField]
         [Header("障害物チェックのコンポーネントを設定する")]
@@ -139,7 +132,7 @@ namespace EnemyPresenter
         /// </summary>
         void Track()
         {
-            _navMeshAgent.SetDestination(_trackingAreaView.TargetPlayerPosition);
+            _navMeshAgent.SetDestination(_trackingAreaView.TargetPosition);
         }
 
         /// <summary>

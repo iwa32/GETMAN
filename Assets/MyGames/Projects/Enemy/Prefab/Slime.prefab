@@ -61,6 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _trackingAngle: 30
   _trackingAreaCollider: {fileID: 378035891}
+  _targetTagName: Player
 --- !u!54 &378035892
 Rigidbody:
   m_ObjectHideFlags: 0

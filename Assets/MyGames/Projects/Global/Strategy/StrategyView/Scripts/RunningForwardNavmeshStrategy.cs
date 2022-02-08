@@ -8,7 +8,7 @@ namespace StrategyView
     /// <summary>
     /// navMeshで前方に移動します
     /// </summary>
-    public class NavMeshRunForwardStrategy : RunStrategy
+    public class RunningForwardNavmeshStrategy : RunStrategy
     {
         NavMeshAgent _navMeshAgent;
 
