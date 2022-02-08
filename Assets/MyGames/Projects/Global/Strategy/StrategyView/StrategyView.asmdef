@@ -2,7 +2,9 @@
     "name": "StrategyView",
     "rootNamespace": "",
     "references": [
-        "GUID:bdb839cfaa44f4a81989e9cf36f19bb7"
+        "GUID:bdb839cfaa44f4a81989e9cf36f19bb7",
+        "GUID:76fbae903bdc94431892e2f295d988d4",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

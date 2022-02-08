@@ -13,19 +13,17 @@ namespace EnemyPresenter
     {
         #region//インスペクターから設定
         [SerializeField]
-        [Header("追跡エリアのコンポーネントを設定")]
-        TrackingAreaView.TrackingAreaView _trackingAreaView;
-
-        [SerializeField]
         [Header("障害物チェックのコンポーネントを設定する")]
         ForwardObstacleCheckView _forwardObstacleCheckView;
         #endregion
 
         #region//フィールド
-        //run
-        RunView _runView;//移動状態のスクリプト
+        //走行
+        RunView _runView;
         RunStrategy _runStrategy;
-        TrackView _trackView;//追跡状態のスクリプト
+        //追跡
+        TrackView _trackView;
+        TrackStrategy _trackStrategy;
         #endregion
 
         #region//プロパティ
@@ -39,6 +37,7 @@ namespace EnemyPresenter
             _runView = GetComponent<RunView>();
             _runStrategy = GetComponent<RunStrategy>();
             _trackView = GetComponent<TrackView>();
+            _trackStrategy = GetComponent<TrackStrategy>();
         }
 
         void Start()
@@ -52,7 +51,7 @@ namespace EnemyPresenter
         public void Initialize()
         {
             _runView.DelAction = _runStrategy.Strategy;
-            _trackView.DelAction = Track;
+            _trackView.DelAction = _trackStrategy.Strategy;
             DefaultState();
             Bind();
         }
@@ -68,7 +67,7 @@ namespace EnemyPresenter
                 .AddTo(this);
 
             //プレイヤーの追跡
-            _trackingAreaView.CanTrack
+            _trackStrategy.CanTrack
                 .Subscribe(canTrack => CheckTracking(canTrack))
                 .AddTo(this);
         }
@@ -125,14 +124,6 @@ namespace EnemyPresenter
                 _actionView.State.Value = _trackView;
             else
                 _actionView.State.Value = _runView;
-        }
-
-        /// <summary>
-        /// 追跡します
-        /// </summary>
-        void Track()
-        {
-            _navMeshAgent.SetDestination(_trackingAreaView.TargetPosition);
         }
 
         /// <summary>
