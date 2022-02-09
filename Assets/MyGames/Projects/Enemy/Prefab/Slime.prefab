@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 5011902877854364012}
   - component: {fileID: 394431744171127326}
   - component: {fileID: 2293747899241356895}
+  - component: {fileID: 1083979069267403751}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -203,7 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f9d4930100b42b485b9d4a2bd0a3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trackingAreaView: {fileID: 9080834570282114075}
   _forwardObstacleCheckView: {fileID: 3646287383708719629}
 --- !u!114 &140598816
 MonoBehaviour:
@@ -391,6 +391,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trackingAreaView: {fileID: 9080834570282114075}
+--- !u!114 &1083979069267403751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254589433466840475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc18182b0151c4f93b12649539fc8b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _directionRange: 4
+  _directionAngle: 90
 --- !u!1 &2255403149493820235
 GameObject:
   m_ObjectHideFlags: 0

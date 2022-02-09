@@ -24,6 +24,8 @@ namespace EnemyPresenter
         //追跡
         TrackView _trackView;
         TrackStrategy _trackStrategy;
+        //方向転換
+        ChangingDirectionStrategy _changingDirectionStrategy;
         #endregion
 
         #region//プロパティ
@@ -38,6 +40,7 @@ namespace EnemyPresenter
             _runStrategy = GetComponent<RunStrategy>();
             _trackView = GetComponent<TrackView>();
             _trackStrategy = GetComponent<TrackStrategy>();
+            _changingDirectionStrategy = GetComponent<ChangingDirectionStrategy>();
         }
 
         void Start()
@@ -63,7 +66,11 @@ namespace EnemyPresenter
                 .Where(isOn => isOn == true
                 && (_actionView.HasActionBy(StateType.TRACK) == false)
                 )
-                .Subscribe(_ => ChangeDirection())
+                .Subscribe(_ => {
+                    //方向転換
+                    _changingDirectionStrategy.Strategy();
+                    _forwardObstacleCheckView.SetIsOn(false);
+                })
                 .AddTo(this);
 
             //プレイヤーの追跡
@@ -124,43 +131,6 @@ namespace EnemyPresenter
                 _actionView.State.Value = _trackView;
             else
                 _actionView.State.Value = _runView;
-        }
-
-        /// <summary>
-        /// 進行方向を変えます
-        /// </summary>
-        void ChangeDirection()
-        {
-            ChangeDirectionForRandom();
-            _forwardObstacleCheckView.SetIsOn(false);
-        }
-
-        /// <summary>
-        /// ランダムに進行方向を変える
-        /// </summary>
-        void ChangeDirectionForRandom()
-        {
-            //進行方向はランダム
-            int dice = RandomDice(1, 5);
-            int dirAngle = 90;
-
-            dirAngle *= dice;
-
-            //すでに同じ方向を向いてたら処理を行わない
-            if (transform.localEulerAngles.x == dirAngle) return;
-            //オイラー値をQuaternionに変換する。引数はz, x, y
-            transform.rotation = Quaternion.Euler(0, dirAngle, 0);
-        }
-
-        /// <summary>
-        /// ランダムな数値を算出
-        /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns>ランダムな数値を出力</returns>
-        int RandomDice(int min, int max)
-        {
-            return UnityEngine.Random.Range(min, max);
         }
     }
 }
