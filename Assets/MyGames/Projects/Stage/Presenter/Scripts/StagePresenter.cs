@@ -193,7 +193,7 @@ namespace StagePresenter
         /// </summary>
         public void PlacePlayerToStage(Transform playerTransform)
         {
-            _currentStageView?.SetPlayerToStartPoint(playerTransform);
+            playerTransform.position = _currentStageView.PlayerStartingPoint.position;
             _isPlacedPlayer.Value = true;
         }
 

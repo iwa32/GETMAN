@@ -18,13 +18,7 @@ namespace StageView
         [Header("ポイントアイテムの出現地点を設定")]
         GameObject[] _pointItemAppearancePoints;
 
-        /// <summary>
-		/// プレイヤーをスタート地点に設定します
-		/// </summary>
-        public void SetPlayerToStartPoint(Transform playerTransform)
-        {
-            playerTransform.position = _playerStartingPoint.position;
-        }
+        public Transform PlayerStartingPoint => _playerStartingPoint;
 
         /// <summary>
         /// エネミーの出現地点を取得します
