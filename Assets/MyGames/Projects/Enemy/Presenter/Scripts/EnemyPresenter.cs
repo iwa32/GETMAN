@@ -126,14 +126,14 @@ namespace EnemyPresenter
             //down
             _animTrigger.OnStateUpdateAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
-                .Where(s => s.StateInfo.normalizedTime >= 1)
+                .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ => DefaultState())
                 .AddTo(this);
 
             //dead
             _animTrigger.OnStateUpdateAsObservable()
                 .Where(s => s.StateInfo.IsName("Dead"))
-                .Where(s => s.StateInfo.normalizedTime >= 1)
+                .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ =>
                 {
                     //エネミーの削除はStagePresenterで行います

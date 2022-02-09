@@ -204,7 +204,7 @@ namespace PlayerPresenter
             _animTrigger.OnStateUpdateAsObservable()
                 .Where(s => s.StateInfo.IsName("Attack")
                 || s.StateInfo.IsName("Down"))
-                .Where(s => s.StateInfo.normalizedTime >= 1)//todoマジックナンバー修正
+                .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ =>
                 {
                     _playerWeapon.EndMotion();
