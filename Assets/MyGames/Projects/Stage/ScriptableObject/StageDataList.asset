@@ -33,7 +33,7 @@ MonoBehaviour:
     _clearPointCount: 3
     _enemyAppearanceInterval: 5
     _pointItemAppearanceInterval: 10
-    _appearingEnemies: 00000000
+    _appearingEnemies: 0000000001000000
     _bgmType: 3
     _maxEnemyCount: 4
     _stagePrefab: {fileID: 2086473840, guid: 437c574cdba404e29a97aa59d6ec4089, type: 3}

@@ -3,5 +3,6 @@
 /// </summary>
 public enum EnemyType
 {
-    SLIME
+    SLIME,
+    TURTLE_SHELL
 }
