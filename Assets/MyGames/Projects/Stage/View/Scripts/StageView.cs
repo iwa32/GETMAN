@@ -31,13 +31,13 @@ namespace StageView
         }
 
         /// <summary>
-        /// ポイントアイテムをランダムな出現地点に設定します
+        /// ポイントアイテムの出現地点を取得します
         /// </summary>
         /// <param name="enemyTransform"></param>
-        public void SetPointItemToRandomAppearancePoint(Transform pointItemTransform)
+        public Transform GetPointItemAppearancePoint()
         {
             Transform randomPoint = GetRandomAppearancePointFor(_pointItemAppearancePoints);
-            SetTargetToAppearancePoint(pointItemTransform, randomPoint);
+            return randomPoint;
         }
 
         /// <summary>
@@ -47,17 +47,6 @@ namespace StageView
         Transform GetRandomAppearancePointFor(GameObject[] appearancePoints)
         {
             return appearancePoints[Random.Range(0, appearancePoints.Length)].transform;
-        }
-
-        /// <summary>
-        /// 対象を出現地点に設定します
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="appearancePoint"></param>
-        void SetTargetToAppearancePoint(Transform target, Transform appearancePoint)
-        {
-            target.position = appearancePoint.position;
-            target.rotation = appearancePoint.rotation;
         }
     }
 }

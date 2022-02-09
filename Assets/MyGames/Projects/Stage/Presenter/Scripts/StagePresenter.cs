@@ -228,7 +228,7 @@ namespace StagePresenter
             PointItem pointItem = _pointItemFactory.Create();
             _stagePointItemCount++;
 
-            _currentStageView?.SetPointItemToRandomAppearancePoint(pointItem.transform);
+            pointItem.transform.position = _currentStageView.GetPointItemAppearancePoint().position;
         }
 
         /// <summary>
