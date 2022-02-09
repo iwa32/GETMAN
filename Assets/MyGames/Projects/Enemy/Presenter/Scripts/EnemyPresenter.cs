@@ -18,6 +18,9 @@ namespace EnemyPresenter
     public abstract class EnemyPresenter : MonoBehaviour
     {
         #region//インスペクターから設定
+        [SerializeField]
+        [Header("HpBarを設定する")]
+        HpBar.HpBar _hpBar;
         #endregion
 
         #region//フィールド
@@ -86,6 +89,7 @@ namespace EnemyPresenter
         {
             InitializeModel(hp, power, score);
             _navMeshAgent.speed = speed;
+            _hpBar.SetMaxHp(hp);
             Bind();
         }
 
@@ -102,7 +106,10 @@ namespace EnemyPresenter
         void Bind()
         {
             //model to view
-            //_hpModel.Hp.Subscribe(hp => Debug.Log(hp)).AddTo(this);
+            //HPBarへの設定
+            _hpModel.Hp
+                .Subscribe(hp => _hpBar.SetHp(hp))
+                .AddTo(this);
 
             //trigger, collisionの取得
             _triggerView.OnTriggerEnter()
