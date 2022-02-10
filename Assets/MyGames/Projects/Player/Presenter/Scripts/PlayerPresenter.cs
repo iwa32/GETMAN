@@ -213,10 +213,16 @@ namespace PlayerPresenter
                 .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ =>
                 {
-                    _playerWeapon.EndMotion();
+                    EndMotion();
                     _actionView.State.Value = _waitView;
                 })
                 .AddTo(this);
+        }
+
+        void EndMotion()
+        {
+            //攻撃前の方向に戻します
+            _playerWeapon.EndMotion();
         }
 
         /// <summary>
