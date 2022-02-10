@@ -241,22 +241,20 @@ namespace StagePresenter
             stageEnemy.IsDead
                 .Where(isDead => isDead == true)
                 .Subscribe(_ => {
-                    DeleteEnemy(stageEnemy);
+                    DeleteEnemyList(stageEnemy);
                 })
                 .AddTo(stageEnemy.gameObject);
         }
 
         /// <summary>
-        /// エネミーを削除します
+        /// エネミーリストから参照を削除します
         /// </summary>
         /// <param name="stageEnemy"></param>
-        void DeleteEnemy(EP.EnemyPresenter stageEnemy)
+        void DeleteEnemyList(EP.EnemyPresenter stageEnemy)
         {
-            Destroy(stageEnemy.gameObject);
-            //リストの参照も削除します
             _stageEnemyList
                 .RemoveAll(enemy => (
-                enemy.gameObject.GetInstanceID() == stageEnemy.gameObject.GetInstanceID())
+                enemy.GetInstanceID() == stageEnemy.GetInstanceID())
                 );
         }
 

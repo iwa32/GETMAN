@@ -116,7 +116,6 @@ namespace EnemyPresenter
                 .Where(_ => _directionModel.CanGame()
                 && (_actionView.HasActionBy(StateType.DEAD) == false)
                 )
-                .ThrottleFirst(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
 
@@ -134,7 +133,13 @@ namespace EnemyPresenter
             _animTrigger.OnStateUpdateAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
                 .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
-                .Subscribe(_ => DefaultState())
+                .Subscribe(_ =>
+                {
+                    //ダウン後に死亡したら何もしない
+                    if (_actionView.HasActionBy(StateType.DEAD)) return;
+                    DefaultState();
+                }
+                )
                 .AddTo(this);
 
             //dead
@@ -143,8 +148,8 @@ namespace EnemyPresenter
                 .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ =>
                 {
-                    //エネミーの削除はStagePresenterで行います
                     _isDead.Value = true;
+                    Destroy(gameObject);
                 }).AddTo(this);
 
             //FixedUpdate
