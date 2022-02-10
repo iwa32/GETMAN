@@ -186,10 +186,16 @@ namespace PlayerPresenter
 
             //入力の監視
             _inputView.InputDirection
-                .Where(_ => IsControllableState()
-                && _directionModel.CanGame()
+                .Where(_ => _directionModel.CanGame())
+                .Subscribe(input =>
+                {
+                    //攻撃中に入力した場合攻撃モーションを終了する
+                    if (_actionView.HasActionBy(ATTACK))
+                        _playerWeapon.EndMotion();
+
+                    ChangeStateByInput(input);
+                }
                 )
-                .Subscribe(input => ChangeStateByInput(input))
                 .AddTo(this);
 
             //攻撃入力
@@ -218,8 +224,8 @@ namespace PlayerPresenter
         /// </summary>
         bool IsControllableState()
         {
-            return (_actionView.State.Value.State == RUN
-                || _actionView.State.Value.State == WAIT);
+            return (_actionView.HasActionBy(RUN)
+                || _actionView.HasActionBy(WAIT));
         }
 
         /// <summary>
@@ -307,7 +313,6 @@ namespace PlayerPresenter
         /// </summary>
         void ChangeAttack()
         {
-            //todo 武器があれば攻撃する
             _playerWeapon.StartMotion();
             _actionView.State.Value = _attackView;
         }
