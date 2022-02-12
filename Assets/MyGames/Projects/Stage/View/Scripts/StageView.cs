@@ -18,6 +18,8 @@ namespace StageView
         [Header("ポイントアイテムの出現地点を設定")]
         GameObject[] _pointItemAppearancePoints;
 
+        Vector3 _prevPointItemPosition;//前回のポイントアイテム出現位置
+
         public Transform PlayerStartingPoint => _playerStartingPoint;
 
         /// <summary>
@@ -37,6 +39,18 @@ namespace StageView
         public Transform GetPointItemAppearancePoint()
         {
             Transform randomPoint = GetRandomAppearancePointFor(_pointItemAppearancePoints);
+
+            //出現箇所が1つなら再取得しない
+            if (_pointItemAppearancePoints.Length == 1) return randomPoint;
+
+            //前回と同じ位置なら取得しなおします
+            while (randomPoint.position == _prevPointItemPosition)
+            {
+                randomPoint = GetRandomAppearancePointFor(_pointItemAppearancePoints);
+            }
+            _prevPointItemPosition = randomPoint.position;
+            
+            
             return randomPoint;
         }
 
