@@ -8,7 +8,7 @@ namespace SaveDataManager
     public class SaveData : ISaveData
     {
         [SerializeField]
-        int _stageNum;
+        int _stageNum = 1;
         [SerializeField]
         int _highScore;
         [SerializeField]

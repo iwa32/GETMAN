@@ -26,6 +26,11 @@ namespace SaveDataManager
         bool SaveDataExists();
 
         /// <summary>
+        /// データを初期化します
+        /// </summary>
+        void InitData();
+        
+        /// <summary>
         /// データを保存します
         /// </summary>
         void Save();

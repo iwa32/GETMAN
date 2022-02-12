@@ -54,6 +54,17 @@ namespace SaveDataManager
         }
 
         /// <summary>
+        /// データを初期化します
+        /// </summary>
+        public void InitData()
+        {
+            if (SaveDataExists())
+            {
+                Save();//空データでセーブデータを上書きする
+            }
+        }
+
+        /// <summary>
         /// データを保存します
         /// </summary>
         public void Save()
