@@ -259,11 +259,32 @@ namespace StagePresenter
         }
 
         /// <summary>
-        /// 次のステージが存在するか確認します
+        /// ステージが存在するか確認します
         /// </summary>
         public bool CheckStage(int stageNum)
         {
             return (_stageDataList.GetStageById(stageNum) != null);
+        }
+
+        /// <summary>
+        /// 次のステージ番号を取得します
+        /// </summary>
+        /// <returns></returns>
+        public int GetNextStageNum()
+        {
+            return _stageNumModel.StageNum.Value + 1;
+        }
+
+        /// <summary>
+        /// 次のステージ番号を設定します
+        /// </summary>
+        public void SetNextStageNum()
+        {
+            int nextStageNum = GetNextStageNum();
+            if (CheckStage(nextStageNum))
+            {
+                _stageNumModel.SetStageNum(nextStageNum);
+            }
         }
     }
 }
