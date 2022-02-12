@@ -2037,6 +2037,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1527676961959619346}
+  - component: {fileID: 5955150308225349415}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -2068,6 +2069,22 @@ Transform:
   m_Father: {fileID: 1527676961563894731}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5955150308225349415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527676961959619565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1527676961997793070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,8 +2808,8 @@ MonoBehaviour:
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: e0bc32086e77d4e90bf8cfd9fe7eb1f3, type: 2}
 --- !u!1 &4110394145638955014
@@ -3420,14 +3437,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8882745872584871052}
     m_Modifications:
-    - target: {fileID: 239359500334637263, guid: e8f176f7d52dd4ed5adee1ab7f7cdb8d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: cc1523931b41147beaea91ac9139dd01, type: 2}
-    - target: {fileID: 239359500828638682, guid: e8f176f7d52dd4ed5adee1ab7f7cdb8d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: cc1523931b41147beaea91ac9139dd01, type: 2}
     - target: {fileID: 239359501080402464, guid: e8f176f7d52dd4ed5adee1ab7f7cdb8d, type: 3}
       propertyPath: m_Name
       value: Walls
@@ -3476,14 +3485,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 239359502140526042, guid: e8f176f7d52dd4ed5adee1ab7f7cdb8d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: cc1523931b41147beaea91ac9139dd01, type: 2}
-    - target: {fileID: 239359502344548835, guid: e8f176f7d52dd4ed5adee1ab7f7cdb8d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: cc1523931b41147beaea91ac9139dd01, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8f176f7d52dd4ed5adee1ab7f7cdb8d, type: 3}
 --- !u!4 &8484543932599533388 stripped
