@@ -315,10 +315,7 @@ namespace GamePresenter
 
             //現在のスコアを初期値にします
             if (isReset)
-            {
                 score = _initialScore;
-                stageNum = _initialStageNum;
-            }
 
             //ステージ番号、スコアを保存
             _saveDataManager.SetScore(score);
