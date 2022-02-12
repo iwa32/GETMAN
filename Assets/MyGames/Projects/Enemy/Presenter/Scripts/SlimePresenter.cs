@@ -6,6 +6,7 @@ using StateView;
 using EnemyView;
 using StageObject;
 using StrategyView;
+using static StateType;
 
 namespace EnemyPresenter
 {
@@ -64,7 +65,7 @@ namespace EnemyPresenter
             //前方の衝突を監視
             _forwardObstacleCheckView.IsOn
                 .Where(isOn => isOn == true
-                && (_actionView.HasActionBy(StateType.TRACK) == false)
+                && (_actionView.HasActionBy(TRACK) == false)
                 )
                 .Subscribe(_ => {
                     //方向転換

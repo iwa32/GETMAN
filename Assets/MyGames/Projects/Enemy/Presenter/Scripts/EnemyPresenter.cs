@@ -209,6 +209,7 @@ namespace EnemyPresenter
         void ChangeDead()
         {
             _collider.enabled = false;//スコア二重取得防止
+            _navMeshAgent.isStopped = true;
             _actionView.State.Value = _deadView;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
         }
