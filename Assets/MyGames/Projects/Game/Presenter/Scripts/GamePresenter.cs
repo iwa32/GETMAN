@@ -145,7 +145,22 @@ namespace GamePresenter
         /// </summary>
         void Bind()
         {
+            //ゲームの準備
+            //ステージの生成後、プレイヤーを配置します
+            _stagePresenter.IsCreatedState
+                .Where(isCreatedStage => isCreatedStage == true)
+                .Subscribe(_ =>
+                _stagePresenter.PlacePlayerToStage(_playerPresenter.transform)
+                );
+
+            //プレイヤーの配置が完了後、フェードインとゲーム開始の準備のカウントを行う
+            _stagePresenter.IsPlacedPlayer
+                .Where(isPlacedPlayer => isPlacedPlayer == true)
+                .Subscribe(_ => _fade.FadeInBeforeAction(_gameStartView.StartCount).Forget())
+                .AddTo(this);
+
             //view
+            //カウントダウン後、ゲーム開始処理を行います
             _gameStartView.IsGameStart
                 .Where(isGameStart => isGameStart == true)
                 .Subscribe(_ => StartGame())
@@ -169,23 +184,9 @@ namespace GamePresenter
             _gameClearView.ClickToTitleButton()
                 .Subscribe(_ => MoveToTitle())
                 .AddTo(this);
-
-            //ゲームの準備
-            //ステージの生成、プレイヤーの配置
-            _stagePresenter.IsCreatedState
-                .Where(isCreatedStage => isCreatedStage == true)
-                .Subscribe(_ =>
-                _stagePresenter.PlacePlayerToStage(_playerPresenter.transform)
-                );
-
-            //プレイヤーの配置が完了後、フェードインとゲーム開始の準備のカウントを行う
-            _stagePresenter.IsPlacedPlayer
-                .Where(isPlacedPlayer => isPlacedPlayer == true)
-                .Subscribe(_ => _fade.FadeInBeforeAction(_gameStartView.StartCount).Forget())
-                .AddTo(this);
-
-            //ゲームの進行
+            
             //model
+            //ゲームの進行
             _directionModel.IsGameOver
                 .Where(isGameOver => isGameOver == true)
                 .Subscribe(_ => GameOver())
