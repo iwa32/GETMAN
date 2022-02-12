@@ -72,6 +72,7 @@ namespace Title
         {
             _observableClickButton
                 .CreateObservableClickButton(_startButton)
+                .First()
                 .Subscribe(_ =>
                 {
                     StartGame().Forget();
