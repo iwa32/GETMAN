@@ -13,6 +13,8 @@ namespace CustomSceneManager
     {
         IFade _fade;
 
+        public IFade Fade => _fade;
+
         [Inject]
         public void Construct(IFade fade)
         {
