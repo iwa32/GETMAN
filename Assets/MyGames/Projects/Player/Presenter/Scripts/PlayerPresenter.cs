@@ -42,10 +42,6 @@ namespace PlayerPresenter
         float _knockBackPower = 10.0f;
 
         [SerializeField]
-        [Header("武器アイコンのUIを設定")]
-        WeaponView _weaponView;
-
-        [SerializeField]
         [Header("HPのUIを設定")]
         HpView _hpView;
 
