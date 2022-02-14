@@ -1,10 +1,10 @@
 namespace StateView
 {
-    public class TrackView : StateView
+    public class JoyState : StateView
     {
         public override StateType State
         {
-            get => StateType.TRACK;
+            get => StateType.JOY;
             set => State = value;
         }
     }

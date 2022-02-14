@@ -19,10 +19,10 @@ namespace EnemyPresenter
 
         #region//フィールド
         //走行
-        RunView _runView;
+        RunState _runState;
         RunStrategy _runStrategy;
         //追跡
-        TrackView _trackView;
+        TrackState _trackState;
         TrackStrategy _trackStrategy;
         //方向転換
         ChangingDirectionStrategy _changingDirectionStrategy;
@@ -36,9 +36,9 @@ namespace EnemyPresenter
         new void Awake()
         {
             base.Awake();
-            _runView = GetComponent<RunView>();
+            _runState = GetComponent<RunState>();
             _runStrategy = GetComponent<RunStrategy>();
-            _trackView = GetComponent<TrackView>();
+            _trackState = GetComponent<TrackState>();
             _trackStrategy = GetComponent<TrackStrategy>();
             _changingDirectionStrategy = GetComponent<ChangingDirectionStrategy>();
         }
@@ -53,8 +53,8 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize()
         {
-            _runView.DelAction = _runStrategy.Strategy;
-            _trackView.DelAction = _trackStrategy.Strategy;
+            _runState.DelAction = _runStrategy.Strategy;
+            _trackState.DelAction = _trackStrategy.Strategy;
             DefaultState();
             Bind();
         }
@@ -103,7 +103,7 @@ namespace EnemyPresenter
         /// </summary>
         public override void DefaultState()
         {
-            _actionView.State.Value = _runView;
+            _actionView.State.Value = _runState;
         }
         #endregion
 
@@ -128,9 +128,9 @@ namespace EnemyPresenter
         {
             //追跡もしくは前方を走ります
             if (canTrack)
-                _actionView.State.Value = _trackView;
+                _actionView.State.Value = _trackState;
             else
-                _actionView.State.Value = _runView;
+                _actionView.State.Value = _runState;
         }
     }
 }

@@ -1,10 +1,10 @@
 namespace StateView
 {
-    public class WaitView : StateView
+    public class DeadState : StateView
     {
         public override StateType State
         {
-            get => StateType.WAIT;
+            get => StateType.DEAD;
             set => State = value;
         }
     }

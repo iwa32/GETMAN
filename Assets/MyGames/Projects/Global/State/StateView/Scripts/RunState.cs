@@ -1,6 +1,6 @@
 namespace StateView
 {
-    public class RunView : StateView
+    public class RunState : StateView
     {
         public override StateType State {
             get => StateType.RUN;

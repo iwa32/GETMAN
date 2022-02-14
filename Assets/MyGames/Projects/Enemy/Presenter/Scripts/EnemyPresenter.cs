@@ -26,8 +26,8 @@ namespace EnemyPresenter
         #region//フィールド
         //状態
         protected ActionView _actionView;//エネミーのアクション用スクリプト
-        DownView _downView;//ダウン状態のスクリプト
-        DeadView _deadView;//デッド状態のスクリプト
+        DownState _downState;//ダウン状態のスクリプト
+        DeadState _deadState;//デッド状態のスクリプト
         TriggerView.TriggerView _triggerView;//接触判定スクリプト
         CollisionView _collisionView;//衝突判定スクリプト
         Animator _animator;
@@ -53,8 +53,8 @@ namespace EnemyPresenter
         {
             //共通のstate
             _actionView = GetComponent<ActionView>();
-            _downView = GetComponent<DownView>();
-            _deadView = GetComponent<DeadView>();
+            _downState = GetComponent<DownState>();
+            _deadState = GetComponent<DeadState>();
             //接触、衝突
             _triggerView = GetComponent<TriggerView.TriggerView>();
             _collisionView = GetComponent<CollisionView>();
@@ -203,14 +203,14 @@ namespace EnemyPresenter
 
         void ChangeDown()
         {
-            _actionView.State.Value = _downView;
+            _actionView.State.Value = _downState;
         }
 
         void ChangeDead()
         {
             _collider.enabled = false;//スコア二重取得防止
             _navMeshAgent.isStopped = true;
-            _actionView.State.Value = _deadView;
+            _actionView.State.Value = _deadState;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
         }
     }

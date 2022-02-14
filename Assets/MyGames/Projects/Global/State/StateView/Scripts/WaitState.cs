@@ -1,10 +1,10 @@
 namespace StateView
 {
-    public class JoyView : StateView
+    public class WaitState : StateView
     {
         public override StateType State
         {
-            get => StateType.JOY;
+            get => StateType.WAIT;
             set => State = value;
         }
     }

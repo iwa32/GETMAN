@@ -1,10 +1,10 @@
 namespace StateView
 {
-    public class AttackView : StateView
+    public class DownState : StateView
     {
         public override StateType State
         {
-            get => StateType.ATTACK;
+            get => StateType.DOWN;
             set => State = value;
         }
     }

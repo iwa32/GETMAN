@@ -52,12 +52,12 @@ namespace PlayerPresenter
 
         #region//フィールド
         ActionView _actionView;//プレイヤーのアクション用スクリプト
-        WaitView _waitView;//待機状態のスクリプト
-        RunView _runView;//移動状態のスクリプト
-        DownView _downView;//ダウン状態のスクリプト
-        DeadView _deadView;//デッド状態のスクリプト
-        AttackView _attackView;//攻撃状態のスクリプト
-        JoyView _joyView;//喜び状態のスクリプト
+        WaitState _waitState;//待機状態のスクリプト
+        RunState _runState;//移動状態のスクリプト
+        DownState _downState;//ダウン状態のスクリプト
+        DeadState _deadState;//デッド状態のスクリプト
+        AttackState _attackState;//攻撃状態のスクリプト
+        JoyState _joyState;//喜び状態のスクリプト
         TriggerView.TriggerView _triggerView;//接触判定スクリプト
         CollisionView _collisionView;//衝突判定スクリプト
         InputView _inputView;//プレイヤーの入力取得スクリプト
@@ -100,12 +100,12 @@ namespace PlayerPresenter
         public void ManualAwake()
         {
             _actionView = GetComponent<ActionView>();
-            _waitView = GetComponent<WaitView>();
-            _runView = GetComponent<RunView>();
-            _downView = GetComponent<DownView>();
-            _deadView = GetComponent<DeadView>();
-            _attackView = GetComponent<AttackView>();
-            _joyView = GetComponent<JoyView>();
+            _waitState = GetComponent<WaitState>();
+            _runState = GetComponent<RunState>();
+            _downState = GetComponent<DownState>();
+            _deadState = GetComponent<DeadState>();
+            _attackState = GetComponent<AttackState>();
+            _joyState = GetComponent<JoyState>();
             _triggerView = GetComponent<TriggerView.TriggerView>();
             _collisionView = GetComponent<CollisionView>();
             _inputView = GetComponent<InputView>();
@@ -138,8 +138,8 @@ namespace PlayerPresenter
         /// </summary>
         void InitializeView()
         {
-            _runView.DelAction = Run;
-            _actionView.State.Value = _waitView;
+            _runState.DelAction = Run;
+            _actionView.State.Value = _waitState;
             _playerWeapon.Initialize();
         }
 
@@ -148,7 +148,7 @@ namespace PlayerPresenter
         /// </summary>
         public void ResetData()
         {
-            _actionView.State.Value = _waitView;
+            _actionView.State.Value = _waitState;
             InitializeModel();
         }
 
@@ -210,7 +210,7 @@ namespace PlayerPresenter
                 .Subscribe(_ =>
                 {
                     EndMotion();
-                    _actionView.State.Value = _waitView;
+                    _actionView.State.Value = _waitState;
                 })
                 .AddTo(this);
         }
@@ -305,9 +305,9 @@ namespace PlayerPresenter
         void ChangeStateByInput(Vector2 input)
         {
             if (input.magnitude != 0)
-                _actionView.State.Value = _runView;
+                _actionView.State.Value = _runState;
             else
-                _actionView.State.Value = _waitView;
+                _actionView.State.Value = _waitState;
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace PlayerPresenter
         void ChangeAttack()
         {
             _playerWeapon.StartMotion();
-            _actionView.State.Value = _attackView;
+            _actionView.State.Value = _attackState;
         }
 
         /// <summary>
@@ -331,19 +331,19 @@ namespace PlayerPresenter
 
         void ChangeDown()
         {
-            _actionView.State.Value = _downView;
+            _actionView.State.Value = _downState;
             PlayerBlinks().Forget();//点滅処理
         }
 
         public void ChangeDead()
         {
-            _actionView.State.Value = _deadView;
+            _actionView.State.Value = _deadState;
             _directionModel.SetIsGameOver(true);
         }
 
         public void ChangeJoy()
         {
-            _actionView.State.Value = _joyView;
+            _actionView.State.Value = _joyState;
         }
 
         /// <summary>
