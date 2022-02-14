@@ -64,7 +64,7 @@ namespace EnemyPresenter
             //前方の衝突を監視
             _forwardObstacleCheckView.IsOn
                 .Where(isOn => isOn == true
-                && (_actionView.HasActionBy(StateType.TRACK) == false)
+                && (_actionView.HasStateBy(StateType.TRACK) == false)
                 )
                 .Subscribe(_ => {
                     //方向転換

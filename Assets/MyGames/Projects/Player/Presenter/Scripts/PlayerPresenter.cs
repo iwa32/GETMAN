@@ -186,7 +186,7 @@ namespace PlayerPresenter
                 .Subscribe(input =>
                 {
                     //攻撃中に入力した場合攻撃モーションを終了する
-                    if (_actionView.HasActionBy(ATTACK))
+                    if (_actionView.HasStateBy(ATTACK))
                         _playerWeapon.EndMotion();
 
                     ChangeStateByInput(input);
@@ -226,8 +226,8 @@ namespace PlayerPresenter
         /// </summary>
         bool IsControllableState()
         {
-            return (_actionView.HasActionBy(RUN)
-                || _actionView.HasActionBy(WAIT));
+            return (_actionView.HasStateBy(RUN)
+                || _actionView.HasStateBy(WAIT));
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace PlayerPresenter
         void ReceiveDamageBy(Collider collider)
         {
             if (_isBlink) return;
-            if (_actionView.HasActionBy(ATTACK)) return;//攻撃中はダメージを受けない
+            if (_actionView.HasStateBy(ATTACK)) return;//攻撃中はダメージを受けない
             if (collider.TryGetComponent(out IDamager damager))
             {
                 _soundManager.PlaySE(DAMAGED);

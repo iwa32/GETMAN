@@ -31,7 +31,7 @@ namespace StateView
         public void Action()
         {
             if (State.Value?.DelAction == null) return;
-            State.Value.Action();
+            State.Value.DelAction();
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace StateView
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public bool HasActionBy(StateType state)
+        public bool HasStateBy(StateType state)
         {
             return (State.Value?.State == state);
         }

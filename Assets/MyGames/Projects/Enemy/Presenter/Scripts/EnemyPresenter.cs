@@ -114,7 +114,7 @@ namespace EnemyPresenter
             //trigger, collisionの取得
             _triggerView.OnTriggerEnter()
                 .Where(_ => _directionModel.CanGame()
-                && (_actionView.HasActionBy(StateType.DEAD) == false)
+                && (_actionView.HasStateBy(StateType.DEAD) == false)
                 )
                 .Subscribe(collider => CheckCollider(collider))
                 .AddTo(this);
@@ -136,7 +136,7 @@ namespace EnemyPresenter
                 .Subscribe(_ =>
                 {
                     //ダウン後に死亡したら何もしない
-                    if (_actionView.HasActionBy(StateType.DEAD)) return;
+                    if (_actionView.HasStateBy(StateType.DEAD)) return;
                     DefaultState();
                 }
                 )

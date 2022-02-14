@@ -10,10 +10,5 @@ namespace StateView
         public Action DelAction { get; set; }
 
         public abstract StateType State { get; set; }
-
-        public void Action()
-        {
-            DelAction();
-        }
     }
 }
