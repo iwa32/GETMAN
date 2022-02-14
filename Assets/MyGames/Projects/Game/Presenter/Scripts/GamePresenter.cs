@@ -94,7 +94,7 @@ namespace GamePresenter
 
         [Inject]
         public void Construct(
-            IDirectionModel directionModel,
+            IDirectionModel direction,
             IScoreModel score,
             IPointModel point,
             IStageNumModel stageNum,
@@ -105,7 +105,7 @@ namespace GamePresenter
             IDialog dialog
         )
         {
-            _directionModel = directionModel;
+            _directionModel = direction;
             _scoreModel = score;
             _pointModel = point;
             _stageNumModel = stageNum;
