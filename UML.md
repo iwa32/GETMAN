@@ -1,0 +1,1 @@
+![GETMAN drawio](https://user-images.githubusercontent.com/96030906/154130082-21f66b25-a8c8-4b51-92ae-b15ff571a59a.png)
