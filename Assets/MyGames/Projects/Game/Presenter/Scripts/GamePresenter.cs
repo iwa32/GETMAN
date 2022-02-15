@@ -263,6 +263,8 @@ namespace GamePresenter
             int nextStageNum = _stagePresenter.GetNextStageNum();
             if (_stagePresenter.CheckStage(nextStageNum))
             {
+                _stageNumModel.SetStageNum(nextStageNum);
+                SaveGameData(false);
                 _soundManager.PlaySE(SCENE_MOVEMENT);
                 _customSceneManager.LoadScene(STAGE);
             }
@@ -299,11 +301,6 @@ namespace GamePresenter
         void GameClear()
         {
             _soundManager.PlaySE(GAME_CLEAR);
-
-            //次のステージがあればステージ番号を進めます
-            _stagePresenter.SetNextStageNum();
-
-            SaveGameData(false);
             _gameClearView.gameObject?.SetActive(true);
             _playerPresenter.ChangeJoy();
         }
