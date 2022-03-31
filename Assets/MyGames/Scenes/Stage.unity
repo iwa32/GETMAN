@@ -753,7 +753,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &534197619
@@ -2708,6 +2708,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1612487201 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7138150866404513592, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+  m_PrefabInstance: {fileID: 1612487197}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1676516052
 GameObject:
   m_ObjectHideFlags: 0
@@ -3814,6 +3825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextStageButton: {fileID: 1612487200}
+  _saveButton: {fileID: 1612487201}
   _toTitleButton: {fileID: 1612487198}
 --- !u!224 &2725301319310851827
 RectTransform:
@@ -4163,6 +4175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _continueButton: {fileID: 836892427}
+  _saveButton: {fileID: 7138150867420084497}
   _toTitleButton: {fileID: 8391848019049331782}
 --- !u!1001 &7138150867420084495
 PrefabInstance:
@@ -4274,6 +4287,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 611141470861348594, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
   m_PrefabInstance: {fileID: 7138150867420084495}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7138150867420084497 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7138150866404513592, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+  m_PrefabInstance: {fileID: 7138150867420084495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7282829265170173270
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4480,7 +4504,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &7845309206105267292

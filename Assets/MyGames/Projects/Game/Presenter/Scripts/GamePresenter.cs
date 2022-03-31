@@ -176,6 +176,15 @@ namespace GamePresenter
                 .Subscribe(_ => LoadNextStage())
                 .AddTo(this);
 
+            //セーブボタン
+            _gameOverView.ClickSaveButton()
+                .Subscribe(_ => SaveGameData())
+                .AddTo(this);
+
+            _gameClearView.ClickSaveButton()
+                .Subscribe(_ => SaveGameData())
+                .AddTo(this);
+
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
                 .Subscribe(_ => MoveToTitle())
@@ -264,7 +273,6 @@ namespace GamePresenter
             if (_stagePresenter.CheckStage(nextStageNum))
             {
                 _stageNumModel.SetStageNum(nextStageNum);
-                SaveGameData(false);
                 _soundManager.PlaySE(SCENE_MOVEMENT);
                 _customSceneManager.LoadScene(STAGE);
             }
@@ -290,7 +298,6 @@ namespace GamePresenter
         void GameOver()
         {
             _soundManager.PlaySE(GAME_OVER);
-            SaveGameData(true);
             _gameOverView.gameObject?.SetActive(true);
             _playerPresenter.ChangeDead();
         }
@@ -308,18 +315,11 @@ namespace GamePresenter
         /// <summary>
         /// ゲームデータを保存する
         /// </summary>
-        void SaveGameData(bool isReset)
+        void SaveGameData()
         {
-            int score = _scoreModel.Score.Value;
-            int stageNum = _stageNumModel.StageNum.Value;
-
-            //現在のスコアを初期値にします
-            if (isReset)
-                score = _initialScore;
-
             //ステージ番号、スコアを保存
-            _saveDataManager.SetScore(score);
-            _saveDataManager.SetStageNum(stageNum);
+            _saveDataManager.SetScore(_scoreModel.Score.Value);
+            _saveDataManager.SetStageNum(_stageNumModel.StageNum.Value);
             _saveDataManager.Save();
         }
 
