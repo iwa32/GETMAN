@@ -328,15 +328,11 @@ namespace GamePresenter
             if (isShownDialog == false) return;
             //ダイアログを表示する場合
             if (isSaved)
-            {
                 _dialog.SetText(_saveDataManager.SaveCompletedMessage);
-                _dialog.OpenDialog();
-            }
             else
-            {
                 _dialog.SetText(_saveDataManager.SaveNotCompletedMessage);
-                _dialog.OpenDialog();
-            }
+
+            _dialog.ShowDialogWithTimeLimit(1);
         }
 
         /// <summary>
