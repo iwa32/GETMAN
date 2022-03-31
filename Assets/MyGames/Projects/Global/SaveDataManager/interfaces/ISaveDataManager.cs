@@ -7,6 +7,8 @@ namespace SaveDataManager
     {
         ISaveData SaveData { get; }
         bool IsInitialized { get; }
+        string SaveCompletedMessage { get; }
+        string SaveNotCompletedMessage { get; }
 
         /// <summary>
         /// ステージ番号を設定する
@@ -34,11 +36,11 @@ namespace SaveDataManager
         /// <summary>
         /// データを保存します
         /// </summary>
-        void Save();
+        bool Save();
 
         /// <summary>
         /// データを読み込みます
         /// </summary>
-        void Load();
+        bool Load();
     }
 }

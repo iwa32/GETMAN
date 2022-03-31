@@ -12,6 +12,13 @@ namespace SaveDataManager
     [System.Serializable]
     public class SaveDataManager : MonoBehaviour, ISaveDataManager
     {
+        [SerializeField]
+        [Header("セーブ完了後に表示するメッセージを設定します")]
+        string _saveCompletedMessage = "データを保存しました";
+        [SerializeField]
+        [Header("セーブができなかった場合に表示するメッセージを設定します")]
+        string _saveNotCompletedMessage = "データが保存できませんでした、再度お試しください";
+
         ISaveData _saveData;
         string _savePath;
         string _wegGlSaveKey = "SaveData";
@@ -19,6 +26,8 @@ namespace SaveDataManager
 
         public ISaveData SaveData => _saveData;
         public bool IsInitialized => _isInitialized;
+        public string SaveCompletedMessage => _saveCompletedMessage;
+        public string SaveNotCompletedMessage => _saveNotCompletedMessage;
 
         void Awake()
         {
@@ -66,7 +75,7 @@ namespace SaveDataManager
         /// <summary>
         /// データを保存します
         /// </summary>
-        public void Save()
+        public bool Save()
         {
             string jsonStr = JsonUtility.ToJson(_saveData);
 
@@ -79,23 +88,26 @@ namespace SaveDataManager
                     sw.Write(jsonStr);
                     sw.Flush();
                     sw.Close();//念の為明記
+                    return true;
                 }
                 catch
                 {
                     Debug.Log("データを保存できませんでした。");
+                    return false;
                 }
             }
 
 #elif UNITY_WEBGL
             //webGLはPlayerPrefsで保存する
             PlayerPrefs.SetString(_wegGlSaveKey, jsonStr);
+            return true;
 #endif
         }
 
         /// <summary>
         /// データを読み込みます
         /// </summary>
-        public void Load()
+        public bool Load()
         {
 #if UNITY_EDITOR
             using (StreamReader sr = new StreamReader(_savePath))
@@ -104,16 +116,19 @@ namespace SaveDataManager
                 {
                     JsonUtility.FromJsonOverwrite(sr.ReadToEnd(), _saveData);
                     sr.Close();
+                    return true;
                 }
                 catch
                 {
                     Debug.Log("データを読み込めませんでした。");
+                    return false;
                 }
             }
 
 #elif UNITY_WEBGL
             string jsonStr = PlayerPrefs.GetString(_wegGlSaveKey);
             JsonUtility.FromJsonOverwrite(jsonStr, _saveData);
+            return true;
 #endif
         }
     }

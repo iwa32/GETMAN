@@ -178,11 +178,11 @@ namespace GamePresenter
 
             //セーブボタン
             _gameOverView.ClickSaveButton()
-                .Subscribe(_ => SaveGameData())
+                .Subscribe(_ => SaveGameData(true))
                 .AddTo(this);
 
             _gameClearView.ClickSaveButton()
-                .Subscribe(_ => SaveGameData())
+                .Subscribe(_ => SaveGameData(true))
                 .AddTo(this);
 
             //タイトルボタン
@@ -273,6 +273,7 @@ namespace GamePresenter
             if (_stagePresenter.CheckStage(nextStageNum))
             {
                 _stageNumModel.SetStageNum(nextStageNum);
+                SaveGameData(false);
                 _soundManager.PlaySE(SCENE_MOVEMENT);
                 _customSceneManager.LoadScene(STAGE);
             }
@@ -315,12 +316,26 @@ namespace GamePresenter
         /// <summary>
         /// ゲームデータを保存する
         /// </summary>
-        void SaveGameData()
+        void SaveGameData(bool isShownDialog)
         {
             //ステージ番号、スコアを保存
             _saveDataManager.SetScore(_scoreModel.Score.Value);
             _saveDataManager.SetStageNum(_stageNumModel.StageNum.Value);
-            _saveDataManager.Save();
+            
+            bool isSaved = _saveDataManager.Save();
+
+            if (isShownDialog == false) return;
+            //ダイアログを表示する場合
+            if (isSaved)
+            {
+                _dialog.SetText(_saveDataManager.SaveCompletedMessage);
+                _dialog.OpenDialog();
+            }
+            else
+            {
+                _dialog.SetText(_saveDataManager.SaveNotCompletedMessage);
+                _dialog.OpenDialog();
+            }
         }
 
         /// <summary>
@@ -343,9 +358,11 @@ namespace GamePresenter
             //saveDataがあればそちらを取得し設定する
             if (_saveDataManager.SaveDataExists())
             {
-                _saveDataManager.Load();
-                score = _saveDataManager.SaveData.CurrentScore;
-                stageNum = _saveDataManager.SaveData.StageNum;
+                if (_saveDataManager.Load())
+                {
+                    score = _saveDataManager.SaveData.CurrentScore;
+                    stageNum = _saveDataManager.SaveData.StageNum;
+                }
             }
 
             _scoreModel.SetScore(score);
