@@ -18,20 +18,16 @@ namespace Title
     public class Title : MonoBehaviour
     {
         [SerializeField]
-        [Header("ニューゲームボタンのテキスト")]
-        TextMeshProUGUI _newGameButtonText;
+        [Header("スタートゲームボタンのテキスト")]
+        TextMeshProUGUI _startGameButtonText;
 
         [SerializeField]
-        [Header("コンティニューボタンのテキスト")]
-        TextMeshProUGUI _continueButtonText;
+        [Header("ハイスコア表示用テキスト")]
+        TextMeshProUGUI _highScoreText;
 
         [SerializeField]
-        [Header("NewGameButtonを設定")]
-        Button _newGameButton;
-
-        [SerializeField]
-        [Header("ContinueGameButtonを設定")]
-        Button _continueGameButton;
+        [Header("StartGameButtonを設定")]
+        Button _startGameButton;
 
         [SerializeField]
         [Header("ボタンの点滅速度")]
@@ -78,40 +74,39 @@ namespace Title
         void Start()
         {
             _fade.StartFadeIn().Forget();
+            LoadHighScore();
             Bind();
         }
 
         void Bind()
         {
             _observableClickButton
-                .CreateObservableClickButton(_newGameButton)
+                .CreateObservableClickButton(_startGameButton)
                 .First()
                 .Subscribe(_ =>
                 {
-                    StartGame(_newGameButtonText, true).Forget();
-                })
-                .AddTo(this);
-
-            _observableClickButton
-                .CreateObservableClickButton(_continueGameButton)
-                .First()
-                .Subscribe(_ =>
-                {
-                    StartGame(_continueButtonText, false).Forget();
+                    StartGame().Forget();
                 })
                 .AddTo(this);
         }
 
-        async UniTask StartGame(TextMeshProUGUI text, bool isNewGame)
+        void LoadHighScore()
+        {
+            if (_saveDataManager.Load())
+            {
+                _highScoreText.text = "HighScore: " + _saveDataManager.SaveData.HighScore.ToString();
+            }
+        }
+
+        async UniTask StartGame()
         {
             if (_isClickedButton) return;
             _isClickedButton = true;
 
             _soundManager.PlaySE(SEType.SCENE_MOVEMENT);
-            await BlinkClickedButton(text);
+            await BlinkClickedButton(_startGameButtonText);
 
-            if (isNewGame)
-                _saveDataManager.SetIsInitialized(true);
+            _saveDataManager.SetIsInitialized(true);
 
             await UniTask.Yield();
 

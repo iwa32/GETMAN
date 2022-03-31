@@ -41,7 +41,7 @@ namespace GamePresenter
 
         [SerializeField]
         [Header("ゲームクリア後、次のステージがない場合に表示するメッセージを設定します")]
-        string _gameClearMessage = "ステージクリアおめでとうございます。次のステージ追加をお待ちください。";
+        string _gameClearMessage = "ステージクリアおめでとうございます！次のステージ追加をお待ちください。";
 
         [SerializeField]
         [Header("スコアのUIを設定")]
@@ -167,9 +167,9 @@ namespace GamePresenter
                 .AddTo(this);
 
             //プレイヤーのボタン入力
-            //コンティニューボタン
-            _gameOverView.ClickContinueButton()
-                .Subscribe(_ => ContinueGame())
+            //リスタートボタン
+            _gameOverView.ClickRestartButton()
+                .Subscribe(_ => RestartGame())
                 .AddTo(this);
             //次のステージへ
             _gameClearView.ClickNextStageButton()
@@ -254,10 +254,11 @@ namespace GamePresenter
         }
 
         /// <summary>
-        /// ゲームをコンティニューする
+        /// ゲームを再スタートする
         /// </summary>
-        void ContinueGame()
+        void RestartGame()
         {
+            _saveDataManager.SetIsInitialized(true);
             _soundManager.PlaySE(SCENE_MOVEMENT);
             //シーンの再読み込みをする
             _customSceneManager.LoadScene(STAGE);
@@ -355,14 +356,11 @@ namespace GamePresenter
                 return;
             }
 
-            //saveDataがあればそちらを取得し設定する
-            if (_saveDataManager.SaveDataExists())
+            //次のステージへ行く場合のみ使用する
+            if (_saveDataManager.Load())
             {
-                if (_saveDataManager.Load())
-                {
-                    score = _saveDataManager.SaveData.CurrentScore;
-                    stageNum = _saveDataManager.SaveData.StageNum;
-                }
+                score = _saveDataManager.SaveData.CurrentScore;
+                stageNum = _saveDataManager.SaveData.StageNum;
             }
 
             _scoreModel.SetScore(score);

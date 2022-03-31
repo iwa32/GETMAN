@@ -798,7 +798,7 @@ MonoBehaviour:
   _initialStageNum: 1
   _scoreLineToGetHp: 100
   _nextMagnification: 5
-  _gameClearMessage: "\u30B9\u30C6\u30FC\u30B8\u30AF\u30EA\u30A2\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u3002\u6B21\u306E\u30B9\u30C6\u30FC\u30B8\u8FFD\u52A0\u3092\u304A\u5F85\u3061\u304F\u3060\u3055\u3044\u3002"
+  _gameClearMessage: "\u30B9\u30C6\u30FC\u30B8\u30AF\u30EA\u30A2\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059\u6B21\u306E\u30B9\u30C6\u30FC\u30B8\u8FFD\u52A0\u3092\u304A\u5F85\u3061\u304F\u3060\u3055\u3044\u3002"
   _scoreView: {fileID: 3153877541301194318}
   _pointView: {fileID: 5651793444895356041}
   _stageNumView: {fileID: 353514132}
@@ -4174,7 +4174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ade64001187c41bca85143005c244ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _continueButton: {fileID: 836892427}
+  _restartButton: {fileID: 836892427}
   _saveButton: {fileID: 7138150867420084497}
   _toTitleButton: {fileID: 8391848019049331782}
 --- !u!1001 &7138150867420084495
@@ -4277,8 +4277,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7138150865789213474, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+      propertyPath: m_text
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138150865789213474, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138150866591780358, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+      propertyPath: m_Name
+      value: RestartButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}

@@ -109,6 +109,8 @@ namespace SaveDataManager
         /// </summary>
         public bool Load()
         {
+            if (SaveDataExists() == false) return false;
+
 #if UNITY_EDITOR
             using (StreamReader sr = new StreamReader(_savePath))
             {

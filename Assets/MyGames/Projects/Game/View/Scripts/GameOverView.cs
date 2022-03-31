@@ -12,8 +12,8 @@ namespace GameView
     public class GameOverView : MonoBehaviour
     {
         [SerializeField]
-        [Header("コンティニューボタンを設定")]
-        Button _continueButton;
+        [Header("リスタートボタンを設定")]
+        Button _restartButton;
 
         [SerializeField]
         [Header("セーブボタンを設定")]
@@ -33,9 +33,9 @@ namespace GameView
             _observableClickButton = observableClickButton;
         }
 
-        public IObservable<Unit> ClickContinueButton()
+        public IObservable<Unit> ClickRestartButton()
         {
-            return _observableClickButton.CreateObservableClickButton(_continueButton);
+            return _observableClickButton.CreateObservableClickButton(_restartButton);
         }
 
         public IObservable<Unit> ClickSaveButton()
