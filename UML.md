@@ -1,7 +1,6 @@
 # クラス図
 下記のクラス図の画像は情報が古い場合があります。
-最新版は<a href="https://app.diagrams.net/#G1QGI5yq3zweLk-QUvVZcqQ_UyckQmXLeU" target="_blank">こちら</a>に記載してあります。
-
+最新版は[こちら](https://app.diagrams.net/#G1QGI5yq3zweLk-QUvVZcqQ_UyckQmXLeU)に記載してあります。
 
 ## global(汎用クラス)
 ### あらゆるクラスで使いまわします
