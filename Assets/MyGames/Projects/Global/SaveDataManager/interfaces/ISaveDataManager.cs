@@ -6,6 +6,7 @@ namespace SaveDataManager
     public interface ISaveDataManager
     {
         ISaveData SaveData { get; }
+        bool IsInitialized { get; }
 
         /// <summary>
         /// ステージ番号を設定する
@@ -20,16 +21,16 @@ namespace SaveDataManager
         void SetScore(int score);
 
         /// <summary>
+        /// 初期化フラグを設定する
+        /// </summary>
+        void SetIsInitialized(bool isInitialized);
+
+        /// <summary>
         /// セーブデータが存在するか
         /// </summary>
         /// <returns></returns>
         bool SaveDataExists();
 
-        /// <summary>
-        /// データを初期化します
-        /// </summary>
-        void InitData();
-        
         /// <summary>
         /// データを保存します
         /// </summary>

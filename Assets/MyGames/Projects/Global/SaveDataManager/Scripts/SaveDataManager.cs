@@ -15,8 +15,10 @@ namespace SaveDataManager
         ISaveData _saveData;
         string _savePath;
         string _wegGlSaveKey = "SaveData";
+        bool _isInitialized;
 
         public ISaveData SaveData => _saveData;
+        public bool IsInitialized => _isInitialized;
 
         void Awake()
         {
@@ -40,6 +42,14 @@ namespace SaveDataManager
         }
 
         /// <summary>
+        /// 初期化フラグを設定する
+        /// </summary>
+        public void SetIsInitialized(bool isInitialized)
+        {
+            _isInitialized = isInitialized;
+        }
+
+        /// <summary>
         /// セーブデータが存在しているか
         /// </summary>
         /// <returns></returns>
@@ -51,17 +61,6 @@ namespace SaveDataManager
 #elif UNITY_WEBGL
             return (String.IsNullOrEmpty(PlayerPrefs.GetString(_wegGlSaveKey)) == false);
 #endif
-        }
-
-        /// <summary>
-        /// データを初期化します
-        /// </summary>
-        public void InitData()
-        {
-            if (SaveDataExists())
-            {
-                Save();//空データでセーブデータを上書きする
-            }
         }
 
         /// <summary>

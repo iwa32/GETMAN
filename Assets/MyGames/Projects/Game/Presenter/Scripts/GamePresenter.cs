@@ -331,6 +331,15 @@ namespace GamePresenter
             int score = _initialScore;
             int stageNum = _initialStageNum;
 
+            //最初から始める
+            if (_saveDataManager.IsInitialized)
+            {
+                _scoreModel.SetScore(score);
+                _stageNumModel.SetStageNum(stageNum);
+                _saveDataManager.SetIsInitialized(false);
+                return;
+            }
+
             //saveDataがあればそちらを取得し設定する
             if (_saveDataManager.SaveDataExists())
             {

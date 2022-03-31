@@ -111,7 +111,7 @@ namespace Title
             await BlinkClickedButton(text);
 
             if (isNewGame)
-                _saveDataManager.InitData();
+                _saveDataManager.SetIsInitialized(true);
 
             await UniTask.Yield();
 
