@@ -188,7 +188,7 @@ namespace PlayerPresenter
                     //攻撃中に入力した場合攻撃モーションを終了する
                     if (_actionView.HasStateBy(ATTACK))
                         _playerWeapon.EndMotion();
-
+                    
                     ChangeStateByInput(input);
                 }
                 )
