@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3143705597306472651}
   - component: {fileID: 3884363958154536408}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5477652961237768920}
   - component: {fileID: 6029263039981170469}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 8585597016356387376}
   - component: {fileID: 8585597016356387377}
   - component: {fileID: -956086834760539093}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _power: 1
   _trailRenderer: {fileID: 6029263039981170469}
+  _maxAttackMotionCount: 2
 --- !u!1001 &8585597015384532016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -303,6 +304,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 09600f57fc86f4f4783f05ae49266fdb, type: 3}
       propertyPath: m_Name
       value: Sword_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 09600f57fc86f4f4783f05ae49266fdb, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 09600f57fc86f4f4783f05ae49266fdb, type: 3}
       propertyPath: m_RootOrder

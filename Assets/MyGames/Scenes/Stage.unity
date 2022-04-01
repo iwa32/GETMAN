@@ -2525,7 +2525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425a033d7072845c7bb020040517363e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameLimitCountTime: 50
+  _gameLimitCountTime: 200
 --- !u!114 &1581975544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4638,22 +4638,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1567685208}
     m_Modifications:
-    - target: {fileID: 4009876272906127170, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5599771688723169229, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7466261615721351002, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
-      propertyPath: m_BoundingSphereOverride.w
-      value: 4.0286163e-11
-      objectReference: {fileID: 0}
-    - target: {fileID: 8585597015384629904, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 8585597016356387376, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -4701,10 +4685,6 @@ PrefabInstance:
     - target: {fileID: 8585597016356387391, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
       propertyPath: m_Name
       value: PlayerSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8585597016356387391, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 107299a2d041b4c9cb1cea5288834c5d, type: 3}

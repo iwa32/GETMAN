@@ -202,23 +202,43 @@ namespace PlayerPresenter
                 .Subscribe(_ => ChangeAttack())
                 .AddTo(this);
 
+
             //アニメーションの監視
-            _animTrigger.OnStateUpdateAsObservable()
+            _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName("Attack")
-                || s.StateInfo.IsName("Down"))
-                .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
+                || s.StateInfo.IsName("Attack2")
+                || s.StateInfo.IsName("Attack3")
+                )
                 .Subscribe(_ =>
                 {
-                    EndMotion();
+                    _playerWeapon.EndMotion();
+                    _animator.ResetTrigger("ContinuousAttack");
+                    _actionView.State.Value = _waitState;
+                });
+
+            _animTrigger.OnStateExitAsObservable()
+                .Where(s => s.StateInfo.IsName("Down"))
+                .Subscribe(_ =>
+                {
                     _actionView.State.Value = _waitState;
                 })
                 .AddTo(this);
         }
 
-        void EndMotion()
+        /// <summary>
+        /// 攻撃状態に切り替えます
+        /// </summary>
+        void ChangeAttack()
         {
-            //攻撃前の方向に戻します
-            _playerWeapon.EndMotion();
+            _playerWeapon.StartMotion();
+
+            //連続攻撃
+            if (_actionView.HasStateBy(ATTACK))
+            {
+                _animator.SetTrigger("ContinuousAttack");
+            }
+            _actionView.State.Value = _attackState;
+            
         }
 
         /// <summary>
@@ -227,7 +247,8 @@ namespace PlayerPresenter
         bool IsControllableState()
         {
             return (_actionView.HasStateBy(RUN)
-                || _actionView.HasStateBy(WAIT));
+                || _actionView.HasStateBy(WAIT)
+                || _actionView.HasStateBy(ATTACK));
         }
 
         /// <summary>
@@ -308,15 +329,6 @@ namespace PlayerPresenter
                 _actionView.State.Value = _runState;
             else
                 _actionView.State.Value = _waitState;
-        }
-
-        /// <summary>
-        /// 攻撃状態に切り替えます
-        /// </summary>
-        void ChangeAttack()
-        {
-            _playerWeapon.StartMotion();
-            _actionView.State.Value = _attackState;
         }
 
         /// <summary>
