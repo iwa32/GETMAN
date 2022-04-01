@@ -2525,7 +2525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425a033d7072845c7bb020040517363e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameLimitCountTime: 200
+  _gameLimitCountTime: 50
 --- !u!114 &1581975544
 MonoBehaviour:
   m_ObjectHideFlags: 0
