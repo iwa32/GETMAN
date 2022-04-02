@@ -130,9 +130,8 @@ namespace EnemyPresenter
 
             //アニメーションの監視
             //down
-            _animTrigger.OnStateUpdateAsObservable()
+            _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
-                .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ =>
                 {
                     //ダウン後に死亡したら何もしない
@@ -143,14 +142,23 @@ namespace EnemyPresenter
                 .AddTo(this);
 
             //dead
-            _animTrigger.OnStateUpdateAsObservable()
+            _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName("Dead"))
-                .Where(s => s.StateInfo.normalizedTime >= s.StateInfo.length)
                 .Subscribe(_ =>
                 {
-                    _isDead.Value = true;
                     Destroy(gameObject);
                 }).AddTo(this);
+
+            //死亡しているのに生存している場合、3秒後に破棄します
+            _isDead
+                .Where(_isDead => _isDead == true && gameObject != null)
+                .Delay(TimeSpan.FromSeconds(3))
+                .Subscribe(_ =>
+                {
+                    Destroy(gameObject);
+                })
+                .AddTo(this);
+
 
             //FixedUpdate
             this.FixedUpdateAsObservable()
@@ -212,6 +220,7 @@ namespace EnemyPresenter
             _navMeshAgent.isStopped = true;
             _actionView.State.Value = _deadState;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
+            _isDead.Value = true;
         }
     }
 }
