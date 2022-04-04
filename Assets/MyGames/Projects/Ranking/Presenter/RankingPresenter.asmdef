@@ -1,17 +1,14 @@
 {
-    "name": "Title",
+    "name": "RankingPresenter",
     "rootNamespace": "",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:6c5341ec81beb4ade9375db9ebd1ed52",
+        "GUID:38171848a2b5947f1bc64bd9f9dd2187",
         "GUID:e69bbf1a1fd6e4729ae0117481bccb88",
-        "GUID:231969241a33c435c889dcd1f750de0c",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:ea3564fcb6e7f4fdd87b050659e535d1",
         "GUID:b3f420edca8ab44e2bb6d1642f3ae6de",
-        "GUID:0e95aa88e28174ab5988b5d17f3846c9",
-        "GUID:fcd69ce74141245a29e02a2e7915f9e9"
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:0bc7b6b7b79164757b2515bc27f78e4c",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

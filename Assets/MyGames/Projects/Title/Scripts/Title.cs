@@ -30,6 +30,14 @@ namespace Title
         Button _startGameButton;
 
         [SerializeField]
+        [Header("RankingGameButtonを設定")]
+        Button _rankingButton;
+
+        [SerializeField]
+        [Header("Ranking表示Canvasを設定")]
+        RankingPresenter.RankingPresenter _rankingCanvas;
+
+        [SerializeField]
         [Header("ボタンの点滅速度")]
         float _blinkSpeed = 1.0f;
 
@@ -80,6 +88,7 @@ namespace Title
 
         void Bind()
         {
+            //ゲーム開始ボタン
             _observableClickButton
                 .CreateObservableClickButton(_startGameButton)
                 .First()
@@ -88,8 +97,20 @@ namespace Title
                     StartGame().Forget();
                 })
                 .AddTo(this);
+
+            //ランキング表示ボタン
+            _observableClickButton
+                .CreateObservableClickButton(_rankingButton)
+                .Subscribe(_ =>
+                {
+                    _rankingCanvas.ShowRanking();
+                })
+                .AddTo(this);
         }
 
+        /// <summary>
+        /// ハイスコアの読み込み
+        /// </summary>
         void LoadHighScore()
         {
             if (_saveDataManager.Load())
@@ -98,6 +119,10 @@ namespace Title
             }
         }
 
+        /// <summary>
+        /// ゲームの開始
+        /// </summary>
+        /// <returns></returns>
         async UniTask StartGame()
         {
             if (_isClickedButton) return;
