@@ -7,6 +7,7 @@ namespace SaveDataManager
     {
         ISaveData SaveData { get; }
         bool IsInitialized { get; }
+        bool IsLoaded { get; }
         string SaveCompletedMessage { get; }
         string SaveNotCompletedMessage { get; }
 
@@ -41,6 +42,6 @@ namespace SaveDataManager
         /// <summary>
         /// データを読み込みます
         /// </summary>
-        bool Load();
+        void Load();
     }
 }

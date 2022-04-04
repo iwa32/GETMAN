@@ -353,7 +353,7 @@ namespace GamePresenter
             }
 
             //次のステージへ行く場合のみ使用する
-            if (_saveDataManager.Load())
+            if (_saveDataManager.IsLoaded)
             {
                 score = _saveDataManager.SaveData.CurrentScore;
                 stageNum = _saveDataManager.SaveData.StageNum;

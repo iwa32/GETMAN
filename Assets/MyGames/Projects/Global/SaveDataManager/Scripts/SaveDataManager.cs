@@ -23,15 +23,18 @@ namespace SaveDataManager
         string _savePath;
         string _wegGlSaveKey = "SaveData";
         bool _isInitialized;
+        bool _isLoaded;
 
         public ISaveData SaveData => _saveData;
         public bool IsInitialized => _isInitialized;
+        public bool IsLoaded => _isLoaded;
         public string SaveCompletedMessage => _saveCompletedMessage;
         public string SaveNotCompletedMessage => _saveNotCompletedMessage;
 
         void Awake()
         {
             _savePath = Application.dataPath + "/playerData.json";
+            Load();
         }
 
         [Inject]
@@ -107,9 +110,9 @@ namespace SaveDataManager
         /// <summary>
         /// データを読み込みます
         /// </summary>
-        public bool Load()
+        public void Load()
         {
-            if (SaveDataExists() == false) return false;
+            if (SaveDataExists() == false) return;
 
 #if UNITY_EDITOR
             using (StreamReader sr = new StreamReader(_savePath))
@@ -118,12 +121,12 @@ namespace SaveDataManager
                 {
                     JsonUtility.FromJsonOverwrite(sr.ReadToEnd(), _saveData);
                     sr.Close();
-                    return true;
+                    _isLoaded = true;
                 }
                 catch
                 {
                     Debug.Log("データを読み込めませんでした。");
-                    return false;
+                    _isLoaded = false;
                 }
             }
 

@@ -82,7 +82,7 @@ namespace Title
         void Start()
         {
             _fade.StartFadeIn().Forget();
-            LoadHighScore();
+            ShowHighScore();
             Bind();
         }
 
@@ -109,14 +109,13 @@ namespace Title
         }
 
         /// <summary>
-        /// ハイスコアの読み込み
+        /// ハイスコアの表示
         /// </summary>
-        void LoadHighScore()
+        void ShowHighScore()
         {
-            if (_saveDataManager.Load())
-            {
-                _highScoreText.text = "HighScore: " + _saveDataManager.SaveData.HighScore.ToString();
-            }
+            if (_saveDataManager.IsLoaded == false) return;
+
+            _highScoreText.text = "HighScore: " + _saveDataManager.SaveData.HighScore.ToString();
         }
 
         /// <summary>
