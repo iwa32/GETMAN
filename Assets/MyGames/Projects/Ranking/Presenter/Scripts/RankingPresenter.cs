@@ -60,7 +60,6 @@ namespace RankingPresenter
         void Start()
         {
             //CloseRanking();
-            _rankingModel.Login();//todo 別クラスで行う
             Initialize();
             Bind();
             //uniRxでbottonをクリックで必要なメソッドを呼び出す
@@ -126,6 +125,8 @@ namespace RankingPresenter
         /// <returns></returns>
         async UniTask SetRankingDataToView()
         {
+            //todo ログイン状態になるまでまつ
+
             await _rankingModel.LoadRankingList();
 
             //実際に取得したランキングデータの数だけ描画します

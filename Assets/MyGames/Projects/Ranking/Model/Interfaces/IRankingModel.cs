@@ -17,11 +17,6 @@ namespace RankingModel
         void SetMaxResultCount(int max);
 
         /// <summary>
-        /// ログインします
-        /// </summary>
-        void Login();
-
-        /// <summary>
         /// ユーザー名を登録
         /// </summary>
         /// <param name="userName"></param>

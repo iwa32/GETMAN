@@ -2,6 +2,7 @@ using UnityEngine;
 using Zenject;
 using Fade;
 using Dialog;
+using AuthManager;
 using CustomSceneManager;
 using SaveDataManager;
 using SoundManager;
@@ -11,6 +12,10 @@ namespace GlobalInstaller
 {
     public class ProjectPrefabInstaller : MonoInstaller
     {
+        [SerializeField]
+        [Header("認証マネージャーのプレハブを設定")]
+        AuthManagerByPlayFab _authManagerByPlayFab;
+
         [SerializeField]
         [Header("フェードのプレハブを設定")]
         Fade.Fade _fadePrefab;
@@ -36,16 +41,25 @@ namespace GlobalInstaller
 		/// </summary>
         public override void InstallBindings()
         {
+            //認証
+            Container.Bind<IAuthManager>()
+                .FromComponentInNewPrefab(_authManagerByPlayFab)
+                .AsSingle()
+                .NonLazy();
+
+            //シーン遷移
             Container.Bind<ICustomSceneManager>()
                .FromComponentInNewPrefab(_customSceneManagerPrefab)
                .AsSingle()
                .NonLazy();
 
+            //セーブデータ管理
             Container.Bind<ISaveDataManager>()
                 .FromComponentInNewPrefab(_saveDataManagerPrefab)
                 .AsSingle()
                 .NonLazy();
 
+            //BGM,SE
             Container.Bind<ISoundManager>()
                 .FromComponentInNewPrefab(_soundManagerPrefab)
                 .AsSingle()

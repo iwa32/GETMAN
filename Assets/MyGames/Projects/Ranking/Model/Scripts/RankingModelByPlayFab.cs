@@ -18,26 +18,16 @@ namespace RankingModel
 
     public class RankingModelByPlayFab : IRankingModel
     {
+        #region//フィールド
         List<UserData> _rankingList = new List<UserData>();
         int _maxResultsCount;
         readonly string _rankingStatisticName = "HighScore";
+        #endregion
 
-
+        #region//プロパティ
         public List<UserData> RankingList => _rankingList;
         public int MaxResultsCount => _maxResultsCount;
-
-        public void Login()
-        {
-            PlayFabClientAPI.LoginWithCustomID(
-                new LoginWithCustomIDRequest
-                {
-                    CustomId = "ChanceID",
-                    CreateAccount = true
-                },
-                result => Debug.Log("ログイン成功"),
-                error => Debug.Log("ログイン失敗")
-                );
-        }
+        #endregion
 
         public void SetMaxResultCount(int max)
         {
@@ -61,8 +51,6 @@ namespace RankingModel
 
         public async UniTask LoadRankingList()
         {
-            //todo ログイン状態になるまでまつ
-
             bool isLoaded = false;
 
             GetLeaderboardRequest request

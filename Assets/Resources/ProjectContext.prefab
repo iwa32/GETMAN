@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff50ede2bc6a247a38ce82e0283dea91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _authManagerByPlayFab: {fileID: 2113560224286742896, guid: 696b34bb4e5c74ccdb3ccd04b9bdec6c, type: 3}
   _fadePrefab: {fileID: 2532652182056501779, guid: a549fff3639c640aa8b704d67da04f6d, type: 3}
   _customSceneManagerPrefab: {fileID: 9126874650064645171, guid: 7ea37bdfa89f64b959383ef248a844ad, type: 3}
   _saveDataManagerPrefab: {fileID: 5810059359157550783, guid: 4d41209ddfbd34213b8590a3946555b4, type: 3}
