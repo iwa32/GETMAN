@@ -9,7 +9,10 @@ namespace AuthManager
     public class AuthManagerByPlayFab : MonoBehaviour, IAuthManager
     {
         bool _isLoggedIn;
+        bool _isError;
+
         public bool IsLoggedIn => _isLoggedIn;
+        public bool IsError => _isError;
 
         void Awake()
         {
@@ -24,9 +27,22 @@ namespace AuthManager
                     CustomId = "ChanceID",
                     CreateAccount = true
                 },
-                result => Debug.Log("ログイン成功"),
-                error => Debug.Log("ログイン失敗")
+                result => OnSuccess(),
+                error => OnError()
                 );
+        }
+
+        void OnSuccess()
+        {
+            _isLoggedIn = true;
+            Debug.Log("ログイン成功");
+        }
+
+        void OnError()
+        {
+            _isError = true;
+            Debug.Log("ログイン失敗");
+            //ダイアログを出した後falseにする
         }
     }
 }

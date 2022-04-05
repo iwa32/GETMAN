@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AuthManager;
 using UnityEngine;
 using RankingModel;
 using Zenject;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 using UniRx;
 using RankingView;
 using Cysharp.Threading.Tasks;
+using System;
 
 namespace RankingPresenter
 {
@@ -35,21 +37,25 @@ namespace RankingPresenter
         int _maxResultCount = 3;
 
         #region//フィールド
+        IAuthManager _authManager;
         IRankingModel _rankingModel;
         IToggleableUI _toggleableUI;
         ISoundManager _soundManager;
         IObservableClickButton _observableClickButton;
         RankingUserDataView[] _rankingUserDataPool;//ランキングviewを保管しておく
+        //CancellationTokenSource _cts = new CancellationTokenSource();
         #endregion
 
         [Inject]
         public void Construct(
+            IAuthManager authManager,
             IRankingModel rankingModel,
             IToggleableUI toggleableUI,
             ISoundManager soundManager,
             IObservableClickButton observableClickButton
         )
         {
+            _authManager = authManager;
             _rankingModel = rankingModel;
             _toggleableUI = toggleableUI;
             _soundManager = soundManager;
@@ -61,6 +67,7 @@ namespace RankingPresenter
         {
             //CloseRanking();
             Initialize();
+            SetRankingDataToView().Forget();
             Bind();
             //uniRxでbottonをクリックで必要なメソッドを呼び出す
         }
@@ -87,15 +94,6 @@ namespace RankingPresenter
                 CreateObservableClickButton(_registerRankingButton)
                 .Subscribe(_ => RegisterUserData())
                 .AddTo(this);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("クリック");
-                SetRankingDataToView().Forget();
-            }
         }
 
         /// <summary>
@@ -125,20 +123,33 @@ namespace RankingPresenter
         /// <returns></returns>
         async UniTask SetRankingDataToView()
         {
-            //todo ログイン状態になるまでまつ
-
-            await _rankingModel.LoadRankingList();
-
-            //実際に取得したランキングデータの数だけ描画します
-            //例:3件まで取得できるが実際の取得数が2件の場合もあるため
-            for (int i = 0; i < _rankingModel.RankingList.Count; i++)
+            try
             {
-                _rankingUserDataPool[i].SetRank(_rankingModel.RankingList[i]._rank);
-                _rankingUserDataPool[i].SetUserName(_rankingModel.RankingList[i]._userName);
-                _rankingUserDataPool[i].SetScore(_rankingModel.RankingList[i]._score);
-            }
+                //todo ローディングなど
+                //ログインを待ちます
+                await UniTask.WaitUntil(() => _authManager.IsLoggedIn || _authManager.IsError);
+                if (_authManager.IsError)
+                    throw new OperationCanceledException();
 
-            _content.SetActive(true);
+                await _rankingModel.LoadRankingList();
+
+                //取得数を基準に周します
+                //例:3件まで表示できるが実際の取得数が2件の場合もあるため
+                for (int i = 0; i < _rankingModel.RankingList.Count; i++)
+                {
+                    _rankingUserDataPool[i].SetRank(_rankingModel.RankingList[i]._rank);
+                    _rankingUserDataPool[i].SetUserName(_rankingModel.RankingList[i]._userName);
+                    _rankingUserDataPool[i].SetScore(_rankingModel.RankingList[i]._score);
+                }
+
+                _content.SetActive(true);
+            }
+            catch (OperationCanceledException e)
+            {
+                //todo エラーダイアログを表示する
+                Debug.Log("errorだお");
+            }
+            
         }
 
         void RegisterUserData()

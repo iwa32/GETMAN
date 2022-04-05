@@ -4,6 +4,8 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using Cysharp.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace RankingModel
 {
@@ -18,10 +20,12 @@ namespace RankingModel
 
     public class RankingModelByPlayFab : IRankingModel
     {
+        readonly string _rankingStatisticName = "HighScore";
+
         #region//フィールド
         List<UserData> _rankingList = new List<UserData>();
         int _maxResultsCount;
-        readonly string _rankingStatisticName = "HighScore";
+        CancellationTokenSource _cts = new CancellationTokenSource();
         #endregion
 
         #region//プロパティ
@@ -51,6 +55,7 @@ namespace RankingModel
 
         public async UniTask LoadRankingList()
         {
+            CancellationToken token = _cts.Token;
             bool isLoaded = false;
 
             GetLeaderboardRequest request
@@ -65,30 +70,40 @@ namespace RankingModel
             request,
             result =>
             {
-                ////初期化する
-                _rankingList.Clear();
-                result.Leaderboard
-                .ForEach(
-                    x =>
-                    {
-                        _rankingList.Add(
-                            new UserData
-                            {
-                                _id = x.PlayFabId,
-                                _userName = x.DisplayName,
-                                _rank = x.Position + 1,//ランキングは1から開始する
-                                _score = x.StatValue
-                            }
-                         );
-                    }
-                );
+                OnSuccess(result);
                 isLoaded = true;
             },
-            error => Debug.Log(error.GenerateErrorReport())
-            );//todo エラーでunitaskを中断
+            error => OnError()
+            );
 
             //データを格納するまで待ちます
-            await UniTask.WaitUntil(() => isLoaded);
+            await UniTask.WaitUntil(() => isLoaded, cancellationToken: token);
+        }
+
+        void OnSuccess(GetLeaderboardResult result)
+        {
+            //初期化する
+            _rankingList.Clear();
+            result.Leaderboard
+            .ForEach(
+                x =>
+                {
+                    _rankingList.Add(
+                        new UserData
+                        {
+                            _id = x.PlayFabId,
+                            _userName = x.DisplayName,
+                            _rank = x.Position + 1,//ランキングは1から開始する
+                            _score = x.StatValue
+                        }
+                     );
+                }
+            );
+        }
+
+        void OnError()
+        {
+            _cts.Cancel();
         }
 
         public void UpdateScore(int score)
