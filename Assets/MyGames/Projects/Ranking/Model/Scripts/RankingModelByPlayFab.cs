@@ -42,8 +42,11 @@ namespace RankingModel
         /// ユーザー名の登録
         /// </summary>
         /// <param name="userName"></param>
-        public void RegisterUserName(string userName)
+        public async UniTask RegisterUserName(string userName)
         {
+            CancellationToken token = _cts.Token;
+            bool isRegistered = false;
+
             UpdateUserTitleDisplayNameRequest request
                 = new UpdateUserTitleDisplayNameRequest
                 {
@@ -52,9 +55,11 @@ namespace RankingModel
 
             PlayFabClientAPI.UpdateUserTitleDisplayName(
                 request,
-                result => Debug.Log(string.Format("名前登録完了{0}", request.DisplayName)),
-                error => Debug.Log("名前登録できない")
+                result => isRegistered = true,
+                error => _cts.Cancel()
             );
+
+            await UniTask.WaitUntil(() => isRegistered, cancellationToken: token);
         }
 
         /// <summary>
@@ -78,17 +83,17 @@ namespace RankingModel
             request,
             result =>
             {
-                OnSuccess(result);
+                SetRankingList(result);
                 isLoaded = true;
             },
-            error => OnError()
+            error => { _cts.Cancel(); }
             );
 
             //データを格納するまで待ちます
             await UniTask.WaitUntil(() => isLoaded, cancellationToken: token);
         }
 
-        void OnSuccess(GetLeaderboardResult result)
+        void SetRankingList(GetLeaderboardResult result)
         {
             //初期化する
             _rankingList.Clear();
@@ -109,17 +114,15 @@ namespace RankingModel
             );
         }
 
-        void OnError()
-        {
-            _cts.Cancel();
-        }
-
         /// <summary>
         /// スコアの更新
         /// </summary>
         /// <param name="score"></param>
-        public void UpdateScore(int score)
+        public async UniTask UpdateScore(int score)
         {
+            CancellationToken token = _cts.Token;
+            bool isUpdated = false;
+
             UpdatePlayerStatisticsRequest request
                 = new UpdatePlayerStatisticsRequest
                 {
@@ -135,9 +138,11 @@ namespace RankingModel
 
             PlayFabClientAPI.UpdatePlayerStatistics(
                 request,
-                result => Debug.Log("スコア送信"),
-                error => Debug.Log(error.GenerateErrorReport())
+                result => isUpdated = true,
+                error => _cts.Cancel()
                 );
+
+            await UniTask.WaitUntil(() => isUpdated, cancellationToken: token);
         }
     }
 }

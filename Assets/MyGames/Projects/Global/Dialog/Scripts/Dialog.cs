@@ -75,6 +75,7 @@ namespace Dialog
 
         public async UniTask ShowDialogWithTimeLimit(float closingTime)
         {
+            //自動開閉する場合、閉じるボタンは非表示にする
             ToggleClosingButton(false);
 
             _soundManager.PlaySE(COMMON_BUTTON_CLICK);

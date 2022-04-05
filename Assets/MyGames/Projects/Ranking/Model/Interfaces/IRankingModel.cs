@@ -20,7 +20,7 @@ namespace RankingModel
         /// ユーザー名を登録
         /// </summary>
         /// <param name="userName"></param>
-        void RegisterUserName(string userName);
+        UniTask RegisterUserName(string userName);
 
         /// <summary>
         /// ランキング情報を取得
@@ -31,6 +31,6 @@ namespace RankingModel
         /// スコアの更新
         /// </summary>
         /// <param name="score"></param>
-        void UpdateScore(int score);
+        UniTask UpdateScore(int score);
     }
 }

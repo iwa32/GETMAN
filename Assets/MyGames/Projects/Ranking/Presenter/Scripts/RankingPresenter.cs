@@ -1,17 +1,19 @@
+using AuthManager;
+using Cysharp.Threading.Tasks;
+using Dialog;
+using RankingModel;
+using SoundManager;
+using UniRx;
+using UIUtility;
+using UnityEngine;
+using UnityEngine.UI;
+using RankingView;
+using SaveDataManager;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using AuthManager;
-using UnityEngine;
-using RankingModel;
-using Zenject;
-using SoundManager;
-using UIUtility;
-using UnityEngine.UI;
-using UniRx;
-using RankingView;
-using Cysharp.Threading.Tasks;
-using System;
 using TMPro;
+using Zenject;
 
 namespace RankingPresenter
 {
@@ -51,11 +53,13 @@ namespace RankingPresenter
 
         #region//フィールド
         IAuthManager _authManager;
+        IDialog _dialog;
         IRankingModel _rankingModel;
         IToggleableUI _toggleableUI;
         ISoundManager _soundManager;
         IObservableClickButton _observableClickButton;
         IObservableInputField _observableInputField;
+        ISaveDataManager _saveDataManager;
         RankingUserDataView[] _rankingUserDataPool;//ランキングviewを保管しておく
         bool _isValidUserName;
         string _checkedUserName;
@@ -65,19 +69,23 @@ namespace RankingPresenter
         [Inject]
         public void Construct(
             IAuthManager authManager,
+            IDialog dialog,
             IRankingModel rankingModel,
             IToggleableUI toggleableUI,
             ISoundManager soundManager,
             IObservableClickButton observableClickButton,
-            IObservableInputField observableInputField
+            IObservableInputField observableInputField,
+            ISaveDataManager saveDataManager
         )
         {
             _authManager = authManager;
+            _dialog = dialog;
             _rankingModel = rankingModel;
             _toggleableUI = toggleableUI;
             _soundManager = soundManager;
             _observableClickButton = observableClickButton;
             _observableInputField = observableInputField;
+            _saveDataManager = saveDataManager;
         }
 
         // Start is called before the first frame update
@@ -113,7 +121,7 @@ namespace RankingPresenter
             //ランキング登録ボタン
             _observableClickButton.
                 CreateObservableClickButton(_registerRankingButton)
-                .Subscribe(_ => RegisterUserData())
+                .Subscribe(_ => RegisterUserData().Forget())
                 .AddTo(this);
         }
 
@@ -196,14 +204,25 @@ namespace RankingPresenter
         /// <summary>
         /// ユーザーデータの登録
         /// </summary>
-        void RegisterUserData()
+        async UniTask RegisterUserData()
         {
             if (_isValidUserName == false) return;
-            _rankingModel.RegisterUserName(_checkedUserName);
 
-            //完了したらダイアログを出す
-            //スコアの登録
-            //ランキングの再読み込み
+            try
+            {
+                //ユーザー名とスコアを登録しランキングを更新
+                await _rankingModel.RegisterUserName(_checkedUserName);
+                await _rankingModel.UpdateScore(_saveDataManager.SaveData.HighScore);
+                _dialog.SetText("登録完了しました");
+                await _dialog.ShowDialogWithTimeLimit(1);
+                await SetRankingDataToView();
+
+            }
+            catch (OperationCanceledException)
+            {
+                //todo エラーダイアログを表示する
+                Debug.Log("登録errorだお");
+            }
         }
 
         /// <summary>
