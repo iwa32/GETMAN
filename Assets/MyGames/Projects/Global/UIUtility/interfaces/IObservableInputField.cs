@@ -20,5 +20,12 @@ namespace UIUtility
         /// <param name="inputField"></param>
         /// <returns></returns>
         IObservable<string> CreateObservableInputFieldOnEndEdit(TMP_InputField inputField);
+
+        /// <summary>
+        /// 最大文字数チェック
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="max"></param>
+        (bool isValid, string message) CheckMaxLength(string value, int max);
     }
 }

@@ -8,6 +8,8 @@ using TMPro;
 
 public class ObservableInputField : IObservableInputField
 {
+    readonly string _maxLengthMessage = "文字以内で入力してください";
+
     /// <summary>
     /// 値の変更時に発火する入力イベントを作成する
     /// </summary>
@@ -16,7 +18,8 @@ public class ObservableInputField : IObservableInputField
     public IObservable<string> CreateObservableInputFieldOnValueChanged(TMP_InputField inputField)
     {
         return inputField.OnValueChangedAsObservable()
-            .ThrottleFirst(TimeSpan.FromMilliseconds(1000));//イベントの呼び出し間隔を制御
+            .ThrottleFirst(TimeSpan.FromMilliseconds(500))//イベントの呼びすぎを防ぐ
+            .Where(value => string.IsNullOrEmpty(value) == false);//空文字は無視
     }
 
     /// <summary>
@@ -26,6 +29,21 @@ public class ObservableInputField : IObservableInputField
     /// <returns></returns>
     public IObservable<string> CreateObservableInputFieldOnEndEdit(TMP_InputField inputField)
     {
-        return inputField.OnEndEditAsObservable();
+        return inputField.OnEndEditAsObservable()
+            .Where(value => string.IsNullOrEmpty(value) == false);//空文字は無視
+    }
+
+    /// <summary>
+    /// 最大文字数チェック
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="max"></param>
+    public (bool isValid, string message) CheckMaxLength(string value, int max)
+    {
+        if (value.Length <= max)
+        {
+            return (true, "");
+        }
+        return (false, max.ToString() + _maxLengthMessage);
     }
 }

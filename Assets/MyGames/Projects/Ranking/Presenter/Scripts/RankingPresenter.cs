@@ -11,6 +11,7 @@ using UniRx;
 using RankingView;
 using Cysharp.Threading.Tasks;
 using System;
+using TMPro;
 
 namespace RankingPresenter
 {
@@ -25,6 +26,10 @@ namespace RankingPresenter
         Button _registerRankingButton;
 
         [SerializeField]
+        [Header("ユーザー名入力フィールドを設定")]
+        TMP_InputField _userNameInputField;
+
+        [SerializeField]
         [Header("ランキングデータのプレハブを設定")]
         RankingUserDataView _rankingUserDataPrefab;
 
@@ -36,13 +41,24 @@ namespace RankingPresenter
         [Header("ランキングの表示数を設定")]
         int _maxResultCount = 3;
 
+        [SerializeField]
+        [Header("ユーザー名の最大文字数を設定")]
+        int _maxLengthOfUserName = 8;
+
+        [SerializeField]
+        [Header("ユーザ名に不備があるときのアラートメッセージを設定")]
+        TextMeshProUGUI _alertMessage;
+
         #region//フィールド
         IAuthManager _authManager;
         IRankingModel _rankingModel;
         IToggleableUI _toggleableUI;
         ISoundManager _soundManager;
         IObservableClickButton _observableClickButton;
+        IObservableInputField _observableInputField;
         RankingUserDataView[] _rankingUserDataPool;//ランキングviewを保管しておく
+        bool _isValidUserName;
+        string _checkedUserName;
         //CancellationTokenSource _cts = new CancellationTokenSource();
         #endregion
 
@@ -52,7 +68,8 @@ namespace RankingPresenter
             IRankingModel rankingModel,
             IToggleableUI toggleableUI,
             ISoundManager soundManager,
-            IObservableClickButton observableClickButton
+            IObservableClickButton observableClickButton,
+            IObservableInputField observableInputField
         )
         {
             _authManager = authManager;
@@ -60,6 +77,7 @@ namespace RankingPresenter
             _toggleableUI = toggleableUI;
             _soundManager = soundManager;
             _observableClickButton = observableClickButton;
+            _observableInputField = observableInputField;
         }
 
         // Start is called before the first frame update
@@ -69,7 +87,6 @@ namespace RankingPresenter
             Initialize();
             SetRankingDataToView().Forget();
             Bind();
-            //uniRxでbottonをクリックで必要なメソッドを呼び出す
         }
 
         private void Initialize()
@@ -81,15 +98,19 @@ namespace RankingPresenter
 
         void Bind()
         {
+            //ランキング非表示ボタン
             _observableClickButton.
                 CreateObservableClickButton(_closeRankingButton)
                 .Subscribe(_ => CloseRanking())
                 .AddTo(this);
 
-            //todo 
-            //inputField
-            //登録ボタンを押した時
+            //ユーザ名入力フィールド
+            _observableInputField.
+                CreateObservableInputFieldOnEndEdit(_userNameInputField)
+                .Subscribe(value => CheckUserName(value))
+                .AddTo(this);
 
+            //ランキング登録ボタン
             _observableClickButton.
                 CreateObservableClickButton(_registerRankingButton)
                 .Subscribe(_ => RegisterUserData())
@@ -144,7 +165,7 @@ namespace RankingPresenter
 
                 _content.SetActive(true);
             }
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException)
             {
                 //todo エラーダイアログを表示する
                 Debug.Log("errorだお");
@@ -152,13 +173,37 @@ namespace RankingPresenter
             
         }
 
+        /// <summary>
+        /// ユーザー名が有効かチェックする
+        /// </summary>
+        /// <param name="value"></param>
+        void CheckUserName(string value)
+        {
+            //バリデーション
+            (bool, string) checkedValidityAndMessage
+                = _observableInputField.CheckMaxLength(value, _maxLengthOfUserName);
+
+            _isValidUserName = checkedValidityAndMessage.Item1;
+            _checkedUserName = value;
+
+            //表示するメッセージが違う場合のみ描画する
+            if (_alertMessage.text != checkedValidityAndMessage.Item2)
+            {
+                _alertMessage.text = checkedValidityAndMessage.Item2;
+            }
+        }
+
+        /// <summary>
+        /// ユーザーデータの登録
+        /// </summary>
         void RegisterUserData()
         {
-            //入力内容を取得
-            //バリデーション
-            //文字数および、先頭と末尾の空白削除
-            //問題なければ登録、あればエラーメッセージを出す
-            _rankingModel.RegisterUserName("presenter");
+            if (_isValidUserName == false) return;
+            _rankingModel.RegisterUserName(_checkedUserName);
+
+            //完了したらダイアログを出す
+            //スコアの登録
+            //ランキングの再読み込み
         }
 
         /// <summary>

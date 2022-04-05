@@ -38,6 +38,10 @@ namespace RankingModel
             _maxResultsCount = max;
         }
 
+        /// <summary>
+        /// ユーザー名の登録
+        /// </summary>
+        /// <param name="userName"></param>
         public void RegisterUserName(string userName)
         {
             UpdateUserTitleDisplayNameRequest request
@@ -53,6 +57,10 @@ namespace RankingModel
             );
         }
 
+        /// <summary>
+        /// ランキングの読み込み
+        /// </summary>
+        /// <returns></returns>
         public async UniTask LoadRankingList()
         {
             CancellationToken token = _cts.Token;
@@ -106,6 +114,10 @@ namespace RankingModel
             _cts.Cancel();
         }
 
+        /// <summary>
+        /// スコアの更新
+        /// </summary>
+        /// <param name="score"></param>
         public void UpdateScore(int score)
         {
             UpdatePlayerStatisticsRequest request
