@@ -89,6 +89,12 @@ namespace GlobalInstaller
                 .AsSingle()
                 .NonLazy();
 
+            //入力フィールド
+            Container.Bind<IObservableInputField>()
+                .To<ObservableInputField>()
+                .AsSingle()
+                .NonLazy();
+
             //UIの表示非表示処理
             Container.Bind<IToggleableUI>()
                 .To<ToggleableUI>()
