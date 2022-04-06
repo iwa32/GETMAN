@@ -21,11 +21,13 @@ namespace SaveDataManager
         string _saveNotCompletedMessage = "データが保存できませんでした、再度お試しください";
 
         string _savePath;
-        string _wegGlSaveKey = "SaveData";
         bool _isInitialized;
         bool _isLoaded;
         ISaveData _saveData;
         IErrorDialog _errorDialog;
+#if UNITY_WEBGL
+        string _wegGlSaveKey = "SaveData";
+#endif
 
         public ISaveData SaveData => _saveData;
         public bool IsInitialized => _isInitialized;

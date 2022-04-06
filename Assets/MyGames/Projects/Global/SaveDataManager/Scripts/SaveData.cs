@@ -17,7 +17,6 @@ namespace SaveDataManager
         public int StageNum => _stageNum;
         public int CurrentScore => _currentScore;
         public int HighScore => _highScore;
-        
 
         public void SetStageNum(int stageNum)
         {
