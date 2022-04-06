@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.07006651, b: 0.764151, a: 0.36862746}
+  m_Color: {r: 0, g: 0.07006651, b: 0.764151, a: 0.54901963}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -531,6 +531,7 @@ MonoBehaviour:
   _registerRankingButton: {fileID: 1989487400}
   _reloadButton: {fileID: 932944145}
   _userNameInputField: {fileID: 1275731730}
+  _myRankingDataObject: {fileID: 1033151213}
   _rankingUserDataPrefab: {fileID: -5703873943158353859, guid: df55e393ebfd34fb8b1cc58d78ee5fea, type: 3}
   _content: {fileID: 1855397535}
   _maxResultCount: 3
@@ -2309,11 +2310,57 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1033151209 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8520077082679772014, guid: df55e393ebfd34fb8b1cc58d78ee5fea, type: 3}
+  m_PrefabInstance: {fileID: 8520077082502865287}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1033151210 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8520077082679772013, guid: df55e393ebfd34fb8b1cc58d78ee5fea, type: 3}
   m_PrefabInstance: {fileID: 8520077082502865287}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1033151211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033151209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.43274862, g: 0.9433962, b: 0.30704877, a: 0.54901963}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1033151213 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5703873943158353859, guid: df55e393ebfd34fb8b1cc58d78ee5fea, type: 3}
+  m_PrefabInstance: {fileID: 8520077082502865287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033151209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b17c324569b443af854cc193d8df386, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1086310252
 GameObject:
   m_ObjectHideFlags: 0

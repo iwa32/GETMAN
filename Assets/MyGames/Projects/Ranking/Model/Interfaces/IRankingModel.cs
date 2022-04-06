@@ -8,6 +8,7 @@ namespace RankingModel
     public interface IRankingModel
     {
         public List<UserData> RankingList { get; }
+        public UserData MyRankingData { get; }
         public int MaxResultsCount { get; }
 
         /// <summary>
@@ -21,6 +22,12 @@ namespace RankingModel
         /// </summary>
         /// <param name="userName"></param>
         UniTask RegisterUserName(string userName);
+
+        /// <summary>
+        /// 自身のランキングデータを取得する
+        /// </summary>
+        /// <returns></returns>
+        UniTask LoadMyRankingData();
 
         /// <summary>
         /// ランキング情報を取得

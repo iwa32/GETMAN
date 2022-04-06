@@ -9,7 +9,6 @@ using System;
 
 namespace RankingModel
 {
-    //todo自身と他のプレイヤーで共通して使い回したいので後で別の場所に移動する
     public struct UserData
     {
         public string _id;
@@ -24,12 +23,14 @@ namespace RankingModel
 
         #region//フィールド
         List<UserData> _rankingList = new List<UserData>();
+        UserData _myRankingData = new UserData();
         int _maxResultsCount;
         CancellationTokenSource _cts = new CancellationTokenSource();
         #endregion
 
         #region//プロパティ
         public List<UserData> RankingList => _rankingList;
+        public UserData MyRankingData => _myRankingData;
         public int MaxResultsCount => _maxResultsCount;
         #endregion
 
@@ -60,6 +61,40 @@ namespace RankingModel
             );
 
             await UniTask.WaitUntil(() => isRegistered, cancellationToken: token);
+        }
+
+
+        /// <summary>
+        /// 自身のランキングデータを取得する
+        /// </summary>
+        /// <returns></returns>
+        public async UniTask LoadMyRankingData()
+        {
+            CancellationToken token = _cts.Token;
+            bool isLoaded = false;
+
+            GetLeaderboardAroundPlayerRequest request =
+                new GetLeaderboardAroundPlayerRequest
+                {
+                    StatisticName = _rankingStatisticName,
+                    MaxResultsCount = 1//自身のみを取得するので1件指定する
+                };
+
+            PlayFabClientAPI.GetLeaderboardAroundPlayer(
+            request,
+            result =>
+            {
+                _myRankingData._id = result.Leaderboard[0].PlayFabId;
+                _myRankingData._userName = result.Leaderboard[0].DisplayName;
+                _myRankingData._rank = result.Leaderboard[0].Position + 1;//ランキングは1から開始するため
+                _myRankingData._score = result.Leaderboard[0].StatValue;
+                isLoaded = true;
+            },
+            error => { _cts.Cancel(); }
+            );
+
+            //データを格納するまで待ちます
+            await UniTask.WaitUntil(() => isLoaded, cancellationToken: token);
         }
 
         /// <summary>

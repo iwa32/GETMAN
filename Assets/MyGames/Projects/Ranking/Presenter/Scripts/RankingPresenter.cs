@@ -36,6 +36,10 @@ namespace RankingPresenter
         TMP_InputField _userNameInputField;
 
         [SerializeField]
+        [Header("自身のランキングデータ表示用オブジェクトを設定")]
+        RankingUserDataView _myRankingDataObject;
+
+        [SerializeField]
         [Header("ランキングデータのプレハブを設定")]
         RankingUserDataView _rankingUserDataPrefab;
 
@@ -159,9 +163,6 @@ namespace RankingPresenter
             //最初は隠しておく
             _content.SetActive(false);
 
-
-            //todo ＋自分の作成
-            //非表示にしておく
         }
 
         /// <summary>
@@ -187,7 +188,13 @@ namespace RankingPresenter
                 if (_authManager.IsError)
                     throw new OperationCanceledException();
 
+                await _rankingModel.LoadMyRankingData();
                 await _rankingModel.LoadRankingList();
+
+                //自身のデータを設定
+                _myRankingDataObject.SetRank(_rankingModel.MyRankingData._rank);
+                _myRankingDataObject.SetUserName(_rankingModel.MyRankingData._userName);
+                _myRankingDataObject.SetScore(_rankingModel.MyRankingData._score);
 
                 //取得数を基準に周します
                 //例:3件まで表示できるが実際の取得数が2件の場合もあるため
