@@ -25,7 +25,6 @@ namespace RankingModel
         List<UserData> _rankingList = new List<UserData>();
         UserData _myRankingData = new UserData();
         int _maxResultsCount;
-        CancellationTokenSource _cts = new CancellationTokenSource();
         #endregion
 
         #region//プロパティ
@@ -45,7 +44,14 @@ namespace RankingModel
         /// <param name="userName"></param>
         public async UniTask RegisterUserName(string userName)
         {
-            CancellationToken token = _cts.Token;
+            //2文字以下の場合エラーにため、空白をつけてから登録します
+            if (userName.Length <= 2)
+            {
+                userName += "  ";
+            }
+
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
             bool isRegistered = false;
 
             UpdateUserTitleDisplayNameRequest request
@@ -57,7 +63,7 @@ namespace RankingModel
             PlayFabClientAPI.UpdateUserTitleDisplayName(
                 request,
                 result => isRegistered = true,
-                error => _cts.Cancel()
+                error => cts.Cancel()
             );
 
             await UniTask.WaitUntil(() => isRegistered, cancellationToken: token);
@@ -70,7 +76,8 @@ namespace RankingModel
         /// <returns></returns>
         public async UniTask LoadMyRankingData()
         {
-            CancellationToken token = _cts.Token;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
             bool isLoaded = false;
 
             GetLeaderboardAroundPlayerRequest request =
@@ -90,7 +97,7 @@ namespace RankingModel
                 _myRankingData._score = result.Leaderboard[0].StatValue;
                 isLoaded = true;
             },
-            error => { _cts.Cancel(); }
+            error => { cts.Cancel(); }
             );
 
             //データを格納するまで待ちます
@@ -103,7 +110,8 @@ namespace RankingModel
         /// <returns></returns>
         public async UniTask LoadRankingList()
         {
-            CancellationToken token = _cts.Token;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
             bool isLoaded = false;
 
             GetLeaderboardRequest request
@@ -121,7 +129,7 @@ namespace RankingModel
                 SetRankingList(result);
                 isLoaded = true;
             },
-            error => { _cts.Cancel(); }
+            error => { cts.Cancel(); }
             );
 
             //データを格納するまで待ちます
@@ -155,7 +163,8 @@ namespace RankingModel
         /// <param name="score"></param>
         public async UniTask UpdateScore(int score)
         {
-            CancellationToken token = _cts.Token;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
             bool isUpdated = false;
 
             UpdatePlayerStatisticsRequest request
@@ -174,7 +183,11 @@ namespace RankingModel
             PlayFabClientAPI.UpdatePlayerStatistics(
                 request,
                 result => isUpdated = true,
-                error => _cts.Cancel()
+                error =>
+                {
+                    Debug.Log(error.GenerateErrorReport());
+                    cts.Cancel();
+                }
                 );
 
             await UniTask.WaitUntil(() => isUpdated, cancellationToken: token);
