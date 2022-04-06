@@ -28,6 +28,10 @@ namespace RankingPresenter
         Button _registerRankingButton;
 
         [SerializeField]
+        [Header("ランキングの再読み込みボタンを設定")]
+        Button _reloadButton;
+
+        [SerializeField]
         [Header("ユーザー名入力フィールドを設定")]
         TMP_InputField _userNameInputField;
 
@@ -50,6 +54,10 @@ namespace RankingPresenter
         [SerializeField]
         [Header("ユーザ名に不備があるときのアラートメッセージを設定")]
         TextMeshProUGUI _alertMessage;
+
+        [SerializeField]
+        [Header("登録用ハイスコアを表示するテキストの設定")]
+        TextMeshProUGUI _registeringHighScoreValueText;
 
         #region//フィールド
         IAuthManager _authManager;
@@ -104,6 +112,7 @@ namespace RankingPresenter
         {
             //取得数の設定 取得数は定数にするか迷い中
             _rankingModel.SetMaxResultCount(_maxResultCount);
+            _registeringHighScoreValueText.text = _saveDataManager.SaveData.HighScore.ToString();
             PreCreateRankingDataView();
         }
 
@@ -126,6 +135,12 @@ namespace RankingPresenter
                 CreateObservableClickButton(_registerRankingButton)
                 .Subscribe(_ => RegisterUserData().Forget())
                 .AddTo(this);
+
+            //ランキング再読み込みボタン
+            _observableClickButton.
+                CreateObservableClickButton(_reloadButton)
+                .Subscribe(_ => ReloadRankingData())
+                .AddTo(this);
         }
 
         /// <summary>
@@ -147,6 +162,15 @@ namespace RankingPresenter
 
             //todo ＋自分の作成
             //非表示にしておく
+        }
+
+        /// <summary>
+        /// ランキングデータの再読み込み
+        /// </summary>
+        void ReloadRankingData()
+        {
+            _soundManager.PlaySE(SEType.COMMON_BUTTON_CLICK);
+            SetRankingDataToView().Forget();
         }
 
         /// <summary>
