@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using Dialog;
+using Zenject;
 
 namespace AuthManager
 {
@@ -10,13 +12,23 @@ namespace AuthManager
     {
         bool _isLoggedIn;
         bool _isError;
+        IErrorDialog _errorDialog;
 
         public bool IsLoggedIn => _isLoggedIn;
         public bool IsError => _isError;
 
-        void Awake()
+
+        void Start()
         {
             Login();
+        }
+
+        [Inject]
+        public void Construct(
+            IErrorDialog errorDialog
+        )
+        {
+            _errorDialog = errorDialog;
         }
 
         public void Login()
@@ -24,7 +36,7 @@ namespace AuthManager
             PlayFabClientAPI.LoginWithCustomID(
                 new LoginWithCustomIDRequest
                 {
-                    CustomId = "ChanceID",
+                    CustomId = "ChanceID",//todo
                     CreateAccount = true
                 },
                 result => OnSuccess(),
@@ -40,9 +52,9 @@ namespace AuthManager
 
         void OnError()
         {
+            _errorDialog.SetText("ログインに失敗しました。しばらく経ってからもう一度お試しください。");
+            _errorDialog.OpenDialog();
             _isError = true;
-            Debug.Log("ログイン失敗");
-            //ダイアログを出した後falseにする
         }
     }
 }

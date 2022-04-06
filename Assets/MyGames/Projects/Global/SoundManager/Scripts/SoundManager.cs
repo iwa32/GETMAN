@@ -84,7 +84,7 @@ namespace SoundManager
             AudioClip seClip = _seDataList.FindSEDataByType(seType);
             if (seClip == null) return;
 
-            _seSource.PlayOneShot(seClip, _seVolume);
+            _seSource?.PlayOneShot(seClip, _seVolume);
         }
     }
 }

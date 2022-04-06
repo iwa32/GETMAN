@@ -89,7 +89,7 @@ namespace GamePresenter
         ICustomSceneManager _customSceneManager;
         ISoundManager _soundManager;
         IFade _fade;
-        IDialog _dialog;
+        ISuccessDialog _successDialog;
         #endregion
 
         [Inject]
@@ -102,7 +102,7 @@ namespace GamePresenter
             ICustomSceneManager customSceneManager,
             ISoundManager soundManager,
             IFade fade,
-            IDialog dialog
+            ISuccessDialog successDialog
         )
         {
             _directionModel = direction;
@@ -113,7 +113,7 @@ namespace GamePresenter
             _customSceneManager = customSceneManager;
             _soundManager = soundManager;
             _fade = fade;
-            _dialog = dialog;
+            _successDialog = successDialog;
         }
 
         void Awake()
@@ -280,8 +280,8 @@ namespace GamePresenter
             }
             else
             {
-                _dialog.SetText(_gameClearMessage);
-                _dialog.OpenDialog();
+                _successDialog.SetText(_gameClearMessage);
+                _successDialog.OpenDialog();
             }
         }
 
@@ -328,11 +328,11 @@ namespace GamePresenter
             if (isShownDialog == false) return;
             //ダイアログを表示する場合
             if (isSaved)
-                _dialog.SetText(_saveDataManager.SaveCompletedMessage);
+                _successDialog.SetText(_saveDataManager.SaveCompletedMessage);
             else
-                _dialog.SetText(_saveDataManager.SaveNotCompletedMessage);
+                _successDialog.SetText(_saveDataManager.SaveNotCompletedMessage);
 
-            _dialog.ShowDialogWithTimeLimit(1);
+            _successDialog.ShowDialogWithTimeLimit(1);
         }
 
         /// <summary>

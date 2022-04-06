@@ -33,8 +33,12 @@ namespace GlobalInstaller
         SoundManager.SoundManager _soundManagerPrefab;
 
         [SerializeField]
-        [Header("ダイアログのプレハブを設定")]
-        Dialog.Dialog _dialogPrefab;
+        [Header("成功時ダイアログのプレハブを設定")]
+        SuccessDialog _successDialogPrefab;
+
+        [SerializeField]
+        [Header("エラーダイアログのプレハブを設定")]
+        ErrorDialog _errorDialogPrefab;
 
         /// <summary>
 		/// シーンの切り替えを行っても破棄しないインスタンスを生成します
@@ -66,8 +70,13 @@ namespace GlobalInstaller
                 .NonLazy();
 
             //ダイアログ
-            Container.Bind<IDialog>()
-                .FromComponentInNewPrefab(_dialogPrefab)
+            Container.Bind<ISuccessDialog>()
+                .FromComponentInNewPrefab(_successDialogPrefab)
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<IErrorDialog>()
+                .FromComponentInNewPrefab(_errorDialogPrefab)
                 .AsSingle()
                 .NonLazy();
 

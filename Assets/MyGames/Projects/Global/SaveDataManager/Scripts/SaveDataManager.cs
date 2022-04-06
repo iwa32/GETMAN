@@ -3,6 +3,7 @@ using System.IO;
 using static System.Text.Encoding;
 using UnityEngine;
 using Zenject;
+using Dialog;
 
 /// <summary>
 /// セーブデータ保存クラス
@@ -19,11 +20,12 @@ namespace SaveDataManager
         [Header("セーブができなかった場合に表示するメッセージを設定します")]
         string _saveNotCompletedMessage = "データが保存できませんでした、再度お試しください";
 
-        ISaveData _saveData;
         string _savePath;
         string _wegGlSaveKey = "SaveData";
         bool _isInitialized;
         bool _isLoaded;
+        ISaveData _saveData;
+        IErrorDialog _errorDialog;
 
         public ISaveData SaveData => _saveData;
         public bool IsInitialized => _isInitialized;
@@ -38,9 +40,13 @@ namespace SaveDataManager
         }
 
         [Inject]
-        public void Construct(ISaveData saveData)
+        public void Construct(
+            ISaveData saveData,
+            IErrorDialog errorDialog
+        )
         {
             _saveData = saveData;
+            _errorDialog = errorDialog;
         }
 
         public void SetStageNum(int stageNum)
@@ -95,7 +101,8 @@ namespace SaveDataManager
                 }
                 catch
                 {
-                    Debug.Log("データを保存できませんでした。");
+                    _errorDialog.SetText("データを保存できませんでした。もう一度お試しください。");
+                    _errorDialog.OpenDialog();
                     return false;
                 }
             }
@@ -125,7 +132,8 @@ namespace SaveDataManager
                 }
                 catch
                 {
-                    Debug.Log("データを読み込めませんでした。");
+                    _errorDialog.SetText("データを読み込めませんでした。もう一度お試しください。");
+                    _errorDialog.OpenDialog();
                     _isLoaded = false;
                 }
             }

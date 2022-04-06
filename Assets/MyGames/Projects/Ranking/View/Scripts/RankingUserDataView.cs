@@ -27,7 +27,6 @@ namespace RankingView
 
         public void SetUserName(string userName)
         {
-            //todo 日本語と英語でフォントを変える
             _userName.text = userName;
         }
 

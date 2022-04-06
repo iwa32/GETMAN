@@ -53,7 +53,8 @@ namespace RankingPresenter
 
         #region//フィールド
         IAuthManager _authManager;
-        IDialog _dialog;
+        ISuccessDialog _successDialog;
+        IErrorDialog _errorDialog;
         IRankingModel _rankingModel;
         IToggleableUI _toggleableUI;
         ISoundManager _soundManager;
@@ -69,7 +70,8 @@ namespace RankingPresenter
         [Inject]
         public void Construct(
             IAuthManager authManager,
-            IDialog dialog,
+            ISuccessDialog successDialog,
+            IErrorDialog errorDialog,
             IRankingModel rankingModel,
             IToggleableUI toggleableUI,
             ISoundManager soundManager,
@@ -79,7 +81,8 @@ namespace RankingPresenter
         )
         {
             _authManager = authManager;
-            _dialog = dialog;
+            _successDialog = successDialog;
+            _errorDialog = errorDialog;
             _rankingModel = rankingModel;
             _toggleableUI = toggleableUI;
             _soundManager = soundManager;
@@ -175,10 +178,9 @@ namespace RankingPresenter
             }
             catch (OperationCanceledException)
             {
-                //todo エラーダイアログを表示する
-                Debug.Log("errorだお");
+                _errorDialog.SetText("ランキングの取得に失敗しました。しばらく経ってからもう一度お試しください。");
+                _errorDialog.OpenDialog();
             }
-            
         }
 
         /// <summary>
@@ -213,15 +215,15 @@ namespace RankingPresenter
                 //ユーザー名とスコアを登録しランキングを更新
                 await _rankingModel.RegisterUserName(_checkedUserName);
                 await _rankingModel.UpdateScore(_saveDataManager.SaveData.HighScore);
-                _dialog.SetText("登録完了しました");
-                await _dialog.ShowDialogWithTimeLimit(1);
+                _successDialog.SetText("登録完了しました");
+                await _successDialog.ShowDialogWithTimeLimit(1);
                 await SetRankingDataToView();
 
             }
             catch (OperationCanceledException)
             {
-                //todo エラーダイアログを表示する
-                Debug.Log("登録errorだお");
+                _errorDialog.SetText("データの登録に失敗しました。しばらく経ってからもう一度お試しください。");
+                _errorDialog.OpenDialog();
             }
         }
 

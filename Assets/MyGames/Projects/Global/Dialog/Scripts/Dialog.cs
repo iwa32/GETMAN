@@ -13,7 +13,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Dialog
 {
-    public class Dialog : MonoBehaviour, IDialog
+    public abstract class Dialog : MonoBehaviour, IDialog
     {
         [SerializeField]
         [Header("メッセージのテキストを設定")]
