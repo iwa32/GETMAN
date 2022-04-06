@@ -143,7 +143,7 @@ namespace SaveDataManager
 #elif UNITY_WEBGL
             string jsonStr = PlayerPrefs.GetString(_wegGlSaveKey);
             JsonUtility.FromJsonOverwrite(jsonStr, _saveData);
-            return true;
+            _isLoaded = true;
 #endif
         }
     }
