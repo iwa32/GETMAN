@@ -80,3 +80,4 @@ MonoBehaviour:
   _soundManagerPrefab: {fileID: 7143160660014649334, guid: 81ad241e0bce44a518d0c394279c9c03, type: 3}
   _successDialogPrefab: {fileID: 1071716950358792715, guid: bd22dfa4362a3405a85fe0ad4c0522f2, type: 3}
   _errorDialogPrefab: {fileID: 4873879638303712618, guid: ff29ff1d1faf8461890451da661af75c, type: 3}
+  _loadingPrefab: {fileID: 6464520771787327133, guid: 23138cf3a09bb49c38aa3ac821244dc1, type: 3}

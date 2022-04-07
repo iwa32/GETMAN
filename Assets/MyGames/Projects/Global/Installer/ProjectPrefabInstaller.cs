@@ -2,6 +2,7 @@ using UnityEngine;
 using Zenject;
 using Fade;
 using Dialog;
+using Loading;
 using AuthManager;
 using CustomSceneManager;
 using SaveDataManager;
@@ -40,6 +41,10 @@ namespace GlobalInstaller
         [Header("エラーダイアログのプレハブを設定")]
         ErrorDialog _errorDialogPrefab;
 
+        [SerializeField]
+        [Header("ローディングのプレハブを設定")]
+        Loading.Loading _loadingPrefab;
+
         /// <summary>
 		/// シーンの切り替えを行っても破棄しないインスタンスを生成します
 		/// </summary>
@@ -72,6 +77,12 @@ namespace GlobalInstaller
             //ダイアログ
             Container.Bind<ISuccessDialog>()
                 .FromComponentInNewPrefab(_successDialogPrefab)
+                .AsSingle()
+                .NonLazy();
+
+            //ローディング
+            Container.Bind<ILoading>()
+                .FromComponentInNewPrefab(_loadingPrefab)
                 .AsSingle()
                 .NonLazy();
 

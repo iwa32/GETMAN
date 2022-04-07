@@ -1,14 +1,15 @@
 using AuthManager;
 using Cysharp.Threading.Tasks;
 using Dialog;
+using Loading;
 using RankingModel;
-using SoundManager;
 using UniRx;
 using UIUtility;
 using UnityEngine;
 using UnityEngine.UI;
 using RankingView;
 using SaveDataManager;
+using SoundManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,6 +74,7 @@ namespace RankingPresenter
         IObservableClickButton _observableClickButton;
         IObservableInputField _observableInputField;
         ISaveDataManager _saveDataManager;
+        ILoading _loading;
         RankingUserDataView[] _rankingUserDataPool;//ランキングviewを保管しておく
         bool _isValidUserName;
         string _checkedUserName;
@@ -89,7 +91,8 @@ namespace RankingPresenter
             ISoundManager soundManager,
             IObservableClickButton observableClickButton,
             IObservableInputField observableInputField,
-            ISaveDataManager saveDataManager
+            ISaveDataManager saveDataManager,
+            ILoading loading
         )
         {
             _authManager = authManager;
@@ -101,6 +104,7 @@ namespace RankingPresenter
             _observableClickButton = observableClickButton;
             _observableInputField = observableInputField;
             _saveDataManager = saveDataManager;
+            _loading = loading;
         }
 
         // Start is called before the first frame update
@@ -182,7 +186,7 @@ namespace RankingPresenter
         {
             try
             {
-                //todo ローディングなど
+                _loading.OpenLoading();
                 //ログインを待ちます
                 await UniTask.WaitUntil(() => _authManager.IsLoggedIn || _authManager.IsError);
                 if (_authManager.IsError)
@@ -205,10 +209,12 @@ namespace RankingPresenter
                     _rankingUserDataPool[i].SetScore(_rankingModel.RankingList[i]._score);
                 }
 
+                _loading.CloseLoading();
                 _content.SetActive(true);
             }
             catch (OperationCanceledException)
             {
+                _loading.CloseLoading();
                 _errorDialog.SetText("ランキングの取得に失敗しました。しばらく経ってからもう一度お試しください。");
                 _errorDialog.OpenDialog();
             }

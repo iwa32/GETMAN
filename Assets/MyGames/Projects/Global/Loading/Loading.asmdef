@@ -1,0 +1,16 @@
+{
+    "name": "Loading",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e69bbf1a1fd6e4729ae0117481bccb88"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
