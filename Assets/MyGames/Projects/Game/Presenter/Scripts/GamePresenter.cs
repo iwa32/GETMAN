@@ -176,15 +176,6 @@ namespace GamePresenter
                 .Subscribe(_ => LoadNextStage())
                 .AddTo(this);
 
-            //セーブボタン
-            _gameOverView.ClickSaveButton()
-                .Subscribe(_ => SaveGameData(true))
-                .AddTo(this);
-
-            _gameClearView.ClickSaveButton()
-                .Subscribe(_ => SaveGameData(true))
-                .AddTo(this);
-
             //タイトルボタン
             _gameOverView.ClickToTitleButton()
                 .Subscribe(_ => MoveToTitle())
@@ -274,7 +265,7 @@ namespace GamePresenter
             if (_stagePresenter.CheckStage(nextStageNum))
             {
                 _stageNumModel.SetStageNum(nextStageNum);
-                SaveGameData(false);
+                SaveGameData(false).Forget();
                 _soundManager.PlaySE(SCENE_MOVEMENT);
                 _customSceneManager.LoadScene(STAGE);
             }
@@ -301,6 +292,7 @@ namespace GamePresenter
         {
             _soundManager.PlaySE(GAME_OVER);
             _gameOverView.gameObject?.SetActive(true);
+            SaveGameData(false).Forget();
             _playerPresenter.ChangeDead();
         }
 
@@ -311,14 +303,17 @@ namespace GamePresenter
         {
             _soundManager.PlaySE(GAME_CLEAR);
             _gameClearView.gameObject?.SetActive(true);
+
+            SaveGameData(false).Forget();
             _playerPresenter.ChangeJoy();
         }
 
         /// <summary>
         /// ゲームデータを保存する
         /// </summary>
-        void SaveGameData(bool isShownDialog)
+        async UniTask SaveGameData(bool isShownDialog)
         {
+            await UniTask.Yield();//最後に獲得したスコアが反映されない場合があるため、1フレ待ちます
             //ステージ番号、スコアを保存
             _saveDataManager.SetScore(_scoreModel.Score.Value);
             _saveDataManager.SetStageNum(_stageNumModel.StageNum.Value);
@@ -332,7 +327,7 @@ namespace GamePresenter
             else
                 _successDialog.SetText(_saveDataManager.SaveNotCompletedMessage);
 
-            _successDialog.ShowDialogWithTimeLimit(1);
+            await _successDialog.ShowDialogWithTimeLimit(1);
         }
 
         /// <summary>

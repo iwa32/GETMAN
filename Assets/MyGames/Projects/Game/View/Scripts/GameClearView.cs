@@ -16,10 +16,6 @@ namespace GameView
         Button _nextStageButton;
 
         [SerializeField]
-        [Header("セーブボタンを設定")]
-        Button _saveButton;
-
-        [SerializeField]
         [Header("タイトルボタンを設定")]
         Button _toTitleButton;
 
@@ -36,11 +32,6 @@ namespace GameView
         public IObservable<Unit> ClickNextStageButton()
         {
             return _observableClickButton.CreateObservableClickButton(_nextStageButton);
-        }
-
-        public IObservable<Unit> ClickSaveButton()
-        {
-            return _observableClickButton.CreateObservableClickButton(_saveButton);
         }
 
         public IObservable<Unit> ClickToTitleButton()

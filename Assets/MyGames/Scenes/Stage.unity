@@ -2705,6 +2705,14 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7138150866404513595, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138150866591780357, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 7138150866591780358, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
       propertyPath: m_Name
       value: NextStageButton
@@ -2730,17 +2738,6 @@ RectTransform:
 --- !u!114 &1612487200 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7138150866591780356, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
-  m_PrefabInstance: {fileID: 1612487197}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1612487201 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7138150866404513592, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
   m_PrefabInstance: {fileID: 1612487197}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -3885,7 +3882,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextStageButton: {fileID: 1612487200}
-  _saveButton: {fileID: 1612487201}
   _toTitleButton: {fileID: 1612487198}
 --- !u!224 &2725301319310851827
 RectTransform:
@@ -4235,7 +4231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _restartButton: {fileID: 836892427}
-  _saveButton: {fileID: 7138150867420084497}
   _toTitleButton: {fileID: 8391848019049331782}
 --- !u!1001 &7138150867420084495
 PrefabInstance:
@@ -4344,6 +4339,14 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7138150866404513595, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138150866591780357, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 7138150866591780358, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
       propertyPath: m_Name
       value: RestartButton
@@ -4355,17 +4358,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 611141470861348594, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
   m_PrefabInstance: {fileID: 7138150867420084495}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7138150867420084497 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7138150866404513592, guid: f607db92d49df48aaa13b571a16d42ea, type: 3}
-  m_PrefabInstance: {fileID: 7138150867420084495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7282829265170173270
 RectTransform:
   m_ObjectHideFlags: 0
