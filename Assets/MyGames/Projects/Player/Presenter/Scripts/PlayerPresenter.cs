@@ -213,7 +213,9 @@ namespace PlayerPresenter
                 {
                     _playerWeapon.EndMotion();
                     _animator.ResetTrigger("ContinuousAttack");
-                    _actionView.State.Value = _waitState;
+
+                    if (_actionView.HasStateBy(ATTACK))
+                        _actionView.State.Value = _waitState;
                 });
 
             _animTrigger.OnStateExitAsObservable()
