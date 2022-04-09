@@ -1,6 +1,7 @@
 using UnityEngine;
 using Zenject;
 using CountDownTimer;
+using ObjectPool;
 
 namespace GlobalInstaller
 {
@@ -11,6 +12,11 @@ namespace GlobalInstaller
             //カウントダウン
             Container.Bind<IObservableCountDownTimer>()
                 .To<ObservableCountDownTimer>().AsTransient().NonLazy();
+
+            //オブジェクトプール
+            //エネミー
+            Container.Bind<IEnemyPool>()
+                .To<EnemyPool>().AsSingle().NonLazy();
         }
     }
 }

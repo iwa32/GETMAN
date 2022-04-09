@@ -11,6 +11,9 @@ using UIUtility;
 
 namespace GlobalInstaller
 {
+    /// <summary>
+    /// シーン間で共通して使用するクラスを記述する
+    /// </summary>
     public class ProjectPrefabInstaller : MonoInstaller
     {
         [SerializeField]
