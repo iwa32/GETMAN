@@ -17,6 +17,10 @@ namespace GlobalInstaller
             //エネミー
             Container.Bind<IEnemyPool>()
                 .To<EnemyPool>().AsSingle().NonLazy();
+
+            //ポイントアイテム
+            Container.Bind<IPointItemPool>()
+                .To<PointItemPool>().AsSingle().NonLazy();
         }
     }
 }

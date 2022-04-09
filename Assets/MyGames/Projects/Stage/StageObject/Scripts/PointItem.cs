@@ -23,7 +23,7 @@ namespace StageObject
         //プレイヤーに接触したら破棄する
         public void Destroy()
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

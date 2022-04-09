@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using EP = EnemyPresenter;
 using Zenject;
-using System;
 
 namespace ObjectPool
 {
@@ -53,7 +52,6 @@ namespace ObjectPool
         /// <returns></returns>
         public EP.EnemyPresenter GetPool()
         {
-
             foreach (EP.EnemyPresenter enemy in GetRandomEnemyPoolData()._enemyList)
             {
                 if (enemy.gameObject.activeSelf)
@@ -74,7 +72,6 @@ namespace ObjectPool
                 return enemy;
             }
 
-            //初期値と死亡フラグをリセット
             return null;
         }
 

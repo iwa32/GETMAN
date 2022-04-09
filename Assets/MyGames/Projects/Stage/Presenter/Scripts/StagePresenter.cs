@@ -167,17 +167,17 @@ namespace StagePresenter
         /// </summary>
         void CreateStage()
         {
+            //ステージの番号を元にprefabを取得
             int stageNum = _stageNumModel.StageNum.Value;
-            //ステージの設定
             _currentStageData = _stageDataList.GetStageById(stageNum);
-
-            //ステージデータを取得
             SV.StageView stagePrefab = _currentStageData?.StagePrefab;
             if (stagePrefab == null) return;
             //生成
             _currentStageView = Instantiate(stagePrefab, Vector3.zero, Quaternion.identity);
-            //出現エネミーの設定
+
+            //出現エネミー、ポイントアイテムの設定
             RegisterAppearingEnemyForStage();
+            _pointItemFactory.SetPointItemData(_currentStageData.ClearPointCount);
             _isCreatedStage.Value = true;
         }
 
@@ -220,6 +220,8 @@ namespace StagePresenter
             if (_stagePointItemCount >= _currentStageData.ClearPointCount) return;
 
             PointItem pointItem = _pointItemFactory.Create();
+
+            if (pointItem == null) return;
             _stagePointItemCount++;
 
             pointItem.transform.position = _currentStageView.GetPointItemAppearancePoint().position;

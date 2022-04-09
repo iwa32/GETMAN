@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using EP = EnemyPresenter;
+using StageObject;
 
-//ジェネリックでオブジェクトプールの処理を共通化したかったが断念
-namespace ObjectPool {
+namespace ObjectPool
+{
     /// <summary>
-    /// エネミー用オブジェクトプール
+    /// ポイントアイテム用オブジェクトプール
     /// </summary>
-    public interface IEnemyPool
+    public interface IPointItemPool
     {
         /// <summary>
         /// オブジェクトプールを作成する
@@ -15,12 +15,12 @@ namespace ObjectPool {
         /// <typeparam name="T"></typeparam>
         /// <param name="referenceObj"></param>
         /// <param name="maxObjectCount"></param>
-        void CreatePool(EnemyData[] enemyData, int maxObjectCount);
+        void CreatePool(PointItem pointItemPrefab, int maxObjectCount);
 
         /// <summary>
         /// プールを取得します
         /// </summary>
         /// <returns></returns>
-        EP.EnemyPresenter GetPool();
+        PointItem GetPool();
     }
 }
