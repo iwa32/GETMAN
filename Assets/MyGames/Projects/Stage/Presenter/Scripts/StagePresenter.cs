@@ -27,8 +27,8 @@ namespace StagePresenter
         SV.StageView _currentStageView;//現在のステージオブジェクトを保持しておく
         EnemyFactory _enemyFactory;//エネミー生成用スクリプト
         PointItemFactory _pointItemFactory;//ポイントアイテム生成用スクリプト
-        List<EP.EnemyPresenter> _stageEnemyList = new List<EP.EnemyPresenter>();//ステージの敵を格納する
         int _stagePointItemCount;//ステージのポイントアイテムの数をカウント
+        int _stageEnemyCount;//ステージのエネミー数
         //フラグ
         BoolReactiveProperty _isCreatedStage = new BoolReactiveProperty();
         BoolReactiveProperty _isPlacedPlayer = new BoolReactiveProperty();
@@ -74,7 +74,6 @@ namespace StagePresenter
         /// </summary>
         public void Initialize()
         {
-            SetCurrentStageData();
             CreateStage();
             Bind();
         }
@@ -145,18 +144,6 @@ namespace StagePresenter
         }
 
         /// <summary>
-        /// 現在のステージ情報を設定します
-        /// </summary>
-        void SetCurrentStageData()
-        {
-            int stageNum = _stageNumModel.StageNum.Value;
-            //ステージの設定
-            _currentStageData = _stageDataList.GetStageById(stageNum);
-            //出現エネミーの設定
-            RegisterAppearingEnemyForStage();
-        }
-
-        /// <summary>
         /// 現在のステージのBGMを再生します
         /// </summary>
         void PlayCurrentStageBgm()
@@ -172,7 +159,7 @@ namespace StagePresenter
         {
             if (_currentStageData.AppearingEnemies.Length == 0)
                 Debug.Log("エネミーの種類を設定してください");
-            _enemyFactory.SetEnemyDataByType(_currentStageData.AppearingEnemies);
+            _enemyFactory.SetEnemyData(_currentStageData.AppearingEnemies, _currentStageData.MaxEnemyCount);
         }
 
         /// <summary>
@@ -180,11 +167,17 @@ namespace StagePresenter
         /// </summary>
         void CreateStage()
         {
+            int stageNum = _stageNumModel.StageNum.Value;
+            //ステージの設定
+            _currentStageData = _stageDataList.GetStageById(stageNum);
+
             //ステージデータを取得
             SV.StageView stagePrefab = _currentStageData?.StagePrefab;
             if (stagePrefab == null) return;
             //生成
             _currentStageView = Instantiate(stagePrefab, Vector3.zero, Quaternion.identity);
+            //出現エネミーの設定
+            RegisterAppearingEnemyForStage();
             _isCreatedStage.Value = true;
         }
 
@@ -203,13 +196,14 @@ namespace StagePresenter
         void PlaceEnemyToStage()
         {
             //エネミーの最大出現数を超えたら生成しない
-            if (_stageEnemyList.Count >= _currentStageData.MaxEnemyCount) return;
+            if (_stageEnemyCount >= _currentStageData.MaxEnemyCount) return;
 
             //生成
             EP.EnemyPresenter stageEnemy = _enemyFactory?.Create();
 
-            //リストに追加し、観察対象にする
-            _stageEnemyList.Add(stageEnemy);
+            if (stageEnemy == null) return;
+            //死亡を監視する
+            _stageEnemyCount++;
             ObserveStageEnemy(stageEnemy);
 
             //配置
@@ -241,21 +235,9 @@ namespace StagePresenter
             stageEnemy.IsDead
                 .Where(isDead => isDead == true)
                 .Subscribe(_ => {
-                    DeleteEnemyList(stageEnemy);
+                    _stageEnemyCount--;
                 })
                 .AddTo(stageEnemy.gameObject);
-        }
-
-        /// <summary>
-        /// エネミーリストから参照を削除します
-        /// </summary>
-        /// <param name="stageEnemy"></param>
-        void DeleteEnemyList(EP.EnemyPresenter stageEnemy)
-        {
-            _stageEnemyList
-                .RemoveAll(enemy => (
-                enemy.GetInstanceID() == stageEnemy.GetInstanceID())
-                );
         }
 
         /// <summary>

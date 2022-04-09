@@ -56,7 +56,6 @@ namespace EnemyPresenter
         {
             _runState.DelAction = _runStrategy.Strategy;
             _trackState.DelAction = _trackStrategy.Strategy;
-            DefaultState();
             Bind();
         }
 
@@ -107,19 +106,6 @@ namespace EnemyPresenter
             _actionView.State.Value = _runState;
         }
         #endregion
-
-        /// <summary>
-        /// プレイヤーの武器に接触したか
-        /// </summary>
-        void CheckPlayerWeaponBy(Collider collider)
-        {
-            if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
-            {
-                //hpを減らす
-                _hpModel.ReduceHp(playerWeapon.Power);
-                ChangeStateByDamege();
-            }
-        }
 
         /// <summary>
         /// 追跡の確認をします

@@ -24,19 +24,23 @@ namespace EnemyPresenter
         #endregion
 
         #region//フィールド
-        //状態
+        //---状態---
         protected ActionView _actionView;//エネミーのアクション用スクリプト
         DownState _downState;//ダウン状態のスクリプト
         DeadState _deadState;//デッド状態のスクリプト
-        TriggerView.TriggerView _triggerView;//接触判定スクリプト
-        CollisionView _collisionView;//衝突判定スクリプト
+        //---接触・衝突---
+        TriggerView.TriggerView _triggerView;
+        CollisionView _collisionView;
+        //---アニメーション---
         Animator _animator;
+        protected ObservableStateMachineTrigger _animTrigger;//stateMachineの監視
         Collider _collider;
-        protected ObservableStateMachineTrigger _animTrigger;//アニメーションの監視
         protected NavMeshAgent _navMeshAgent;
-        //フラグ
+        //---フラグ---
+        bool _isDown;
         protected BoolReactiveProperty _isDead = new BoolReactiveProperty();//死亡フラグ
-        //モデル
+        bool _isInitialized;
+        //---モデル---
         protected IHpModel _hpModel;
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
@@ -87,9 +91,17 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize(int hp, int power, int speed, int score)
         {
-            InitializeModel(hp, power, score);
-            _navMeshAgent.speed = speed;
+            _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
+
             _hpBar.SetMaxHp(hp);
+            DefaultState();
+            InitializeModel(hp, power, score);
+
+            _collider.enabled = true;
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.speed = speed;
+            _isDead.Value = false;
+            _isInitialized = true;
             Bind();
         }
 
@@ -134,11 +146,9 @@ namespace EnemyPresenter
                 .Where(s => s.StateInfo.IsName("Down"))
                 .Subscribe(_ =>
                 {
-                    //ダウン後に死亡したら何もしない
-                    if (_actionView.HasStateBy(StateType.DEAD)) return;
+                    _isDown = false;
                     DefaultState();
-                }
-                )
+                })
                 .AddTo(this);
 
             //dead
@@ -146,16 +156,22 @@ namespace EnemyPresenter
                 .Where(s => s.StateInfo.IsName("Dead"))
                 .Subscribe(_ =>
                 {
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
+                    _isDown = false;
+                    _isDead.Value = false;
                 }).AddTo(this);
 
-            //死亡しているのに生存している場合、3秒後に破棄します
+            ////死亡しているのに生存している場合、3秒後に破棄します
             _isDead
-                .Where(_isDead => _isDead == true && gameObject != null)
+                .Where(_isDead => _isDead == true)
                 .Delay(TimeSpan.FromSeconds(3))
                 .Subscribe(_ =>
                 {
-                    Destroy(gameObject);
+                    _isDown = false;
+                    _isDead.Value = false;
+
+                    if (_isInitialized) return;
+                    gameObject.SetActive(false);
                 })
                 .AddTo(this);
 
@@ -188,6 +204,20 @@ namespace EnemyPresenter
         #endregion
 
         /// <summary>
+        /// プレイヤーの武器に接触したか
+        /// </summary>
+        protected void CheckPlayerWeaponBy(Collider collider)
+        {
+            if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
+            {
+                if (_isDown) return;
+                //hpを減らす
+                _hpModel.ReduceHp(playerWeapon.Power);
+                ChangeStateByDamege();
+            }
+        }
+
+        /// <summary>
         /// 配置を行います
         /// </summary>
         /// <param name="transform"></param>
@@ -211,6 +241,7 @@ namespace EnemyPresenter
 
         void ChangeDown()
         {
+            _isDown = true;
             _actionView.State.Value = _downState;
         }
 
@@ -221,6 +252,7 @@ namespace EnemyPresenter
             _actionView.State.Value = _deadState;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
             _isDead.Value = true;
+            _isInitialized = false;
         }
     }
 }
