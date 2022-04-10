@@ -13,6 +13,7 @@ using EnemyModel;
 using GameModel;
 using StageObject;
 using StrategyView;
+using Cysharp.Threading.Tasks;
 
 namespace EnemyPresenter
 {
@@ -151,20 +152,14 @@ namespace EnemyPresenter
             //状態の監視
             _actionView.State
                 .Where(x => x != null)
-                .Subscribe(x =>
-                {
-                    _actionView.ChangeState(x.State);
-                }).AddTo(this);
+                .Subscribe(x => _actionView.ChangeState(x.State))
+                .AddTo(this);
 
             //アニメーションの監視
             //down
             _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
-                .Subscribe(_ =>
-                {
-                    _isDown = false;
-                    DefaultState();
-                })
+                .Subscribe(_ => DefaultState())
                 .AddTo(this);
 
             //dead
@@ -173,17 +168,15 @@ namespace EnemyPresenter
                 .Subscribe(_ =>
                 {
                     gameObject.SetActive(false);
-                    _isDown = false;
                     _isDead.Value = false;
                 }).AddTo(this);
 
-            ////死亡しているのに生存している場合、3秒後に破棄します
+            //死亡しているのに生存している場合、3秒後に破棄します
             _isDead
                 .Where(_isDead => _isDead == true)
                 .Delay(TimeSpan.FromSeconds(3))
                 .Subscribe(_ =>
                 {
-                    _isDown = false;
                     _isDead.Value = false;
 
                     if (_isInitialized) return;
@@ -259,6 +252,14 @@ namespace EnemyPresenter
         {
             _isDown = true;
             _actionView.State.Value = _downState;
+
+            ResetDown().Forget();
+        }
+
+        async UniTask ResetDown()
+        {
+            await UniTask.Yield();
+            _isDown = false;
         }
 
         void ChangeDead()
