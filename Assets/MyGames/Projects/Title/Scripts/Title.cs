@@ -82,8 +82,12 @@ namespace Title
         void Start()
         {
             _fade.StartFadeIn().Forget();
-            ShowHighScore();
             Bind();
+        }
+
+        void OnEnable()
+        {
+            ShowHighScore();
         }
 
         void Bind()
