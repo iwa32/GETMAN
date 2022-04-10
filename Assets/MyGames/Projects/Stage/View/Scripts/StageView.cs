@@ -12,15 +12,20 @@ namespace StageView
 
         [SerializeField]
         [Header("エネミーの出現地点を設定")]
-        GameObject[] _enemyAppearancePoints;
+        Transform[] _enemyAppearancePoints;
 
         [SerializeField]
         [Header("ポイントアイテムの出現地点を設定")]
-        GameObject[] _pointItemAppearancePoints;
+        Transform[] _pointItemAppearancePoints;
+
+        [SerializeField]
+        [Header("巡回可能地点を設定")]
+        Transform[] _patrolPoints;
 
         Vector3 _prevPointItemPosition;//前回のポイントアイテム出現位置
 
         public Transform PlayerStartingPoint => _playerStartingPoint;
+        public Transform[] PatrollPoints => _patrolPoints;
 
         /// <summary>
         /// エネミーの出現地点を取得します
@@ -58,9 +63,9 @@ namespace StageView
         /// ランダムな出現地点を取得します
         /// </summary>
         /// <param name="AppearancePoints"></param>
-        Transform GetRandomAppearancePointFor(GameObject[] appearancePoints)
+        Transform GetRandomAppearancePointFor(Transform[] appearancePoints)
         {
-            return appearancePoints[Random.Range(0, appearancePoints.Length)].transform;
+            return appearancePoints[Random.Range(0, appearancePoints.Length)];
         }
     }
 }

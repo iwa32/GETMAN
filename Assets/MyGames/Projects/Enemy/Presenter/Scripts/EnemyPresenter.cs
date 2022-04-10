@@ -12,6 +12,7 @@ using EnemyView;
 using EnemyModel;
 using GameModel;
 using StageObject;
+using StrategyView;
 
 namespace EnemyPresenter
 {
@@ -28,6 +29,8 @@ namespace EnemyPresenter
         protected ActionView _actionView;//エネミーのアクション用スクリプト
         DownState _downState;//ダウン状態のスクリプト
         DeadState _deadState;//デッド状態のスクリプト
+        //---巡回---
+        PatrolStrategy _patrolStrategy;
         //---接触・衝突---
         TriggerView.TriggerView _triggerView;
         CollisionView _collisionView;
@@ -50,6 +53,7 @@ namespace EnemyPresenter
 
         #region//プロパティ
         public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
+        public PatrolStrategy PatrolStrategy => _patrolStrategy;
         #endregion
 
         // Start is called before the first frame update
@@ -59,6 +63,8 @@ namespace EnemyPresenter
             _actionView = GetComponent<ActionView>();
             _downState = GetComponent<DownState>();
             _deadState = GetComponent<DeadState>();
+            //巡回
+            _patrolStrategy = GetComponent<PatrolStrategy>();
             //接触、衝突
             _triggerView = GetComponent<TriggerView.TriggerView>();
             _collisionView = GetComponent<CollisionView>();
@@ -91,9 +97,10 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize(int hp, int power, int speed, int score)
         {
+            //awakeでanimeTriggerを取得した場合アニメーションの終了検知がうまくいかない場合があるため、こちらで設定する
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
 
-            _hpBar.SetMaxHp(hp);
+            _hpBar.SetMaxHp(hp); 
             DefaultState();
             InitializeModel(hp, power, score);
 
@@ -113,6 +120,15 @@ namespace EnemyPresenter
             _hpModel.SetHp(hp);
             _powerModel.SetPower(power);
             _enemyScoreModel.SetScore(score);
+        }
+
+        /// <summary>
+        /// 巡回地点を設定します
+        /// </summary>
+        /// <param name="points"></param>
+        public void SetPatrolPoints(Transform[] points)
+        {
+            _patrolStrategy.SetPatrolPoints(points);
         }
 
         void Bind()

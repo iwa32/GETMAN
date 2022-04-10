@@ -12,20 +12,14 @@ namespace EnemyPresenter
     public class TurtleShellPresenter : EnemyPresenter, IDamager
     {
         #region//インスペクターから設定
-        [SerializeField]
-        [Header("障害物チェックのコンポーネントを設定する")]
-        ForwardObstacleCheckView _forwardObstacleCheckView;
         #endregion
 
         #region//フィールド
         //走行
         RunState _runState;
-        RunStrategy _runStrategy;
         //追跡
         TrackState _trackState;
         TrackStrategy _trackStrategy;
-        //方向転換
-        ChangingDirectionStrategy _changingDirectionStrategy;
         #endregion
 
         #region//プロパティ
@@ -37,10 +31,8 @@ namespace EnemyPresenter
         {
             base.Awake();
             _runState = GetComponent<RunState>();
-            _runStrategy = GetComponent<RunStrategy>();
             _trackState = GetComponent<TrackState>();
             _trackStrategy = GetComponent<TrackStrategy>();
-            _changingDirectionStrategy = GetComponent<ChangingDirectionStrategy>();
         }
 
         void Start()
@@ -53,25 +45,13 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize()
         {
-            _runState.DelAction = _runStrategy.Strategy;
+            _runState.DelAction = PatrolStrategy.Strategy;
             _trackState.DelAction = _trackStrategy.Strategy;
             Bind();
         }
 
         void Bind()
         {
-            //前方の衝突を監視
-            _forwardObstacleCheckView.IsOn
-                .Where(isOn => isOn == true
-                && (_actionView.HasStateBy(StateType.TRACK) == false)
-                )
-                .Subscribe(_ => {
-                    //方向転換
-                    _changingDirectionStrategy.Strategy();
-                    _forwardObstacleCheckView.SetIsOn(false);
-                })
-                .AddTo(this);
-
             //プレイヤーの追跡
             _trackStrategy.CanTrack
                 .Subscribe(canTrack => CheckTracking(canTrack))
