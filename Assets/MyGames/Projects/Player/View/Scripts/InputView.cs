@@ -10,9 +10,11 @@ namespace PlayerView
     {
         public IReadOnlyReactiveProperty<Vector2> InputDirection => _inputDirection;
         public IReadOnlyReactiveProperty<bool> IsFired => _isFired;
+        public IReadOnlyReactiveProperty<bool> IsSpAttack => _isSpAttack;
 
         ReactiveProperty<Vector2> _inputDirection = new ReactiveProperty<Vector2>();
         ReactiveProperty<bool> _isFired = new ReactiveProperty<bool>();
+        ReactiveProperty<bool> _isSpAttack = new ReactiveProperty<bool>();
 
         /// <summary>
         /// 移動入力
@@ -26,14 +28,28 @@ namespace PlayerView
         /// <summary>
         /// 発火入力
         /// </summary>
-        public void OnAction(InputAction.CallbackContext context)
+        public void OnFire(InputAction.CallbackContext context)
         {
-            //入力時にフラグをオンにし、入力後にフラグをオフにする
-            if (context.phase == InputActionPhase.Started)
-                _isFired.Value = true;
+            _isFired.Value = CheckInputActionPhase(context);
+        }
 
-            if (context.phase == InputActionPhase.Performed)
-                _isFired.Value = false;
+        /// <summary>
+        /// 発火入力
+        /// </summary>
+        public void OnSpAttack(InputAction.CallbackContext context)
+        {
+            _isSpAttack.Value = CheckInputActionPhase(context);
+        }
+
+        bool CheckInputActionPhase(InputAction.CallbackContext context)
+        {
+            //入力時にフラグをオンにする
+            if (context.phase == InputActionPhase.Started)
+                return true;
+
+            //if (context.phase == InputActionPhase.Performed)
+            //    return false;
+            return false;
         }
     }
 }
