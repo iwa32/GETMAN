@@ -3115,7 +3115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _score: 100
-  _spWeaponType: 0
+  _type: 1
 --- !u!1 &4459339670103844672
 GameObject:
   m_ObjectHideFlags: 0

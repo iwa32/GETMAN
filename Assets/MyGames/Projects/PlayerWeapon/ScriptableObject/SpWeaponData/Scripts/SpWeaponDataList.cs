@@ -37,7 +37,7 @@ namespace SpWeaponDataList
     {
         [SerializeField]
         [Tooltip("SP武器の種類を設定")]
-        SpWeaponType _type;
+        SpWeaponType _type = SpWeaponType.NONE;
 
         [SerializeField]
         [Tooltip("UI表示用のスプライトを設定")]
@@ -51,7 +51,7 @@ namespace SpWeaponDataList
         public Sprite UIIcon => _uiIcon;
         public IPlayerWeapon SpWeapon
         {
-            get { return _spWeapon.GetComponent<IPlayerWeapon>(); }
+            get { return _spWeapon?.GetComponent<IPlayerWeapon>(); }
         }
     }
 }

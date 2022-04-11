@@ -3,6 +3,7 @@
 /// </summary>
 public enum SpWeaponType
 {
+    NONE,
     JAVELIN,//投擲槍
     LASER
 }

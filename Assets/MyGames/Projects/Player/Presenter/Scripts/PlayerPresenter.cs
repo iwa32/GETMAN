@@ -76,6 +76,7 @@ namespace PlayerPresenter
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
+        SpWeaponData _currentSpWeaponData = new SpWeaponData();//現在取得している武器情報を保持
         IDirectionModel _directionModel;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
@@ -187,7 +188,8 @@ namespace PlayerPresenter
             //状態の監視
             _actionView.State
                 .Where(x => x != null)
-                .Subscribe(x => {
+                .Subscribe(x =>
+                {
                     _actionView.ChangeState(x.State);
                 })
                 .AddTo(this);
@@ -207,6 +209,7 @@ namespace PlayerPresenter
                 .AddTo(this);
 
             //攻撃入力
+            //剣での攻撃
             _inputView.IsFired
                 .Where(x => (x == true)
                 && _directionModel.CanGame()
@@ -214,6 +217,15 @@ namespace PlayerPresenter
                 .Subscribe(_ => ChangeAttack())
                 .AddTo(this);
 
+            //SP武器での攻撃
+            _inputView.IsSpAttack
+                .Where(x => (x == true)
+                && _directionModel.CanGame()
+                && IsControllableState()
+                && _currentSpWeaponData.SpWeapon != null
+                )
+                .Subscribe(_ => Debug.Log("spAttack"))
+                .AddTo(this);
 
             //アニメーションの監視
             _animTrigger.OnStateExitAsObservable()
@@ -252,7 +264,7 @@ namespace PlayerPresenter
                 _animator.SetTrigger("ContinuousAttack");
             }
             _actionView.State.Value = _attackState;
-            
+
         }
 
         /// <summary>
@@ -313,25 +325,27 @@ namespace PlayerPresenter
         /// <param name="collider"></param>
         void GetSpWeaponItemBy(Collider collider)
         {
-            //IWeaponItemならスコアを獲得し、自身のアイテム欄にセット
-            if (collider.TryGetComponent(out ISpWeaponItem spWeaponItem))
+            //Sp武器ならスコアを獲得し、自身のアイテム欄にセット
+            if (collider.TryGetComponent(out ISpWeaponItem spWeaponItem) == false) return;
+
+            SpWeaponData spWeaponData
+                = _spWeaponDataList.FindSpWeaponDataByType(spWeaponItem.Type);
+
+            if (spWeaponData == null) return;
+
+            //SE
+
+            //武器が違う場合のみセットする
+            if (_currentSpWeaponData.Type != spWeaponData.Type)
             {
-                //既に同じ武器を取得していたらセットしない
-
-                //SE
-                SpWeaponData spWeapon =_spWeaponDataList.FindSpWeaponDataByType(spWeaponItem.Type);
-                Debug.Log(spWeapon.Type.ToString());
-
-                if (spWeapon != null)
-                {
-                    //セット
-                    _spWeaponView.SetIcon(spWeapon.UIIcon);
-                    //IplayerWeaponを取得
-                }
-
-                _scoreModel.AddScore(spWeaponItem.Score);
-                spWeaponItem.Destroy();
+                _spWeaponView.SetIcon(spWeaponData.UIIcon);
+                _currentSpWeaponData = spWeaponData;
             }
+
+            Debug.Log(spWeaponData.Type.ToString());
+
+            _scoreModel.AddScore(spWeaponItem.Score);
+            spWeaponItem.Destroy();
         }
 
         /// <summary>
