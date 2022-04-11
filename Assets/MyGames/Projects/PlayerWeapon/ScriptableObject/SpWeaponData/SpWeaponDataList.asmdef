@@ -1,0 +1,17 @@
+{
+    "name": "SpWeaponDataList",
+    "rootNamespace": "",
+    "references": [
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:3d31c0a35d82748a99e7ff24fcc60a9b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -12,9 +12,11 @@ using PlayerView;
 using StateView;
 using TriggerView;
 using StageObject;
+using SpWeaponDataList;
 using SoundManager;
 using static StateType;
 using static SEType;
+using PlayerWeapon;
 
 namespace PlayerPresenter
 {
@@ -46,8 +48,18 @@ namespace PlayerPresenter
         HpView _hpView;
 
         [SerializeField]
+        [Header("SP武器表示用のUIを設定")]
+        SpWeaponView _spWeaponView;
+
+        [SerializeField]
         [Header("装備武器を設定")]
-        PlayerWeapon _playerWeapon;
+        PlayerSword _playerWeapon;
+
+        #region//インスペクターから設定
+        [SerializeField]
+        [Header("SpWeaponのScritableObjectを設定")]
+        SpWeaponDataList.SpWeaponDataList _spWeaponDataList;
+        #endregion
         #endregion
 
         #region//フィールド
@@ -163,12 +175,12 @@ namespace PlayerPresenter
             //trigger, collisionの取得
             _triggerView.OnTriggerEnter()
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(collider => CheckColliderEnter(collider))
+                .Subscribe(collider => CheckTrigger(collider))
                 .AddTo(this);
 
             _collisionView.OnCollisionEnter()
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(collision => CheckCollisionEnter(collision))
+                .Subscribe(collision => CheckCollision(collision))
                 .AddTo(this);
 
             //viewの監視
@@ -188,7 +200,7 @@ namespace PlayerPresenter
                     //攻撃中に入力した場合攻撃モーションを終了する
                     if (_actionView.HasStateBy(ATTACK))
                         _playerWeapon.EndMotion();
-                    
+
                     ChangeStateByInput(input);
                 }
                 )
@@ -265,16 +277,18 @@ namespace PlayerPresenter
         /// 接触時に確認します
         /// </summary>
         /// <param name="collider"></param>
-        void CheckColliderEnter(Collider collider)
+        void CheckTrigger(Collider collider)
         {
             GetPointItemBy(collider);
+            GetSpWeaponItemBy(collider);
+
             ReceiveDamageBy(collider);
         }
 
         /// <summary>
         /// 衝突時に確認します
         /// </summary>
-        void CheckCollisionEnter(Collision collision)
+        void CheckCollision(Collision collision)
         {
             ReceiveDamageBy(collision.collider);
         }
@@ -290,6 +304,33 @@ namespace PlayerPresenter
                 _pointModel.AddPoint(pointItem.Point);
                 _scoreModel.AddScore(pointItem.Score);
                 pointItem.Destroy();
+            }
+        }
+
+        /// <summary>
+        /// Sp武器の取得を試みます
+        /// </summary>
+        /// <param name="collider"></param>
+        void GetSpWeaponItemBy(Collider collider)
+        {
+            //IWeaponItemならスコアを獲得し、自身のアイテム欄にセット
+            if (collider.TryGetComponent(out ISpWeaponItem spWeaponItem))
+            {
+                //既に同じ武器を取得していたらセットしない
+
+                //SE
+                SpWeaponData spWeapon =_spWeaponDataList.FindSpWeaponDataByType(spWeaponItem.Type);
+                Debug.Log(spWeapon.Type.ToString());
+
+                if (spWeapon != null)
+                {
+                    //セット
+                    _spWeaponView.SetIcon(spWeapon.UIIcon);
+                    //IplayerWeaponを取得
+                }
+
+                _scoreModel.AddScore(spWeaponItem.Score);
+                spWeaponItem.Destroy();
             }
         }
 

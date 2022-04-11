@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PlayerWeapon;
+
+namespace SpWeaponDataList
+{
+    [CreateAssetMenu(fileName = "SpWeaponDataList", menuName = "ScriptableObject/Create SpWeaponDataList")]
+    public class SpWeaponDataList : ScriptableObject
+    {
+        [SerializeField]
+        List<SpWeaponData> _spWeaponDataList = new List<SpWeaponData>();
+
+        public List<SpWeaponData> GetSpWeaponDataList => _spWeaponDataList;
+
+        /// <summary>
+        /// SP武器を取得します
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public SpWeaponData FindSpWeaponDataByType(SpWeaponType type)
+        {
+            try
+            {
+                return _spWeaponDataList.Find(spWeapon => spWeapon.Type == type);
+            }
+            catch
+            {
+                Debug.Log("Sp武器が見つかりませんでした");
+                return null;
+            }
+        }
+    }
+
+    [System.Serializable]
+    public class SpWeaponData
+    {
+        [SerializeField]
+        [Tooltip("SP武器の種類を設定")]
+        SpWeaponType _type;
+
+        [SerializeField]
+        [Tooltip("UI表示用のスプライトを設定")]
+        Sprite _uiIcon;
+
+        [SerializeField]
+        [Tooltip("SP武器のプレハブを設定する")]
+        GameObject _spWeapon;
+
+        public SpWeaponType Type => _type;
+        public Sprite UIIcon => _uiIcon;
+        public IPlayerWeapon SpWeapon
+        {
+            get { return _spWeapon.GetComponent<IPlayerWeapon>(); }
+        }
+    }
+}
