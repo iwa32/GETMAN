@@ -33,6 +33,7 @@ public class StageData
 {
 
     [SerializeField]
+    [Tooltip("ステージ番号")]
     int _stageId;
 
     [SerializeField]

@@ -37,3 +37,11 @@ MonoBehaviour:
     _bgmType: 3
     _maxEnemyCount: 4
     _stagePrefab: {fileID: 2086473840, guid: 437c574cdba404e29a97aa59d6ec4089, type: 3}
+  - _stageId: 4
+    _clearPointCount: 3
+    _enemyAppearanceInterval: 5
+    _pointItemAppearanceInterval: 10
+    _appearingEnemies: 01000000
+    _bgmType: 4
+    _maxEnemyCount: 5
+    _stagePrefab: {fileID: 2086473840, guid: 60152e5c77ce84d7aa2aceb31755ebee, type: 3}
