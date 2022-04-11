@@ -8,7 +8,7 @@ namespace StageObject
         /// <summary>
         /// 武器の種類
         /// </summary>
-        SpWeaponType SpWeaponType { get; }
+        SpWeaponType Type { get; }
 
         /// <summary>
         /// 削除処理

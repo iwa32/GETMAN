@@ -1,4 +1,4 @@
-namespace StageObject
+namespace PlayerWeapon
 {
     /// <summary>
     /// プレイヤーの武器

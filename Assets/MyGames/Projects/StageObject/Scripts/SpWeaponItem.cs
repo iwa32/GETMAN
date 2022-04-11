@@ -14,11 +14,11 @@ namespace StageObject
 
         [SerializeField]
         [Header("SP武器の種類を設定")]
-        SpWeaponType _spWeaponType;
+        SpWeaponType _type;
         #endregion
 
         public int Score => _score;
-        public SpWeaponType SpWeaponType => _spWeaponType;
+        public SpWeaponType Type => _type;
 
         public void Destroy()
         {

@@ -11,9 +11,9 @@ using TriggerView;
 using EnemyView;
 using EnemyModel;
 using GameModel;
-using StageObject;
 using StrategyView;
 using Cysharp.Threading.Tasks;
+using PlayerWeapon;
 
 namespace EnemyPresenter
 {
