@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,10 @@ using CustomSceneManager;
 using SoundManager;
 using Fade;
 using Dialog;
+using Loading;
 using static SceneType;
 using static SEType;
+
 
 namespace GamePresenter
 {
@@ -41,7 +44,7 @@ namespace GamePresenter
 
         [SerializeField]
         [Header("ゲームクリア後、次のステージがない場合に表示するメッセージを設定します")]
-        string _gameClearMessage = "ステージクリアおめでとうございます！次のステージ追加をお待ちください。";
+        string _gameClearMessage = "ステージクリアおめでとうございます！<br>次のステージ追加をお待ちください。";
 
         [SerializeField]
         [Header("スコアのUIを設定")]
@@ -90,6 +93,8 @@ namespace GamePresenter
         ISoundManager _soundManager;
         IFade _fade;
         ISuccessDialog _successDialog;
+        IErrorDialog _errorDialog;
+        ILoading _loading;
         #endregion
 
         [Inject]
@@ -102,7 +107,9 @@ namespace GamePresenter
             ICustomSceneManager customSceneManager,
             ISoundManager soundManager,
             IFade fade,
-            ISuccessDialog successDialog
+            ISuccessDialog successDialog,
+            IErrorDialog errorDialog,
+            ILoading loading
         )
         {
             _directionModel = direction;
@@ -114,6 +121,8 @@ namespace GamePresenter
             _soundManager = soundManager;
             _fade = fade;
             _successDialog = successDialog;
+            _errorDialog = errorDialog;
+            _loading = loading;
         }
 
         void Awake()
@@ -125,13 +134,32 @@ namespace GamePresenter
 
         void Start()
         {
-            LoadGameData();
-            _pointModel.SetPoint(_initialPoint);
-            _gameStartView.Initialize();
-            _playerPresenter.Initialize();
-            _timePresenter.Initialize();
-            _stagePresenter.Initialize();
-            Bind();
+            InitializeAsync().Forget();
+        }
+
+        async UniTask InitializeAsync()
+        {
+            try
+            {
+                _loading.OpenLoading();
+                await LoadGameData();
+                _pointModel.SetPoint(_initialPoint);
+                _gameStartView.Initialize();
+                _playerPresenter.Initialize();
+                _timePresenter.Initialize();
+                await _stagePresenter.InitializeAsync();
+                await _stagePresenter.PlacePlayerToStage(_playerPresenter.transform);
+                //ゲーム開始カウントの前にフェードインする
+                await _fade.FadeInBeforeAction(_gameStartView.StartCount);
+                _loading.CloseLoading();
+                Bind();
+            }
+            catch(OperationCanceledException)
+            {
+                _loading.CloseLoading();
+                _errorDialog.SetText("ゲームの読み込みに失敗しました。<br>再読み込みをお試しください。");
+                _errorDialog.OpenDialog();
+            }
         }
 
         void FixedUpdate()
@@ -145,20 +173,6 @@ namespace GamePresenter
         /// </summary>
         void Bind()
         {
-            //ゲームの準備
-            //ステージの生成後、プレイヤーを配置します
-            _stagePresenter.IsCreatedState
-                .Where(isCreatedStage => isCreatedStage == true)
-                .Subscribe(_ =>
-                _stagePresenter.PlacePlayerToStage(_playerPresenter.transform)
-                );
-
-            //プレイヤーの配置が完了後、フェードインとゲーム開始の準備のカウントを行う
-            _stagePresenter.IsPlacedPlayer
-                .Where(isPlacedPlayer => isPlacedPlayer == true)
-                .Subscribe(_ => _fade.FadeInBeforeAction(_gameStartView.StartCount).Forget())
-                .AddTo(this);
-
             //view
             //カウントダウン後、ゲーム開始処理を行います
             _gameStartView.IsGameStart
@@ -333,7 +347,7 @@ namespace GamePresenter
         /// <summary>
         /// ゲームデータを読み込む
         /// </summary>
-        void LoadGameData()
+        async UniTask LoadGameData()
         {
             int score = _initialScore;
             int stageNum = _initialStageNum;
@@ -356,6 +370,7 @@ namespace GamePresenter
 
             _scoreModel.SetScore(score);
             _stageNumModel.SetStageNum(stageNum);
+            await UniTask.Yield();
         }
     }
 }

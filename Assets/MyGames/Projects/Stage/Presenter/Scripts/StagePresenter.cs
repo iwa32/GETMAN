@@ -11,6 +11,8 @@ using SV = StageView;
 using BehaviourFactory;
 using StageObject;
 using SoundManager;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace StagePresenter
 {
@@ -29,9 +31,7 @@ namespace StagePresenter
         PointItemFactory _pointItemFactory;//ポイントアイテム生成用スクリプト
         int _stagePointItemCount;//ステージのポイントアイテムの数をカウント
         int _stageEnemyCount;//ステージのエネミー数
-        //フラグ
-        BoolReactiveProperty _isCreatedStage = new BoolReactiveProperty();
-        BoolReactiveProperty _isPlacedPlayer = new BoolReactiveProperty();
+        CancellationTokenSource _cts = new CancellationTokenSource();
         //音声
         ISoundManager _soundManager;
         //モデル
@@ -41,8 +41,6 @@ namespace StagePresenter
         #endregion
 
         #region//プロパティ
-        public IReadOnlyReactiveProperty<bool> IsCreatedState => _isCreatedStage;
-        public IReadOnlyReactiveProperty<bool> IsPlacedPlayer => _isPlacedPlayer;
         #endregion
 
 
@@ -72,9 +70,9 @@ namespace StagePresenter
         /// <summary>
         /// 初期化処理
         /// </summary>
-        public void Initialize()
+        public async UniTask InitializeAsync()
         {
-            CreateStage();
+            await SetUpStage();
             Bind();
         }
 
@@ -153,41 +151,73 @@ namespace StagePresenter
         }
 
         /// <summary>
-        /// ステージで出現するエネミーを登録します
+        /// ステージを設定する
         /// </summary>
-        void RegisterAppearingEnemyForStage()
+        /// <returns></returns>
+        async UniTask SetUpStage()
         {
-            if (_currentStageData.AppearingEnemies.Length == 0)
-                Debug.Log("エネミーの種類を設定してください");
-            _enemyFactory.SetEnemyData(_currentStageData.AppearingEnemies, _currentStageData.MaxEnemyCount);
+            CancellationToken token = _cts.Token;
+            await SetStageData(token);
+            await CreateStage(token);
+            await SetStageObject(token);
+        }
+
+        /// <summary>
+        /// ステージ情報を取得
+        /// </summary>
+        /// <returns></returns>
+        async UniTask SetStageData(CancellationToken token)
+        {
+            int stageNum = _stageNumModel.StageNum.Value;
+            _currentStageData = _stageDataList.GetStageById(stageNum);
+
+            if (_currentStageData == null) _cts.Cancel();
+
+            await UniTask.WaitUntil(() => _currentStageData != null, cancellationToken: token);
         }
 
         /// <summary>
         /// ステージを生成する
         /// </summary>
-        void CreateStage()
+        async UniTask CreateStage(CancellationToken token)
         {
-            //ステージの番号を元にprefabを取得
-            int stageNum = _stageNumModel.StageNum.Value;
-            _currentStageData = _stageDataList.GetStageById(stageNum);
+            //ステージprefabを取得
             SV.StageView stagePrefab = _currentStageData?.StagePrefab;
-            if (stagePrefab == null) return;
+            if (stagePrefab == null) _cts.Cancel();
             //生成
             _currentStageView = Instantiate(stagePrefab, Vector3.zero, Quaternion.identity);
 
+            if (_currentStageView == null) _cts.Cancel();
+
+            await UniTask.WaitUntil(() => _currentStageView != null, cancellationToken: token);
+        }
+
+        /// <summary>
+        /// エネミー、ポイントアイテムの設定
+        /// </summary>
+        /// <returns></returns>
+        async UniTask SetStageObject(CancellationToken token)
+        {
             //出現エネミー、ポイントアイテムの設定
-            RegisterAppearingEnemyForStage();
+            if (_currentStageData.AppearingEnemies.Length == 0)
+            {
+                Debug.Log("エネミーの種類を設定してください");
+                _cts.Cancel();
+            }
+
+            _enemyFactory.SetEnemyData(_currentStageData.AppearingEnemies, _currentStageData.MaxEnemyCount);
             _pointItemFactory.SetPointItemData(_currentStageData.ClearPointCount);
-            _isCreatedStage.Value = true;
+
+            await UniTask.Yield(cancellationToken: token);
         }
 
         /// <summary>
         /// プレイヤーをステージに配置します
         /// </summary>
-        public void PlacePlayerToStage(Transform playerTransform)
+        public async UniTask PlacePlayerToStage(Transform playerTransform)
         {
             playerTransform.position = _currentStageView.PlayerStartingPoint.position;
-            _isPlacedPlayer.Value = true;
+            await UniTask.Yield();
         }
 
         /// <summary>
