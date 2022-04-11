@@ -12,5 +12,10 @@ namespace PlayerWeapon
         /// </summary>
         /// <param name="power"></param>
         void SetPower(int power);
+
+        /// <summary>
+        /// 武器を使用する
+        /// </summary>
+        void Use();
     }
 }

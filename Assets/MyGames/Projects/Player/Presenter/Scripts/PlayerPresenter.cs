@@ -153,7 +153,6 @@ namespace PlayerPresenter
         {
             _runState.DelAction = Run;
             _actionView.State.Value = _waitState;
-            _playerWeapon.Initialize();
         }
 
         /// <summary>
@@ -199,10 +198,6 @@ namespace PlayerPresenter
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(input =>
                 {
-                    //攻撃中に入力した場合攻撃モーションを終了する
-                    if (_actionView.HasStateBy(ATTACK))
-                        _playerWeapon.EndMotion();
-
                     ChangeStateByInput(input);
                 }
                 )
@@ -235,7 +230,6 @@ namespace PlayerPresenter
                 )
                 .Subscribe(_ =>
                 {
-                    _playerWeapon.EndMotion();
                     _animator.ResetTrigger("ContinuousAttack");
 
                     if (_actionView.HasStateBy(ATTACK))
@@ -256,7 +250,7 @@ namespace PlayerPresenter
         /// </summary>
         void ChangeAttack()
         {
-            _playerWeapon.StartMotion();
+            _playerWeapon.Use();
 
             //連続攻撃
             if (_actionView.HasStateBy(ATTACK))

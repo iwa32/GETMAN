@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 using Zenject;
 using SoundManager;
 using static SEType;
@@ -18,6 +20,10 @@ namespace PlayerWeapon
         [Header("エフェクトのトレイルを設定")]
         TrailRenderer _trailRenderer;
 
+        [SerializeField]
+        [Header("武器の発生の持続時間をミリ秒で設定")]
+        int _slashDuration = 1000;
+
         Collider _collider;
         ISoundManager _soundManager;
 
@@ -34,21 +40,38 @@ namespace PlayerWeapon
             _soundManager = soundManager;
         }
 
-        public void Initialize()
+        void Start()
+        {
+            Initialize();
+        }
+
+        void Initialize()
         {
             //武器判定をオフに
             UnEnableCollider();
             _trailRenderer.emitting = false;
         }
 
-        public void StartMotion()
+        public void Use()
+        {
+            Slash().Forget();
+        }
+
+        async UniTask Slash()
+        {
+            StartMotion();
+            await UniTask.Delay(TimeSpan.FromMilliseconds(_slashDuration));
+            EndMotion();
+        }
+
+        void StartMotion()
         {
             _soundManager.PlaySE(SWORD_SLASH);
             EnableCollider();
             _trailRenderer.emitting = true;
         }
 
-        public void EndMotion()
+        void EndMotion()
         {
             UnEnableCollider();
             _trailRenderer.emitting = false;
