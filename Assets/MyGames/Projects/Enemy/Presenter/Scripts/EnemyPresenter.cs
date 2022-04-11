@@ -230,11 +230,11 @@ namespace EnemyPresenter
         /// 配置を行います
         /// </summary>
         /// <param name="transform"></param>
-        public void SetTransform(Transform transform)
+        public void SetTransform(Transform targetTransform)
         {
             //navMeshAgentのオブジェクトをtransform.positionに代入するとうまくいかないためwarpを使用
-            _navMeshAgent.Warp(transform.position);
-            transform.rotation = transform.rotation;
+            _navMeshAgent.Warp(targetTransform.position);
+            transform.rotation = targetTransform.rotation;
         }
 
         /// <summary>
