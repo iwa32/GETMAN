@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx.Triggers;
 
-namespace TriggerView
+namespace Collision
 {
-    public class CollisionView : MonoBehaviour
+    public class ObservableCollision : MonoBehaviour
     {
         /// <summary>
         /// 衝突時
         /// </summary>
         /// <returns></returns>
-        public IObservable<Collision> OnCollisionEnter()
+        public IObservable<UnityEngine.Collision> OnCollisionEnter()
         {
             return this.OnCollisionEnterAsObservable();
         }
@@ -21,7 +21,7 @@ namespace TriggerView
         /// 衝突中
         /// </summary>
         /// <returns></returns>
-        public IObservable<Collision> OnCollisionStay()
+        public IObservable<UnityEngine.Collision> OnCollisionStay()
         {
             return this.OnCollisionStayAsObservable();
         }
@@ -30,7 +30,7 @@ namespace TriggerView
         /// 衝突後
         /// </summary>
         /// <returns></returns>
-        public IObservable<Collision> OnCollisionExit()
+        public IObservable<UnityEngine.Collision> OnCollisionExit()
         {
             return this.OnCollisionExitAsObservable();
         }

@@ -4,9 +4,9 @@ using UnityEngine;
 using UniRx.Triggers;
 using System;
 
-namespace TriggerView
+namespace Trigger
 {
-    public class TriggerView : MonoBehaviour
+    public class ObservableTrigger : MonoBehaviour
     {
         /// <summary>
         /// 接触時

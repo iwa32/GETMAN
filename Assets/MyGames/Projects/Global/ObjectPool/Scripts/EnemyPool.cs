@@ -6,7 +6,7 @@ using Zenject;
 
 namespace ObjectPool
 {
-    public struct PoolData
+    public struct EnemyPoolData
     {
         public EnemyData _enemyData;
         public List<EP.EnemyPresenter> _enemyList;
@@ -14,7 +14,7 @@ namespace ObjectPool
 
     public class EnemyPool : IEnemyPool
     {
-        PoolData[] _enemyPools;
+        EnemyPoolData[] _enemyPools;
 
         [Inject]
         DiContainer container;//動的生成したデータにDIできるようにする
@@ -27,7 +27,7 @@ namespace ObjectPool
         public void CreatePool (EnemyData[] enemyData, int maxEnemyCount)
         {
             //enemyの種類分Poolを作成する
-            _enemyPools = new PoolData[enemyData.Length];
+            _enemyPools = new EnemyPoolData[enemyData.Length];
 
             for (int i = 0; i < enemyData.Length; i++)
             {
@@ -98,7 +98,7 @@ namespace ObjectPool
         /// エネミープールをランダムに取得します
         /// </summary>
         /// <returns></returns>
-        PoolData GetRandomEnemyPoolData()
+        EnemyPoolData GetRandomEnemyPoolData()
         {
             //エネミーのプールが複数存在するならランダムに取得します
             if (_enemyPools.Length > 1)

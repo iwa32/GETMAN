@@ -7,13 +7,14 @@ using UniRx;
 using UniRx.Triggers;
 using Zenject;
 using StateView;
-using TriggerView;
+using Trigger;
 using EnemyView;
 using EnemyModel;
 using GameModel;
 using StrategyView;
 using Cysharp.Threading.Tasks;
 using PlayerWeapon;
+using Collision;
 
 namespace EnemyPresenter
 {
@@ -33,8 +34,8 @@ namespace EnemyPresenter
         //---巡回---
         PatrolStrategy _patrolStrategy;
         //---接触・衝突---
-        TriggerView.TriggerView _triggerView;
-        CollisionView _collisionView;
+        ObservableTrigger _trigger;
+        ObservableCollision _collision;
         //---アニメーション---
         Animator _animator;
         protected ObservableStateMachineTrigger _animTrigger;//stateMachineの監視
@@ -67,8 +68,8 @@ namespace EnemyPresenter
             //巡回
             _patrolStrategy = GetComponent<PatrolStrategy>();
             //接触、衝突
-            _triggerView = GetComponent<TriggerView.TriggerView>();
-            _collisionView = GetComponent<CollisionView>();
+            _trigger = GetComponent<ObservableTrigger>();
+            _collision = GetComponent<ObservableCollision>();
             _collider = GetComponent<Collider>();
             //アニメーション
             _animator = GetComponent<Animator>();
@@ -141,7 +142,7 @@ namespace EnemyPresenter
                 .AddTo(this);
 
             //trigger, collisionの取得
-            _triggerView.OnTriggerEnter()
+            _trigger.OnTriggerEnter()
                 .Where(_ => _directionModel.CanGame()
                 && (_actionView.HasStateBy(StateType.DEAD) == false)
                 )
@@ -204,7 +205,7 @@ namespace EnemyPresenter
         /// <summary>
         /// 衝突を確認します
         /// </summary>
-        public abstract void CheckCollision(Collision collision);
+        public abstract void CheckCollision(UnityEngine.Collision collision);
 
         /// <summary>
         /// 初期時、通常時の状態を設定します

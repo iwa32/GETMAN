@@ -73,7 +73,7 @@ namespace EnemyPresenter
         /// <summary>
         /// 衝突を確認します
         /// </summary>
-        public override void CheckCollision(Collision collision)
+        public override void CheckCollision(UnityEngine.Collision collision)
         {
 
         }

@@ -10,7 +10,8 @@ using PlayerModel;
 using GameModel;
 using PlayerView;
 using StateView;
-using TriggerView;
+using Trigger;
+using Collision;
 using StageObject;
 using SpWeaponDataList;
 using SoundManager;
@@ -70,8 +71,8 @@ namespace PlayerPresenter
         DeadState _deadState;//デッド状態のスクリプト
         AttackState _attackState;//攻撃状態のスクリプト
         JoyState _joyState;//喜び状態のスクリプト
-        TriggerView.TriggerView _triggerView;//接触判定スクリプト
-        CollisionView _collisionView;//衝突判定スクリプト
+        ObservableTrigger _trigger;//接触判定スクリプト
+        ObservableCollision _collision;//衝突判定スクリプト
         InputView _inputView;//プレイヤーの入力取得スクリプト
         Rigidbody _rigidBody;
         Animator _animator;
@@ -119,8 +120,8 @@ namespace PlayerPresenter
             _deadState = GetComponent<DeadState>();
             _attackState = GetComponent<AttackState>();
             _joyState = GetComponent<JoyState>();
-            _triggerView = GetComponent<TriggerView.TriggerView>();
-            _collisionView = GetComponent<CollisionView>();
+            _trigger = GetComponent<ObservableTrigger>();
+            _collision = GetComponent<ObservableCollision>();
             _inputView = GetComponent<InputView>();
             _rigidBody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
@@ -173,12 +174,12 @@ namespace PlayerPresenter
             _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp)).AddTo(this);
 
             //trigger, collisionの取得
-            _triggerView.OnTriggerEnter()
+            _trigger.OnTriggerEnter()
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(collider => CheckTrigger(collider))
                 .AddTo(this);
 
-            _collisionView.OnCollisionEnter()
+            _collision.OnCollisionEnter()
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(collision => CheckCollision(collision))
                 .AddTo(this);
@@ -294,7 +295,7 @@ namespace PlayerPresenter
         /// <summary>
         /// 衝突時に確認します
         /// </summary>
-        void CheckCollision(Collision collision)
+        void CheckCollision(UnityEngine.Collision collision)
         {
             ReceiveDamageBy(collision.collider);
         }

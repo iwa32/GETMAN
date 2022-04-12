@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UniRx;
+using Trigger;
 
 namespace TrackingAreaView
 {
@@ -22,7 +23,7 @@ namespace TrackingAreaView
 
         Vector3 _targetPosition;
         BoolReactiveProperty _canTrack = new BoolReactiveProperty();//追跡フラグ
-        TriggerView.TriggerView _triggerView;
+        ObservableTrigger _trigger;
 
 
         public IReactiveProperty<bool> CanTrack => _canTrack;
@@ -30,15 +31,15 @@ namespace TrackingAreaView
 
         void Awake()
         {
-            _triggerView = GetComponent<TriggerView.TriggerView>();
+            _trigger = GetComponent<ObservableTrigger>();
         }
 
         void Start()
         {
-            _triggerView.OnTriggerStay()
+            _trigger.OnTriggerStay()
                 .Subscribe(collider => CheckTarget(collider));
 
-            _triggerView.OnTriggerExit()
+            _trigger.OnTriggerExit()
                 .Subscribe(_ =>
                 {
                     _canTrack.Value = false;
