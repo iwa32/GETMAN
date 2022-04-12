@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6298287549587138292}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4165539292569679713}
   - component: {fileID: 5520898604458814205}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4977086615261738851}
   - component: {fileID: 7917376694847556171}
   - component: {fileID: 1248173884698654453}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 5877732590511191342}
   - component: {fileID: 1477591378941037474}
   - component: {fileID: 3378880104639622962}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 7639333165600354877}
   - component: {fileID: 5077368436178261321}
   - component: {fileID: 8710212412839430201}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

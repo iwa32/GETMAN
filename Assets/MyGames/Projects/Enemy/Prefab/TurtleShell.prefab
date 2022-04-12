@@ -1368,18 +1368,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HpBar
       objectReference: {fileID: 0}
-    - target: {fileID: 4977086615261738851, guid: a283eb7bad2404177b93bb7cbe380c72, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5877732590511191342, guid: a283eb7bad2404177b93bb7cbe380c72, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5877732590511191342, guid: a283eb7bad2404177b93bb7cbe380c72, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8355221519906862831, guid: a283eb7bad2404177b93bb7cbe380c72, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
