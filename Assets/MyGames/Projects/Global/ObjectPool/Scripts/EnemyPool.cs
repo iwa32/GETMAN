@@ -52,7 +52,8 @@ namespace ObjectPool
         /// <returns></returns>
         public EP.EnemyPresenter GetPool()
         {
-            foreach (EP.EnemyPresenter enemy in GetRandomEnemyPoolData()._enemyList)
+            EnemyPoolData enemyPoolData = GetRandomEnemyPoolData();
+            foreach (EP.EnemyPresenter enemy in enemyPoolData._enemyList)
             {
                 if (enemy.gameObject.activeSelf)
                 {
@@ -63,10 +64,10 @@ namespace ObjectPool
 
                 //パラメータの設定
                 enemy.Initialize(
-                    _enemyPools[0]._enemyData.Hp,
-                    _enemyPools[0]._enemyData.Power,
-                    _enemyPools[0]._enemyData.Speed,
-                    _enemyPools[0]._enemyData.Score
+                    enemyPoolData._enemyData.Hp,
+                    enemyPoolData._enemyData.Power,
+                    enemyPoolData._enemyData.Speed,
+                    enemyPoolData._enemyData.Score
                 );
 
                 return enemy;
