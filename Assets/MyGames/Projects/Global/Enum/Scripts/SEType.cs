@@ -13,5 +13,6 @@ public enum SEType
     POINT_GET,
     SWORD_SLASH,
     GAME_START,
-    SCENE_MOVEMENT
+    SCENE_MOVEMENT,
+    SP_WEAPON_ITEM_GET
 }

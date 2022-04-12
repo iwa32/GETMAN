@@ -326,9 +326,7 @@ namespace PlayerPresenter
                 = _spWeaponDataList.FindSpWeaponDataByType(spWeaponItem.Type);
 
             if (spWeaponData == null) return;
-
-            //SE
-
+            
             //武器が違う場合のみセットする
             if (_currentSpWeapon?.Type != spWeaponData.Type)
             {
@@ -338,6 +336,8 @@ namespace PlayerPresenter
                 _currentSpWeapon.SetPower(spWeaponData.Power);
             }
 
+            //SE
+            _soundManager.PlaySE(SP_WEAPON_ITEM_GET);
             _scoreModel.AddScore(spWeaponItem.Score);
             spWeaponItem.Destroy();
         }
