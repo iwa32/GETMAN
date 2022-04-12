@@ -76,7 +76,7 @@ namespace PlayerPresenter
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
-        SpWeaponData _currentSpWeaponData = new SpWeaponData();//現在取得している武器情報を保持
+        ISpPlayerWeapon _currentSpWeapon;//現在取得しているSP武器を保持
         IDirectionModel _directionModel;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
@@ -217,9 +217,9 @@ namespace PlayerPresenter
                 .Where(x => (x == true)
                 && _directionModel.CanGame()
                 && IsControllableState()
-                && _currentSpWeaponData.SpWeapon != null
+                && _currentSpWeapon != null
                 )
-                .Subscribe(_ => Debug.Log("spAttack"))
+                .Subscribe(_ => _currentSpWeapon.Use())
                 .AddTo(this);
 
             //アニメーションの監視
@@ -330,13 +330,13 @@ namespace PlayerPresenter
             //SE
 
             //武器が違う場合のみセットする
-            if (_currentSpWeaponData.Type != spWeaponData.Type)
+            if (_currentSpWeapon?.Type != spWeaponData.Type)
             {
                 _spWeaponView.SetIcon(spWeaponData.UIIcon);
-                _currentSpWeaponData = spWeaponData;
+                _currentSpWeapon = spWeaponData.SpWeapon;
+                _currentSpWeapon.SetPlayerTransform(transform);
+                _currentSpWeapon.SetPower(spWeaponData.Power);
             }
-
-            Debug.Log(spWeaponData.Type.ToString());
 
             _scoreModel.AddScore(spWeaponItem.Score);
             spWeaponItem.Destroy();

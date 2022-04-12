@@ -44,14 +44,20 @@ namespace SpWeaponDataList
         Sprite _uiIcon;
 
         [SerializeField]
+        [Header("攻撃力を設定")]
+        int _power = 1;
+
+        [SerializeField]
         [Tooltip("SP武器のプレハブを設定する")]
         GameObject _spWeapon;
 
+
         public SpWeaponType Type => _type;
         public Sprite UIIcon => _uiIcon;
-        public IPlayerWeapon SpWeapon
+        public int Power => _power;
+        public ISpPlayerWeapon SpWeapon
         {
-            get { return _spWeapon?.GetComponent<IPlayerWeapon>(); }
+            get { return _spWeapon?.GetComponent<ISpPlayerWeapon>(); }
         }
     }
 }
