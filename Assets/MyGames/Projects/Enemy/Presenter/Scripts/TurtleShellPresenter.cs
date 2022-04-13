@@ -4,12 +4,12 @@ using UnityEngine;
 using UniRx;
 using StateView;
 using EnemyView;
-using StageObject;
 using StrategyView;
+using GlobalInterface;
 
 namespace EnemyPresenter
 {
-    public class TurtleShellPresenter : EnemyPresenter, IDamager
+    public class TurtleShellPresenter : EnemyPresenter, IPlayerAttacker
     {
         #region//インスペクターから設定
         #endregion
@@ -23,7 +23,7 @@ namespace EnemyPresenter
         #endregion
 
         #region//プロパティ
-        public int Damage => _powerModel.Power.Value;
+        public int Power => _powerModel.Power.Value;
         #endregion
 
         // Start is called before the first frame update

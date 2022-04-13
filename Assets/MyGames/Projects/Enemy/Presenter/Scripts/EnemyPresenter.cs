@@ -13,8 +13,8 @@ using EnemyModel;
 using GameModel;
 using StrategyView;
 using Cysharp.Threading.Tasks;
-using PlayerWeapon;
 using Collision;
+using GlobalInterface;
 
 namespace EnemyPresenter
 {
@@ -218,11 +218,11 @@ namespace EnemyPresenter
         /// </summary>
         protected void CheckPlayerWeaponBy(Collider collider)
         {
-            if (collider.TryGetComponent(out IPlayerWeapon playerWeapon))
+            if (collider.TryGetComponent(out IEnemyAttacker attacker))
             {
                 if (_isDown) return;
                 //hpを減らす
-                _hpModel.ReduceHp(playerWeapon.Power);
+                _hpModel.ReduceHp(attacker.Power);
                 ChangeStateByDamege();
             }
         }

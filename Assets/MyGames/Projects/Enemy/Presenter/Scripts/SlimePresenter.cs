@@ -4,13 +4,13 @@ using UnityEngine;
 using UniRx;
 using StateView;
 using EnemyView;
-using StageObject;
 using StrategyView;
 using static StateType;
+using GlobalInterface;
 
 namespace EnemyPresenter
 {
-    public class SlimePresenter : EnemyPresenter, IDamager
+    public class SlimePresenter : EnemyPresenter, IPlayerAttacker
     {
         #region//インスペクターから設定
         #endregion
@@ -24,7 +24,7 @@ namespace EnemyPresenter
         #endregion
 
         #region//プロパティ
-        public int Damage => _powerModel.Power.Value;
+        public int Power => _powerModel.Power.Value;
         #endregion
 
         // Start is called before the first frame update
