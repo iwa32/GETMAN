@@ -18,12 +18,12 @@ MonoBehaviour:
     _power: 1
     _speed: 0.8
     _score: 100
-    _itemDropRate: 0
-    _dropItem: {fileID: 0}
+    _itemDropRate: 50
+    _dropItem: {fileID: 6703808530238275997, guid: f357b915640a942b1b83b25bf2d7702e, type: 3}
   - _enemyType: 1
     _hp: 3
     _power: 1
     _speed: 0.6
     _score: 150
     _itemDropRate: 50
-    _dropItem: {fileID: 434636373747192460, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
+    _dropItem: {fileID: 3102541066799426123, guid: 0b6a2108ca21c4679b68e86d6ec67d14, type: 3}

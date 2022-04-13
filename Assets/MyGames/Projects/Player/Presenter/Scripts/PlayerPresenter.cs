@@ -304,6 +304,7 @@ namespace PlayerPresenter
             if (collider.TryGetComponent(out IGetableItem item) == false) return;
 
             GetPointBy(collider);
+            GetHealItemBy(collider);
             GetSpWeaponItemBy(collider);
 
             _scoreModel.AddScore(item.Score);
@@ -316,6 +317,18 @@ namespace PlayerPresenter
         void CheckCollision(UnityEngine.Collision collision)
         {
             ReceiveDamageBy(collision.collider);
+        }
+
+        /// <summary>
+        /// 回復アイテムの取得を試みます
+        /// </summary>
+        /// <param name="collider"></param>
+        void GetHealItemBy(Collider collider)
+        {
+            if (collider.TryGetComponent(out IHealable healItem))
+            {
+                AddHp(healItem.HealingPower);
+            }
         }
 
         /// <summary>
@@ -386,8 +399,8 @@ namespace PlayerPresenter
         {
             //hpは初期値以上は増えないようにする
             if (_hpModel.Hp.Value >= _initialHp) return;
-            _soundManager.PlaySE(HP_UP);
             _hpModel.AddHp(hp);
+            _soundManager.PlaySE(HP_UP);
         }
 
         /// <summary>
