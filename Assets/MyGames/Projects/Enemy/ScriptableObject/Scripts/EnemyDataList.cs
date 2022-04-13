@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using StageObject;
 using UnityEngine;
 
 namespace EnemyDataList
@@ -37,7 +38,7 @@ namespace EnemyDataList
 
         [SerializeField]
         [Tooltip("ドロップアイテムのプレハブを設定")]
-        GameObject _dropItem;
+        GetableItem _dropItem;
 
 
         public EnemyType EnemyType => _enemyType;
@@ -46,6 +47,6 @@ namespace EnemyDataList
         public float Speed => _speed;
         public int Score => _score;
         public float ItemDropRate => _itemDropRate;
-        public GameObject DropItem => _dropItem;
+        public GetableItem DropItem => _dropItem;
     }
 }

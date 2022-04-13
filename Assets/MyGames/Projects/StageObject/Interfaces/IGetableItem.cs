@@ -1,9 +1,9 @@
 namespace StageObject
 {
     /// <summary>
-    /// ポイントアイテム
+    /// 獲得可能アイテム
     /// </summary>
-    public interface IPointItem : IPoint, IScore
+    public interface IGetableItem: IScore
     {
         /// <summary>
         /// 削除処理

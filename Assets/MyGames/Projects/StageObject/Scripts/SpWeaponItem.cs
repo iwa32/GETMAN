@@ -4,23 +4,19 @@ using UnityEngine;
 
 namespace StageObject
 {
-    public class SpWeaponItem : MonoBehaviour,
+    public class SpWeaponItem : GetableItem,
     ISpWeaponItem
     {
         #region//インスペクターで設定
-        [SerializeField]
-        [Header("獲得スコア")]
-        int _score;
-
         [SerializeField]
         [Header("SP武器の種類を設定")]
         SpWeaponType _type;
         #endregion
 
-        public int Score => _score;
         public SpWeaponType Type => _type;
 
-        public void Destroy()
+
+        public override void Destroy()
         {
             gameObject.SetActive(false);
         }

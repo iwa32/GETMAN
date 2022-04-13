@@ -4,24 +4,18 @@ using UnityEngine;
 
 namespace StageObject
 {
-    public class PointItem : MonoBehaviour,
-    IPointItem
+    public class PointItem : GetableItem, IPoint
     {
         #region//インスペクターで設定
         [Header("獲得ポイント数")]
         [SerializeField]
         int _point = 1;
 
-        [Header("獲得スコア")]
-        [SerializeField]
-        int _score;
-
         public int Point => _point;
-        public int Score => _score;
         #endregion
 
         //プレイヤーに接触したら破棄する
-        public void Destroy()
+        public override void Destroy()
         {
             gameObject.SetActive(false);
         }

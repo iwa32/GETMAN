@@ -3,16 +3,11 @@ namespace StageObject
     /// <summary>
     /// ウェポンアイテム
     /// </summary>
-    public interface ISpWeaponItem : IScore
+    public interface ISpWeaponItem
     {
         /// <summary>
         /// 武器の種類
         /// </summary>
         SpWeaponType Type { get; }
-
-        /// <summary>
-        /// 削除処理
-        /// </summary>
-        void Destroy();
     }
 }

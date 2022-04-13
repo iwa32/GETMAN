@@ -291,10 +291,23 @@ namespace PlayerPresenter
         /// <param name="collider"></param>
         void CheckTrigger(Collider collider)
         {
-            GetPointItemBy(collider);
+            GetItem(collider);
+            ReceiveDamageBy(collider);
+        }
+
+        /// <summary>
+        /// アイテムを獲得します
+        /// </summary>
+        /// <param name="collider"></param>
+        void GetItem(Collider collider)
+        {
+            if (collider.TryGetComponent(out IGetableItem item) == false) return;
+
+            GetPointBy(collider);
             GetSpWeaponItemBy(collider);
 
-            ReceiveDamageBy(collider);
+            _scoreModel.AddScore(item.Score);
+            item.Destroy();
         }
 
         /// <summary>
@@ -306,16 +319,14 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// ポイントアイテムの取得を試みます
+        /// ポイントの取得を試みます
         /// </summary>
-        void GetPointItemBy(Collider collider)
+        void GetPointBy(Collider collider)
         {
-            if (collider.TryGetComponent(out IPointItem pointItem))
+            if (collider.TryGetComponent(out IPoint pointItem))
             {
                 _soundManager.PlaySE(POINT_GET);
                 _pointModel.AddPoint(pointItem.Point);
-                _scoreModel.AddScore(pointItem.Score);
-                pointItem.Destroy();
             }
         }
 
@@ -349,8 +360,6 @@ namespace PlayerPresenter
 
             //SE
             _soundManager.PlaySE(SP_WEAPON_ITEM_GET);
-            _scoreModel.AddScore(spWeaponItem.Score);
-            spWeaponItem.Destroy();
         }
 
         /// <summary>

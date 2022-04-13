@@ -26,4 +26,4 @@ MonoBehaviour:
     _speed: 0.6
     _score: 150
     _itemDropRate: 50
-    _dropItem: {fileID: 512871999576852254, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
+    _dropItem: {fileID: 434636373747192460, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}

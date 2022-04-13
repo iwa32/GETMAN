@@ -16,6 +16,7 @@ using Cysharp.Threading.Tasks;
 using Collision;
 using GlobalInterface;
 using EnemyDataList;
+using StageObject;
 
 namespace EnemyPresenter
 {
@@ -57,7 +58,7 @@ namespace EnemyPresenter
         protected IPowerModel _powerModel;
         IDirectionModel _directionModel;
         EnemyData _enemyData;//todo パラメータを個別にもたせるか検討
-        GameObject _dropItemPool;//生成済みのドロップアイテムの保管場所
+        GetableItem _dropItemPool;//生成済みのドロップアイテムの保管場所
         #endregion
 
         #region//プロパティ
@@ -303,7 +304,7 @@ namespace EnemyPresenter
             //プールにない場合、生成する
             if (_dropItemPool == null)
             {
-                GameObject dropItem
+                GetableItem dropItem
                 = Instantiate(
                     _enemyData.DropItem,
                     transform.position,
@@ -316,7 +317,7 @@ namespace EnemyPresenter
 
             //ある場合位置を更新して表示
             _dropItemPool.transform.position = transform.position;
-            _dropItemPool.SetActive(true);
+            _dropItemPool.gameObject?.SetActive(true);
         }
     }
 }
