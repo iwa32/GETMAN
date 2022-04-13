@@ -7,7 +7,7 @@ using ObjectPool;
 
 namespace SpPlayerWeaponInvoker
 {
-    public class JavelinShooter : MonoBehaviour, ISpPlayerWeaponInvoker
+    public class JavelinShooter : SpPlayerWeaponInvoker
     {
         [SerializeField]
         [Header("投槍のプレハブを設定")]
@@ -21,49 +21,26 @@ namespace SpPlayerWeaponInvoker
         [Header("一度の画面表示数")]
         int _shootingCount = 3;
 
-        int _power = 1;
         SpWeaponType _type = SpWeaponType.JAVELIN;
-        Transform _playerTransform;
-        ISpPlayerWeaponPool _spWeaponPool;
+        Vector3 _prefabEulerAngles;
 
-        public int Power => _power;
-        public SpWeaponType Type => _type;
+        public override SpWeaponType Type => _type;
 
-
-        //[Inject]
-        //public void Construct(ISpPlayerWeaponPool spWeaponPool)
-        //{
-        //    _spWeaponPool = spWeaponPool;
-        //}
-
-        public void SetPlayerTransform(Transform playerTransform)
+        private void Awake()
         {
-            _playerTransform = playerTransform;
-        }
-
-        public void SetPower(int power)
-        {
-            _power = power;
+            _spWeaponPool.CreatePool(_javelinPrefab, _shootingCount);
+            _prefabEulerAngles = _javelinPrefab.transform.rotation.eulerAngles;
         }
 
         /// <summary>
         /// 武器を使用します
         /// </summary>
-        public void Invoke()
+        public override void Invoke()
         {
-            //todo diの方法を後で考える
-            if (_spWeaponPool == null)
-                _spWeaponPool = new SpWeaponPool();
-
-            //プール作成
-            if (_spWeaponPool.SpWeaponList.Count == 0)
-            {
-                _spWeaponPool.CreatePool(_javelinPrefab, _shootingCount);
-            }
+            if (_spWeaponPool.SpWeaponList.Count == 0) return;
 
             //Yの回転軸をプレイヤーに合わせる
-            Vector3 eulerAngles = _javelinPrefab.transform.rotation.eulerAngles;
-            eulerAngles.y = _playerTransform.rotation.eulerAngles.y;
+            _prefabEulerAngles.y = _playerTransform.rotation.eulerAngles.y;
 
             //射出位置を設定
             Vector3 shootPos = _playerTransform.position;
@@ -71,7 +48,7 @@ namespace SpPlayerWeaponInvoker
 
             //ジャベリンを取得
             ISpPlayerWeapon javelin
-                = _spWeaponPool.GetPool(shootPos,Quaternion.Euler(eulerAngles));
+                = _spWeaponPool.GetPool(shootPos,Quaternion.Euler(_prefabEulerAngles));
 
             if (javelin == null) return;
 

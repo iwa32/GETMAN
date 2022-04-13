@@ -87,6 +87,9 @@ namespace PlayerPresenter
         IPointModel _pointModel;
         ISoundManager _soundManager;
         bool _isBlink;//点滅状態か
+
+        [Inject]
+        DiContainer container;//動的生成したデータにDIできるようにする
         #endregion
 
         #region//プロパティ
@@ -334,7 +337,12 @@ namespace PlayerPresenter
             if (_currentSpWeapon?.Type != spWeaponData.Type)
             {
                 _spWeaponView.SetIcon(spWeaponData.UIIcon);
-                _currentSpWeapon = spWeaponData.SpWeaponInvoker;
+
+                ISpPlayerWeaponInvoker invoker =
+                    container.InstantiatePrefab(spWeaponData.SpWeaponInvoker)
+                    .GetComponent<ISpPlayerWeaponInvoker>();
+
+                _currentSpWeapon = invoker;
                 _currentSpWeapon.SetPlayerTransform(transform);
                 _currentSpWeapon.SetPower(spWeaponData.Power);
             }

@@ -48,14 +48,12 @@ namespace ObjectPool
                 {
                     continue;
                 }
-
                 spWeapon.transform.position = pos;
                 spWeapon.transform.rotation = rotation;
                 spWeapon.gameObject?.SetActive(true);
 
                 return spWeapon?.GetComponent<ISpPlayerWeapon>();
             }
-
             return null;
         }
     }
