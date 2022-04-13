@@ -18,7 +18,7 @@ namespace SpPlayerWeaponInvoker
         float _shootingHeight = 1;
 
         [SerializeField]
-        [Header("一度の連射数を設定")]
+        [Header("一度の画面表示数")]
         int _shootingCount = 3;
 
         int _power = 1;

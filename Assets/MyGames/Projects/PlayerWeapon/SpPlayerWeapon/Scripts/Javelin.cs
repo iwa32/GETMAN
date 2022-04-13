@@ -12,10 +12,10 @@ namespace SpPlayerWeapon
         [Header("射出する力を設定")]
         float _force = 5;
 
-        new SpWeaponType _type = SpWeaponType.JAVELIN;
+        SpWeaponType _type = SpWeaponType.JAVELIN;
         ObservableTrigger _trigger;
 
-        public new SpWeaponType Type => _type;
+        public override SpWeaponType Type => _type;
 
         void Awake()
         {

@@ -9,10 +9,9 @@ namespace SpPlayerWeapon
         protected int _power;
         protected Rigidbody _rigidbody;
         protected Transform _playerTransform;
-        protected SpWeaponType _type = SpWeaponType.NONE;
 
         public int Power => _power;
-        public SpWeaponType Type => _type;
+        public abstract SpWeaponType Type { get; }
 
 
         public void SetPlayerTransform(Transform playerTransform)
