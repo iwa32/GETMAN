@@ -7,7 +7,7 @@ using Zenject;
 using SoundManager;
 using static SEType;
 
-namespace PlayerWeapon
+namespace NormalPlayerWeapon
 {
     public class PlayerSword : MonoBehaviour,
     IPlayerWeapon

@@ -1,10 +1,11 @@
 {
-    "name": "StageObject",
+    "name": "NormalPlayerWeapon",
     "rootNamespace": "",
     "references": [
-        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:6ead2b17d8b3c4f0a9a58fa7c3df2bee",
         "GUID:b3f420edca8ab44e2bb6d1642f3ae6de",
-        "GUID:6ead2b17d8b3c4f0a9a58fa7c3df2bee"
+        "GUID:231969241a33c435c889dcd1f750de0c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PlayerWeapon;
+using SpPlayerWeaponInvoker;
 
 namespace SpWeaponDataList
 {
@@ -48,16 +48,16 @@ namespace SpWeaponDataList
         int _power = 1;
 
         [SerializeField]
-        [Tooltip("SP武器のプレハブを設定する")]
-        GameObject _spWeapon;
+        [Tooltip("SP武器発動用プレハブを設定する")]
+        GameObject _spWeaponInvoker;
 
 
         public SpWeaponType Type => _type;
         public Sprite UIIcon => _uiIcon;
         public int Power => _power;
-        public ISpPlayerWeapon SpWeapon
+        public ISpPlayerWeaponInvoker SpWeaponInvoker
         {
-            get { return _spWeapon?.GetComponent<ISpPlayerWeapon>(); }
+            get { return _spWeaponInvoker?.GetComponent<ISpPlayerWeaponInvoker>(); }
         }
     }
 }

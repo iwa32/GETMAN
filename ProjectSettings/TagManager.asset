@@ -17,12 +17,12 @@ TagManager:
   - Traps
   - Water
   - UI
-  - Ignore
-  - ObstacleCheck
+  - 
+  - 
   - Player
   - Enemy
-  - 
-  - 
+  - PlayerWeapon
+  - EnemySupporter
   - 
   - 
   - 

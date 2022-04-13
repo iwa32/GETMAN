@@ -17,7 +17,9 @@ using SpWeaponDataList;
 using SoundManager;
 using static StateType;
 using static SEType;
-using PlayerWeapon;
+using GlobalInterface;
+using NormalPlayerWeapon;
+using SpPlayerWeaponInvoker;
 
 namespace PlayerPresenter
 {
@@ -77,7 +79,7 @@ namespace PlayerPresenter
         Rigidbody _rigidBody;
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
-        ISpPlayerWeapon _currentSpWeapon;//現在取得しているSP武器を保持
+        ISpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
         IDirectionModel _directionModel;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
@@ -220,7 +222,7 @@ namespace PlayerPresenter
                 && IsControllableState()
                 && _currentSpWeapon != null
                 )
-                .Subscribe(_ => _currentSpWeapon.Use())
+                .Subscribe(_ => _currentSpWeapon.Invoke())
                 .AddTo(this);
 
             //アニメーションの監視
@@ -332,7 +334,7 @@ namespace PlayerPresenter
             if (_currentSpWeapon?.Type != spWeaponData.Type)
             {
                 _spWeaponView.SetIcon(spWeaponData.UIIcon);
-                _currentSpWeapon = spWeaponData.SpWeapon;
+                _currentSpWeapon = spWeaponData.SpWeaponInvoker;
                 _currentSpWeapon.SetPlayerTransform(transform);
                 _currentSpWeapon.SetPower(spWeaponData.Power);
             }
@@ -350,10 +352,10 @@ namespace PlayerPresenter
         {
             if (_isBlink) return;
             if (_actionView.HasStateBy(ATTACK)) return;//攻撃中はダメージを受けない
-            if (collider.TryGetComponent(out IDamager damager))
+            if (collider.TryGetComponent(out IPlayerAttacker attacker))
             {
                 _soundManager.PlaySE(DAMAGED);
-                _hpModel.ReduceHp(damager.Damage);
+                _hpModel.ReduceHp(attacker.Power);
                 ChangeStateByDamage();
                 KnockBack(collider?.gameObject);
             }

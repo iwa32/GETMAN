@@ -1,10 +1,11 @@
 {
-    "name": "StageObject",
+    "name": "SpPlayerWeaponInvoker",
     "rootNamespace": "",
     "references": [
         "GUID:231969241a33c435c889dcd1f750de0c",
-        "GUID:b3f420edca8ab44e2bb6d1642f3ae6de",
-        "GUID:6ead2b17d8b3c4f0a9a58fa7c3df2bee"
+        "GUID:3d31c0a35d82748a99e7ff24fcc60a9b",
+        "GUID:6ead2b17d8b3c4f0a9a58fa7c3df2bee",
+        "GUID:4289ff7b89b204a5785313862512a2fb"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
