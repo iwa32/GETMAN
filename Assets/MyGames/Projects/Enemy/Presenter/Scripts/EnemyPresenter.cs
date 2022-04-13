@@ -56,6 +56,8 @@ namespace EnemyPresenter
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         protected IPowerModel _powerModel;
         IDirectionModel _directionModel;
+        EnemyData _enemyData;//todo パラメータを個別にもたせるか検討
+        GameObject _dropItemPool;//生成済みのドロップアイテムの保管場所
         #endregion
 
         #region//プロパティ
@@ -105,10 +107,11 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize(EnemyData data)
         {
+            _enemyData = data;
             //awakeでanimeTriggerを取得した場合アニメーションの終了検知がうまくいかない場合があるため、こちらで設定する
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
 
-            _hpBar.SetMaxHp(data.Hp); 
+            _hpBar.SetMaxHp(data.Hp);
             DefaultState();
             InitializeModel(data.Hp, data.Power, data.Score);
 
@@ -276,7 +279,44 @@ namespace EnemyPresenter
             _actionView.State.Value = _deadState;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
             _isDead.Value = true;
+            JudgeDrop();
             _isInitialized = false;
+        }
+
+        void JudgeDrop()
+        {
+            //抽選 todo 後にクラスにまとめる
+
+            bool isDrop = false;
+            //1~100までの数を取得
+            int randomValue = UnityEngine.Random.Range(1, 101);
+            //抽選
+            if (_enemyData.ItemDropRate >= randomValue)
+            {
+                isDrop = true;
+            }
+
+            bool canDrop = (isDrop && _enemyData.DropItem != null);
+            if (canDrop == false) return;
+
+            //ドロップする
+            //プールにない場合、生成する
+            if (_dropItemPool == null)
+            {
+                GameObject dropItem
+                = Instantiate(
+                    _enemyData.DropItem,
+                    transform.position,
+                    _enemyData.DropItem.transform.rotation
+                    );
+
+                _dropItemPool = dropItem;
+                return;
+            }
+
+            //ある場合位置を更新して表示
+            _dropItemPool.transform.position = transform.position;
+            _dropItemPool.SetActive(true);
         }
     }
 }

@@ -16,12 +16,14 @@ MonoBehaviour:
   - _enemyType: 0
     _hp: 2
     _power: 1
-    _speed: 1
+    _speed: 0.8
     _score: 100
-    _enemyPrefab: {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
+    _itemDropRate: 0
+    _dropItem: {fileID: 0}
   - _enemyType: 1
     _hp: 3
     _power: 1
-    _speed: 1
+    _speed: 0.6
     _score: 150
-    _enemyPrefab: {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
+    _itemDropRate: 50
+    _dropItem: {fileID: 512871999576852254, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}

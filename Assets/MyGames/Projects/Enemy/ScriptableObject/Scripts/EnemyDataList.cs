@@ -26,16 +26,26 @@ namespace EnemyDataList
         int _power;
 
         [SerializeField]
-        int _speed;
+        float _speed;
 
         [SerializeField]
         int _score;
+
+        [SerializeField]
+        [Tooltip("アイテムドロップ率")]
+        float _itemDropRate;
+
+        [SerializeField]
+        [Tooltip("ドロップアイテムのプレハブを設定")]
+        GameObject _dropItem;
 
 
         public EnemyType EnemyType => _enemyType;
         public int Hp => _hp;
         public int Power => _power;
-        public int Speed => _speed;
+        public float Speed => _speed;
         public int Score => _score;
+        public float ItemDropRate => _itemDropRate;
+        public GameObject DropItem => _dropItem;
     }
 }
