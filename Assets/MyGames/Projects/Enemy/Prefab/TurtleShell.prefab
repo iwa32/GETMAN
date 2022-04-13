@@ -940,6 +940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpBar: {fileID: 5130018871282656309}
+  _type: 1
 --- !u!114 &3440381212622214208
 MonoBehaviour:
   m_ObjectHideFlags: 0

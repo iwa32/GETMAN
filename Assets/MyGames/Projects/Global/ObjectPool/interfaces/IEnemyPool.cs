@@ -15,7 +15,7 @@ namespace ObjectPool {
         /// <typeparam name="T"></typeparam>
         /// <param name="referenceObj"></param>
         /// <param name="maxObjectCount"></param>
-        void CreatePool(EnemyData[] enemyData, int maxObjectCount);
+        void CreatePool(EP.EnemyPresenter[] enemies, int maxObjectCount);
 
         /// <summary>
         /// プールを取得します

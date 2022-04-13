@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EP = EnemyPresenter;
 
 [CreateAssetMenu(fileName = "StageDataList", menuName = "ScriptableObject/Create StageDataList")]
 public class StageDataList : ScriptableObject
@@ -49,8 +50,8 @@ public class StageData
     float _pointItemAppearanceInterval;
 
     [SerializeField]
-    [Tooltip("出現エネミーを設定")]
-    EnemyType[] _appearingEnemies;
+    [Tooltip("出現エネミーのプレハブを設定")]
+    EP.EnemyPresenter[] _enemyPrefabs;
 
     [SerializeField]
     [Tooltip("Bgmの種類を設定")]
@@ -69,8 +70,8 @@ public class StageData
     public int ClearPointCount =>  _clearPointCount;
     public float EnemyAppearanceInterval => _enemyAppearanceInterval;
     public float PointItemAppearanceInterval => _pointItemAppearanceInterval;
-    public EnemyType[] AppearingEnemies => _appearingEnemies;
     public BgmType BgmType => _bgmType;
     public int MaxEnemyCount => _maxEnemyCount;
     public StageView.StageView StagePrefab => _stagePrefab;
+    public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyPrefabs;
 }

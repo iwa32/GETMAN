@@ -15,6 +15,7 @@ using StrategyView;
 using Cysharp.Threading.Tasks;
 using Collision;
 using GlobalInterface;
+using EnemyDataList;
 
 namespace EnemyPresenter
 {
@@ -24,6 +25,10 @@ namespace EnemyPresenter
         [SerializeField]
         [Header("HpBarを設定する")]
         HpBar.HpBar _hpBar;
+
+        [SerializeField]
+        [Header("エネミーの種類を設定")]
+        protected EnemyType _type;
         #endregion
 
         #region//フィールド
@@ -56,6 +61,7 @@ namespace EnemyPresenter
         #region//プロパティ
         public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
         public PatrolStrategy PatrolStrategy => _patrolStrategy;
+        public EnemyType Type => _type;
         #endregion
 
         // Start is called before the first frame update
@@ -97,18 +103,18 @@ namespace EnemyPresenter
         /// <summary>
         /// 初期化処理
         /// </summary>
-        public void Initialize(int hp, int power, int speed, int score)
+        public void Initialize(EnemyData data)
         {
             //awakeでanimeTriggerを取得した場合アニメーションの終了検知がうまくいかない場合があるため、こちらで設定する
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
 
-            _hpBar.SetMaxHp(hp); 
+            _hpBar.SetMaxHp(data.Hp); 
             DefaultState();
-            InitializeModel(hp, power, score);
+            InitializeModel(data.Hp, data.Power, data.Score);
 
             _collider.enabled = true;
             _navMeshAgent.isStopped = false;
-            _navMeshAgent.speed = speed;
+            _navMeshAgent.speed = data.Speed;
             _isDead.Value = false;
             _isInitialized = true;
             Bind();

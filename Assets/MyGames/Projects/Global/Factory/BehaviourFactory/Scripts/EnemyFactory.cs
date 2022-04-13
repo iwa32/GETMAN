@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 using EP = EnemyPresenter;
+using EnemyDataList;
 using ObjectPool;
 
 namespace BehaviourFactory
@@ -11,10 +12,9 @@ namespace BehaviourFactory
     public class EnemyFactory : BehaviourFactory<EP.EnemyPresenter>
     {
         [SerializeField]
-        [Header("エネミーのスクリプタブルオブジェクトを設定")]
-        EnemyDataList _enemyDataList;
+        [Header("EnemyDataListのスクリプタブルオブジェクトを設定")]
+        EnemyDataList.EnemyDataList _enemyDataList;
 
-        EnemyData[] _enemyDataToCreate;//作成エネミーデータ
         IEnemyPool _enemyPool;
 
         [Inject]
@@ -27,15 +27,9 @@ namespace BehaviourFactory
         /// エネミーのデータを設定します
         /// </summary>
         /// <param name="enemyTypes"></param>
-        public void SetEnemyData(EnemyType[] enemyTypes, int maxEnemyCount)
+        public void SetEnemyData(EP.EnemyPresenter[] enemies, int maxEnemyCount)
         {
-            //エネミーデータからステージに出現するエネミーを探し格納します
-            _enemyDataToCreate
-                = _enemyDataList.GetEnemyDataList
-                .Where(data => enemyTypes.Contains(data.EnemyType))
-                .ToArray();
-
-            _enemyPool.CreatePool(_enemyDataToCreate, maxEnemyCount);
+            _enemyPool.CreatePool(enemies, maxEnemyCount);
         }
 
         /// <summary>
@@ -44,7 +38,15 @@ namespace BehaviourFactory
         public override EP.EnemyPresenter Create()
         {
             //poolから取得します
-            return _enemyPool.GetPool();
+            EP.EnemyPresenter enemy = _enemyPool.GetPool();
+            //enemyのデータを取得します
+            EnemyData data =
+                _enemyDataList.GetEnemyDataList
+                .First(data => data.EnemyType == enemy.Type);
+
+            enemy.Initialize(data);
+
+            return enemy;
         }
     }
 

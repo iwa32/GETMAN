@@ -17,7 +17,8 @@ MonoBehaviour:
     _clearPointCount: 3
     _enemyAppearanceInterval: 5
     _pointItemAppearanceInterval: 10
-    _appearingEnemies: 00000000
+    _enemyPrefabs:
+    - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
     _bgmType: 1
     _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: d4c0e2e0985c142e990966d24fc6e7ff, type: 3}
@@ -25,7 +26,7 @@ MonoBehaviour:
     _clearPointCount: 3
     _enemyAppearanceInterval: 5
     _pointItemAppearanceInterval: 10
-    _appearingEnemies: 00000000
+    _enemyPrefabs: []
     _bgmType: 2
     _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: 3d61413cd28e943868ad776c3c977813, type: 3}
@@ -33,7 +34,7 @@ MonoBehaviour:
     _clearPointCount: 3
     _enemyAppearanceInterval: 5
     _pointItemAppearanceInterval: 10
-    _appearingEnemies: 0100000000000000
+    _enemyPrefabs: []
     _bgmType: 3
     _maxEnemyCount: 4
     _stagePrefab: {fileID: 2086473840, guid: 437c574cdba404e29a97aa59d6ec4089, type: 3}
@@ -41,7 +42,7 @@ MonoBehaviour:
     _clearPointCount: 3
     _enemyAppearanceInterval: 5
     _pointItemAppearanceInterval: 10
-    _appearingEnemies: 01000000
+    _enemyPrefabs: []
     _bgmType: 4
     _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: 60152e5c77ce84d7aa2aceb31755ebee, type: 3}

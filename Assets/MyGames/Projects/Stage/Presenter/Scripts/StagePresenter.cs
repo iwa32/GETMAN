@@ -199,13 +199,13 @@ namespace StagePresenter
         async UniTask SetStageObject(CancellationToken token)
         {
             //出現エネミー、ポイントアイテムの設定
-            if (_currentStageData.AppearingEnemies.Length == 0)
+            if (_currentStageData.AppearingEnemyPrefabs.Length == 0)
             {
-                Debug.Log("エネミーの種類を設定してください");
+                Debug.Log("エネミーを設定してください");
                 _cts.Cancel();
             }
 
-            _enemyFactory.SetEnemyData(_currentStageData.AppearingEnemies, _currentStageData.MaxEnemyCount);
+            _enemyFactory.SetEnemyData(_currentStageData.AppearingEnemyPrefabs, _currentStageData.MaxEnemyCount);
             _pointItemFactory.SetPointItemData(_currentStageData.ClearPointCount);
 
             await UniTask.Yield(cancellationToken: token);
