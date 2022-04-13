@@ -21,6 +21,9 @@ namespace GamePresenter
 {
     public class GamePresenter : MonoBehaviour
     {
+        readonly string _gameClearMessage = "ステージクリアおめでとうございます！<br>次のステージ追加をお待ちください。";
+        readonly string _loadFailureMessage = "ゲームの読み込みに失敗しました。<br>再読み込みをお試しください。";
+
         #region//インスペクターから設定
         [SerializeField]
         [Header("初期ポイントを設定")]
@@ -41,10 +44,6 @@ namespace GamePresenter
         [SerializeField]
         [Header("次は〇倍後のスコアラインでHpを取得します")]
         int _nextMagnification = 5;
-
-        [SerializeField]
-        [Header("ゲームクリア後、次のステージがない場合に表示するメッセージを設定します")]
-        string _gameClearMessage = "ステージクリアおめでとうございます！<br>次のステージ追加をお待ちください。";
 
         [SerializeField]
         [Header("スコアのUIを設定")]
@@ -142,22 +141,26 @@ namespace GamePresenter
             try
             {
                 _loading.OpenLoading();
-                await LoadGameData();
                 _pointModel.SetPoint(_initialPoint);
                 _gameStartView.Initialize();
                 _playerPresenter.Initialize();
                 _timePresenter.Initialize();
+
+                await LoadGameData();
                 await _stagePresenter.InitializeAsync();
                 await _stagePresenter.PlacePlayerToStage(_playerPresenter.transform);
-                //ゲーム開始カウントの前にフェードインする
-                await _fade.FadeInBeforeAction(_gameStartView.StartCount);
+                _scoreView.SetScore(_scoreModel.Score.Value);
+                _stageNumView.SetStageNum(_stageNumModel.StageNum.Value);
+                await _fade.StartFadeIn();
+
+                _gameStartView.StartCount();
                 _loading.CloseLoading();
                 Bind();
             }
             catch(OperationCanceledException)
             {
                 _loading.CloseLoading();
-                _errorDialog.SetText("ゲームの読み込みに失敗しました。<br>再読み込みをお試しください。");
+                _errorDialog.SetText(_loadFailureMessage);
                 _errorDialog.OpenDialog();
             }
         }
@@ -218,11 +221,6 @@ namespace GamePresenter
 
             _pointModel.Point
                 .Subscribe(point => _pointView.SetPointGauge(point))
-                .AddTo(this);
-
-            _stageNumModel.StageNum
-                .First()
-                .Subscribe(stageNum => _stageNumView.SetStageNum(stageNum))
                 .AddTo(this);
         }
 
@@ -355,14 +353,10 @@ namespace GamePresenter
             //最初から始める
             if (_saveDataManager.IsInitialized)
             {
-                _scoreModel.SetScore(score);
-                _stageNumModel.SetStageNum(stageNum);
                 _saveDataManager.SetIsInitialized(false);
-                return;
             }
-
             //次のステージへ行く場合のみ使用する
-            if (_saveDataManager.IsLoaded)
+            else if (_saveDataManager.IsLoaded)
             {
                 score = _saveDataManager.SaveData.CurrentScore;
                 stageNum = _saveDataManager.SaveData.StageNum;
