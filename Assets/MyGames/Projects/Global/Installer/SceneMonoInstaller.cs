@@ -21,6 +21,10 @@ namespace GlobalInstaller
             //ポイントアイテム
             Container.Bind<IPointItemPool>()
                 .To<PointItemPool>().AsSingle().NonLazy();
+
+            //SP武器
+            Container.Bind<ISpPlayerWeaponPool>()
+                .To<SpWeaponPool>().AsSingle().NonLazy();
         }
     }
 }
