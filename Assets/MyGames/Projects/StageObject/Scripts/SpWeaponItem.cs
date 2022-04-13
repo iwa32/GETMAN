@@ -22,7 +22,7 @@ namespace StageObject
 
         public void Destroy()
         {
-            Debug.Log("destroy");
+            gameObject.SetActive(false);
         }
     }
 }
