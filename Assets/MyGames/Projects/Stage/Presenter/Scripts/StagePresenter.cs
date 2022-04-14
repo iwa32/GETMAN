@@ -74,6 +74,7 @@ namespace StagePresenter
         public async UniTask InitializeAsync()
         {
             await SetUpStage();
+            PlaceEnemyToStage();//ゲーム開始前に一体場に出しておく
             Bind();
         }
 
@@ -82,7 +83,7 @@ namespace StagePresenter
             //---エネミーの生成---
             //一定間隔で自動生成
             IConnectableObservable<long> enemyAppearanceInterval
-                = CreateAppearanceInterval(_currentStageData.EnemyAppearanceInterval);
+                = CreateAppearanceInterval(_currentStageData.EnemyAppearanceInterval, true);
             //生成
             IDisposable enemyAppearanceDisposable
                 = enemyAppearanceInterval
@@ -95,7 +96,7 @@ namespace StagePresenter
             {
                 //一定間隔で自動生成
                 IConnectableObservable<long> pointItemAppearanceInterval
-                    = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
+                    = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval, false);
                 //生成
                 IDisposable pointItemAppearanceDisposable
                     = pointItemAppearanceInterval
@@ -150,11 +151,21 @@ namespace StagePresenter
         /// 一定間隔で処理を行うためのObservableを作成します
         /// </summary>
         /// <returns></returns>
-        IConnectableObservable<long> CreateAppearanceInterval(float interval)
+        IConnectableObservable<long> CreateAppearanceInterval(float interval, bool isImmediate)
         {
-            return Observable
-                .Interval(TimeSpan.FromSeconds(interval))
-                .Publish();
+            //即時に生成します
+            if (isImmediate)
+            {
+                return Observable
+                    .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(interval))
+                    .Publish();
+            }
+            else
+            {
+                return Observable
+                    .Interval(TimeSpan.FromSeconds(interval))
+                    .Publish();
+            }
         }
 
         /// <summary>

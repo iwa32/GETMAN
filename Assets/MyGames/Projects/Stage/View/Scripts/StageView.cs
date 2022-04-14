@@ -54,7 +54,6 @@ namespace StageView
             //初期化時に値渡しになってしまうためrefで参照を初期化させます
             to = new T[from.childCount];
 
-            //T[] settingData = from.GetComponentsInChildren<T>();
             for (int i = 0; i < to.Length; i++)
             {
                 to[i] = from.GetChild(i).GetComponent<T>();
