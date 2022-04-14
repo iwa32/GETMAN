@@ -34,6 +34,7 @@ namespace EnemyDataList
 
         [SerializeField]
         [Tooltip("アイテムドロップ率")]
+        [Range(0, 100)]
         float _itemDropRate;
 
         [SerializeField]
