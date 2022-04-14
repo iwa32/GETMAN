@@ -2918,34 +2918,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerStartingPoint: {fileID: 3261699101526399325}
-  _enemyAppearancePoints:
-  - {fileID: 176027241788395257}
-  - {fileID: 1721335820926816162}
-  - {fileID: 7057147844765603883}
-  - {fileID: 2910941810351205412}
-  - {fileID: 4766108739074338262}
-  - {fileID: 9222820474126265169}
-  - {fileID: 4313876093913180778}
-  - {fileID: 8718611507203317558}
-  - {fileID: 918349185398047253}
-  - {fileID: 4219897015636545104}
-  _pointItemAppearancePoints:
-  - {fileID: 3949188985901901882}
-  - {fileID: 7282866898150751718}
-  - {fileID: 4343298405054881718}
-  - {fileID: 7501657191416946311}
-  _patrolPoints:
-  - {fileID: 7826392185385570611}
-  - {fileID: 7751235528714824608}
-  - {fileID: 6171570693260099194}
-  - {fileID: 4375537221723536664}
-  - {fileID: 607030291387812454}
-  - {fileID: 2367522613320157096}
-  - {fileID: 6717252106464473571}
-  - {fileID: 3529798732375829771}
-  - {fileID: 31409583633581137}
-  - {fileID: 597972065928585544}
-  - {fileID: 720424573020521151}
+  _parentEnemyAppearancePoints: {fileID: 1240232452059060221}
+  _parentPointItemAppearancePoints: {fileID: 2704756227663196478}
+  _parentPatrolPoints: {fileID: 2704756227663196478}
 --- !u!114 &129465608199577720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3374,7 +3349,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1806820197028116474, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
       propertyPath: m_Name
-      value: PointAppearancePoints
+      value: ParentPointAppearancePoints
       objectReference: {fileID: 0}
     - target: {fileID: 3403151679734771805, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
       propertyPath: m_RootOrder
@@ -3438,11 +3413,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
---- !u!4 &3949188985901901882 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4358643777245538649, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
-  m_PrefabInstance: {fileID: 771053528729682275}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2704756227663196478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3403151679734771805, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
@@ -3531,7 +3501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1806820197028116474, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
       propertyPath: m_Name
-      value: EnemyAppearancePoints
+      value: ParentEnemyAppearancePoints
       objectReference: {fileID: 0}
     - target: {fileID: 2965016246215162988, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3671,11 +3641,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
---- !u!4 &176027241788395257 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4358643777245538649, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
-  m_PrefabInstance: {fileID: 4471050458717824928}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1240232452059060221 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3403151679734771805, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
@@ -3738,11 +3703,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4746a26f87dd485d9a34b4e581f14cb, type: 3}
---- !u!4 &7826392185385570611 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2507640349597272074, guid: b4746a26f87dd485d9a34b4e581f14cb, type: 3}
-  m_PrefabInstance: {fileID: 5643014347360983353}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8674206524875492733 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3904897159215322180, guid: b4746a26f87dd485d9a34b4e581f14cb, type: 3}
