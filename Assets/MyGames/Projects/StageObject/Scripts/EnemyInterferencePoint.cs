@@ -5,12 +5,12 @@ using UnityEngine;
 namespace StageObject
 {
     /// <summary>
-	/// エネミーの生成地点の設定
+	/// エネミーの干渉点
 	/// </summary>
-    public class EnemyAppearancePoint : MonoBehaviour
+    public class EnemyInterferencePoint : MonoBehaviour
     {
         [SerializeField]
-        [Header("生成地点に出現するエネミーを設定します")]
+        [Header("干渉するエネミーの種類を設定します")]
         EnemyType _enemyType;
 
         public EnemyType EnemyType => _enemyType;

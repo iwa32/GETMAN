@@ -14,38 +14,32 @@ namespace StageView
 
         [SerializeField]
         [Header("エネミーの出現地点を持つ親オブジェクトを設定")]
-        Transform _parentEnemyAppearancePoints;
+        Transform _parentOfEnemyAppearance;
 
         [SerializeField]
         [Header("ポイントアイテムの出現地点を持つ親オブジェクトを設定")]
-        Transform _parentPointItemAppearancePoints;
+        Transform _parentOfPointItemAppearance;
 
         [SerializeField]
         [Header("巡回可能地点を持つ親オブジェクトを設定")]
-        Transform _parentPatrolPoints;
+        Transform _parentOfPatrol;
 
-        EnemyAppearancePoint[] _enemyAppearancePoints;
+        EnemyInterferencePoint[] _enemyAppearancePoints;
         Transform[] _pointItemAppearancePoints;
-        Transform[] _patrolPoints;
+        EnemyInterferencePoint[] _patrolPoints;
         Vector3 _prevPointItemPosition;//前回のポイントアイテム出現位置
 
         public Transform PlayerStartingPoint => _playerStartingPoint;
-        public Transform[] PatrollPoints => _patrolPoints;
-
-        private void Awake()
-        {
-            InitializeStagePoints();
-        }
 
         /// <summary>
         /// ステージの初期化を行います
         /// </summary>
-        void InitializeStagePoints()
+        public void InitializeStagePoints()
         {
-            //エネミー、ポイントアイテム、巡回地点を設定します
-            SetPoints(_parentEnemyAppearancePoints, ref _enemyAppearancePoints);
-            SetPoints(_parentPointItemAppearancePoints, ref _pointItemAppearancePoints);
-            SetPoints(_parentPatrolPoints, ref _patrolPoints);
+            //エネミー、ポイントアイテム、巡回の地点を設定します
+            SetPoints(_parentOfEnemyAppearance, ref _enemyAppearancePoints);
+            SetPoints(_parentOfPointItemAppearance, ref _pointItemAppearancePoints);
+            SetPoints(_parentOfPatrol, ref _patrolPoints);
         }
 
         void SetPoints<T>(Transform from, ref T[] to)
@@ -67,7 +61,7 @@ namespace StageView
         public Transform GetEnemyAppearancePoint(EnemyType enemyType)
         {
             //エネミーのタイプを渡して対応したランダムな出現地点を返します
-            EnemyAppearancePoint[] targetPoints
+            EnemyInterferencePoint[] targetPoints
                 = _enemyAppearancePoints.Where(point => point.EnemyType == enemyType).ToArray();
 
             if (targetPoints.Length == 0)
@@ -76,6 +70,23 @@ namespace StageView
             Transform randomPoint
                 = GetRandomAppearancePointFor(targetPoints).transform;
             return randomPoint;
+        }
+
+        /// <summary>
+        /// エネミーのパトロール地点を取得します
+        /// </summary>
+        /// <param name="enemyType"></param>
+        /// <returns></returns>
+        public Transform[] GetEnemyPatrolPoints(EnemyType enemyType)
+        {
+            //エネミーのタイプに応じたパトロール地点を取得します
+            Transform[] targetPoints
+                = _patrolPoints
+                .Where(point => point.EnemyType == enemyType)
+                .Select(point => point.transform)
+                .ToArray();
+
+            return targetPoints;
         }
 
         /// <summary>

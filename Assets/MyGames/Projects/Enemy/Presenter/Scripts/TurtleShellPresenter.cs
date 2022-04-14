@@ -94,7 +94,7 @@ namespace EnemyPresenter
             //配置
             Transform appearancePoint = stageView.GetEnemyAppearancePoint(_type);
             SetTransform(appearancePoint);
-            SetPatrolPoints(stageView.PatrollPoints);
+            SetPatrolPoints(stageView.GetEnemyPatrolPoints(_type));
         }
 
         /// <summary>
