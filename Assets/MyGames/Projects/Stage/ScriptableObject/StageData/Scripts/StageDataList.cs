@@ -77,12 +77,8 @@ public class StageData
     int _stageId;
 
     [SerializeField]
-    [Tooltip("ポイントの設定")]
-    PointOption _pointOption;
-
-    [SerializeField]
-    [Tooltip("エネミーの設定")]
-    EnemyOption _enemyOption;
+    [Tooltip("ステージの制限時間を設定")]
+    int _stageLimitCountTime = 60;
 
     [SerializeField]
     [Tooltip("Bgmの種類を設定")]
@@ -92,8 +88,20 @@ public class StageData
     [Tooltip("ステージのPrefabを設定")]
     StageView.StageView _stagePrefab;
 
+    [SerializeField]
+    [Tooltip("ポイントの設定")]
+    PointOption _pointOption;
+
+    [SerializeField]
+    [Tooltip("エネミーの設定")]
+    EnemyOption _enemyOption;
+
 
     public int StageId => _stageId;
+    public int StageLimitCountTime => _stageLimitCountTime;
+    public BgmType BgmType => _bgmType;
+    public StageView.StageView StagePrefab => _stagePrefab;
+
     //ポイント
     public PointGenerationType PointGenerationType => _pointOption.PointGenerationType;
     public int ClearPointCount => _pointOption.ClearPointCount;
@@ -103,6 +111,4 @@ public class StageData
     public float EnemyAppearanceInterval => _enemyOption.EnemyAppearanceInterval;
     public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyOption.AppearingEnemyPrefabs;
 
-    public BgmType BgmType => _bgmType;
-    public StageView.StageView StagePrefab => _stagePrefab;
 }

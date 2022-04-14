@@ -13,10 +13,6 @@ namespace TimePresenter
 {
     public class TimePresenter : MonoBehaviour
     {
-        [SerializeField]
-        [Header("制限カウントを設定")]
-        int _gameLimitCountTime = 60;
-
         #region//フィールド
         TimeView.TimeView _timeView;//タイマー表示用のUI
         ITimeModel _timeModel;
@@ -47,10 +43,10 @@ namespace TimePresenter
         /// <summary>
         /// 初期化処理
         /// </summary>
-        public void Initialize()
+        public void Initialize(int gameLimitCountTime)
         {
-            _timeModel.SetTime(_gameLimitCountTime);
-            _countDownTimer.SetCountTime(_gameLimitCountTime);
+            _timeModel.SetTime(gameLimitCountTime);
+            _countDownTimer.SetCountTime(gameLimitCountTime);
             _countDownTimer.Publish();//ゲーム開始までカウントを待機
             Bind();
         }

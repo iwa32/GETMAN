@@ -41,6 +41,7 @@ namespace StagePresenter
         #endregion
 
         #region//プロパティ
+        public int StageLimitCountTime => _currentStageData.StageLimitCountTime;
         #endregion
 
 

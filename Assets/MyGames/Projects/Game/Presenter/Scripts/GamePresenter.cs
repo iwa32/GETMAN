@@ -144,11 +144,12 @@ namespace GamePresenter
                 _pointModel.SetPoint(_initialPoint);
                 _gameStartView.Initialize();
                 _playerPresenter.Initialize();
-                _timePresenter.Initialize();
 
                 await LoadGameData();
                 await _stagePresenter.InitializeAsync();
                 await _stagePresenter.PlacePlayerToStage(_playerPresenter.transform);
+
+                _timePresenter.Initialize(_stagePresenter.StageLimitCountTime);
                 _scoreView.SetScore(_scoreModel.Score.Value);
                 _stageNumView.SetStageNum(_stageNumModel.StageNum.Value);
                 await _fade.StartFadeIn();
