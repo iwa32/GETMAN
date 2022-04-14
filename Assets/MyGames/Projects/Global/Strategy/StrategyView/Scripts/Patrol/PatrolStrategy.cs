@@ -10,6 +10,8 @@ namespace StrategyView
     /// </summary>
     public abstract class PatrolStrategy : MonoBehaviour, IStrategy
     {
+        public abstract Transform[] PatrolPoints { get; }
+
         /// <summary>
         /// 巡回場所を設定
         /// </summary>

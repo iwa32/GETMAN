@@ -286,6 +286,7 @@ namespace StagePresenter
 
             //ステージ情報を設定
             stageEnemy.SetStageInformation(_currentStageView);
+            stageEnemy.DefaultState();
         }
 
         /// <summary>

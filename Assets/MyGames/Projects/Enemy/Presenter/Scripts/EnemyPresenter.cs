@@ -36,6 +36,7 @@ namespace EnemyPresenter
         #region//フィールド
         //---状態---
         protected ActionView _actionView;//エネミーのアクション用スクリプト
+        protected WaitState _waitState;//待機
         protected RunState _runState;//走行
         DownState _downState;//ダウン
         DeadState _deadState;//デッド
@@ -71,6 +72,7 @@ namespace EnemyPresenter
         {
             //共通のstate
             _actionView = GetComponent<ActionView>();
+            _waitState = GetComponent<WaitState>();
             _runState = GetComponent<RunState>();
             _downState = GetComponent<DownState>();
             _deadState = GetComponent<DeadState>();
@@ -111,7 +113,6 @@ namespace EnemyPresenter
 
             _enemyData = data;
             _hpBar.SetMaxHp(data.Hp);
-            DefaultState();
             InitializeModel(data.Hp, data.Power, data.Score);
 
             _collider.enabled = true;

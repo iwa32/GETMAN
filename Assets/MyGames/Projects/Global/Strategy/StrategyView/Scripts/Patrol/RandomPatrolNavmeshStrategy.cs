@@ -14,6 +14,8 @@ namespace StrategyView
         Transform[] _patrolPoints;
         Vector3 _targetPoint;
 
+        public override Transform[] PatrolPoints => _patrolPoints;
+
         void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
