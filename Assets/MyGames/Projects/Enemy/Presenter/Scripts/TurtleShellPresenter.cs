@@ -15,24 +15,27 @@ namespace EnemyPresenter
         #endregion
 
         #region//フィールド
-        //走行
-        RunState _runState;
         //追跡
         TrackState _trackState;
         TrackStrategy _trackStrategy;
+        //---巡回---
+        PatrolStrategy _patrolStrategy;
         #endregion
 
         #region//プロパティ
         public int Power => _powerModel.Power.Value;
+        public PatrolStrategy PatrolStrategy => _patrolStrategy;
         #endregion
 
         // Start is called before the first frame update
         new void Awake()
         {
             base.Awake();
-            _runState = GetComponent<RunState>();
+            //追跡
             _trackState = GetComponent<TrackState>();
             _trackStrategy = GetComponent<TrackStrategy>();
+            //巡回
+            _patrolStrategy = GetComponent<PatrolStrategy>();
         }
 
         void Start()
@@ -59,19 +62,13 @@ namespace EnemyPresenter
         }
 
         #region //overrideMethod
-        /// <summary>
-        /// 接触したコライダーを確認します
-        /// </summary>
-        /// <param name="collider"></param>
+
         public override void CheckCollider(Collider collider)
         {
             //武器に接触でダメージを受ける
             CheckPlayerWeaponBy(collider);
         }
 
-        /// <summary>
-        /// 衝突を確認します
-        /// </summary>
         public override void CheckCollision(UnityEngine.Collision collision)
         {
 
@@ -82,9 +79,32 @@ namespace EnemyPresenter
         /// </summary>
         public override void DefaultState()
         {
+            //todo 巡回場所がない場合waitにする
+
             _actionView.State.Value = _runState;
         }
         #endregion
+
+        //// <summary>
+        /// ステージ情報を設定します
+        /// </summary>
+        /// <param name="stageView"></param>
+        public override void SetStageInformation(StageView.StageView stageView)
+        {
+            //配置
+            Transform appearancePoint = stageView.GetEnemyAppearancePoint(_type);
+            SetTransform(appearancePoint);
+            SetPatrolPoints(stageView.PatrollPoints);
+        }
+
+        /// <summary>
+        /// 巡回地点を設定します
+        /// </summary>
+        /// <param name="points"></param>
+        void SetPatrolPoints(Transform[] points)
+        {
+            _patrolStrategy.SetPatrolPoints(points);
+        }
 
         /// <summary>
         /// 追跡の確認をします
@@ -96,7 +116,7 @@ namespace EnemyPresenter
             if (canTrack)
                 _actionView.State.Value = _trackState;
             else
-                _actionView.State.Value = _runState;
+                DefaultState();
         }
     }
 }

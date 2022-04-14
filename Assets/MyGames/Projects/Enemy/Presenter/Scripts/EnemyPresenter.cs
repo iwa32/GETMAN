@@ -36,10 +36,9 @@ namespace EnemyPresenter
         #region//フィールド
         //---状態---
         protected ActionView _actionView;//エネミーのアクション用スクリプト
-        DownState _downState;//ダウン状態のスクリプト
-        DeadState _deadState;//デッド状態のスクリプト
-        //---巡回---
-        PatrolStrategy _patrolStrategy;
+        protected RunState _runState;//走行
+        DownState _downState;//ダウン
+        DeadState _deadState;//デッド
         //---接触・衝突---
         ObservableTrigger _trigger;
         ObservableCollision _collision;
@@ -50,7 +49,7 @@ namespace EnemyPresenter
         protected NavMeshAgent _navMeshAgent;
         //---フラグ---
         bool _isDown;
-        protected BoolReactiveProperty _isDead = new BoolReactiveProperty();//死亡フラグ
+        protected BoolReactiveProperty _isDead = new BoolReactiveProperty();
         bool _isInitialized;
         //---モデル---
         protected IHpModel _hpModel;
@@ -64,7 +63,6 @@ namespace EnemyPresenter
 
         #region//プロパティ
         public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
-        public PatrolStrategy PatrolStrategy => _patrolStrategy;
         public EnemyType Type => _type;
         #endregion
 
@@ -73,10 +71,9 @@ namespace EnemyPresenter
         {
             //共通のstate
             _actionView = GetComponent<ActionView>();
+            _runState = GetComponent<RunState>();
             _downState = GetComponent<DownState>();
             _deadState = GetComponent<DeadState>();
-            //巡回
-            _patrolStrategy = GetComponent<PatrolStrategy>();
             //接触、衝突
             _trigger = GetComponent<ObservableTrigger>();
             _collision = GetComponent<ObservableCollision>();
@@ -109,10 +106,10 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize(EnemyData data)
         {
-            _enemyData = data;
             //awakeでanimeTriggerを取得した場合アニメーションの終了検知がうまくいかない場合があるため、こちらで設定する
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
 
+            _enemyData = data;
             _hpBar.SetMaxHp(data.Hp);
             DefaultState();
             InitializeModel(data.Hp, data.Power, data.Score);
@@ -133,27 +130,6 @@ namespace EnemyPresenter
             _hpModel.SetHp(hp);
             _powerModel.SetPower(power);
             _enemyScoreModel.SetScore(score);
-        }
-
-        /// <summary>
-        /// ステージ情報を設定します
-        /// </summary>
-        /// <param name="stageView"></param>
-        public void SetStageInformation(StageView.StageView stageView)
-        {
-            //配置
-            Transform appearancePoint = stageView.GetEnemyAppearancePoint(_type);
-            SetTransform(appearancePoint);
-            SetPatrolPoints(stageView.PatrollPoints);
-        }
-
-        /// <summary>
-        /// 巡回地点を設定します
-        /// </summary>
-        /// <param name="points"></param>
-        void SetPatrolPoints(Transform[] points)
-        {
-            _patrolStrategy.SetPatrolPoints(points);
         }
 
         void Bind()
@@ -195,10 +171,10 @@ namespace EnemyPresenter
                     _isDead.Value = false;
                 }).AddTo(this);
 
-            //死亡しているのに生存している場合、3秒後に破棄します
+            //死亡しているのに生存している場合、2秒後に破棄します
             _isDead
                 .Where(_isDead => _isDead == true)
-                .Delay(TimeSpan.FromSeconds(3))
+                .Delay(TimeSpan.FromSeconds(2))
                 .Subscribe(_ =>
                 {
                     _isDead.Value = false;
@@ -234,6 +210,12 @@ namespace EnemyPresenter
         /// 初期時、通常時の状態を設定します
         /// </summary>
         public abstract void DefaultState();
+
+        /// <summary>
+        /// ステージ情報を設定します
+        /// </summary>
+        /// <param name="stageView"></param>
+        public abstract void SetStageInformation(StageView.StageView stageView);
         #endregion
 
         /// <summary>
@@ -254,7 +236,7 @@ namespace EnemyPresenter
         /// 配置を行います
         /// </summary>
         /// <param name="transform"></param>
-        void SetTransform(Transform targetTransform)
+        protected void SetTransform(Transform targetTransform)
         {
             //navMeshAgentのオブジェクトをtransform.positionに代入するとうまくいかないためwarpを使用
             _navMeshAgent.Warp(targetTransform.position);
