@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StageObject;
+using System.Linq;
 
 namespace StageView
 {
@@ -22,7 +24,7 @@ namespace StageView
         [Header("巡回可能地点を持つ親オブジェクトを設定")]
         Transform _parentPatrolPoints;
 
-        Transform[] _enemyAppearancePoints;
+        EnemyAppearancePoint[] _enemyAppearancePoints;
         Transform[] _pointItemAppearancePoints;
         Transform[] _patrolPoints;
         Vector3 _prevPointItemPosition;//前回のポイントアイテム出現位置
@@ -46,16 +48,16 @@ namespace StageView
             SetPoints(_parentPatrolPoints, ref _patrolPoints);
         }
 
-        void SetPoints(Transform from, ref Transform[] to)
+        void SetPoints<T>(Transform from, ref T[] to)
         {
             if (from == null) return;
-
             //初期化時に値渡しになってしまうためrefで参照を初期化させます
-            to = new Transform[from.childCount];
+            to = new T[from.childCount];
 
+            //T[] settingData = from.GetComponentsInChildren<T>();
             for (int i = 0; i < to.Length; i++)
             {
-                to[i] = from.GetChild(i);
+                to[i] = from.GetChild(i).GetComponent<T>();
             }
         }
 
@@ -63,9 +65,17 @@ namespace StageView
         /// エネミーの出現地点を取得します
         /// </summary>
         /// <param name="enemyTransform"></param>
-        public Transform GetEnemyAppearancePoint()
+        public Transform GetEnemyAppearancePoint(EnemyType enemyType)
         {
-            Transform randomPoint = GetRandomAppearancePointFor(_enemyAppearancePoints);
+            //エネミーのタイプを渡して対応したランダムな出現地点を返します
+            EnemyAppearancePoint[] targetPoints
+                = _enemyAppearancePoints.Where(point => point.EnemyType == enemyType).ToArray();
+
+            if (targetPoints.Length == 0)
+                Debug.Log("エネミーが配置できません");
+
+            Transform randomPoint
+                = GetRandomAppearancePointFor(targetPoints).transform;
             return randomPoint;
         }
 
@@ -95,7 +105,7 @@ namespace StageView
         /// ランダムな出現地点を取得します
         /// </summary>
         /// <param name="AppearancePoints"></param>
-        Transform GetRandomAppearancePointFor(Transform[] appearancePoints)
+        T GetRandomAppearancePointFor<T>(T[] appearancePoints)
         {
             return appearancePoints[Random.Range(0, appearancePoints.Length)];
         }

@@ -324,6 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3537804267945603415}
+  - component: {fileID: 5606197082253106303}
   m_Layer: 0
   m_Name: Point (1)
   m_TagString: Untagged
@@ -345,6 +346,19 @@ Transform:
   m_Father: {fileID: 1240232452059060221}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &5606197082253106303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686149248560091376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1 &911230101366234634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,6 +1093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7109350212993649687}
+  - component: {fileID: 7148035581947492840}
   m_Layer: 0
   m_Name: Point (5)
   m_TagString: Untagged
@@ -1100,6 +1115,19 @@ Transform:
   m_Father: {fileID: 1240232452059060221}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &7148035581947492840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763617441376674502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1 &1788571948006693761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8235510802059067299}
+  - component: {fileID: 807801523604386505}
   m_Layer: 0
   m_Name: Point (3)
   m_TagString: Untagged
@@ -1225,6 +1254,19 @@ Transform:
   m_Father: {fileID: 1240232452059060221}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &807801523604386505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971105001774568203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1 &2054603239320547361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,6 +1306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2143592495773495327}
+  - component: {fileID: 6316221489097028864}
   m_Layer: 0
   m_Name: Point (6)
   m_TagString: Untagged
@@ -1285,6 +1328,19 @@ Transform:
   m_Father: {fileID: 1240232452059060221}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &6316221489097028864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090100134544835896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1 &2399553182591845432
 GameObject:
   m_ObjectHideFlags: 0
@@ -3211,6 +3267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8709321131422384437}
+  - component: {fileID: 3437370380971052013}
   m_Layer: 0
   m_Name: Point (4)
   m_TagString: Untagged
@@ -3232,6 +3289,19 @@ Transform:
   m_Father: {fileID: 1240232452059060221}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &3437370380971052013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6261547052892093501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1 &6284666856629654313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3754,6 +3824,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8108015248569465702}
+  - component: {fileID: 7330927114656997692}
   m_Layer: 0
   m_Name: Point (2)
   m_TagString: Untagged
@@ -3775,6 +3846,19 @@ Transform:
   m_Father: {fileID: 1240232452059060221}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &7330927114656997692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7732244295809715322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1 &7920177136509965259
 GameObject:
   m_ObjectHideFlags: 0
@@ -5266,11 +5350,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
+--- !u!1 &259905659270060642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4438018594694954434, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
+  m_PrefabInstance: {fileID: 4471050458717824928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1240232452059060221 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3403151679734771805, guid: 3607c8bcbfb974f529c3f49a17e4e3ba, type: 3}
   m_PrefabInstance: {fileID: 4471050458717824928}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6526959148850873369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259905659270060642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6430ec6abdb2474f8b1aff023a9c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyType: 1
 --- !u!1001 &4557546172692407204
 PrefabInstance:
   m_ObjectHideFlags: 0
