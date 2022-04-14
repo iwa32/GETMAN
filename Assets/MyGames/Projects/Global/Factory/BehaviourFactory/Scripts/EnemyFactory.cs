@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 using EP = EnemyPresenter;
-using EnemyDataList;
+using EDL = EnemyDataList;
 using ObjectPool;
 
 namespace BehaviourFactory
@@ -13,7 +13,11 @@ namespace BehaviourFactory
     {
         [SerializeField]
         [Header("EnemyDataListのスクリプタブルオブジェクトを設定")]
-        EnemyDataList.EnemyDataList _enemyDataList;
+        EDL.EnemyDataList _enemyDataList;
+
+        [SerializeField]
+        [Header("BossEnemyDataListのスクリプタブルオブジェクトを設定")]
+        EDL.EnemyDataList _bossEnemyDataList;
 
         IEnemyPool _enemyPool;
 
@@ -24,12 +28,25 @@ namespace BehaviourFactory
         }
 
         /// <summary>
-        /// エネミーのデータを設定します
+        /// エネミーを生成します
         /// </summary>
         /// <param name="enemyTypes"></param>
-        public void SetEnemyData(EP.EnemyPresenter[] enemies, int maxEnemyCount)
+        public void SetEnemy(EP.EnemyPresenter[] enemies, int maxEnemyCount)
         {
             _enemyPool.CreatePool(enemies, maxEnemyCount);
+        }
+
+        /// <summary>
+        /// エネミーを生成します
+        /// </summary>
+        /// <param name="enemy"></param>
+        /// <returns></returns>
+        public EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
+        {
+            EP.EnemyPresenter enemy = _enemyPool.Create(prefab);
+            enemy.Initialize(FindEnemyDataBy(enemy.Type, _bossEnemyDataList));
+
+            return enemy;
         }
 
         /// <summary>
@@ -41,16 +58,20 @@ namespace BehaviourFactory
             EP.EnemyPresenter enemy = _enemyPool.GetPool();
 
             if (enemy != null)
-            {
-                //enemyのデータを取得します
-                EnemyData data =
-                    _enemyDataList.GetEnemyDataList
-                    .First(data => data.EnemyType == enemy.Type);
-
-                enemy.Initialize(data);
-            }
+                enemy.Initialize(FindEnemyDataBy(enemy.Type, _enemyDataList));
 
             return enemy;
+        }
+
+        /// <summary>
+        /// エネミーのデータを取得します
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        EDL.EnemyData FindEnemyDataBy(EnemyType type, EDL.EnemyDataList dataList)
+        {
+            return dataList.GetEnemyDataList
+                .First(data => data.EnemyType == type);
         }
     }
 

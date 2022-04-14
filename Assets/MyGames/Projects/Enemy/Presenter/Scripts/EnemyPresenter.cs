@@ -17,6 +17,7 @@ using Collision;
 using GlobalInterface;
 using EnemyDataList;
 using StageObject;
+using StageView;
 
 namespace EnemyPresenter
 {
@@ -135,10 +136,22 @@ namespace EnemyPresenter
         }
 
         /// <summary>
+        /// ステージ情報を設定します
+        /// </summary>
+        /// <param name="stageView"></param>
+        public void SetStageInformation(StageView.StageView stageView)
+        {
+            //配置
+            Transform appearancePoint = stageView.GetEnemyAppearancePoint(_type);
+            SetTransform(appearancePoint);
+            SetPatrolPoints(stageView.PatrollPoints);
+        }
+
+        /// <summary>
         /// 巡回地点を設定します
         /// </summary>
         /// <param name="points"></param>
-        public void SetPatrolPoints(Transform[] points)
+        void SetPatrolPoints(Transform[] points)
         {
             _patrolStrategy.SetPatrolPoints(points);
         }
@@ -241,7 +254,7 @@ namespace EnemyPresenter
         /// 配置を行います
         /// </summary>
         /// <param name="transform"></param>
-        public void SetTransform(Transform targetTransform)
+        void SetTransform(Transform targetTransform)
         {
             //navMeshAgentのオブジェクトをtransform.positionに代入するとうまくいかないためwarpを使用
             _navMeshAgent.Warp(targetTransform.position);

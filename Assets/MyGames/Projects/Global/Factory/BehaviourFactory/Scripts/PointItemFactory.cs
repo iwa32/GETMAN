@@ -21,7 +21,7 @@ namespace BehaviourFactory
             _pointItemPool = pointItemPool;
         }
 
-        public void SetPointItemData(int maxPointItemCount)
+        public void SetPointItem(int maxPointItemCount)
         {
             _pointItemPool.CreatePool(_pointItemPrefab, maxPointItemCount);
         }

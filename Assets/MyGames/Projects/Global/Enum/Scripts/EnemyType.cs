@@ -4,5 +4,6 @@
 public enum EnemyType
 {
     SLIME,
-    TURTLE_SHELL
+    TURTLE_SHELL,
+    BIG_SLIME
 }

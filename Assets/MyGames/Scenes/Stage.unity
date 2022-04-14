@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyDataList: {fileID: 11400000, guid: c6856d859d4b649f0b1d615f65c98c5e, type: 2}
+  _bossEnemyDataList: {fileID: 11400000, guid: 9df4a59417510429eab35605bbd1d57d, type: 2}
 --- !u!114 &38939003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,7 +1747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425a033d7072845c7bb020040517363e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameLimitCountTime: 50
 --- !u!114 &1581975544
 MonoBehaviour:
   m_ObjectHideFlags: 0

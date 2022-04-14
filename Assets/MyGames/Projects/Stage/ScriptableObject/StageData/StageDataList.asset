@@ -26,6 +26,7 @@ MonoBehaviour:
       _enemyAppearanceInterval: 5
       _enemyPrefabs:
       - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
+      _bossEnemyPrefab: {fileID: 0}
   - _stageId: 2
     _stageLimitCountTime: 60
     _bgmType: 2
@@ -39,6 +40,7 @@ MonoBehaviour:
       _enemyAppearanceInterval: 5
       _enemyPrefabs:
       - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
+      _bossEnemyPrefab: {fileID: 0}
   - _stageId: 3
     _stageLimitCountTime: 60
     _bgmType: 3
@@ -53,6 +55,7 @@ MonoBehaviour:
       _enemyPrefabs:
       - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
       - {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
+      _bossEnemyPrefab: {fileID: 0}
   - _stageId: 4
     _stageLimitCountTime: 60
     _bgmType: 4
@@ -66,6 +69,7 @@ MonoBehaviour:
       _enemyAppearanceInterval: 5
       _enemyPrefabs:
       - {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
+      _bossEnemyPrefab: {fileID: 0}
   - _stageId: 5
     _stageLimitCountTime: 100
     _bgmType: 5
@@ -79,3 +83,4 @@ MonoBehaviour:
       _enemyAppearanceInterval: 4
       _enemyPrefabs:
       - {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
+      _bossEnemyPrefab: {fileID: 9058259852163686945, guid: 4636a1d7327b548d8b3dea2cae38f929, type: 3}

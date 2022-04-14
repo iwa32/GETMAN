@@ -74,6 +74,7 @@ namespace StagePresenter
         public async UniTask InitializeAsync()
         {
             await SetUpStage();
+            await PlaceBossEnemyToStage();
             PlaceEnemyToStage();//ゲーム開始前に一体場に出しておく
             Bind();
         }
@@ -190,6 +191,26 @@ namespace StagePresenter
         }
 
         /// <summary>
+        /// ボス敵を設定します
+        /// </summary>
+        /// <returns></returns>
+        async UniTask PlaceBossEnemyToStage()
+        {
+            CancellationToken token = _cts.Token;
+
+            if (_currentStageData.BossEnemyPrefab != null)
+            {
+                EP.EnemyPresenter enemy = _enemyFactory.Create(_currentStageData.BossEnemyPrefab);
+
+                enemy.SetStageInformation(_currentStageView);
+                
+                //演出
+            }
+            
+            await UniTask.Yield(token);
+        }
+
+        /// <summary>
         /// ステージ情報を取得
         /// </summary>
         /// <returns></returns>
@@ -232,8 +253,8 @@ namespace StagePresenter
                 _cts.Cancel();
             }
 
-            _enemyFactory.SetEnemyData(_currentStageData.AppearingEnemyPrefabs, _currentStageData.MaxEnemyCount);
-            _pointItemFactory.SetPointItemData(_currentStageData.ClearPointCount);
+            _enemyFactory.SetEnemy(_currentStageData.AppearingEnemyPrefabs, _currentStageData.MaxEnemyCount);
+            _pointItemFactory.SetPointItem(_currentStageData.ClearPointCount);
 
             await UniTask.Yield(cancellationToken: token);
         }
@@ -263,10 +284,8 @@ namespace StagePresenter
             _stageEnemyCount++;
             ObserveStageEnemy(stageEnemy);
 
-            //配置
-            Transform appearancePoint = _currentStageView?.GetEnemyAppearancePoint(stageEnemy.Type);
-            stageEnemy?.SetTransform(appearancePoint);
-            stageEnemy.SetPatrolPoints(_currentStageView?.PatrollPoints);
+            //ステージ情報を設定
+            stageEnemy.SetStageInformation(_currentStageView);
         }
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace ObjectPool
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
+        public EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
         {
             EP.EnemyPresenter enemy
                 = container.InstantiatePrefab(

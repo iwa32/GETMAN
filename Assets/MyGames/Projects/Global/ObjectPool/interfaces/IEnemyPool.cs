@@ -22,5 +22,12 @@ namespace ObjectPool {
         /// </summary>
         /// <returns></returns>
         EP.EnemyPresenter GetPool();
+
+        /// <summary>
+        /// エネミーの作成
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        EP.EnemyPresenter Create(EP.EnemyPresenter prefab);
     }
 }

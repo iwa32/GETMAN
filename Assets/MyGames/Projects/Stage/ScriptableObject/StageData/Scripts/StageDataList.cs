@@ -67,9 +67,14 @@ public class StageData
         [Tooltip("出現エネミーのプレハブを設定")]
         EP.EnemyPresenter[] _enemyPrefabs;
 
+        [SerializeField]
+        [Tooltip("ボスがいるならプレハブを設定する")]
+        EP.EnemyPresenter _bossEnemyPrefab;
+
         public int MaxEnemyCount => _maxEnemyCount;
         public float EnemyAppearanceInterval => _enemyAppearanceInterval;
         public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyPrefabs;
+        public EP.EnemyPresenter BossEnemyPrefab => _bossEnemyPrefab;
     }
 
     [SerializeField]
@@ -110,5 +115,5 @@ public class StageData
     public int MaxEnemyCount => _enemyOption.MaxEnemyCount;
     public float EnemyAppearanceInterval => _enemyOption.EnemyAppearanceInterval;
     public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyOption.AppearingEnemyPrefabs;
-
+    public EP.EnemyPresenter BossEnemyPrefab => _enemyOption.BossEnemyPrefab;
 }
