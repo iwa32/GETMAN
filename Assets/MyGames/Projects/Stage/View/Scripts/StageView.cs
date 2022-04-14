@@ -48,6 +48,8 @@ namespace StageView
 
         void SetPoints(Transform from, ref Transform[] to)
         {
+            if (from == null) return;
+
             //初期化時に値渡しになってしまうためrefで参照を初期化させます
             to = new Transform[from.childCount];
 

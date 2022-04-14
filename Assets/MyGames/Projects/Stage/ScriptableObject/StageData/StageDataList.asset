@@ -14,27 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stageDataList:
   - _stageId: 1
-    _clearPointCount: 3
+    _pointOption:
+      _pointGenerationType: 0
+      _clearPointCount: 3
+      _pointItemAppearanceInterval: 10
     _enemyAppearanceInterval: 5
-    _pointItemAppearanceInterval: 10
     _enemyPrefabs:
     - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
     _bgmType: 1
     _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: d4c0e2e0985c142e990966d24fc6e7ff, type: 3}
   - _stageId: 2
-    _clearPointCount: 3
+    _pointOption:
+      _pointGenerationType: 0
+      _clearPointCount: 3
+      _pointItemAppearanceInterval: 10
     _enemyAppearanceInterval: 5
-    _pointItemAppearanceInterval: 10
     _enemyPrefabs:
     - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
     _bgmType: 2
     _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: 3d61413cd28e943868ad776c3c977813, type: 3}
   - _stageId: 3
-    _clearPointCount: 3
+    _pointOption:
+      _pointGenerationType: 0
+      _clearPointCount: 3
+      _pointItemAppearanceInterval: 10
     _enemyAppearanceInterval: 5
-    _pointItemAppearanceInterval: 10
     _enemyPrefabs:
     - {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
     - {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
@@ -42,11 +48,24 @@ MonoBehaviour:
     _maxEnemyCount: 4
     _stagePrefab: {fileID: 2086473840, guid: 437c574cdba404e29a97aa59d6ec4089, type: 3}
   - _stageId: 4
-    _clearPointCount: 3
+    _pointOption:
+      _pointGenerationType: 0
+      _clearPointCount: 3
+      _pointItemAppearanceInterval: 10
     _enemyAppearanceInterval: 5
-    _pointItemAppearanceInterval: 10
     _enemyPrefabs:
     - {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
     _bgmType: 4
     _maxEnemyCount: 5
     _stagePrefab: {fileID: 2086473840, guid: 60152e5c77ce84d7aa2aceb31755ebee, type: 3}
+  - _stageId: 5
+    _pointOption:
+      _pointGenerationType: 2
+      _clearPointCount: 1
+      _pointItemAppearanceInterval: 10
+    _enemyAppearanceInterval: 3
+    _enemyPrefabs:
+    - {fileID: 8630923471090961408, guid: a9addd6dd4330421f99f108ab3f75d67, type: 3}
+    _bgmType: 5
+    _maxEnemyCount: 8
+    _stagePrefab: {fileID: 2086473840, guid: af191e4cf3e7d4874b50c1677c7f3338, type: 3}

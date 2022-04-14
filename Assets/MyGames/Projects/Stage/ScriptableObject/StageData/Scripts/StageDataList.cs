@@ -32,34 +32,61 @@ public class StageDataList : ScriptableObject
 [System.Serializable]
 public class StageData
 {
+    [System.Serializable]
+    class PointOption
+    {
+        [SerializeField]
+        [Tooltip("ポイントの生成パターン")]
+        PointGenerationType _pointGenerationType;
+
+        [SerializeField]
+        [Tooltip("クリアする必要ポイント数")]
+        int _clearPointCount;
+
+        [SerializeField]
+        [Tooltip("ポイントアイテムの生成間隔(○秒ごとに生成)")]
+        float _pointItemAppearanceInterval;
+
+        public PointGenerationType PointGenerationType => _pointGenerationType;
+        public int ClearPointCount => _clearPointCount;
+        public float PointItemAppearanceInterval => _pointItemAppearanceInterval;
+    }
+
+    [System.Serializable]
+    class EnemyOption
+    {
+        [SerializeField]
+        [Tooltip("エネミーの最大出現数")]
+        int _maxEnemyCount;
+
+        [SerializeField]
+        [Tooltip("エネミーの生成間隔(○秒ごとに生成)")]
+        float _enemyAppearanceInterval;
+
+        [SerializeField]
+        [Tooltip("出現エネミーのプレハブを設定")]
+        EP.EnemyPresenter[] _enemyPrefabs;
+
+        public int MaxEnemyCount => _maxEnemyCount;
+        public float EnemyAppearanceInterval => _enemyAppearanceInterval;
+        public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyPrefabs;
+    }
 
     [SerializeField]
     [Tooltip("ステージ番号")]
     int _stageId;
 
     [SerializeField]
-    [Tooltip("クリアする必要ポイント数")]
-    int _clearPointCount;
+    [Tooltip("ポイントの設定")]
+    PointOption _pointOption;
 
     [SerializeField]
-    [Tooltip("エネミーの生成間隔(○秒ごとに生成)")]
-    float _enemyAppearanceInterval;
-
-    [SerializeField]
-    [Tooltip("ポイントアイテムの生成間隔(○秒ごとに生成)")]
-    float _pointItemAppearanceInterval;
-
-    [SerializeField]
-    [Tooltip("出現エネミーのプレハブを設定")]
-    EP.EnemyPresenter[] _enemyPrefabs;
+    [Tooltip("エネミーの設定")]
+    EnemyOption _enemyOption;
 
     [SerializeField]
     [Tooltip("Bgmの種類を設定")]
     BgmType _bgmType;
-
-    [SerializeField]
-    [Tooltip("エネミーの最大出現数")]
-    int _maxEnemyCount;
 
     [SerializeField]
     [Tooltip("ステージのPrefabを設定")]
@@ -67,11 +94,15 @@ public class StageData
 
 
     public int StageId => _stageId;
-    public int ClearPointCount =>  _clearPointCount;
-    public float EnemyAppearanceInterval => _enemyAppearanceInterval;
-    public float PointItemAppearanceInterval => _pointItemAppearanceInterval;
+    //ポイント
+    public PointGenerationType PointGenerationType => _pointOption.PointGenerationType;
+    public int ClearPointCount => _pointOption.ClearPointCount;
+    public float PointItemAppearanceInterval => _pointOption.PointItemAppearanceInterval;
+    //エネミー
+    public int MaxEnemyCount => _enemyOption.MaxEnemyCount;
+    public float EnemyAppearanceInterval => _enemyOption.EnemyAppearanceInterval;
+    public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyOption.AppearingEnemyPrefabs;
+
     public BgmType BgmType => _bgmType;
-    public int MaxEnemyCount => _maxEnemyCount;
     public StageView.StageView StagePrefab => _stagePrefab;
-    public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyPrefabs;
 }

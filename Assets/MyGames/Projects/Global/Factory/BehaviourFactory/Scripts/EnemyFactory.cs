@@ -39,12 +39,16 @@ namespace BehaviourFactory
         {
             //poolから取得します
             EP.EnemyPresenter enemy = _enemyPool.GetPool();
-            //enemyのデータを取得します
-            EnemyData data =
-                _enemyDataList.GetEnemyDataList
-                .First(data => data.EnemyType == enemy.Type);
 
-            enemy.Initialize(data);
+            if (enemy != null)
+            {
+                //enemyのデータを取得します
+                EnemyData data =
+                    _enemyDataList.GetEnemyDataList
+                    .First(data => data.EnemyType == enemy.Type);
+
+                enemy.Initialize(data);
+            }
 
             return enemy;
         }

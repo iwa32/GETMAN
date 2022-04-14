@@ -78,13 +78,41 @@ namespace StagePresenter
 
         void Bind()
         {
-            //エネミーを一定間隔で自動生成
+            //---エネミーの生成---
+            //一定間隔で自動生成
             IConnectableObservable<long> enemyAppearanceInterval
                 = CreateAppearanceInterval(_currentStageData.EnemyAppearanceInterval);
-            //ポイントアイテムを一定間隔で自動生成
-            IConnectableObservable<long> pointItemAppearanceInterval
-                = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
+            //生成
+            IDisposable enemyAppearanceDisposable
+                = enemyAppearanceInterval
+                .Subscribe(_ => PlaceEnemyToStage())
+                .AddTo(this);
 
+
+            //---ポイントアイテムの生成---
+            if (_currentStageData.PointGenerationType != PointGenerationType.NO_GENERATION)
+            {
+                //一定間隔で自動生成
+                IConnectableObservable<long> pointItemAppearanceInterval
+                    = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
+                //生成
+                IDisposable pointItemAppearanceDisposable
+                    = pointItemAppearanceInterval
+                    .Subscribe(_ => PlacePointItemToStage())
+                    .AddTo(this);
+
+                //ゲーム開始時に生成開始
+                _directionModel.IsGameStart
+                    .Where(isGameStart => isGameStart == true)
+                    .Subscribe(_ => pointItemAppearanceInterval.Connect())
+                    .AddTo(this);
+
+                //ゲーム終了で生成終了
+                this.UpdateAsObservable()
+                    .First(_ => _directionModel.IsEndedGame())
+                    .Subscribe(_ => pointItemAppearanceDisposable.Dispose())
+                    .AddTo(this);
+            }
 
             //ゲーム開始時の処理
             _directionModel.IsGameStart
@@ -93,21 +121,9 @@ namespace StagePresenter
                 {
                     //エネミーとポイントアイテムの自動生成開始
                     enemyAppearanceInterval.Connect();
-                    pointItemAppearanceInterval.Connect();
                     //音声の再生
                     PlayCurrentStageBgm();
                 })
-                .AddTo(this);
-
-
-            IDisposable enemyAppearanceDisposable
-                = enemyAppearanceInterval
-                .Subscribe(_ => PlaceEnemyToStage())
-                .AddTo(this);
-
-            IDisposable pointItemAppearanceDisposable
-                = pointItemAppearanceInterval
-                .Subscribe(_ => PlacePointItemToStage())
                 .AddTo(this);
 
             //獲得ポイント数でゲームクリアを観察
@@ -123,7 +139,6 @@ namespace StagePresenter
                 {
                     //エネミーとポイントアイテムの自動生成を停止する
                     enemyAppearanceDisposable.Dispose();
-                    pointItemAppearanceDisposable.Dispose();
                     //音声の停止
                     _soundManager.StopBgm();
                 })
