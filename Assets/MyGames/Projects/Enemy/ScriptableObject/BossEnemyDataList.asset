@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyDataList:
   - _enemyType: 2
-    _hp: 30
+    _hp: 60
     _power: 1
     _speed: 0
     _score: 300
