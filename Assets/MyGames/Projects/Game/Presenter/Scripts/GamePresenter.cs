@@ -191,7 +191,7 @@ namespace GamePresenter
                 .AddTo(this);
             //次のステージへ
             _gameClearView.ClickNextStageButton()
-                .Subscribe(_ => LoadNextStage())
+                .Subscribe(_ => LoadNextStage().Forget())
                 .AddTo(this);
 
             //タイトルボタン
@@ -271,14 +271,14 @@ namespace GamePresenter
         /// <summary>
         /// 次のステージを読み込みます
         /// </summary>
-        void LoadNextStage()
+        async UniTask LoadNextStage()
         {
             //次のステージが存在する場合
             int nextStageNum = _stagePresenter.GetNextStageNum();
             if (_stagePresenter.CheckStage(nextStageNum))
             {
                 _stageNumModel.SetStageNum(nextStageNum);
-                SaveGameData(false).Forget();
+                await SaveGameData(false);
                 _soundManager.PlaySE(SCENE_MOVEMENT);
                 _customSceneManager.LoadScene(STAGE);
             }
@@ -286,6 +286,7 @@ namespace GamePresenter
             {
                 _successDialog.SetText(_gameClearMessage);
                 _successDialog.OpenDialog();
+                await UniTask.Yield();
             }
         }
 
@@ -332,6 +333,8 @@ namespace GamePresenter
             _saveDataManager.SetStageNum(_stageNumModel.StageNum.Value);
             
             bool isSaved = _saveDataManager.Save();
+
+            await UniTask.WaitUntil(() => isSaved);
 
             if (isShownDialog == false) return;
             //ダイアログを表示する場合
