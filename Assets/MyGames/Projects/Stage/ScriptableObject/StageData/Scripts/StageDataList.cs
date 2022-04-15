@@ -53,7 +53,7 @@ public class StageData
     }
 
     [System.Serializable]
-    class EnemyOption
+    public class EnemyOption
     {
         [SerializeField]
         [Tooltip("エネミーの最大出現数")]
@@ -65,16 +65,11 @@ public class StageData
 
         [SerializeField]
         [Tooltip("出現エネミーのプレハブを設定")]
-        EP.EnemyPresenter[] _enemyPrefabs;
-
-        [SerializeField]
-        [Tooltip("ボスがいるならプレハブを設定する")]
-        EP.EnemyPresenter _bossEnemyPrefab;
+        EP.EnemyPresenter _enemyPrefab;
 
         public int MaxEnemyCount => _maxEnemyCount;
         public float EnemyAppearanceInterval => _enemyAppearanceInterval;
-        public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyPrefabs;
-        public EP.EnemyPresenter BossEnemyPrefab => _bossEnemyPrefab;
+        public EP.EnemyPresenter AppearingEnemyPrefab => _enemyPrefab;
     }
 
     [SerializeField]
@@ -99,8 +94,11 @@ public class StageData
 
     [SerializeField]
     [Tooltip("エネミーの設定")]
-    EnemyOption _enemyOption;
+    EnemyOption[] _enemyOptions;
 
+    [SerializeField]
+    [Tooltip("ボスがいるならプレハブを設定する")]
+    EP.EnemyPresenter _bossEnemyPrefab;
 
     public int StageId => _stageId;
     public int StageLimitCountTime => _stageLimitCountTime;
@@ -112,8 +110,6 @@ public class StageData
     public int ClearPointCount => _pointOption.ClearPointCount;
     public float PointItemAppearanceInterval => _pointOption.PointItemAppearanceInterval;
     //エネミー
-    public int MaxEnemyCount => _enemyOption.MaxEnemyCount;
-    public float EnemyAppearanceInterval => _enemyOption.EnemyAppearanceInterval;
-    public EP.EnemyPresenter[] AppearingEnemyPrefabs => _enemyOption.AppearingEnemyPrefabs;
-    public EP.EnemyPresenter BossEnemyPrefab => _enemyOption.BossEnemyPrefab;
+    public EnemyOption[] EnemyOptions => _enemyOptions;
+    public EP.EnemyPresenter BossEnemyPrefab => _bossEnemyPrefab;
 }

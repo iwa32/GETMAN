@@ -31,47 +31,47 @@ namespace BehaviourFactory
         /// エネミーを生成します
         /// </summary>
         /// <param name="enemyTypes"></param>
-        public void SetEnemy(EP.EnemyPresenter[] enemies, int maxEnemyCount)
+        public void SetEnemyPool(EP.EnemyPresenter enemy, int maxEnemyCount = 1)
         {
-            _enemyPool.CreatePool(enemies, maxEnemyCount);
+            _enemyPool.CreatePool(enemy, maxEnemyCount);
         }
 
         /// <summary>
-        /// エネミーを生成します
+        /// ボスを作成します
         /// </summary>
-        /// <param name="enemy"></param>
+        /// <param name="prefab"></param>
         /// <returns></returns>
-        public EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
+        public EP.EnemyPresenter CreateTheBoss(EP.EnemyPresenter prefab)
         {
-            EP.EnemyPresenter enemy = _enemyPool.Create(prefab);
-            enemy.Initialize(FindEnemyDataBy(enemy.Type, _bossEnemyDataList));
-
-            return enemy;
+            return InitializeEnemy(prefab.Type, _bossEnemyDataList);
         }
 
         /// <summary>
         /// エネミーを生成します
         /// </summary>
-        public override EP.EnemyPresenter Create()
+        public override EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
         {
-            //poolから取得します
-            EP.EnemyPresenter enemy = _enemyPool.GetPool();
-
-            if (enemy != null)
-                enemy.Initialize(FindEnemyDataBy(enemy.Type, _enemyDataList));
-
-            return enemy;
+            return InitializeEnemy(prefab.Type, _enemyDataList);
         }
 
         /// <summary>
-        /// エネミーのデータを取得します
+        /// エネミーの初期化をします
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        EDL.EnemyData FindEnemyDataBy(EnemyType type, EDL.EnemyDataList dataList)
+        EP.EnemyPresenter InitializeEnemy(EnemyType type, EDL.EnemyDataList dataList)
         {
-            return dataList.GetEnemyDataList
+            //poolから取得します
+            EP.EnemyPresenter enemy = _enemyPool.GetPool(type);
+
+            if (enemy == null) return null;
+
+            EDL.EnemyData data = dataList.GetEnemyDataList
                 .First(data => data.EnemyType == type);
+
+            enemy.Initialize(data);
+
+            return enemy;
         }
     }
 

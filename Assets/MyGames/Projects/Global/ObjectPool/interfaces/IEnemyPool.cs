@@ -15,19 +15,12 @@ namespace ObjectPool {
         /// <typeparam name="T"></typeparam>
         /// <param name="referenceObj"></param>
         /// <param name="maxObjectCount"></param>
-        void CreatePool(EP.EnemyPresenter[] enemies, int maxObjectCount);
+        void CreatePool(EP.EnemyPresenter enemy, int maxObjectCount);
 
         /// <summary>
         /// プールを取得します
         /// </summary>
         /// <returns></returns>
-        EP.EnemyPresenter GetPool();
-
-        /// <summary>
-        /// エネミーの作成
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        EP.EnemyPresenter Create(EP.EnemyPresenter prefab);
+        EP.EnemyPresenter GetPool(EnemyType enemyType);
     }
 }

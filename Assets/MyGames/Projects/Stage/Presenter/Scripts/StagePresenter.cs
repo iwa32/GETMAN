@@ -13,6 +13,7 @@ using StageObject;
 using SoundManager;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using static StageData;
 
 namespace StagePresenter
 {
@@ -75,29 +76,65 @@ namespace StagePresenter
         {
             await SetUpStage();
             await PlaceBossEnemyToStage();
-            PlaceEnemyToStage();//ゲーム開始前に一体場に出しておく
             Bind();
         }
 
+        /// <summary>
+        /// 各Subjectを監視します
+        /// </summary>
         void Bind()
         {
-            //---エネミーの生成---
-            //一定間隔で自動生成
-            IConnectableObservable<long> enemyAppearanceInterval
-                = CreateAppearanceInterval(_currentStageData.EnemyAppearanceInterval, true);
-            //生成
-            IDisposable enemyAppearanceDisposable
-                = enemyAppearanceInterval
-                .Subscribe(_ => PlaceEnemyToStage())
+            //エネミー、ポイントアイテム、BGMを監視
+            BindEnemy();
+            BindPointItem();
+            BindBgm();
+
+            //獲得ポイント数でゲームクリアを観察
+            _pointModel.Point
+                .Where(point => point >= _currentStageData.ClearPointCount)
+                .Subscribe(_ => _directionModel.SetIsGameClear(true))
                 .AddTo(this);
+        }
 
+        void BindEnemy()
+        {
+            //---エネミーの生成---
+            foreach (EnemyOption enemyOption in _currentStageData.EnemyOptions)
+            {
+                PlaceEnemyToStage(enemyOption);//ゲーム開始前に一体場に出しておく
 
+                //一定間隔で自動生成
+                IConnectableObservable<long> enemyAppearanceInterval
+                    = CreateAppearanceInterval(enemyOption.EnemyAppearanceInterval);
+                //生成
+                IDisposable enemyAppearanceDisposable
+                    = enemyAppearanceInterval
+                    .Subscribe(_ => PlaceEnemyToStage(enemyOption))
+                    .AddTo(this);
+
+                //ゲーム開始時で生成処理を開始
+                _directionModel.IsGameStart
+                    .Where(isGameStart => isGameStart == true)
+                    .Subscribe(_ => enemyAppearanceInterval.Connect())
+                    .AddTo(this);
+
+                //ゲーム終了でエネミーの生成を停止
+                this.UpdateAsObservable()
+                    .First(_ => _directionModel.IsEndedGame())
+                    .Subscribe(_ =>
+                        enemyAppearanceDisposable.Dispose())
+                    .AddTo(this);
+            }
+        }
+
+        void BindPointItem()
+        {
             //---ポイントアイテムの生成---
             if (_currentStageData.PointGenerationType != PointGenerationType.NO_GENERATION)
             {
                 //一定間隔で自動生成
                 IConnectableObservable<long> pointItemAppearanceInterval
-                    = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval, false);
+                    = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
                 //生成
                 IDisposable pointItemAppearanceDisposable
                     = pointItemAppearanceInterval
@@ -116,35 +153,21 @@ namespace StagePresenter
                     .Subscribe(_ => pointItemAppearanceDisposable.Dispose())
                     .AddTo(this);
             }
+        }
 
-            //ゲーム開始時の処理
+        void BindBgm()
+        {
+            //---BGM---
+            //ゲーム開始時の音声の再生
             _directionModel.IsGameStart
                 .Where(isGameStart => isGameStart == true)
-                .Subscribe(_ =>
-                {
-                    //エネミーとポイントアイテムの自動生成開始
-                    enemyAppearanceInterval.Connect();
-                    //音声の再生
-                    PlayCurrentStageBgm();
-                })
+                .Subscribe(_ => PlayCurrentStageBgm())
                 .AddTo(this);
 
-            //獲得ポイント数でゲームクリアを観察
-            _pointModel.Point
-                .Where(point => point >= _currentStageData.ClearPointCount)
-                .Subscribe(_ => _directionModel.SetIsGameClear(true))
-                .AddTo(this);
-
-            //ゲーム終了で
+            //ゲーム終了で音声の停止
             this.UpdateAsObservable()
                 .First(_ => _directionModel.IsEndedGame())
-                .Subscribe(_ =>
-                {
-                    //エネミーとポイントアイテムの自動生成を停止する
-                    enemyAppearanceDisposable.Dispose();
-                    //音声の停止
-                    _soundManager.StopBgm();
-                })
+                .Subscribe(_ => _soundManager.StopBgm())
                 .AddTo(this);
         }
 
@@ -152,21 +175,11 @@ namespace StagePresenter
         /// 一定間隔で処理を行うためのObservableを作成します
         /// </summary>
         /// <returns></returns>
-        IConnectableObservable<long> CreateAppearanceInterval(float interval, bool isImmediate)
+        IConnectableObservable<long> CreateAppearanceInterval(float interval)
         {
-            //即時に生成します
-            if (isImmediate)
-            {
-                return Observable
-                    .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(interval))
-                    .Publish();
-            }
-            else
-            {
-                return Observable
+            return Observable
                     .Interval(TimeSpan.FromSeconds(interval))
                     .Publish();
-            }
         }
 
         /// <summary>
@@ -200,10 +213,10 @@ namespace StagePresenter
 
             if (_currentStageData.BossEnemyPrefab != null)
             {
-                EP.EnemyPresenter enemy = _enemyFactory.Create(_currentStageData.BossEnemyPrefab);
-
+                _enemyFactory.SetEnemyPool(_currentStageData.BossEnemyPrefab);
+                EP.EnemyPresenter enemy = _enemyFactory.CreateTheBoss(_currentStageData.BossEnemyPrefab);
                 enemy.SetStageInformation(_currentStageView);
-                
+
                 //演出
             }
             
@@ -246,13 +259,18 @@ namespace StagePresenter
         /// <returns></returns>
         async UniTask SetStageObject(CancellationToken token)
         {
-            if (_currentStageData.AppearingEnemyPrefabs.Length == 0)
+            //エネミーの種類分設定する
+            foreach (EnemyOption enemyOption in _currentStageData.EnemyOptions)
             {
-                Debug.Log("エネミーを設定してください");
-                _cts.Cancel();
+                if (enemyOption.AppearingEnemyPrefab == null)
+                {
+                    Debug.Log("エネミーを設定してください");
+                    _cts.Cancel();
+                }
+
+                _enemyFactory.SetEnemyPool(enemyOption.AppearingEnemyPrefab, enemyOption.MaxEnemyCount);
             }
 
-            _enemyFactory.SetEnemy(_currentStageData.AppearingEnemyPrefabs, _currentStageData.MaxEnemyCount);
             _pointItemFactory.SetPointItem(_currentStageData.ClearPointCount);
             _currentStageView.InitializeStagePoints();
 
@@ -271,17 +289,18 @@ namespace StagePresenter
         /// <summary>
         /// エネミーをステージに配置します
         /// </summary>
-        void PlaceEnemyToStage()
+        void PlaceEnemyToStage(EnemyOption enemyOption)
         {
             //エネミーの最大出現数を超えたら生成しない
-            if (_stageEnemyCount >= _currentStageData.MaxEnemyCount) return;
+            if (_stageEnemyCount >= enemyOption.MaxEnemyCount) return;
 
             //生成
-            EP.EnemyPresenter stageEnemy = _enemyFactory?.Create();
+            EP.EnemyPresenter stageEnemy = _enemyFactory?.Create(enemyOption.AppearingEnemyPrefab);
 
             if (stageEnemy == null) return;
-            //死亡を監視する
+
             _stageEnemyCount++;
+            //死亡を監視する
             ObserveStageEnemy(stageEnemy);
 
             //ステージ情報を設定

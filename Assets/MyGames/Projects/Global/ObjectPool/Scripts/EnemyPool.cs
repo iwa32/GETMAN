@@ -6,9 +6,15 @@ using Zenject;
 
 namespace ObjectPool
 {
+    struct EnemyPoolData
+    {
+        public EnemyType _type;
+        public List<EP.EnemyPresenter> _pool;
+    }
+
     public class EnemyPool : IEnemyPool
     {
-        List<EP.EnemyPresenter>[] _enemyPools;
+        List<EnemyPoolData> _enemyPoolList = new List<EnemyPoolData>();
 
         [Inject]
         DiContainer container;//動的生成したデータにDIできるようにする
@@ -18,33 +24,37 @@ namespace ObjectPool
         /// </summary>
         /// <param name="enemyData"></param>
         /// <param name="maxEnemyCount"></param>
-        public void CreatePool (EP.EnemyPresenter[] enemies, int maxEnemyCount)
+        public void CreatePool(EP.EnemyPresenter enemyPrefab, int maxEnemyCount)
         {
-            //enemyの種類分Poolを作成する
-            _enemyPools = new List<EP.EnemyPresenter>[enemies.Length];
-
-            for (int i = 0; i < enemies.Length; i++)
-            {
-                _enemyPools[i] = new List<EP.EnemyPresenter>();
-                //それぞれのenemyを最大出現数分作成しpoolします
-                for (int j = 0; j < maxEnemyCount; j++)
+            //対象のエネミーのプールを作成します
+            EnemyPoolData poolData =
+                new EnemyPoolData
                 {
-                    EP.EnemyPresenter enemy
-                        = Create(enemies[i]);
+                    _type = enemyPrefab.Type,
+                    _pool = new List<EP.EnemyPresenter>()
+                };
 
-                    _enemyPools[i].Add(enemy);
-                    enemy.gameObject?.SetActive(false);
-                }
+            for (int i = 0; i < maxEnemyCount; i++)
+            {
+                EP.EnemyPresenter enemy
+                    = Create(enemyPrefab);
+
+                poolData._pool.Add(enemy);
+                enemy.gameObject?.SetActive(false);
             }
+
+            _enemyPoolList.Add(poolData);
         }
 
         /// <summary>
         /// プールを取得します
         /// </summary>
         /// <returns></returns>
-        public EP.EnemyPresenter GetPool()
+        public EP.EnemyPresenter GetPool(EnemyType type)
         {
-            List<EP.EnemyPresenter> poolEnemyList = GetRandomPoolEnemyList();
+            List<EP.EnemyPresenter> poolEnemyList
+                = _enemyPoolList.Find(poolData => poolData._type == type)._pool;
+
             foreach (EP.EnemyPresenter enemy in poolEnemyList)
             {
                 if (enemy.gameObject.activeSelf)
@@ -64,7 +74,7 @@ namespace ObjectPool
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
+        EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
         {
             EP.EnemyPresenter enemy
                 = container.InstantiatePrefab(
@@ -76,19 +86,6 @@ namespace ObjectPool
                 .GetComponent<EP.EnemyPresenter>();
 
             return enemy;
-        }
-
-        /// <summary>
-        /// エネミープールをランダムに取得します
-        /// </summary>
-        /// <returns></returns>
-        List<EP.EnemyPresenter> GetRandomPoolEnemyList()
-        {
-            //エネミーのプールが複数存在するならランダムに取得します
-            if (_enemyPools.Length > 1)
-                return _enemyPools[Random.Range(0, _enemyPools.Length)];
-            else
-                return _enemyPools[0];
         }
     }
 }

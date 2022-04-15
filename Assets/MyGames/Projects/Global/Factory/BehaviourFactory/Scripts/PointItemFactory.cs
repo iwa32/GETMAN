@@ -26,7 +26,7 @@ namespace BehaviourFactory
             _pointItemPool.CreatePool(_pointItemPrefab, maxPointItemCount);
         }
 
-        public override PointItem Create()
+        public override PointItem Create(PointItem prefab = null)
         {
             return _pointItemPool.GetPool();
         }

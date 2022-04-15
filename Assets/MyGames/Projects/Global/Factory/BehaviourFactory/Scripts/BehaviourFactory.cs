@@ -11,6 +11,6 @@ namespace BehaviourFactory
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public abstract T Create();
+        public abstract T Create(T prefab = null);
     }
 }
