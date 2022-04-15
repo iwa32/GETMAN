@@ -31,7 +31,8 @@ namespace StagePresenter
         EnemyFactory _enemyFactory;//エネミー生成用スクリプト
         PointItemFactory _pointItemFactory;//ポイントアイテム生成用スクリプト
         int _stagePointItemCount;//ステージのポイントアイテムの数をカウント
-        int _stageEnemyCount;//ステージのエネミー数
+        Dictionary<EnemyType, int> _countStageEnemies
+            = new Dictionary<EnemyType, int>();//ステージのエネミー数
         CancellationTokenSource _cts = new CancellationTokenSource();
         //音声
         ISoundManager _soundManager;
@@ -269,6 +270,8 @@ namespace StagePresenter
                 }
 
                 _enemyFactory.SetEnemyPool(enemyOption.AppearingEnemyPrefab, enemyOption.MaxEnemyCount);
+                //出現数を記録
+                _countStageEnemies.Add(enemyOption.AppearingEnemyPrefab.Type, 0);
             }
 
             _pointItemFactory.SetPointItem(_currentStageData.ClearPointCount);
@@ -292,17 +295,18 @@ namespace StagePresenter
         void PlaceEnemyToStage(EnemyOption enemyOption)
         {
             //エネミーの最大出現数を超えたら生成しない
-            if (_stageEnemyCount >= enemyOption.MaxEnemyCount) return;
+            var stageEnemyCount = _countStageEnemies[enemyOption.AppearingEnemyPrefab.Type];
+            if (stageEnemyCount >= enemyOption.MaxEnemyCount) return;
 
             //生成
             EP.EnemyPresenter stageEnemy = _enemyFactory?.Create(enemyOption.AppearingEnemyPrefab);
 
             if (stageEnemy == null) return;
 
-            _stageEnemyCount++;
+            _countStageEnemies[enemyOption.AppearingEnemyPrefab.Type]++;
+            
             //死亡を監視する
             ObserveStageEnemy(stageEnemy);
-
             //ステージ情報を設定
             stageEnemy.SetStageInformation(_currentStageView);
             stageEnemy.DefaultState();
@@ -334,7 +338,7 @@ namespace StagePresenter
             stageEnemy.IsDead
                 .Where(isDead => isDead == true)
                 .Subscribe(_ => {
-                    _stageEnemyCount--;
+                    _countStageEnemies[stageEnemy.Type]--;
                 })
                 .AddTo(stageEnemy.gameObject);
         }
