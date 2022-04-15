@@ -528,6 +528,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248802572}
   m_CullTransparentMesh: 1
+--- !u!1 &337144368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8817306585437455829, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
+  m_PrefabInstance: {fileID: 8817306586081262162}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &337144372
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337144368}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &353514130
 GameObject:
   m_ObjectHideFlags: 0
@@ -3892,27 +3913,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8817306585437455835, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_Size.x
-      value: 0.6
+      value: 0.32069594
       objectReference: {fileID: 0}
     - target: {fileID: 8817306585437455835, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 0.15584381
       objectReference: {fileID: 0}
     - target: {fileID: 8817306585437455835, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_Size.z
-      value: 0.88550425
+      value: 0.8407207
       objectReference: {fileID: 0}
     - target: {fileID: 8817306585437455835, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_Center.x
-      value: -0.033151418
+      value: -0.017999347
       objectReference: {fileID: 0}
     - target: {fileID: 8817306585437455835, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_Center.y
-      value: 0.085250355
+      value: -0.0019750923
       objectReference: {fileID: 0}
     - target: {fileID: 8817306585437455835, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_Center.z
-      value: -0.25239256
+      value: -0.27479297
       objectReference: {fileID: 0}
     - target: {fileID: 8817306586474257786, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
       propertyPath: m_IsActive
