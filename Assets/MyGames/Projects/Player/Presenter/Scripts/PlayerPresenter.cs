@@ -179,12 +179,12 @@ namespace PlayerPresenter
             _hpModel.Hp.Subscribe(hp => _hpView.SetHpGauge(hp)).AddTo(this);
 
             //trigger, collisionの取得
-            _trigger.OnTriggerEnter()
+            _trigger.OnTriggerStay()
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(collider => CheckTrigger(collider))
                 .AddTo(this);
 
-            _collision.OnCollisionEnter()
+            _collision.OnCollisionStay()
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(collision => CheckCollision(collision))
                 .AddTo(this);
