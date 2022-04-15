@@ -79,7 +79,12 @@ namespace EnemyPresenter
         /// </summary>
         public override void DefaultState()
         {
-            //todo 巡回場所がない場合waitにする
+            //巡回場所がない場合waitにする
+            if (_patrolStrategy?.PatrolPoints.Length == 0)
+            {
+                _actionView.State.Value = _waitState;
+                return;
+            }
 
             _actionView.State.Value = _runState;
         }
