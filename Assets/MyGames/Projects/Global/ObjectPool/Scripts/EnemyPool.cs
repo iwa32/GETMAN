@@ -6,15 +6,10 @@ using Zenject;
 
 namespace ObjectPool
 {
-    struct EnemyPoolData
-    {
-        public EnemyType _type;
-        public List<EP.EnemyPresenter> _pool;
-    }
-
     public class EnemyPool : IEnemyPool
     {
-        List<EnemyPoolData> _enemyPoolList = new List<EnemyPoolData>();
+        Dictionary<EnemyType, List<EP.EnemyPresenter>> _enemyPoolList
+            = new Dictionary<EnemyType, List<EP.EnemyPresenter>>();
 
         [Inject]
         DiContainer container;//動的生成したデータにDIできるようにする
@@ -27,23 +22,16 @@ namespace ObjectPool
         public void CreatePool(EP.EnemyPresenter enemyPrefab, int maxEnemyCount)
         {
             //対象のエネミーのプールを作成します
-            EnemyPoolData poolData =
-                new EnemyPoolData
-                {
-                    _type = enemyPrefab.Type,
-                    _pool = new List<EP.EnemyPresenter>()
-                };
+            _enemyPoolList[enemyPrefab.Type] = new List<EP.EnemyPresenter>();
 
             for (int i = 0; i < maxEnemyCount; i++)
             {
                 EP.EnemyPresenter enemy
                     = Create(enemyPrefab);
 
-                poolData._pool.Add(enemy);
+                _enemyPoolList[enemy.Type].Add(enemy);
                 enemy.gameObject?.SetActive(false);
             }
-
-            _enemyPoolList.Add(poolData);
         }
 
         /// <summary>
@@ -52,10 +40,7 @@ namespace ObjectPool
         /// <returns></returns>
         public EP.EnemyPresenter GetPool(EnemyType type)
         {
-            List<EP.EnemyPresenter> poolEnemyList
-                = _enemyPoolList.Find(poolData => poolData._type == type)._pool;
-
-            foreach (EP.EnemyPresenter enemy in poolEnemyList)
+            foreach (EP.EnemyPresenter enemy in _enemyPoolList[type])
             {
                 if (enemy.gameObject.activeSelf)
                 {
