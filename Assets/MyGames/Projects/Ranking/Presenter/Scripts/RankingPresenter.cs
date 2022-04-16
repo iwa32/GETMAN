@@ -22,11 +22,11 @@ namespace RankingPresenter
     {
         [SerializeField]
         [Header("ランキングを閉じるボタンを設定")]
-        Button _closeRankingButton;
+        Button _buttonToCloseRanking;
 
         [SerializeField]
         [Header("ランキングの登録ボタンを設定")]
-        Button _registerRankingButton;
+        Button _buttonToRegisterRanking;
 
         [SerializeField]
         [Header("ランキングの再読み込みボタンを設定")]
@@ -128,7 +128,7 @@ namespace RankingPresenter
         {
             //ランキング非表示ボタン
             _observableClickButton.
-                CreateObservableClickButton(_closeRankingButton)
+                CreateObservableClickButton(_buttonToCloseRanking)
                 .Subscribe(_ => CloseRanking())
                 .AddTo(this);
 
@@ -140,7 +140,7 @@ namespace RankingPresenter
 
             //ランキング登録ボタン
             _observableClickButton.
-                CreateObservableClickButton(_registerRankingButton)
+                CreateObservableClickButton(_buttonToRegisterRanking)
                 .Subscribe(_ => RegisterUserData().Forget())
                 .AddTo(this);
 
