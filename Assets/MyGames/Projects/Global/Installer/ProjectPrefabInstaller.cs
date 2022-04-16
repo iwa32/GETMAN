@@ -8,6 +8,7 @@ using CustomSceneManager;
 using SaveDataManager;
 using SoundManager;
 using UIUtility;
+using SoundModel;
 
 namespace GlobalInstaller
 {
@@ -77,20 +78,25 @@ namespace GlobalInstaller
                 .AsSingle()
                 .NonLazy();
 
+            Container.Bind<ISoundModel>()
+                .To<SoundModel.SoundModel>()
+                .AsSingle()
+                .NonLazy();
+
             //ダイアログ
             Container.Bind<ISuccessDialog>()
                 .FromComponentInNewPrefab(_successDialogPrefab)
                 .AsSingle()
                 .NonLazy();
 
-            //ローディング
-            Container.Bind<ILoading>()
-                .FromComponentInNewPrefab(_loadingPrefab)
+            Container.Bind<IErrorDialog>()
+                .FromComponentInNewPrefab(_errorDialogPrefab)
                 .AsSingle()
                 .NonLazy();
 
-            Container.Bind<IErrorDialog>()
-                .FromComponentInNewPrefab(_errorDialogPrefab)
+            //ローディング
+            Container.Bind<ILoading>()
+                .FromComponentInNewPrefab(_loadingPrefab)
                 .AsSingle()
                 .NonLazy();
 
@@ -115,6 +121,12 @@ namespace GlobalInstaller
             //入力フィールド
             Container.Bind<IObservableInputField>()
                 .To<ObservableInputField>()
+                .AsSingle()
+                .NonLazy();
+
+            //スライダー
+            Container.Bind<IObservableSlider>()
+                .To<ObservableSlider>()
                 .AsSingle()
                 .NonLazy();
 

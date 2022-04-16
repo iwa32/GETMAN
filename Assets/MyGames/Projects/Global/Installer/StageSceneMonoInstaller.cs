@@ -5,7 +5,10 @@ using ObjectPool;
 
 namespace GlobalInstaller
 {
-    public class SceneMonoInstaller : MonoInstaller
+    /// <summary>
+    /// ステージシーンで使用する汎用クラスのDI設定
+    /// </summary>
+    public class StageSceneMonoInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {

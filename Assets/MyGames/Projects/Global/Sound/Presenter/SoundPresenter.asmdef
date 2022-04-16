@@ -1,0 +1,20 @@
+{
+    "name": "SoundPresenter",
+    "rootNamespace": "",
+    "references": [
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:e69bbf1a1fd6e4729ae0117481bccb88",
+        "GUID:c6581a88003db432abc8a7681fd9b5e6",
+        "GUID:81fdf22c7bacc40cf965570c1bbbfd38"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
