@@ -19,6 +19,8 @@ namespace RankingModel
 
     public class RankingModelByPlayFab : IRankingModel
     {
+        const int PLAYFAB_SYSTEM_ERROR_STRING_LENGTH = 2;
+
         readonly string _rankingStatisticName = "HighScore";
 
         #region//フィールド
@@ -45,7 +47,7 @@ namespace RankingModel
         public async UniTask RegisterUserName(string userName)
         {
             //2文字以下の場合エラーにため、空白をつけてから登録します
-            if (userName.Length <= 2)
+            if (userName.Length <= PLAYFAB_SYSTEM_ERROR_STRING_LENGTH)
             {
                 userName += "  ";
             }
