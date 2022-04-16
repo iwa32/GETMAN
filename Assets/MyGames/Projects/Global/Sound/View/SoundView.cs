@@ -28,9 +28,9 @@ namespace SoundView
         [Header("開くボタン(サウンドオプション)")]
         Button _buttonToOpenCanvas;
 
-        [SerializeField]
-        [Header("閉じるボタン(サウンドオプション)")]
-        Button _buttonToCloseCanvas;
+        //[SerializeField]
+        //[Header("閉じるボタン(サウンドオプション)")]
+        //Button _buttonToCloseCanvas;
 
         [SerializeField]
         [Header("閉じるためのオーバーレイを設定します(サウンドオプション)")]
@@ -63,7 +63,7 @@ namespace SoundView
         //Observable化
         //ボタン
         public IObservable<Unit> ButtonToOpenCanvas;
-        public IObservable<Unit> ButtonToCloseCanvas;
+        //public IObservable<Unit> ButtonToCloseCanvas;
         public IObservable<Unit> OverlayToCloseCanvas;
         public IObservable<Unit> BgmMuteButton;
         public IObservable<Unit> SEMuteButton;
@@ -95,7 +95,7 @@ namespace SoundView
         void CreateObservable()
         {
             ButtonToOpenCanvas = _observableClickButton.CreateObservableClickButton(_buttonToOpenCanvas);
-            ButtonToCloseCanvas = _observableClickButton.CreateObservableClickButton(_buttonToCloseCanvas);
+            //ButtonToCloseCanvas = _observableClickButton.CreateObservableClickButton(_buttonToCloseCanvas);
             OverlayToCloseCanvas = _observableClickButton.CreateObservableClickButton(_overlayToCloseCanvas);
             BgmMuteButton = _observableClickButton.CreateObservableClickButton(_bgmMuteButton);
             SEMuteButton = _observableClickButton.CreateObservableClickButton(_seMuteButton);
