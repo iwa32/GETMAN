@@ -54,17 +54,25 @@ namespace SoundView
         IObservableClickButton _observableClickButton;
         IObservableSlider _observableSlider;
         IToggleableUI _toggleableUI;
-        #endregion
-
         //Observable化
         //ボタン
-        public IObservable<Unit> ButtonToOpenCanvas;
-        public IObservable<Unit> OverlayToCloseCanvas;
-        public IObservable<Unit> BgmMuteButton;
-        public IObservable<Unit> SEMuteButton;
+        IObservable<Unit> _buttonToOpenCanvasAsObservable;
+        IObservable<Unit> _overlayToCloseCanvasAsObservable;
+        IObservable<Unit> _bgmMuteButtonAsObservable;
+        IObservable<Unit> _seMuteButtonAsObservable;
         //スライダー
-        public IObservable<float> BgmSlider;
-        public IObservable<float> SESlider;
+        public IObservable<float> _bgmSliderAsObservable;
+        public IObservable<float> _seSliderAsObservable;
+        #endregion
+
+        //ボタン
+        public IObservable<Unit> ButtonToOpenCanvasAsObservable => _buttonToOpenCanvasAsObservable;
+        public IObservable<Unit> OverlayToCloseCanvasAsObservable => _overlayToCloseCanvasAsObservable;
+        public IObservable<Unit> BgmMuteButtonAsObservable => _bgmMuteButtonAsObservable;
+        public IObservable<Unit> SEMuteButtonAsObservable => _seMuteButtonAsObservable;
+        //スライダー
+        public IObservable<float> BgmSliderAsObservable => _bgmSliderAsObservable;
+        public IObservable<float> SESliderAsObservable => _seSliderAsObservable;
 
         [Inject]
         public void Construct(
@@ -89,12 +97,12 @@ namespace SoundView
         /// </summary>
         void CreateObservable()
         {
-            ButtonToOpenCanvas = _observableClickButton.CreateObservableClickButton(_buttonToOpenCanvas);
-            OverlayToCloseCanvas = _observableClickButton.CreateObservableClickButton(_overlayToCloseCanvas);
-            BgmMuteButton = _observableClickButton.CreateObservableClickButton(_bgmMuteButton);
-            SEMuteButton = _observableClickButton.CreateObservableClickButton(_seMuteButton);
-            BgmSlider = _observableSlider.CreateObservableSliderOnValueChanged(_bgmSlider);
-            SESlider = _observableSlider.CreateObservableSliderOnValueChanged(_seSlider);
+            _buttonToOpenCanvasAsObservable = _observableClickButton.CreateObservableClickButton(_buttonToOpenCanvas);
+            _overlayToCloseCanvasAsObservable = _observableClickButton.CreateObservableClickButton(_overlayToCloseCanvas);
+            _bgmMuteButtonAsObservable = _observableClickButton.CreateObservableClickButton(_bgmMuteButton);
+            _seMuteButtonAsObservable = _observableClickButton.CreateObservableClickButton(_seMuteButton);
+            _bgmSliderAsObservable = _observableSlider.CreateObservableSliderOnValueChanged(_bgmSlider);
+            _seSliderAsObservable = _observableSlider.CreateObservableSliderOnValueChanged(_seSlider);
         }
 
         void SetMuteIconImage()
