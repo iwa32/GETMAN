@@ -16,7 +16,7 @@ using Loading;
 using Pause;
 using static SceneType;
 using static SEType;
-
+using UIUtility;
 
 namespace GamePresenter
 {
@@ -100,6 +100,7 @@ namespace GamePresenter
         IErrorDialog _errorDialog;
         ILoading _loading;
         IPause _pause;
+        IObservableClickButton _observableClickButton;
         #endregion
 
         [Inject]
@@ -115,7 +116,8 @@ namespace GamePresenter
             ISuccessDialog successDialog,
             IErrorDialog errorDialog,
             ILoading loading,
-            IPause pause
+            IPause pause,
+            IObservableClickButton observableClickButton
         )
         {
             _directionModel = direction;
@@ -130,6 +132,7 @@ namespace GamePresenter
             _errorDialog = errorDialog;
             _loading = loading;
             _pause = pause;
+            _observableClickButton = observableClickButton;
         }
 
         void Awake()
@@ -193,11 +196,13 @@ namespace GamePresenter
                 .AddTo(this);
 
             //停止ボタン
-            _pauseView.IsPause
-                .Skip(1)
-                .Subscribe(isPause => _pause.ChangePause(isPause))
-                .AddTo(this);
-
+            //ポーズ中はボタンのストリームを再購読できないため、破棄し再生成します
+            Action pauseButtonAction = () => _pause.ChangePause(!_pause.IsPause.Value);
+            _observableClickButton.RepeatObserveButtonForPause(
+                _pauseView.PauseButtonAsObservable,
+                pauseButtonAction
+            );
+            
             _pause.IsPause
                 .Subscribe(isPause => {
                     _directionModel.SetIsGamePause(isPause);

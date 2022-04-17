@@ -6,11 +6,10 @@ using UnityEngine.UI;
 using Zenject;
 using UIUtility;
 using UniRx;
-using UnityEngine.EventSystems;
 
 namespace GameView
 {
-    public class PauseView : MonoBehaviour, IPointerClickHandler
+    public class PauseView : MonoBehaviour
     {
         [SerializeField]
         [Header("停止アイコンを設定")]
@@ -23,9 +22,21 @@ namespace GameView
 
         Button _pauseButton;
         Image _pauseButtonImage;
-        BoolReactiveProperty _isPause = new BoolReactiveProperty();
 
-        public IReactiveProperty<bool> IsPause => _isPause;
+        #region//フィールド
+        IObservableClickButton _observableClickButton;
+        IObservable<Unit> _pauseButtonAsObservable;
+        #endregion
+
+        public IObservable<Unit> PauseButtonAsObservable => _pauseButtonAsObservable;
+
+        [Inject]
+        public void Construct(
+            IObservableClickButton observableClickButton
+        )
+        {
+            _observableClickButton = observableClickButton;
+        }
 
         void Start()
         {
@@ -35,12 +46,19 @@ namespace GameView
         void Initialize()
         {
             SetPauseButton();
+            CreateObservable();
         }
 
         void SetPauseButton()
         {
             _pauseButton = GetComponent<Button>();
             _pauseButtonImage = _pauseButton.GetComponent<Image>();
+        }
+
+        void CreateObservable()
+        {
+            _pauseButtonAsObservable
+                = _observableClickButton.CreateObservableClickButton(_pauseButton);
         }
 
         // <summary>
@@ -62,16 +80,6 @@ namespace GameView
         {
             if (isPause) return _resumeIcon;
             return _pauseIcon;
-        }
-
-        /// <summary>
-        /// クリックでポーズフラグをオンにします
-        /// </summary>
-        /// <param name="eventData"></param>
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            //ButtonをObsesrvable化するとゲーム再開時に購読できないため、EventSystemsで代用します
-            _isPause.Value = !_isPause.Value;
         }
     }
 }
