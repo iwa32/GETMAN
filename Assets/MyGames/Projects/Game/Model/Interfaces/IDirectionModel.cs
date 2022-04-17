@@ -11,11 +11,13 @@ namespace GameModel
         IReadOnlyReactiveProperty<bool> IsGameOver { get; }
         IReadOnlyReactiveProperty<bool> IsGameClear { get; }
         IReadOnlyReactiveProperty<bool> IsGameContinue { get; }
+        IReadOnlyReactiveProperty<bool> IsGamePause { get; }
 
         void SetIsGameStart(bool isGameStart);
         void SetIsGameOver(bool isGameOver);
         void SetIsGameClear(bool isGameClear);
         void SetIsGameContinue(bool isGameContinue);
+        void SetIsGamePause(bool isGamePause);
 
         /// <summary>
         /// ゲームの状態をリセットします

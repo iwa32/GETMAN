@@ -193,20 +193,13 @@ namespace PlayerPresenter
             //状態の監視
             _actionView.State
                 .Where(x => x != null)
-                .Subscribe(x =>
-                {
-                    _actionView.ChangeState(x.State);
-                })
+                .Subscribe(x => _actionView.ChangeState(x.State))
                 .AddTo(this);
 
             //入力の監視
             _inputView.InputDirection
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(input =>
-                {
-                    ChangeStateByInput(input);
-                }
-                )
+                .Subscribe(input => ChangeStateByInput(input))
                 .AddTo(this);
 
             //攻撃入力

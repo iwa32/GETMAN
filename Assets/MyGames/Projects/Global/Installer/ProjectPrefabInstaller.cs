@@ -9,6 +9,7 @@ using SaveDataManager;
 using SoundManager;
 using UIUtility;
 using SoundModel;
+using Pause;
 
 namespace GlobalInstaller
 {
@@ -109,6 +110,12 @@ namespace GlobalInstaller
             //セーブデータ
             Container.Bind<ISaveData>()
                 .To<SaveData>()
+                .AsSingle()
+                .NonLazy();
+
+            //ポーズ
+            Container.Bind<IPause>()
+                .To<Pause.Pause>()
                 .AsSingle()
                 .NonLazy();
 

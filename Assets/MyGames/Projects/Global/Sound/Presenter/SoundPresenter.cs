@@ -37,13 +37,11 @@ namespace SoundPresenter
             _soundView.ButtonToOpenCanvas
                 .Subscribe(_ => _soundView.OpenSoundOption())
                 .AddTo(this);
-            //---音声オプションを閉じる---
-            //_soundView.ButtonToCloseCanvas
-            //    .Subscribe(_ => _soundView.CloseSoundOption())
-            //    .AddTo(this);
 
+            //---音声オプションを閉じる---
             _soundView.OverlayToCloseCanvas
-                .Subscribe(_ => _soundView.CloseSoundOption())
+                .Subscribe(_ =>
+                    _soundView.CloseSoundOption())
                 .AddTo(this);
 
             //---ミュートボタン---

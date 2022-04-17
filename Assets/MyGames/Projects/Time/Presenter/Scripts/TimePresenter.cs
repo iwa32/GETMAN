@@ -70,11 +70,13 @@ namespace TimePresenter
                 {
                     _timeModel.SetTime(time);
                 },
-                () => {
+                () =>
+                {
                     //カウント終了でゲームオーバー
                     _timeModel.SetTime(0);
                     _directionModel.SetIsGameOver(true);
-                });
+                })
+                .AddTo(this);
 
             //ゲーム終了でカウント終了
             this.UpdateAsObservable()

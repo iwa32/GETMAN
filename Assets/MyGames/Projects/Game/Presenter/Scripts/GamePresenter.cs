@@ -13,6 +13,7 @@ using SoundManager;
 using Fade;
 using Dialog;
 using Loading;
+using Pause;
 using static SceneType;
 using static SEType;
 
@@ -58,6 +59,10 @@ namespace GamePresenter
         StageNumView _stageNumView;
 
         [SerializeField]
+        [Header("ポーズボタンのUIを設定")]
+        PauseView _pauseView;
+
+        [SerializeField]
         [Header("プレイヤーのPresenterを設定")]
         PlayerPresenter.PlayerPresenter _playerPresenter;
 
@@ -94,6 +99,7 @@ namespace GamePresenter
         ISuccessDialog _successDialog;
         IErrorDialog _errorDialog;
         ILoading _loading;
+        IPause _pause;
         #endregion
 
         [Inject]
@@ -108,7 +114,8 @@ namespace GamePresenter
             IFade fade,
             ISuccessDialog successDialog,
             IErrorDialog errorDialog,
-            ILoading loading
+            ILoading loading,
+            IPause pause
         )
         {
             _directionModel = direction;
@@ -122,6 +129,7 @@ namespace GamePresenter
             _successDialog = successDialog;
             _errorDialog = errorDialog;
             _loading = loading;
+            _pause = pause;
         }
 
         void Awake()
@@ -182,6 +190,19 @@ namespace GamePresenter
             _gameStartView.IsGameStart
                 .Where(isGameStart => isGameStart == true)
                 .Subscribe(_ => StartGame())
+                .AddTo(this);
+
+            //停止ボタン
+            _pauseView.IsPause
+                .Skip(1)
+                .Subscribe(isPause => _pause.ChangePause(isPause))
+                .AddTo(this);
+
+            _pause.IsPause
+                .Subscribe(isPause => {
+                    _directionModel.SetIsGamePause(isPause);
+                    _pauseView.TogglePauseIcon(isPause);
+                })
                 .AddTo(this);
 
             //プレイヤーのボタン入力
