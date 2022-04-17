@@ -527,8 +527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575edc899efd34a089883cce904cea0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonToCloseRanking: {fileID: 0}
-  _buttonToRegisterRanking: {fileID: 0}
+  _buttonToCloseRanking: {fileID: 1861864256}
+  _buttonToRegisterRanking: {fileID: 1989487400}
   _reloadButton: {fileID: 932944145}
   _userNameInputField: {fileID: 1275731730}
   _myRankingDataObject: {fileID: 1033151213}
