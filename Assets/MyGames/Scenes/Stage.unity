@@ -4205,7 +4205,13 @@ PrefabInstance:
       propertyPath: _spWeaponView
       value: 
       objectReference: {fileID: 68135879}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8817306586807861255, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
+    - {fileID: 8817306586807861252, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
+    - {fileID: 8817306586807861254, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
+    - {fileID: 8817306586807861253, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
+    - {fileID: 8817306586807861259, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
+    - {fileID: 8817306586807861302, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd2f752a9ddb0425181adac355cb005a, type: 3}
 --- !u!114 &8942529615890654538
 MonoBehaviour:

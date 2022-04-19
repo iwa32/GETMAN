@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-namespace StateView
+namespace CharacterState
 {
     /// <summary>
     /// 各Stateの管理、呼び出し用スクリプト
     /// </summary>
-    public class ActionView : MonoBehaviour
+    public class StateActionView : MonoBehaviour
     {
         Animator _animator;
 
-        public ReactiveProperty<StateView> State = new ReactiveProperty<StateView>();
+        public ReactiveProperty<ICharacterState> State = new ReactiveProperty<ICharacterState>();
 
         void Awake()
         {

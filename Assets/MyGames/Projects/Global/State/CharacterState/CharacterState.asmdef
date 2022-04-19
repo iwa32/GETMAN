@@ -1,5 +1,5 @@
 {
-    "name": "StateView",
+    "name": "CharacterState",
     "rootNamespace": "",
     "references": [
         "GUID:231969241a33c435c889dcd1f750de0c",

@@ -9,7 +9,7 @@ using Zenject;
 using PlayerModel;
 using GameModel;
 using PlayerView;
-using StateView;
+using CharacterState;
 using Trigger;
 using Collision;
 using StageObject;
@@ -66,13 +66,7 @@ namespace PlayerPresenter
         #endregion
 
         #region//フィールド
-        ActionView _actionView;//プレイヤーのアクション用スクリプト
-        WaitState _waitState;//待機状態のスクリプト
-        RunState _runState;//移動状態のスクリプト
-        DownState _downState;//ダウン状態のスクリプト
-        DeadState _deadState;//デッド状態のスクリプト
-        AttackState _attackState;//攻撃状態のスクリプト
-        JoyState _joyState;//喜び状態のスクリプト
+        StateActionView _actionView;//プレイヤーのアクション用スクリプト
         ObservableTrigger _trigger;//接触判定スクリプト
         ObservableCollision _collision;//衝突判定スクリプト
         InputView _inputView;//プレイヤーの入力取得スクリプト
@@ -86,6 +80,13 @@ namespace PlayerPresenter
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         ISoundManager _soundManager;
+        //ステート
+        ICharacterWaitState _waitState;//待機状態のスクリプト
+        ICharacterRunState _runState;//移動状態のスクリプト
+        ICharacterDownState _downState;//ダウン状態のスクリプト
+        ICharacterDeadState _deadState;//デッド状態のスクリプト
+        ICharacterAttackState _attackState;//攻撃状態のスクリプト
+        ICharacterJoyState _joyState;//喜び状態のスクリプト
         bool _isBlink;//点滅状態か
 
         [Inject]
@@ -102,7 +103,13 @@ namespace PlayerPresenter
             IScoreModel score,
             IPointModel point,
             IDirectionModel direction,
-            ISoundManager soundManager
+            ISoundManager soundManager,
+            ICharacterWaitState waitState,
+            ICharacterRunState runState,
+            ICharacterDownState downState,
+            ICharacterDeadState deadState,
+            ICharacterAttackState attackState,
+            ICharacterJoyState joyState
         )
         {
             _weaponModel = weapon;
@@ -111,6 +118,13 @@ namespace PlayerPresenter
             _pointModel = point;
             _directionModel = direction;
             _soundManager = soundManager;
+            //ステート
+            _waitState = waitState;
+            _runState = runState;
+            _downState = downState;
+            _deadState = deadState;
+            _attackState = attackState;
+            _joyState = joyState;
         }
 
         /// <summary>
@@ -118,13 +132,7 @@ namespace PlayerPresenter
         /// </summary>
         public void ManualAwake()
         {
-            _actionView = GetComponent<ActionView>();
-            _waitState = GetComponent<WaitState>();
-            _runState = GetComponent<RunState>();
-            _downState = GetComponent<DownState>();
-            _deadState = GetComponent<DeadState>();
-            _attackState = GetComponent<AttackState>();
-            _joyState = GetComponent<JoyState>();
+            _actionView = GetComponent<StateActionView>();
             _trigger = GetComponent<ObservableTrigger>();
             _collision = GetComponent<ObservableCollision>();
             _inputView = GetComponent<InputView>();
@@ -349,7 +357,7 @@ namespace PlayerPresenter
                 = _spWeaponDataList.FindSpWeaponDataByType(spWeaponItem.Type);
 
             if (spWeaponData == null) return;
-            
+
             //武器が違う場合のみセットする
             if (_currentSpWeapon?.Type != spWeaponData.Type)
             {

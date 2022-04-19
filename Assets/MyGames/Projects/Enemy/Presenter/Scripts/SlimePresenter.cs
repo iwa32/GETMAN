@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using StateView;
+using CharacterState;
 using EnemyView;
 using StrategyView;
 using static StateType;
 using GlobalInterface;
+using Zenject;
 
 namespace EnemyPresenter
 {
@@ -17,7 +18,7 @@ namespace EnemyPresenter
 
         #region//フィールド
         //追跡
-        TrackState _trackState;
+        ICharacterTrackState _trackState;
         TrackStrategy _trackStrategy;
         //---巡回---
         PatrolStrategy _patrolStrategy;
@@ -28,12 +29,19 @@ namespace EnemyPresenter
         public PatrolStrategy PatrolStrategy => _patrolStrategy;
         #endregion
 
+        [Inject]
+        public void Construct(
+            ICharacterTrackState trackState
+        )
+        {
+            _trackState = trackState;
+        }
+
         // Start is called before the first frame update
         new void Awake()
         {
             base.Awake();
             //追跡
-            _trackState = GetComponent<TrackState>();
             _trackStrategy = GetComponent<TrackStrategy>();
             //巡回
             _patrolStrategy = GetComponent<PatrolStrategy>();

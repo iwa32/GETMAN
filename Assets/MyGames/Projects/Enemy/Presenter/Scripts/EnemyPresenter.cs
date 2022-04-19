@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UniRx;
 using UniRx.Triggers;
 using Zenject;
-using StateView;
+using CharacterState;
 using Trigger;
 using EnemyView;
 using EnemyModel;
@@ -34,12 +34,6 @@ namespace EnemyPresenter
         #endregion
 
         #region//フィールド
-        //---状態---
-        protected ActionView _actionView;//エネミーのアクション用スクリプト
-        protected WaitState _waitState;//待機
-        protected RunState _runState;//走行
-        DownState _downState;//ダウン
-        DeadState _deadState;//デッド
         //---接触・衝突---
         ObservableTrigger _trigger;
         ObservableCollision _collision;
@@ -59,6 +53,12 @@ namespace EnemyPresenter
         protected IDirectionModel _directionModel;
         EnemyData _enemyData;
         GetableItem _dropItemPool;//生成済みのドロップアイテムの保管場所
+        //---状態---
+        protected StateActionView _actionView;//エネミーのアクション用スクリプト
+        protected ICharacterWaitState _waitState;//待機状態のスクリプト
+        protected ICharacterRunState _runState;//移動状態のスクリプト
+        ICharacterDownState _downState;//ダウン状態のスクリプト
+        ICharacterDeadState _deadState;//デッド状態のスクリプト
         #endregion
 
         #region//プロパティ
@@ -69,12 +69,8 @@ namespace EnemyPresenter
         // Start is called before the first frame update
         protected void Awake()
         {
-            //共通のstate
-            _actionView = GetComponent<ActionView>();
-            _waitState = GetComponent<WaitState>();
-            _runState = GetComponent<RunState>();
-            _downState = GetComponent<DownState>();
-            _deadState = GetComponent<DeadState>();
+            //ステートの実行
+            _actionView = GetComponent<StateActionView>();
             //接触、衝突
             _trigger = GetComponent<ObservableTrigger>();
             _collision = GetComponent<ObservableCollision>();
@@ -92,7 +88,11 @@ namespace EnemyPresenter
             IPowerModel power,
             EnemyModel.IScoreModel enemyScore,
             GameModel.IScoreModel gameScore,
-            IDirectionModel direction
+            IDirectionModel direction,
+            ICharacterWaitState waitState,
+            ICharacterRunState runState,
+            ICharacterDownState downState,
+            ICharacterDeadState deadState
         )
         {
             _hpModel = hp;
@@ -100,6 +100,11 @@ namespace EnemyPresenter
             _enemyScoreModel = enemyScore;
             _gameScoreModel = gameScore;
             _directionModel = direction;
+            //ステート
+            _waitState = waitState;
+            _runState = runState;
+            _downState = downState;
+            _deadState = deadState;
         }
 
         /// <summary>
