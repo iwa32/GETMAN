@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 5
   m_Viewport: {fileID: 365755493}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 925307893}
@@ -534,7 +534,7 @@ MonoBehaviour:
   _myRankingDataObject: {fileID: 1033151213}
   _rankingUserDataPrefab: {fileID: -5703873943158353859, guid: df55e393ebfd34fb8b1cc58d78ee5fea, type: 3}
   _content: {fileID: 1855397535}
-  _maxResultCount: 3
+  _maxResultCount: 10
   _maxLengthOfUserName: 8
   _alertMessage: {fileID: 1944640387}
   _registeringHighScoreValueText: {fileID: 326010592}
