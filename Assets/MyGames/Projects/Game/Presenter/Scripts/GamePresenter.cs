@@ -385,8 +385,7 @@ namespace GamePresenter
             {
                 _saveDataManager.SetIsInitialized(false);
             }
-            //次のステージへ行く場合のみ使用する
-            else if (_saveDataManager.IsLoaded)
+            else
             {
                 score = _saveDataManager.SaveData.CurrentScore;
                 stageNum = _saveDataManager.SaveData.StageNum;
