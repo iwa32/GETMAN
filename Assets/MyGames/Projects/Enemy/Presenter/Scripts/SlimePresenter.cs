@@ -58,6 +58,7 @@ namespace EnemyPresenter
         {
             //プレイヤーの追跡
             _trackStrategy.CanTrack
+                .TakeUntil(_isDead.Where(isDead => isDead))
                 .Subscribe(canTrack => CheckTracking(canTrack))
                 .AddTo(this);
         }

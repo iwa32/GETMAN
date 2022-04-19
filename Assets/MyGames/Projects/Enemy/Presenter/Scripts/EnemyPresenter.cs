@@ -51,7 +51,6 @@ namespace EnemyPresenter
         //---フラグ---
         bool _isDown;
         protected BoolReactiveProperty _isDead = new BoolReactiveProperty();
-        bool _isInitialized;
         //---モデル---
         protected IHpModel _hpModel;
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
@@ -119,7 +118,6 @@ namespace EnemyPresenter
             _navMeshAgent.isStopped = false;
             _navMeshAgent.speed = data.Speed;
             _isDead.Value = false;
-            _isInitialized = true;
             Bind();
         }
 
@@ -138,11 +136,13 @@ namespace EnemyPresenter
             //model to view
             //HPBarへの設定
             _hpModel.Hp
+                .TakeUntil(_isDead.Where(isDead => isDead))
                 .Subscribe(hp => _hpBar.SetHp(hp))
                 .AddTo(this);
 
             //trigger, collisionの取得
             _trigger.OnTriggerEnter()
+                .TakeUntil(_isDead.Where(isDead => isDead))
                 .Where(_ => _directionModel.CanGame()
                 && (_actionView.HasStateBy(StateType.DEAD) == false)
                 )
@@ -152,46 +152,35 @@ namespace EnemyPresenter
             //view to model
             //状態の監視
             _actionView.State
-                .Where(x => x != null)
+                .TakeUntil(_isDead.Where(isDead => isDead))
+                .Where(x => x != null
+                && _animator.GetInteger("States") != (int)StateType.DEAD)
                 .Subscribe(x => _actionView.ChangeState(x.State))
                 .AddTo(this);
 
             //アニメーションの監視
             //down
             _animTrigger.OnStateExitAsObservable()
+                .TakeUntil(_isDead.Where(isDead => isDead))
                 .Where(s => s.StateInfo.IsName("Down"))
                 .Subscribe(_ => DefaultState())
                 .AddTo(this);
 
             //dead
             _animTrigger.OnStateExitAsObservable()
+                .TakeUntil(_isDead.Where(isDead => isDead))
                 .Where(s => s.StateInfo.IsName("Dead"))
                 .Subscribe(_ =>
                 {
                     gameObject.SetActive(false);
-                    _isDead.Value = false;
+                    _isDead.Value = true;
+                    DefaultState();
                 }).AddTo(this);
-
-            //死亡しているのに生存している場合、2秒後に破棄します
-            _isDead
-                .Where(_isDead => _isDead == true)
-                .Delay(TimeSpan.FromSeconds(2))
-                .Subscribe(_ =>
-                {
-                    _isDead.Value = false;
-
-                    if (_isInitialized) return;
-                    gameObject.SetActive(false);
-                })
-                .AddTo(this);
-
 
             //FixedUpdate
             this.FixedUpdateAsObservable()
-                .Subscribe(_ =>
-                {
-                    _actionView.Action();
-                })
+                .TakeUntil(_isDead.Where(isDead => isDead))
+                .Subscribe(_ => _actionView.Action())
                 .AddTo(this);
         }
 
@@ -275,9 +264,7 @@ namespace EnemyPresenter
             _navMeshAgent.isStopped = true;
             _actionView.State.Value = _deadState;
             _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
-            _isDead.Value = true;
             JudgeDrop();
-            _isInitialized = false;
         }
 
         void JudgeDrop()
