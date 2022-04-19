@@ -56,7 +56,7 @@ namespace EnemyPresenter
         EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         protected IPowerModel _powerModel;
-        IDirectionModel _directionModel;
+        protected IDirectionModel _directionModel;
         EnemyData _enemyData;
         GetableItem _dropItemPool;//生成済みのドロップアイテムの保管場所
         #endregion
