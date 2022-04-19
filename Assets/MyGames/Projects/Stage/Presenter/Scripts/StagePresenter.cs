@@ -14,6 +14,7 @@ using SoundManager;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using static StageData;
+using StageDirectingCamera;
 
 namespace StagePresenter
 {
@@ -23,6 +24,10 @@ namespace StagePresenter
         [SerializeField]
         [Header("StageDataのScritableObjectを設定")]
         StageDataList _stageDataList;
+
+        [SerializeField]
+        [Header("ボス演出用カメラを設定")]
+        BossDirectingCamera _bossDirectingCamera;
         #endregion
 
         #region//フィールド
@@ -76,7 +81,7 @@ namespace StagePresenter
         public async UniTask InitializeAsync()
         {
             await SetUpStage();
-            await PlaceBossEnemyToStage();
+            //await PlaceBossEnemyToStage();
             Bind();
         }
 
@@ -208,7 +213,7 @@ namespace StagePresenter
         /// ボス敵を設定します
         /// </summary>
         /// <returns></returns>
-        async UniTask PlaceBossEnemyToStage()
+        public async UniTask PlaceBossEnemyToStage()
         {
             CancellationToken token = _cts.Token;
 
@@ -219,6 +224,8 @@ namespace StagePresenter
                 enemy.SetStageInformation(_currentStageView);
 
                 //演出
+                if (_bossDirectingCamera != null)
+                    await _bossDirectingCamera.Direct(enemy.transform);
             }
             
             await UniTask.Yield(token);
