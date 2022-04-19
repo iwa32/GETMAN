@@ -81,7 +81,6 @@ namespace StagePresenter
         public async UniTask InitializeAsync()
         {
             await SetUpStage();
-            //await PlaceBossEnemyToStage();
             Bind();
         }
 
