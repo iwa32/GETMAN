@@ -66,6 +66,7 @@ namespace PlayerPresenter
         #endregion
 
         #region//フィールド
+        Camera _mainCamera;
         StateActionView _actionView;//プレイヤーのアクション用スクリプト
         ObservableTrigger _trigger;//接触判定スクリプト
         ObservableCollision _collision;//衝突判定スクリプト
@@ -139,6 +140,7 @@ namespace PlayerPresenter
             _rigidBody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
+            _mainCamera = Camera.main;
         }
 
         /// <summary>
@@ -441,6 +443,8 @@ namespace PlayerPresenter
         public void ChangeJoy()
         {
             _actionView.State.Value = _joyState;
+            //カメラの方を向きます
+            transform.LookAt(-_mainCamera.transform.forward);
         }
 
         /// <summary>
