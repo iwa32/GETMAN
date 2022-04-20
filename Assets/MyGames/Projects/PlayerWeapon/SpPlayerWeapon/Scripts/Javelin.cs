@@ -41,7 +41,7 @@ namespace SpPlayerWeapon
             //弾を使いまわしているため、一度力をリセットします
             _rigidbody.velocity = Vector3.zero;
 
-            _rigidbody.AddForce(_playerTransform.forward * _force, ForceMode.Impulse);
+            _rigidbody.AddForce((_playerTransform.forward + _playerTransform.up) * _force, ForceMode.Impulse);
         }
     }
 }
