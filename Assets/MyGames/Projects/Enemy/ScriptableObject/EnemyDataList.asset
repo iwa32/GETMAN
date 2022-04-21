@@ -25,5 +25,5 @@ MonoBehaviour:
     _power: 1
     _speed: 0.6
     _score: 150
-    _itemDropRate: 50
+    _itemDropRate: 70
     _dropItem: {fileID: 3102541066799426123, guid: 0b6a2108ca21c4679b68e86d6ec67d14, type: 3}
