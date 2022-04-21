@@ -3,7 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using NormalPlayerWeapon;
+using SpWeaponDataList;
 using PlayerView;
+using SpPlayerWeaponInvoker;
+using Zenject;
 
 namespace PlayerActions {
     /// <summary>
@@ -23,11 +27,26 @@ namespace PlayerActions {
         [Header("プレイヤーの移動速度")]
         float _speed = 10.0f;
 
+        [SerializeField]
+        [Header("装備武器を設定")]
+        PlayerSword _playerWeapon;
+
+        [SerializeField]
+        [Header("SpWeaponのScritableObjectを設定")]
+        SpWeaponDataList.SpWeaponDataList _spWeaponDataList;
+
+        Camera _mainCamera;
         InputView _inputView;//プレイヤーの入力取得スクリプト
         Rigidbody _rigidBody;
+        SpWeaponData _spWeaponData;
         bool _isBlink;//点滅状態か
+        ISpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
 
+        public SpWeaponData SpWeaponData => _spWeaponData;
         public bool IsBlink => _isBlink;
+
+        [Inject]
+        DiContainer container;//動的生成したデータにDIできるようにする
 
         /// <summary>
         /// プレハブのインスタンス直後の処理
@@ -36,6 +55,46 @@ namespace PlayerActions {
         {
             _rigidBody = GetComponent<Rigidbody>();
             _inputView = GetComponent<InputView>();
+            _mainCamera = Camera.main;
+        }
+
+        /// <summary>
+        /// 通常攻撃を行います
+        /// </summary>
+        public void DoNormalAttack()
+        {
+            _playerWeapon.Use();
+        }
+
+        /// <summary>
+        /// SP攻撃を行います
+        /// </summary>
+        public void DoSpAttack()
+        {
+            if (_currentSpWeapon == null) return;
+
+            _currentSpWeapon.Invoke();
+        }
+
+        /// <summary>
+        /// SP武器を設定します
+        /// </summary>
+        /// <param name="type"></param>
+        public void SetSpWeapon(SpWeaponType type)
+        {
+            _spWeaponData = _spWeaponDataList.FindSpWeaponDataByType(type);
+
+            //武器が違う場合のみセットする
+            if (_currentSpWeapon?.Type != _spWeaponData.Type)
+            {
+                ISpPlayerWeaponInvoker invoker =
+                    container.InstantiatePrefab(_spWeaponData.SpWeaponInvoker)
+                    .GetComponent<ISpPlayerWeaponInvoker>();
+
+                _currentSpWeapon = invoker;
+                _currentSpWeapon.SetPlayerTransform(transform);
+                _currentSpWeapon.SetPower(_spWeaponData.Power);
+            }
         }
 
         /// <summary>
@@ -90,8 +149,6 @@ namespace PlayerActions {
         /// </summary>
         public void Run()
         {
-            //if (_directionModel.CanGame() == false) return;
-
             Vector2 input = _inputView.InputDirection.Value;
             Move(input);
             Rotation(input);
@@ -118,6 +175,14 @@ namespace PlayerActions {
         void Rotation(Vector2 input)
         {
             _rigidBody.rotation = Quaternion.LookRotation(new Vector3(input.x, 0, input.y));
+        }
+
+        /// <summary>
+        /// カメラの方を向きます
+        /// </summary>
+        public void LookAtCamera()
+        {
+            transform.LookAt(-_mainCamera.transform.forward);
         }
     }
 }

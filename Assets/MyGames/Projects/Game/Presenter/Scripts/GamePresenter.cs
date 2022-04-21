@@ -333,7 +333,6 @@ namespace GamePresenter
             _soundManager.PlaySE(GAME_OVER);
             _gameOverView.gameObject?.SetActive(true);
             SaveGameData(false).Forget();
-            _playerPresenter.ChangeDead();
         }
 
         /// <summary>
@@ -345,7 +344,6 @@ namespace GamePresenter
             _gameClearView.gameObject?.SetActive(true);
 
             SaveGameData(false).Forget();
-            _playerPresenter.ChangeJoy();
         }
 
         /// <summary>

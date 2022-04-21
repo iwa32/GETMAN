@@ -1,26 +1,21 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 using Cysharp.Threading.Tasks;
 using Zenject;
 using PlayerModel;
 using GameModel;
 using PlayerView;
-using CharacterState;
 using Trigger;
 using Collision;
 using StageObject;
-using SpWeaponDataList;
 using SoundManager;
 using static StateType;
 using static SEType;
 using GlobalInterface;
-using NormalPlayerWeapon;
-using SpPlayerWeaponInvoker;
 using PlayerActions;
+using PlayerStates;
 
 namespace PlayerPresenter
 {
@@ -42,44 +37,20 @@ namespace PlayerPresenter
         [SerializeField]
         [Header("SP武器表示用のUIを設定")]
         SpWeaponView _spWeaponView;
-
-        [SerializeField]
-        [Header("装備武器を設定")]
-        PlayerSword _playerWeapon;
-
-        #region//インスペクターから設定
-        [SerializeField]
-        [Header("SpWeaponのScritableObjectを設定")]
-        SpWeaponDataList.SpWeaponDataList _spWeaponDataList;
-        #endregion
         #endregion
 
         #region//フィールド
-        Camera _mainCamera;
-        StateActionView _actionView;//プレイヤーのアクション用スクリプト
         ObservableTrigger _trigger;//接触判定スクリプト
         ObservableCollision _collision;//衝突判定スクリプト
         InputView _inputView;//プレイヤーの入力取得スクリプト
         PlayerActions.PlayerActions _playerActions;//プレイヤーの実行処理スクリプト
-        Animator _animator;
-        ObservableStateMachineTrigger _animTrigger;
-        ISpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
+        PlayerStates.PlayerStates _playerStates;//プレイヤーの状態管理スクリプト
         IDirectionModel _directionModel;
         IWeaponModel _weaponModel;
         IHpModel _hpModel;
         IScoreModel _scoreModel;
         IPointModel _pointModel;
         ISoundManager _soundManager;
-        //ステート
-        ICharacterWaitState _waitState;//待機状態のスクリプト
-        ICharacterRunState _runState;//移動状態のスクリプト
-        ICharacterDownState _downState;//ダウン状態のスクリプト
-        ICharacterDeadState _deadState;//デッド状態のスクリプト
-        ICharacterAttackState _attackState;//攻撃状態のスクリプト
-        ICharacterJoyState _joyState;//喜び状態のスクリプト
-
-        [Inject]
-        DiContainer container;//動的生成したデータにDIできるようにする
         #endregion
 
         #region//プロパティ
@@ -92,13 +63,7 @@ namespace PlayerPresenter
             IScoreModel score,
             IPointModel point,
             IDirectionModel direction,
-            ISoundManager soundManager,
-            ICharacterWaitState waitState,
-            ICharacterRunState runState,
-            ICharacterDownState downState,
-            ICharacterDeadState deadState,
-            ICharacterAttackState attackState,
-            ICharacterJoyState joyState
+            ISoundManager soundManager
         )
         {
             _weaponModel = weapon;
@@ -107,13 +72,6 @@ namespace PlayerPresenter
             _pointModel = point;
             _directionModel = direction;
             _soundManager = soundManager;
-            //ステート
-            _waitState = waitState;
-            _runState = runState;
-            _downState = downState;
-            _deadState = deadState;
-            _attackState = attackState;
-            _joyState = joyState;
         }
 
         /// <summary>
@@ -121,14 +79,12 @@ namespace PlayerPresenter
         /// </summary>
         public void ManualAwake()
         {
-            _actionView = GetComponent<StateActionView>();
             _trigger = GetComponent<ObservableTrigger>();
             _collision = GetComponent<ObservableCollision>();
+            _playerStates = GetComponent<PlayerStates.PlayerStates>();
             _playerActions = GetComponent<PlayerActions.PlayerActions>();
             _inputView = GetComponent<InputView>();
-            _animator = GetComponent<Animator>();
-            _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
-            _mainCamera = Camera.main;
+            _playerStates.ManualAwake();
             _playerActions.ManualAwake();
         }
 
@@ -138,7 +94,7 @@ namespace PlayerPresenter
         public void Initialize()
         {
             InitializeModel();
-            InitializeView();
+            _playerStates.Initialize();
             Bind();
         }
 
@@ -152,20 +108,11 @@ namespace PlayerPresenter
         }
 
         /// <summary>
-        /// ビューの初期化を行います
-        /// </summary>
-        void InitializeView()
-        {
-            _runState.DelAction = _playerActions.Run;
-            _actionView.State.Value = _waitState;
-        }
-
-        /// <summary>
         /// リセットします
         /// </summary>
         public void ResetData()
         {
-            _actionView.State.Value = _waitState;
+            _playerStates.ResetState();
             InitializeModel();
         }
 
@@ -188,17 +135,10 @@ namespace PlayerPresenter
                 .Subscribe(collision => CheckCollision(collision))
                 .AddTo(this);
 
-            //viewの監視
-            //状態の監視
-            _actionView.State
-                .Where(x => x != null)
-                .Subscribe(x => _actionView.ChangeState(x.State))
-                .AddTo(this);
-
             //入力の監視
             _inputView.InputDirection
                 .Where(_ => _directionModel.CanGame())
-                .Subscribe(input => ChangeStateByInput(input))
+                .Subscribe(input => _playerStates.ChangeStateByInput(input))
                 .AddTo(this);
 
             //攻撃入力
@@ -206,78 +146,18 @@ namespace PlayerPresenter
             _inputView.IsFired
                 .Where(x => (x == true)
                 && _directionModel.CanGame()
-                && IsControllableState())
-                .Subscribe(_ => ChangeAttack())
+                && _playerStates.IsControllableState())
+                .Subscribe(_ => _playerStates.ChangeAttack())
                 .AddTo(this);
 
             //SP武器での攻撃
             _inputView.IsSpAttack
                 .Where(x => (x == true)
                 && _directionModel.CanGame()
-                && IsControllableState()
-                && _currentSpWeapon != null
+                && _playerStates.IsControllableState()
                 )
-                .Subscribe(_ => _currentSpWeapon.Invoke())
+                .Subscribe(_ => _playerActions.DoSpAttack())
                 .AddTo(this);
-
-            //アニメーションの監視
-            //攻撃
-            _animTrigger.OnStateEnterAsObservable()
-                .Where(s => s.StateInfo.IsName("Attack")
-                || s.StateInfo.IsName("Attack2")
-                || s.StateInfo.IsName("Attack3")
-                || s.StateInfo.IsName("Attack4")
-                || s.StateInfo.IsName("Attack5")
-                )
-                .Subscribe(_ => _playerWeapon.Use());
-
-            _animTrigger.OnStateExitAsObservable()
-                .Where(s => s.StateInfo.IsName("Attack")
-                || s.StateInfo.IsName("Attack2")
-                || s.StateInfo.IsName("Attack3")
-                || s.StateInfo.IsName("Attack4")
-                || s.StateInfo.IsName("Attack5")
-                )
-                .Subscribe(_ =>
-                {
-                    _animator.ResetTrigger("ContinuousAttack");
-
-                    if (_actionView.HasStateBy(ATTACK))
-                        _actionView.State.Value = _waitState;
-                });
-
-            //down
-            _animTrigger.OnStateExitAsObservable()
-                .Where(s => s.StateInfo.IsName("Down"))
-                .Subscribe(_ =>
-                {
-                    _actionView.State.Value = _waitState;
-                })
-                .AddTo(this);
-        }
-
-        /// <summary>
-        /// 攻撃状態に切り替えます
-        /// </summary>
-        void ChangeAttack()
-        {
-            //連続攻撃
-            if (_actionView.HasStateBy(ATTACK))
-            {
-                _animator.SetTrigger("ContinuousAttack");
-            }
-            _actionView.State.Value = _attackState;
-
-        }
-
-        /// <summary>
-        /// 操作可能な状態か
-        /// </summary>
-        bool IsControllableState()
-        {
-            return (_actionView.HasStateBy(RUN)
-                || _actionView.HasStateBy(WAIT)
-                || _actionView.HasStateBy(ATTACK));
         }
 
         /// <summary>
@@ -285,7 +165,7 @@ namespace PlayerPresenter
         /// </summary>
         public void ManualFixedUpdate()
         {
-            _actionView.Action();
+            _playerStates.ManualFixedUpdate();
         }
 
         /// <summary>
@@ -355,26 +235,11 @@ namespace PlayerPresenter
             //Sp武器ならスコアを獲得し、自身のアイテム欄にセット
             if (collider.TryGetComponent(out ISpWeaponItem spWeaponItem) == false) return;
 
-            SpWeaponData spWeaponData
-                = _spWeaponDataList.FindSpWeaponDataByType(spWeaponItem.Type);
+            _playerActions.SetSpWeapon(spWeaponItem.Type);
 
-            if (spWeaponData == null) return;
+            if (_playerActions.SpWeaponData == null) return;
 
-            //武器が違う場合のみセットする
-            if (_currentSpWeapon?.Type != spWeaponData.Type)
-            {
-                _spWeaponView.SetIcon(spWeaponData.UIIcon);
-
-                ISpPlayerWeaponInvoker invoker =
-                    container.InstantiatePrefab(spWeaponData.SpWeaponInvoker)
-                    .GetComponent<ISpPlayerWeaponInvoker>();
-
-                _currentSpWeapon = invoker;
-                _currentSpWeapon.SetPlayerTransform(transform);
-                _currentSpWeapon.SetPower(spWeaponData.Power);
-            }
-
-            //SE
+            _spWeaponView.SetIcon(_playerActions.SpWeaponData.UIIcon);
             _soundManager.PlaySE(SP_WEAPON_ITEM_GET);
         }
 
@@ -384,12 +249,12 @@ namespace PlayerPresenter
         void ReceiveDamageBy(Collider collider)
         {
             if (_playerActions.IsBlink) return;
-            if (_actionView.HasStateBy(ATTACK)) return;//攻撃中はダメージを受けない
+            if (_playerStates.HasStateBy(ATTACK)) return;//攻撃中はダメージを受けない
             if (collider.TryGetComponent(out IPlayerAttacker attacker))
             {
                 _soundManager.PlaySE(DAMAGED);
                 _hpModel.ReduceHp(attacker.Power);
-                ChangeStateByDamage();
+                _playerStates.ChangeStateByDamage(_hpModel.Hp.Value);
                 _playerActions.KnockBack(collider?.gameObject);
             }
         }
@@ -404,47 +269,6 @@ namespace PlayerPresenter
             if (_hpModel.Hp.Value >= _initialHp) return;
             _hpModel.AddHp(hp);
             _soundManager.PlaySE(HP_UP);
-        }
-
-        /// <summary>
-        /// 入力の有無でプレイヤーの状態を切り替えます
-        /// </summary>
-        /// <param name="input"></param>
-        void ChangeStateByInput(Vector2 input)
-        {
-            if (input.magnitude != 0)
-                _actionView.State.Value = _runState;
-            else
-                _actionView.State.Value = _waitState;
-        }
-
-        /// <summary>
-        /// ダメージによってプレイヤーの状態を切り替えます
-        /// </summary>
-        void ChangeStateByDamage()
-        {
-            if (_hpModel.Hp.Value > 0)
-                ChangeDown();
-            else ChangeDead();
-        }
-
-        void ChangeDown()
-        {
-            _actionView.State.Value = _downState;
-            _playerActions.PlayerBlinks().Forget();//点滅処理
-        }
-
-        public void ChangeDead()
-        {
-            _actionView.State.Value = _deadState;
-            _directionModel.SetIsGameOver(true);
-        }
-
-        public void ChangeJoy()
-        {
-            _actionView.State.Value = _joyState;
-            //カメラの方を向きます
-            transform.LookAt(-_mainCamera.transform.forward);
         }
     }
 }

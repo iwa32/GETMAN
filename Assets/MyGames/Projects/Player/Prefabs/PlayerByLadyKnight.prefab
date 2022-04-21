@@ -660,6 +660,7 @@ GameObject:
   - component: {fileID: 7820991326423991874}
   - component: {fileID: 1290149542}
   - component: {fileID: 8841495335844677943}
+  - component: {fileID: 8458951973177254138}
   m_Layer: 8
   m_Name: PlayerByLadyKnight
   m_TagString: Player
@@ -751,13 +752,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialHp: 12
   _initialPower: 0
-  _speed: 10
-  _blinkTime: 3
-  _knockBackPower: 10
   _hpView: {fileID: 0}
   _spWeaponView: {fileID: 0}
-  _playerWeapon: {fileID: 3840662002263414237}
-  _spWeaponDataList: {fileID: 11400000, guid: 0e55f1ff58a6e4aed85bad08b28bb4ee, type: 2}
 --- !u!114 &8902729658035245750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,6 +956,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a84ef46d3ec32499fb75fcae23eeadb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blinkTime: 3
+  _knockBackPower: 10
+  _speed: 10
+  _playerWeapon: {fileID: 3840662002263414237}
+  _spWeaponDataList: {fileID: 11400000, guid: 0e55f1ff58a6e4aed85bad08b28bb4ee, type: 2}
+--- !u!114 &8458951973177254138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4354061567670150377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70bf988e8b3724b479eb197918ec4f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4354061567670150379
