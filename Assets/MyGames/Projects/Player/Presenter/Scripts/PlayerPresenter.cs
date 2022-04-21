@@ -237,6 +237,8 @@ namespace PlayerPresenter
                 .Where(s => s.StateInfo.IsName("Attack")
                 || s.StateInfo.IsName("Attack2")
                 || s.StateInfo.IsName("Attack3")
+                || s.StateInfo.IsName("Attack4")
+                || s.StateInfo.IsName("Attack5")
                 )
                 .Subscribe(_ => _playerWeapon.Use());
 
@@ -244,6 +246,8 @@ namespace PlayerPresenter
                 .Where(s => s.StateInfo.IsName("Attack")
                 || s.StateInfo.IsName("Attack2")
                 || s.StateInfo.IsName("Attack3")
+                || s.StateInfo.IsName("Attack4")
+                || s.StateInfo.IsName("Attack5")
                 )
                 .Subscribe(_ =>
                 {
