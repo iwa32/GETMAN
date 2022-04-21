@@ -750,7 +750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37997cc64362f4d0c8a33c7ff9c9046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialHp: 12
+  _initialHp: 3
   _initialPower: 0
   _hpView: {fileID: 0}
   _spWeaponView: {fileID: 0}
