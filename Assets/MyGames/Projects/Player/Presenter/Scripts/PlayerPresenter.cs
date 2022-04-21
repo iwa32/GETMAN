@@ -232,6 +232,14 @@ namespace PlayerPresenter
                 .AddTo(this);
 
             //アニメーションの監視
+            //攻撃
+            _animTrigger.OnStateEnterAsObservable()
+                .Where(s => s.StateInfo.IsName("Attack")
+                || s.StateInfo.IsName("Attack2")
+                || s.StateInfo.IsName("Attack3")
+                )
+                .Subscribe(_ => _playerWeapon.Use());
+
             _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName("Attack")
                 || s.StateInfo.IsName("Attack2")
@@ -245,6 +253,7 @@ namespace PlayerPresenter
                         _actionView.State.Value = _waitState;
                 });
 
+            //down
             _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName("Down"))
                 .Subscribe(_ =>
@@ -259,8 +268,6 @@ namespace PlayerPresenter
         /// </summary>
         void ChangeAttack()
         {
-            _playerWeapon.Use();
-
             //連続攻撃
             if (_actionView.HasStateBy(ATTACK))
             {
