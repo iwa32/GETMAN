@@ -62,7 +62,7 @@ public class PointItemPool : IPointItemPool
             = container.InstantiatePrefab(
                         pointItemPrefab,
                         Vector3.zero,
-                        Quaternion.identity,
+                        pointItemPrefab.transform.rotation,
                         null
             )
             .GetComponent<PointItem>();
