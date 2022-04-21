@@ -20,6 +20,7 @@ using static SEType;
 using GlobalInterface;
 using NormalPlayerWeapon;
 using SpPlayerWeaponInvoker;
+using PlayerActions;
 
 namespace PlayerPresenter
 {
@@ -33,18 +34,6 @@ namespace PlayerPresenter
         [SerializeField]
         [Header("プレイヤーの武器の攻撃力を設定")]
         int _initialPower = 0;
-
-        [SerializeField]
-        [Header("プレイヤーの移動速度")]
-        float _speed = 10.0f;
-
-        [SerializeField]
-        [Header("プレイヤーの点滅時間")]
-        float _blinkTime = 3.0f;
-
-        [SerializeField]
-        [Header("ノックバック時の飛ぶ威力")]
-        float _knockBackPower = 10.0f;
 
         [SerializeField]
         [Header("HPのUIを設定")]
@@ -71,7 +60,7 @@ namespace PlayerPresenter
         ObservableTrigger _trigger;//接触判定スクリプト
         ObservableCollision _collision;//衝突判定スクリプト
         InputView _inputView;//プレイヤーの入力取得スクリプト
-        Rigidbody _rigidBody;
+        PlayerActions.PlayerActions _playerActions;//プレイヤーの実行処理スクリプト
         Animator _animator;
         ObservableStateMachineTrigger _animTrigger;
         ISpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
@@ -88,7 +77,6 @@ namespace PlayerPresenter
         ICharacterDeadState _deadState;//デッド状態のスクリプト
         ICharacterAttackState _attackState;//攻撃状態のスクリプト
         ICharacterJoyState _joyState;//喜び状態のスクリプト
-        bool _isBlink;//点滅状態か
 
         [Inject]
         DiContainer container;//動的生成したデータにDIできるようにする
@@ -136,11 +124,12 @@ namespace PlayerPresenter
             _actionView = GetComponent<StateActionView>();
             _trigger = GetComponent<ObservableTrigger>();
             _collision = GetComponent<ObservableCollision>();
+            _playerActions = GetComponent<PlayerActions.PlayerActions>();
             _inputView = GetComponent<InputView>();
-            _rigidBody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
             _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
             _mainCamera = Camera.main;
+            _playerActions.ManualAwake();
         }
 
         /// <summary>
@@ -167,7 +156,7 @@ namespace PlayerPresenter
         /// </summary>
         void InitializeView()
         {
-            _runState.DelAction = Run;
+            _runState.DelAction = _playerActions.Run;
             _actionView.State.Value = _waitState;
         }
 
@@ -394,14 +383,14 @@ namespace PlayerPresenter
         /// </summary>
         void ReceiveDamageBy(Collider collider)
         {
-            if (_isBlink) return;
+            if (_playerActions.IsBlink) return;
             if (_actionView.HasStateBy(ATTACK)) return;//攻撃中はダメージを受けない
             if (collider.TryGetComponent(out IPlayerAttacker attacker))
             {
                 _soundManager.PlaySE(DAMAGED);
                 _hpModel.ReduceHp(attacker.Power);
                 ChangeStateByDamage();
-                KnockBack(collider?.gameObject);
+                _playerActions.KnockBack(collider?.gameObject);
             }
         }
 
@@ -442,7 +431,7 @@ namespace PlayerPresenter
         void ChangeDown()
         {
             _actionView.State.Value = _downState;
-            PlayerBlinks().Forget();//点滅処理
+            _playerActions.PlayerBlinks().Forget();//点滅処理
         }
 
         public void ChangeDead()
@@ -456,88 +445,6 @@ namespace PlayerPresenter
             _actionView.State.Value = _joyState;
             //カメラの方を向きます
             transform.LookAt(-_mainCamera.transform.forward);
-        }
-
-        /// <summary>
-        /// ノックバックします
-        /// </summary>
-        void KnockBack(GameObject target)
-        {
-            //ノックバック方向を取得
-            Vector3 knockBackDirection = (transform.position - target.transform.position).normalized;
-
-            //速度ベクトルをリセット
-            _rigidBody.velocity = Vector3.zero;
-            knockBackDirection.y = 0;//Y方向には飛ばないようにする
-            _rigidBody.AddForce(knockBackDirection * _knockBackPower, ForceMode.VelocityChange);
-        }
-
-        /// <summary>
-        /// プレイヤーの点滅
-        /// </summary>
-        async UniTask PlayerBlinks()
-        {
-            bool isActive = false;
-            float elapsedBlinkTime = 0.0f;
-
-            _isBlink = true;
-            while (elapsedBlinkTime <= _blinkTime)
-            {
-                SetActiveToAllChild(isActive);
-                isActive = !isActive;
-                await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                elapsedBlinkTime += 0.2f;
-            }
-
-            SetActiveToAllChild(true);
-            _isBlink = false;
-        }
-
-        /// <summary>
-        /// 子要素を全てアクティブ・非アクティブにする
-        /// </summary>
-        /// <param name="isActive"></param>
-        void SetActiveToAllChild(bool isActive)
-        {
-            foreach (Transform child in gameObject.transform)
-            {
-                child.gameObject.SetActive(isActive);
-            }
-        }
-
-        /// <summary>
-        /// 走ります
-        /// </summary>
-        void Run()
-        {
-            if (_directionModel.CanGame() == false) return;
-
-            Vector2 input = _inputView.InputDirection.Value;
-            Move(input);
-            Rotation(input);
-        }
-
-        /// <summary>
-        /// 移動します
-        /// </summary>
-        /// <param name="input"></param>
-        void Move(Vector2 input)
-        {
-            //入力があった場合
-            if (input != Vector2.zero)
-            {
-                Vector3 movePos = new Vector3(input.x, 0, input.y);
-                _rigidBody.velocity = movePos * _speed;
-            }
-        }
-
-        /// <summary>
-        /// 回転します
-        /// </summary>
-        /// <param name="input"></param>
-        void Rotation(Vector2 input)
-        {
-            _rigidBody.rotation = Quaternion.LookRotation(new Vector3(input.x, 0, input.y));
         }
     }
 }
