@@ -292,10 +292,11 @@ namespace EnemyPresenter
             //プールにない場合、生成する
             if (_dropItemPool == null)
             {
+                //真上に生成
                 GetableItem dropItem
                 = Instantiate(
                     _enemyData.DropItem,
-                    transform.position,
+                    transform.position + Vector3.up,
                     _enemyData.DropItem.transform.rotation
                     );
 
