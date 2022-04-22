@@ -111,7 +111,6 @@ namespace PlayerStates
             //アニメーションの監視
             //攻撃
             _animTrigger.OnStateEnterAsObservable()
-                .Where(s => _actionView.HasStateBy(ATTACK))
                 .Where(s => IsAttackingState(s.StateInfo))
                 .Subscribe(_ => _playerActions.DoNormalAttack());
 
