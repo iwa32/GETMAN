@@ -70,9 +70,17 @@ namespace PlayerActions {
         /// <summary>
         /// 通常攻撃を行います
         /// </summary>
-        public void DoNormalAttack()
+        public void StartNormalAttack()
         {
-            _playerWeapon.Use();
+            _playerWeapon.StartMotion();
+        }
+
+        /// <summary>
+        /// 通常攻撃をやめます
+        /// </summary>
+        public void EndNormalAttack()
+        {
+            _playerWeapon.EndMotion();
         }
 
         /// <summary>

@@ -75,26 +75,14 @@ namespace NormalPlayerWeapon
             _soundManager.PlaySE(SLASHED);
         }
 
-        public void Use()
-        {
-            Slash().Forget();
-        }
-
-        async UniTask Slash()
-        {
-            StartMotion();
-            await UniTask.Delay(TimeSpan.FromMilliseconds(_slashDuration));
-            EndMotion();
-        }
-
-        void StartMotion()
+        public void StartMotion()
         {
             _soundManager.PlaySE(SWORD_SLASH);
             _collider.enabled = true;
             _trailRenderer.emitting = true;
         }
 
-        void EndMotion()
+        public void EndMotion()
         {
             _collider.enabled = false;
             _trailRenderer.emitting = false;

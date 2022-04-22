@@ -8,8 +8,13 @@ namespace NormalPlayerWeapon
     public interface IPlayerWeapon: IEnemyAttacker
     {
         /// <summary>
-        /// 武器を使用する
+        /// 武器の使用を開始する
         /// </summary>
-        void Use();
+        void StartMotion();
+
+        /// <summary>
+        /// 武器の使用を止める
+        /// </summary>
+        void EndMotion();
     }
 }

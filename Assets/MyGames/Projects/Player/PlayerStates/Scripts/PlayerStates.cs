@@ -112,13 +112,14 @@ namespace PlayerStates
             //攻撃
             _animTrigger.OnStateEnterAsObservable()
                 .Where(s => IsAttackingState(s.StateInfo))
-                .Subscribe(_ => _playerActions.DoNormalAttack());
+                .Subscribe(_ => _playerActions.StartNormalAttack());
 
             _animTrigger.OnStateExitAsObservable()
                 .Where(s => IsAttackingState(s.StateInfo))
                 .Subscribe(_ =>
                 {
                     _animator.ResetTrigger(continuousAttackStateName);
+                    _playerActions.EndNormalAttack();
 
                     if (_actionView.HasStateBy(ATTACK))
                         _actionView.State.Value = _waitState;
