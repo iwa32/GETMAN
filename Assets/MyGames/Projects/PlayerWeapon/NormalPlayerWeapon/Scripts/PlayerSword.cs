@@ -72,7 +72,7 @@ namespace NormalPlayerWeapon
 
         void Hit()
         {
-            _soundManager.PlaySE(SWORD_HITTED);
+            _soundManager.PlaySE(SLASHED);
         }
 
         public void Use()

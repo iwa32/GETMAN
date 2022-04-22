@@ -35,7 +35,7 @@ namespace SpPlayerWeapon
         {
             if(collider.CompareTag("Enemy"))
             {
-                _soundManager.PlaySE(SEType.SWORD_HITTED);
+                _soundManager.PlaySE(SEType.SLASHED);
             }
             
             gameObject.SetActive(false);

@@ -15,5 +15,6 @@ public enum SEType
     GAME_START,
     SCENE_MOVEMENT,
     SP_WEAPON_ITEM_GET,
-    SWORD_HITTED
+    SLASHED,
+    THROW
 }
