@@ -10,7 +10,7 @@ namespace SpPlayerWeapon
     {
         [SerializeField]
         [Header("射出する力を設定")]
-        float _force = 5;
+        float _force = 10;
 
         SpWeaponType _type = SpWeaponType.JAVELIN;
         ObservableTrigger _trigger;
@@ -48,7 +48,6 @@ namespace SpPlayerWeapon
         {
             //弾を使いまわしているため、一度力をリセットします
             _rigidbody.velocity = Vector3.zero;
-
             _rigidbody.AddForce((_playerTransform.forward + _playerTransform.up) * _force, ForceMode.Impulse);
         }
     }

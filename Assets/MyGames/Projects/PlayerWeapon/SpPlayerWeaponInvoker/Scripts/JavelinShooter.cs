@@ -42,8 +42,8 @@ namespace SpPlayerWeaponInvoker
             //Yの回転軸をプレイヤーに合わせる
             _prefabEulerAngles.y = _playerTransform.rotation.eulerAngles.y;
 
-            //射出位置を設定
-            Vector3 shootPos = _playerTransform.position;
+            //射出位置を設定　プレイヤーの前方へ
+            Vector3 shootPos = _playerTransform.position + _playerTransform.forward;
             shootPos.y = _shootingHeight;
 
             //ジャベリンを取得
