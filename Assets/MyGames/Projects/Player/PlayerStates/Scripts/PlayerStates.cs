@@ -17,6 +17,16 @@ namespace PlayerStates
     /// </summary>
     public class PlayerStates : MonoBehaviour
     {
+        //攻撃のアニメーションのステート名
+        readonly string[] attackAnimStateNames
+            = { "Attack1", "Attack2", "Attack3", "Attack4", "Attack5" };
+
+        readonly string downAnimeStateName = "Down";
+        //連続攻撃
+        readonly string continuousAttackStateName = "ContinuousAttack";
+
+
+
         PlayerActions.PlayerActions _playerActions;//プレイヤーの実行処理スクリプト
         StateActionView _actionView;//プレイヤーのアクション用スクリプト
         Animator _animator;
@@ -101,24 +111,15 @@ namespace PlayerStates
             //アニメーションの監視
             //攻撃
             _animTrigger.OnStateEnterAsObservable()
-                .Where(s => s.StateInfo.IsName("Attack")
-                || s.StateInfo.IsName("Attack2")
-                || s.StateInfo.IsName("Attack3")
-                || s.StateInfo.IsName("Attack4")
-                || s.StateInfo.IsName("Attack5")
-                )
+                .Where(s => _actionView.HasStateBy(ATTACK))
+                .Where(s => IsAttackingState(s.StateInfo))
                 .Subscribe(_ => _playerActions.DoNormalAttack());
 
             _animTrigger.OnStateExitAsObservable()
-                .Where(s => s.StateInfo.IsName("Attack")
-                || s.StateInfo.IsName("Attack2")
-                || s.StateInfo.IsName("Attack3")
-                || s.StateInfo.IsName("Attack4")
-                || s.StateInfo.IsName("Attack5")
-                )
+                .Where(s => IsAttackingState(s.StateInfo))
                 .Subscribe(_ =>
                 {
-                    _animator.ResetTrigger("ContinuousAttack");
+                    _animator.ResetTrigger(continuousAttackStateName);
 
                     if (_actionView.HasStateBy(ATTACK))
                         _actionView.State.Value = _waitState;
@@ -126,12 +127,26 @@ namespace PlayerStates
 
             //down
             _animTrigger.OnStateExitAsObservable()
-                .Where(s => s.StateInfo.IsName("Down"))
+                .Where(s => s.StateInfo.IsName(downAnimeStateName))
                 .Subscribe(_ =>
                 {
                     _actionView.State.Value = _waitState;
                 })
                 .AddTo(this);
+        }
+
+        /// <summary>
+        /// 攻撃状態か
+        /// </summary>
+        /// <returns></returns>
+        bool IsAttackingState(AnimatorStateInfo stateInfo)
+        {
+            foreach (string attackStateName in attackAnimStateNames)
+            {
+                if (stateInfo.IsName(attackStateName)) return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -169,7 +184,7 @@ namespace PlayerStates
             //連続攻撃
             if (_actionView.HasStateBy(ATTACK))
             {
-                _animator.SetTrigger("ContinuousAttack");
+                _animator.SetTrigger(continuousAttackStateName);
             }
             _actionView.State.Value = _attackState;
 
