@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SpPlayerWeapon;
 using UnityEngine;
 using SPW = SpPlayerWeapon.SpPlayerWeapon;
+using Zenject;
 
 namespace ObjectPool
 {
@@ -18,6 +19,9 @@ namespace ObjectPool
 
         public List<SPW> SpWeaponList => _spWeaponList;
 
+        [Inject]
+        DiContainer container;//動的生成したデータにDIできるようにする
+
         /// <summary>
         /// オブジェクトプールを作成する
         /// </summary>
@@ -28,7 +32,7 @@ namespace ObjectPool
             for (int i = 0; i < maxObjectCount; i++)
             {
                 //プレハブを生成
-                SPW spWeapon = GameObject.Instantiate(prefab);
+                SPW spWeapon = container.InstantiatePrefab(prefab).GetComponent<SPW>();
                 _spWeaponList.Add(spWeapon);
                 spWeapon.gameObject?.SetActive(false);
             }

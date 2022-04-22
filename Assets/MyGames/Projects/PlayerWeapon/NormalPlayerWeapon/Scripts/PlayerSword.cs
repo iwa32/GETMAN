@@ -6,6 +6,8 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using SoundManager;
 using static SEType;
+using Trigger;
+using UniRx;
 
 namespace NormalPlayerWeapon
 {
@@ -25,6 +27,8 @@ namespace NormalPlayerWeapon
         int _slashDuration = 1000;
 
         Collider _collider;
+        //---接触・衝突---
+        ObservableTrigger _trigger;
         ISoundManager _soundManager;
 
         public int Power => _power;
@@ -32,6 +36,8 @@ namespace NormalPlayerWeapon
         void Awake()
         {
             _collider = GetComponent<Collider>();
+            //接触、衝突
+            _trigger = GetComponent<ObservableTrigger>();
         }
 
         [Inject]
@@ -43,13 +49,30 @@ namespace NormalPlayerWeapon
         void Start()
         {
             Initialize();
+            Bind();
         }
 
         void Initialize()
         {
             //武器判定をオフに
-            UnEnableCollider();
+            _collider.enabled = false;
             _trailRenderer.emitting = false;
+        }
+
+        void Bind()
+        {
+            //trigger, collisionの取得
+            _trigger.OnTriggerEnter()
+                .Where(colider => colider.CompareTag("Enemy"))
+                .Subscribe(collider => {
+                    Hit();
+                })
+                .AddTo(this);
+        }
+
+        void Hit()
+        {
+            _soundManager.PlaySE(SWORD_HITTED);
         }
 
         public void Use()
@@ -67,30 +90,14 @@ namespace NormalPlayerWeapon
         void StartMotion()
         {
             _soundManager.PlaySE(SWORD_SLASH);
-            EnableCollider();
+            _collider.enabled = true;
             _trailRenderer.emitting = true;
         }
 
         void EndMotion()
         {
-            UnEnableCollider();
-            _trailRenderer.emitting = false;
-        }
-
-        /// <summary>
-        /// コライダーを有効にする
-        /// </summary>
-        void EnableCollider()
-        {
-            _collider.enabled = true;
-        }
-
-        /// <summary>
-        /// コライダーを無効にする
-        /// </summary>
-        void UnEnableCollider()
-        {
             _collider.enabled = false;
+            _trailRenderer.emitting = false;
         }
 
         /// <summary>

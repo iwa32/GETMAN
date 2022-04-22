@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundManager;
+using Zenject;
 
 namespace SpPlayerWeapon
 {
@@ -9,10 +11,19 @@ namespace SpPlayerWeapon
         protected int _power;
         protected Rigidbody _rigidbody;
         protected Transform _playerTransform;
+        protected ISoundManager _soundManager;
 
         public int Power => _power;
         public abstract SpWeaponType Type { get; }
 
+
+        [Inject]
+        public void Construct(
+            ISoundManager soundManager
+        )
+        {
+            _soundManager = soundManager;
+        }
 
         public void SetPlayerTransform(Transform playerTransform)
         {

@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 2077223636674469886}
   - component: {fileID: 2077223636674469887}
   - component: {fileID: 2077223636674469884}
+  - component: {fileID: 7186171919788436502}
   m_Layer: 10
   m_Name: LadyKnight'sSword
   m_TagString: Untagged
@@ -311,6 +312,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.20957446, y: 1.4485378, z: 0.064505674}
   m_Center: {x: -0.010041952, y: -0.85241085, z: 0.003663619}
+--- !u!114 &7186171919788436502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077223636674469882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b727d7ded6a4049a9832362d3dcc21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4327879227484617220
 GameObject:
   m_ObjectHideFlags: 0

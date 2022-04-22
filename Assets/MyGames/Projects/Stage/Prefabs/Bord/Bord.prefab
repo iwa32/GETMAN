@@ -962,7 +962,7 @@ GameObject:
   - component: {fileID: 6785313356371178768}
   m_Layer: 12
   m_Name: Bord
-  m_TagString: Bord
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8

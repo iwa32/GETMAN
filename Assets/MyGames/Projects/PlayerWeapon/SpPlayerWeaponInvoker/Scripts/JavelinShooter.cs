@@ -54,6 +54,7 @@ namespace SpPlayerWeaponInvoker
 
             javelin.SetPower(_power);
             javelin.SetPlayerTransform(_playerTransform);
+            _soundManager.PlaySE(SEType.SWORD_SLASH);
             javelin.Use();
         }
     }

@@ -27,10 +27,18 @@ namespace SpPlayerWeapon
         void Bind()
         {
             _trigger.OnTriggerEnter()
-                .Subscribe(collider => {
-                    gameObject.SetActive(false);
-                })
+                .Subscribe(collider => Hit(collider))
                 .AddTo(this);
+        }
+
+        void Hit(Collider collider)
+        {
+            if(collider.CompareTag("Enemy"))
+            {
+                _soundManager.PlaySE(SEType.SWORD_HITTED);
+            }
+            
+            gameObject.SetActive(false);
         }
 
         /// <summary>
