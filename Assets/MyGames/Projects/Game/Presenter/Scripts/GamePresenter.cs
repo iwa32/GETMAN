@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using Zenject;
@@ -17,6 +18,7 @@ using Pause;
 using static SceneType;
 using static SEType;
 using UIUtility;
+using PlayerView;
 
 namespace GamePresenter
 {
@@ -63,8 +65,8 @@ namespace GamePresenter
         PauseView _pauseView;
 
         [SerializeField]
-        [Header("プレイヤーのPresenterを設定")]
-        PlayerPresenter.PlayerPresenter _playerPresenter;
+        [Header("プレイヤーのPresenterのプレハブを設定")]
+        PlayerPresenter.PlayerPresenter _playerPrefab;
 
         [SerializeField]
         [Header("TimerのPresenterを設定")]
@@ -85,6 +87,18 @@ namespace GamePresenter
         [SerializeField]
         [Header("ゲームクリアUIを設定")]
         GameClearView _gameClearView;
+
+        [SerializeField]
+        [Header("HPのUIを設定")]
+        HpView _hpView;
+
+        [SerializeField]
+        [Header("SP武器表示用のUIを設定")]
+        SpWeaponView _spWeaponView;
+
+        [SerializeField]
+        [Header("cinemachineのバーチャルカメラを設定")]
+        CinemachineVirtualCamera _cinemachineVirtualCamera;
         #endregion
 
         #region//フィールド
@@ -101,7 +115,11 @@ namespace GamePresenter
         ILoading _loading;
         IPause _pause;
         IObservableClickButton _observableClickButton;
+        PlayerPresenter.PlayerPresenter _playerPresenter;
         #endregion
+
+        [Inject]
+        DiContainer container;//動的生成したデータにDIできるようにする
 
         [Inject]
         public void Construct(
@@ -137,7 +155,6 @@ namespace GamePresenter
 
         void Awake()
         {
-            _playerPresenter.ManualAwake();
             _timePresenter.ManualAwake();
             _stagePresenter.ManualAwake();
         }
@@ -154,9 +171,9 @@ namespace GamePresenter
                 _loading.OpenLoading();
                 //データの読み込み、初期化
                 _pointModel.SetPoint(_initialPoint);
-                _playerPresenter.Initialize();
                 await LoadGameData();
                 await _stagePresenter.InitializeAsync();
+                await SetUpPlayer();
                 await _stagePresenter.PlacePlayerToStage(_playerPresenter.transform);
                 _timePresenter.Initialize(_stagePresenter.StageLimitCountTime);
                 _scoreView.SetScore(_scoreModel.Score.Value);
@@ -177,9 +194,34 @@ namespace GamePresenter
             }
         }
 
+        /// <summary>
+        /// プレイヤーの準備をします
+        /// </summary>
+        /// <returns></returns>
+        async UniTask SetUpPlayer()
+        {
+            await CreatePlayer();
+            _cinemachineVirtualCamera.Follow = _playerPresenter.transform;
+            _cinemachineVirtualCamera.LookAt = _playerPresenter.transform;
+        }
+
+        /// <summary>
+        /// プレイヤーを作成します
+        /// </summary>
+        /// <returns></returns>
+        async UniTask CreatePlayer()
+        {
+            _playerPresenter = container.InstantiatePrefab(_playerPrefab)
+                .GetComponent<PlayerPresenter.PlayerPresenter>();
+            _playerPresenter.SetPlayerUI(_hpView, _spWeaponView);
+
+            await UniTask.WaitUntil(() => _playerPresenter != null);
+        }
+
         void FixedUpdate()
         {
             if (_directionModel.IsGameStart.Value == false) return;
+            if (_playerPresenter == null) return;
             _playerPresenter.ManualFixedUpdate();
         }
 

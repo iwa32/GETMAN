@@ -752,8 +752,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialHp: 3
   _initialPower: 0
-  _hpView: {fileID: 0}
-  _spWeaponView: {fileID: 0}
+  _hpViewPre: {fileID: 5992118610640984535, guid: 6135f3933da6d4fa1b78747c0fb1d919, type: 3}
+  _spWeaponViewPre: {fileID: 1599865809835055398, guid: e1cc745874ad9426e8abc0b48fe80e02, type: 3}
 --- !u!114 &8902729658035245750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +931,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4354061567670150377}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5

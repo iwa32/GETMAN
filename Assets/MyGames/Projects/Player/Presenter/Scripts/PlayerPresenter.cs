@@ -77,7 +77,7 @@ namespace PlayerPresenter
         /// <summary>
         /// プレハブのインスタンス直後の処理
         /// </summary>
-        public void ManualAwake()
+        public void Awake()
         {
             _trigger = GetComponent<ObservableTrigger>();
             _collision = GetComponent<ObservableCollision>();
@@ -89,12 +89,24 @@ namespace PlayerPresenter
         }
 
         /// <summary>
+        /// プレイヤーのUIを設定します
+        /// </summary>
+        /// <param name="hpView"></param>
+        /// <param name="spWeaponView"></param>
+        public void SetPlayerUI(HpView hpView, SpWeaponView spWeaponView)
+        {
+            _hpView = hpView;
+            _spWeaponView = spWeaponView;
+        }
+
+        /// <summary>
         /// 初期化処理
         /// </summary>
-        public void Initialize()
+        public void Start()
         {
             InitializeModel();
             _playerStates.Initialize();
+            _playerActions.Initialize();
             Bind();
         }
 

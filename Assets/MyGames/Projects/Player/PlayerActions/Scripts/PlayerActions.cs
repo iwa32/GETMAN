@@ -8,6 +8,7 @@ using SpWeaponDataList;
 using PlayerView;
 using SpPlayerWeaponInvoker;
 using Zenject;
+using UnityEngine.AI;
 
 namespace PlayerActions {
     /// <summary>
@@ -39,6 +40,7 @@ namespace PlayerActions {
         InputView _inputView;//プレイヤーの入力取得スクリプト
         Rigidbody _rigidBody;
         SpWeaponData _spWeaponData;
+        NavMeshAgent _navMeshAgent;
         bool _isBlink;//点滅状態か
         ISpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
 
@@ -55,7 +57,14 @@ namespace PlayerActions {
         {
             _rigidBody = GetComponent<Rigidbody>();
             _inputView = GetComponent<InputView>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
             _mainCamera = Camera.main;
+        }
+
+        public void Initialize()
+        {
+            //navMeshの警告エラーの対処
+            _navMeshAgent.enabled = true;
         }
 
         /// <summary>
