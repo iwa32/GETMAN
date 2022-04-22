@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stageDataList:
   - _stageId: 1
-    _stageLimitCountTime: 50
+    _stageLimitCountTime: 60
     _bgmType: 1
     _stagePrefab: {fileID: 2086473840, guid: d4c0e2e0985c142e990966d24fc6e7ff, type: 3}
     _pointOption:
