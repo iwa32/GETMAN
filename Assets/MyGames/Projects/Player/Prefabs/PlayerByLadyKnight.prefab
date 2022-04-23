@@ -752,8 +752,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialHp: 3
   _initialPower: 0
-  _hpViewPre: {fileID: 5992118610640984535, guid: 6135f3933da6d4fa1b78747c0fb1d919, type: 3}
-  _spWeaponViewPre: {fileID: 1599865809835055398, guid: e1cc745874ad9426e8abc0b48fe80e02, type: 3}
+  _hpView: {fileID: 0}
+  _spWeaponView: {fileID: 0}
 --- !u!114 &8902729658035245750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,7 +961,7 @@ MonoBehaviour:
   _blinkTime: 3
   _knockBackPower: 10
   _speed: 10
-  _playerWeapon: {fileID: 3840662002263414237}
+  _playerWeapon: {fileID: 3926841598258589366}
   _spWeaponDataList: {fileID: 11400000, guid: 0e55f1ff58a6e4aed85bad08b28bb4ee, type: 2}
 --- !u!114 &8458951973177254138
 MonoBehaviour:
@@ -3316,7 +3316,7 @@ Transform:
   m_LocalPosition: {x: -0.95630467, y: -0.023688449, z: 0.99997425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3840662002263414238}
+  - {fileID: 3926841598258589365}
   m_Father: {fileID: 4354061567670581609}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3410,72 +3410,72 @@ Transform:
   m_Father: {fileID: 4354061567670581411}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2999118463970478627
+--- !u!1001 &223082146335157862
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 4354061567670581641}
     m_Modifications:
-    - target: {fileID: 2077223636674469882, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
-      propertyPath: m_Name
-      value: LadyKnight'sSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.053775422
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.000000022801267
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.0000002950026
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+    - target: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3847901089481867476, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+      propertyPath: m_Name
+      value: LadyKnight'sSword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
---- !u!4 &3840662002263414238 stripped
+--- !u!4 &3926841598258589365 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2077223636674469885, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
-  m_PrefabInstance: {fileID: 2999118463970478627}
+  m_CorrespondingSourceObject: {fileID: 3847901089481867475, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+  m_PrefabInstance: {fileID: 223082146335157862}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3840662002263414237 stripped
+--- !u!114 &3926841598258589366 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2077223636674469886, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
-  m_PrefabInstance: {fileID: 2999118463970478627}
+  m_CorrespondingSourceObject: {fileID: 3847901089481867472, guid: a525f3b7fa7994370a60eef3d0aef8da, type: 3}
+  m_PrefabInstance: {fileID: 223082146335157862}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

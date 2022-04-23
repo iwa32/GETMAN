@@ -19,12 +19,8 @@ namespace NormalPlayerWeapon
         int _power;
 
         [SerializeField]
-        [Header("エフェクトのトレイルを設定")]
-        TrailRenderer _trailRenderer;
-
-        [SerializeField]
-        [Header("武器の発生の持続時間をミリ秒で設定")]
-        int _slashDuration = 1000;
+        [Header("トレイルをまとめたゲームオブジェクトを設定")]
+        GameObject _trailGroups;
 
         Collider _collider;
         //---接触・衝突---
@@ -56,7 +52,7 @@ namespace NormalPlayerWeapon
         {
             //武器判定をオフに
             _collider.enabled = false;
-            _trailRenderer.emitting = false;
+            _trailGroups.SetActive(false);
         }
 
         void Bind()
@@ -79,13 +75,13 @@ namespace NormalPlayerWeapon
         {
             _soundManager.PlaySE(SWORD_SLASH);
             _collider.enabled = true;
-            _trailRenderer.emitting = true;
+            _trailGroups.SetActive(true);
         }
 
         public void EndMotion()
         {
             _collider.enabled = false;
-            _trailRenderer.emitting = false;
+            _trailGroups.SetActive(false);
         }
 
         /// <summary>
