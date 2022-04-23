@@ -199,7 +199,7 @@ namespace PlayerActions {
         /// </summary>
         public void LookAtCamera()
         {
-            transform.LookAt(-_mainCamera.transform.forward);
+            transform.LookAt(_mainCamera.transform.position);
         }
     }
 }
