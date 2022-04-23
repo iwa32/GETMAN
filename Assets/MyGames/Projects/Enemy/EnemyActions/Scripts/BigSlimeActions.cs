@@ -5,7 +5,7 @@ using StrategyView;
 
 namespace EnemyActions
 {
-    public class TurtleShellActions : SlimeActions
+    public class BigSlimeActions : SlimeActions
     {
     }
 }

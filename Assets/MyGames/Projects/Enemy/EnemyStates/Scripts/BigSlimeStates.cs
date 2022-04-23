@@ -9,7 +9,7 @@ using EnemyActions;
 
 namespace EnemyStates
 {
-    public class TurtleShellStates : SlimeStates
+    public class BigSlimeStates : SlimeStates
     {
     }
 }

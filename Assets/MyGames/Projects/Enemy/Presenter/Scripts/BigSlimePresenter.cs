@@ -7,7 +7,7 @@ using EnemyActions;
 
 namespace EnemyPresenter
 {
-    public class TurtleShellPresenter : SlimePresenter
+    public class BigSlimePresenter : SlimePresenter
     {
     }
 }

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyDataList:
   - _enemyType: 2
-    _hp: 80
+    _hp: 60
     _power: 1
     _speed: 0
-    _score: 300
+    _score: 3000
     _itemDropRate: 100
     _dropItem: {fileID: 2591246578178462638, guid: f1fd756cad7f74186beb5f3ed1495137, type: 3}
