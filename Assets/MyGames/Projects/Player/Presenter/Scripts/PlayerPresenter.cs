@@ -124,7 +124,7 @@ namespace PlayerPresenter
         /// </summary>
         public void ResetData()
         {
-            _playerStates.ResetState();
+            _playerStates.DefaultState();
             InitializeModel();
         }
 

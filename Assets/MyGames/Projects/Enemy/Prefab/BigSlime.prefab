@@ -51,6 +51,8 @@ GameObject:
   - component: {fileID: 5011902877854364012}
   - component: {fileID: 2293747899241356895}
   - component: {fileID: 5797900907942589485}
+  - component: {fileID: 2949854646711879786}
+  - component: {fileID: 5861448115896719791}
   m_Layer: 9
   m_Name: BigSlime
   m_TagString: Enemy
@@ -219,6 +221,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57c2367bf4a27406a8adc9deae81848d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2949854646711879786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254589433466840475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed9daf3d877c44e69d9edc3b5f3207f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5861448115896719791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254589433466840475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c35630ebdf74e1fb0001e96d68d161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2255403149493820235

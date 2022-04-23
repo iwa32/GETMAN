@@ -828,6 +828,8 @@ GameObject:
   - component: {fileID: 3068637208116724041}
   - component: {fileID: 6634059968984297184}
   - component: {fileID: -9125947280121191140}
+  - component: {fileID: 1963419109637761092}
+  - component: {fileID: 3375181304914714900}
   m_Layer: 9
   m_Name: TurtleShell
   m_TagString: Enemy
@@ -996,6 +998,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57c2367bf4a27406a8adc9deae81848d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1963419109637761092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837317425425208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed33d250c6cf477f856ca459cbf07ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3375181304914714900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837317425425208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f8cc998444c4bf7ab53412bb975e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1914324128724412

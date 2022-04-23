@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
-using CharacterState;
-using EnemyView;
-using StrategyView;
 using GlobalInterface;
-using Zenject;
+using EnemyStates;
+using EnemyActions;
 
 namespace EnemyPresenter
 {
@@ -16,34 +13,24 @@ namespace EnemyPresenter
         #endregion
 
         #region//フィールド
-        //追跡
-        ICharacterTrackState _trackState;
-        TrackStrategy _trackStrategy;
-        //---巡回---
-        PatrolStrategy _patrolStrategy;
+        TurtleShellStates _turtleShellStates;
+        TurtleShellActions _turtleShellActions;
         #endregion
 
         #region//プロパティ
         public int Power => _powerModel.Power.Value;
-        public PatrolStrategy PatrolStrategy => _patrolStrategy;
         #endregion
 
-        [Inject]
-        public void Construct(
-            ICharacterTrackState trackState
-        )
-        {
-            _trackState = trackState;
-        }
 
         // Start is called before the first frame update
-        new void Awake()
+        void Awake()
         {
-            base.Awake();
-            //追跡
-            _trackStrategy = GetComponent<TrackStrategy>();
-            //巡回
-            _patrolStrategy = GetComponent<PatrolStrategy>();
+            base.ManualAwake();
+
+            _turtleShellStates = GetComponent<TurtleShellStates>();
+            _turtleShellActions = GetComponent<TurtleShellActions>();
+            _turtleShellStates.ManualAwake();
+            _turtleShellActions.ManualAwake();
         }
 
         void Start()
@@ -56,19 +43,7 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize()
         {
-            _runState.DelAction = PatrolStrategy.Strategy;
-            _trackState.DelAction = _trackStrategy.Strategy;
-            Bind();
-        }
-
-        void Bind()
-        {
-            //プレイヤーの追跡
-            _trackStrategy.CanTrack
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(_ => _directionModel.CanGame())
-                .Subscribe(canTrack => CheckTracking(canTrack))
-                .AddTo(this);
+            _turtleShellStates.Initialize();
         }
 
         #region //overrideMethod
@@ -83,55 +58,6 @@ namespace EnemyPresenter
         {
 
         }
-
-        /// <summary>
-        /// 初期時、通常時の状態を設定します
-        /// </summary>
-        public override void DefaultState()
-        {
-            //巡回場所がない場合waitにする
-            if (_patrolStrategy?.PatrolPoints.Length == 0)
-            {
-                _actionView.State.Value = _waitState;
-                return;
-            }
-
-            _actionView.State.Value = _runState;
-        }
         #endregion
-
-        //// <summary>
-        /// ステージ情報を設定します
-        /// </summary>
-        /// <param name="stageView"></param>
-        public override void SetStageInformation(StageView.StageView stageView)
-        {
-            //配置
-            Transform appearancePoint = stageView.GetEnemyAppearancePoint(_type);
-            SetTransform(appearancePoint);
-            SetPatrolPoints(stageView.GetEnemyPatrolPoints(_type));
-        }
-
-        /// <summary>
-        /// 巡回地点を設定します
-        /// </summary>
-        /// <param name="points"></param>
-        void SetPatrolPoints(Transform[] points)
-        {
-            _patrolStrategy.SetPatrolPoints(points);
-        }
-
-        /// <summary>
-        /// 追跡の確認をします
-        /// </summary>
-        /// <param name="canTrack"></param>
-        void CheckTracking(bool canTrack)
-        {
-            //追跡もしくは前方を走ります
-            if (canTrack)
-                _actionView.State.Value = _trackState;
-            else
-                DefaultState();
-        }
     }
 }

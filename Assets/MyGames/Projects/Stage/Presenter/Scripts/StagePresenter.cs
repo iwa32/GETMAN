@@ -220,7 +220,7 @@ namespace StagePresenter
             {
                 _enemyFactory.SetEnemyPool(_currentStageData.BossEnemyPrefab);
                 EP.EnemyPresenter enemy = _enemyFactory.CreateTheBoss(_currentStageData.BossEnemyPrefab);
-                enemy.SetStageInformation(_currentStageView);
+                enemy.PlaceOnStage(_currentStageView);
 
                 //演出
                 if (_bossDirectingCamera != null)
@@ -314,8 +314,7 @@ namespace StagePresenter
             //死亡を監視する
             ObserveStageEnemy(stageEnemy);
             //ステージ情報を設定
-            stageEnemy.SetStageInformation(_currentStageView);
-            stageEnemy.DefaultState();
+            stageEnemy.PlaceOnStage(_currentStageView);
         }
 
         /// <summary>

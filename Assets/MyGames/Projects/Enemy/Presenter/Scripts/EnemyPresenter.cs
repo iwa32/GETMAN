@@ -1,23 +1,17 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UniRx;
-using UniRx.Triggers;
 using Zenject;
-using CharacterState;
 using Trigger;
-using EnemyView;
 using EnemyModel;
 using GameModel;
-using StrategyView;
 using Cysharp.Threading.Tasks;
 using Collision;
 using GlobalInterface;
 using EnemyDataList;
-using StageObject;
-using StageView;
+using EnemyStates;
+using EnemyActions;
 
 namespace EnemyPresenter
 {
@@ -37,74 +31,42 @@ namespace EnemyPresenter
         //---接触・衝突---
         ObservableTrigger _trigger;
         ObservableCollision _collision;
-        //---アニメーション---
-        Animator _animator;
-        protected ObservableStateMachineTrigger _animTrigger;//stateMachineの監視
-        Collider _collider;
-        protected NavMeshAgent _navMeshAgent;
-        //---フラグ---
-        bool _isDown;
-        protected BoolReactiveProperty _isDead = new BoolReactiveProperty();
+        //状態と実処理
+        protected EnemyCommonStates _enemyCommonStates;
+        protected EnemyCommonActions _enemyCommonActions;
         //---モデル---
         protected IHpModel _hpModel;
-        EnemyModel.IScoreModel _enemyScoreModel;//enemyの保持するスコア
-        GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         protected IPowerModel _powerModel;
         protected IDirectionModel _directionModel;
-        EnemyData _enemyData;
-        GetableItem _dropItemPool;//生成済みのドロップアイテムの保管場所
-        //---状態---
-        protected StateActionView _actionView;//エネミーのアクション用スクリプト
-        protected ICharacterWaitState _waitState;//待機状態のスクリプト
-        protected ICharacterRunState _runState;//移動状態のスクリプト
-        ICharacterDownState _downState;//ダウン状態のスクリプト
-        ICharacterDeadState _deadState;//デッド状態のスクリプト
         #endregion
 
         #region//プロパティ
-        public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
+        public IReadOnlyReactiveProperty<bool> IsDead => _enemyCommonStates.IsDead;
         public EnemyType Type => _type;
         #endregion
-
-        // Start is called before the first frame update
-        protected void Awake()
-        {
-            //ステートの実行
-            _actionView = GetComponent<StateActionView>();
-            //接触、衝突
-            _trigger = GetComponent<ObservableTrigger>();
-            _collision = GetComponent<ObservableCollision>();
-            _collider = GetComponent<Collider>();
-            //アニメーション
-            _animator = GetComponent<Animator>();
-            _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
-            //ナビメッシュ
-            _navMeshAgent = GetComponent<NavMeshAgent>();
-        }
 
         [Inject]
         public void Construct(
             IHpModel hp,
             IPowerModel power,
-            EnemyModel.IScoreModel enemyScore,
-            GameModel.IScoreModel gameScore,
-            IDirectionModel direction,
-            ICharacterWaitState waitState,
-            ICharacterRunState runState,
-            ICharacterDownState downState,
-            ICharacterDeadState deadState
+            IDirectionModel direction
         )
         {
             _hpModel = hp;
             _powerModel = power;
-            _enemyScoreModel = enemyScore;
-            _gameScoreModel = gameScore;
             _directionModel = direction;
-            //ステート
-            _waitState = waitState;
-            _runState = runState;
-            _downState = downState;
-            _deadState = deadState;
+        }
+
+        // Start is called before the first frame update
+        protected void ManualAwake()
+        {
+            //接触、衝突
+            _trigger = GetComponent<ObservableTrigger>();
+            _collision = GetComponent<ObservableCollision>();
+            _enemyCommonStates = GetComponent<EnemyCommonStates>();
+            _enemyCommonActions = GetComponent<EnemyCommonActions>();
+            _enemyCommonStates.ManualAwake();
+            _enemyCommonActions.ManualAwake();
         }
 
         /// <summary>
@@ -112,28 +74,21 @@ namespace EnemyPresenter
         /// </summary>
         public void Initialize(EnemyData data)
         {
-            //awakeでanimeTriggerを取得した場合アニメーションの終了検知がうまくいかない場合があるため、こちらで設定する
-            _animTrigger = _animator.GetBehaviour<ObservableStateMachineTrigger>();
-
-            _enemyData = data;
             _hpBar.SetMaxHp(data.Hp);
-            InitializeModel(data.Hp, data.Power, data.Score);
+            InitializeModel(data);
+            _enemyCommonStates.Initialize();
+            _enemyCommonActions.Initialize(data);
 
-            _collider.enabled = true;
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.speed = data.Speed;
-            _isDead.Value = false;
             Bind();
         }
 
         /// <summary>
         /// モデルの初期化を行います
         /// </summary>
-        void InitializeModel(int hp, int power, int score)
+        void InitializeModel(EnemyData data)
         {
-            _hpModel.SetHp(hp);
-            _powerModel.SetPower(power);
-            _enemyScoreModel.SetScore(score);
+            _hpModel.SetHp(data.Hp);
+            _powerModel.SetPower(data.Power);
         }
 
         void Bind()
@@ -141,54 +96,20 @@ namespace EnemyPresenter
             //model to view
             //HPBarへの設定
             _hpModel.Hp
-                .TakeUntil(_isDead.Where(isDead => isDead))
+                .TakeUntil(_enemyCommonStates.IsDead.Where(isDead => isDead))
                 .Subscribe(hp => _hpBar.SetHp(hp))
                 .AddTo(this);
 
             //trigger, collisionの取得
             _trigger.OnTriggerEnter()
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(_ => _directionModel.CanGame()
-                && (_actionView.HasStateBy(StateType.DEAD) == false)
-                )
+                .TakeUntil(_enemyCommonStates.IsDead.Where(isDead => isDead))
+                .Where(_ => _directionModel.CanGame())
+                .Where(_ => _enemyCommonStates.HasStateBy(StateType.DEAD) == false)
                 .Subscribe(collider => CheckCollider(collider))
-                .AddTo(this);
-
-            //view to model
-            //状態の監視
-            _actionView.State
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(x => x != null
-                && _animator.GetInteger("States") != (int)StateType.DEAD)
-                .Subscribe(x => _actionView.ChangeState(x.State))
-                .AddTo(this);
-
-            //アニメーションの監視
-            //down
-            _animTrigger.OnStateExitAsObservable()
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(s => s.StateInfo.IsName("Down"))
-                .Subscribe(_ => DefaultState())
-                .AddTo(this);
-
-            //dead
-            _animTrigger.OnStateExitAsObservable()
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(s => s.StateInfo.IsName("Dead"))
-                .Subscribe(_ =>
-                {
-                    gameObject.SetActive(false);
-                    _isDead.Value = true;
-                    DefaultState();
-                }).AddTo(this);
-
-            //FixedUpdate
-            this.FixedUpdateAsObservable()
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Subscribe(_ => _actionView.Action())
                 .AddTo(this);
         }
 
+        //presenter---
         #region //abstractMethod
         /// <summary>
         /// 接触したコライダーを確認します
@@ -200,17 +121,6 @@ namespace EnemyPresenter
         /// 衝突を確認します
         /// </summary>
         public abstract void CheckCollision(UnityEngine.Collision collision);
-
-        /// <summary>
-        /// 初期時、通常時の状態を設定します
-        /// </summary>
-        public abstract void DefaultState();
-
-        /// <summary>
-        /// ステージ情報を設定します
-        /// </summary>
-        /// <param name="stageView"></param>
-        public abstract void SetStageInformation(StageView.StageView stageView);
         #endregion
 
         /// <summary>
@@ -220,93 +130,21 @@ namespace EnemyPresenter
         {
             if (collider.TryGetComponent(out IEnemyAttacker attacker))
             {
-                if (_isDown) return;
+                if (_enemyCommonStates.IsDown) return;
                 //hpを減らす
                 _hpModel.ReduceHp(attacker.Power);
-                ChangeStateByDamege();
+                _enemyCommonStates.ChangeStateByDamege(_hpModel.Hp.Value);
             }
         }
 
         /// <summary>
-        /// 配置を行います
+        /// ステージに配置します
         /// </summary>
-        /// <param name="transform"></param>
-        protected void SetTransform(Transform targetTransform)
+        /// <param name="stageView"></param>
+        public void PlaceOnStage(StageView.StageView stageView)
         {
-            //navMeshAgentのオブジェクトをtransform.positionに代入するとうまくいかないためwarpを使用
-            _navMeshAgent.Warp(targetTransform.position);
-            transform.rotation = targetTransform.rotation;
-        }
-
-        /// <summary>
-        /// ダメージによって状態を切り替えます
-        /// </summary>
-        protected void ChangeStateByDamege()
-        {
-            if (_hpModel.Hp.Value > 0)
-                ChangeDown();
-            else
-                ChangeDead();
-        }
-
-        void ChangeDown()
-        {
-            _isDown = true;
-            _actionView.State.Value = _downState;
-
-            ResetDown().Forget();
-        }
-
-        async UniTask ResetDown()
-        {
-            await UniTask.Yield();
-            _isDown = false;
-        }
-
-        void ChangeDead()
-        {
-            _collider.enabled = false;//スコア二重取得防止
-            _navMeshAgent.isStopped = true;
-            _actionView.State.Value = _deadState;
-            _gameScoreModel.AddScore(_enemyScoreModel.Score.Value);
-            JudgeDrop();
-        }
-
-        void JudgeDrop()
-        {
-            //抽選 todo 後にクラスにまとめる
-
-            bool isDrop = false;
-            //1~100までの数を取得
-            int randomValue = UnityEngine.Random.Range(1, 101);
-            //抽選
-            if (_enemyData.ItemDropRate >= randomValue)
-            {
-                isDrop = true;
-            }
-
-            bool canDrop = (isDrop && _enemyData.DropItem != null);
-            if (canDrop == false) return;
-
-            //ドロップする
-            //プールにない場合、生成する
-            if (_dropItemPool == null)
-            {
-                //真上に生成
-                GetableItem dropItem
-                = Instantiate(
-                    _enemyData.DropItem,
-                    transform.position + Vector3.up,
-                    _enemyData.DropItem.transform.rotation
-                    );
-
-                _dropItemPool = dropItem;
-                return;
-            }
-
-            //ある場合位置を更新して表示
-            _dropItemPool.transform.position = transform.position;
-            _dropItemPool.gameObject?.SetActive(true);
+            _enemyCommonActions.SetStageInformation(stageView, _type);
+            _enemyCommonStates.DefaultState();
         }
     }
 }

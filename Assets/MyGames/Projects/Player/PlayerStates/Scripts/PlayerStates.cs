@@ -26,7 +26,6 @@ namespace PlayerStates
         readonly string continuousAttackStateName = "ContinuousAttack";
 
 
-
         PlayerActions.PlayerActions _playerActions;//プレイヤーの実行処理スクリプト
         StateActionView _actionView;//プレイヤーのアクション用スクリプト
         Animator _animator;
@@ -75,7 +74,9 @@ namespace PlayerStates
 
         public void Initialize()
         {
-            InitializeState();
+            //状態時のアクションを設定する
+            _runState.DelAction = _playerActions.Run;
+            _actionView.State.Value = _waitState;
             Bind();
         }
 
@@ -120,18 +121,13 @@ namespace PlayerStates
                 {
                     _animator.ResetTrigger(continuousAttackStateName);
                     _playerActions.EndNormalAttack();
-
-                    if (_actionView.HasStateBy(ATTACK))
-                        _actionView.State.Value = _waitState;
+                    DefaultState();
                 });
 
             //down
             _animTrigger.OnStateExitAsObservable()
                 .Where(s => s.StateInfo.IsName(downAnimeStateName))
-                .Subscribe(_ =>
-                {
-                    _actionView.State.Value = _waitState;
-                })
+                .Subscribe(_ => DefaultState())
                 .AddTo(this);
         }
 
@@ -150,20 +146,13 @@ namespace PlayerStates
         }
 
         /// <summary>
-        /// 状態の初期化を行います
-        /// </summary>
-        void InitializeState()
-        {
-            _runState.DelAction = _playerActions.Run;
-            _actionView.State.Value = _waitState;
-        }
-
-        /// <summary>
         /// 状態をリセットします
         /// </summary>
-        public void ResetState()
+        public void DefaultState()
         {
-            _actionView.State.Value = _waitState;
+            //走っていなければ待ち状態にします
+            if (_actionView.HasStateBy(RUN) == false)
+                _actionView.State.Value = _waitState;
         }
 
         /// <summary>
@@ -192,7 +181,7 @@ namespace PlayerStates
 
         public bool HasStateBy(StateType state)
         {
-            return _actionView.HasStateBy(ATTACK);
+            return _actionView.HasStateBy(state);
         }
 
         /// <summary>
