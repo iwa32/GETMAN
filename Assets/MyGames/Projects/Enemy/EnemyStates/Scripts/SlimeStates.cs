@@ -37,7 +37,6 @@ namespace EnemyStates
 
         public new void Initialize()
         {
-            //状態---
             _runState.DelAction = _slimeActions.PatrolStrategy.Strategy;
             _trackState.DelAction = _slimeActions.TrackStrategy.Strategy;
             Bind();
@@ -60,7 +59,7 @@ namespace EnemyStates
         public override void DefaultState()
         {
             //巡回場所がない場合waitにする
-            if (_slimeActions.PatrolStrategy?.PatrolPoints.Length == 0)
+            if (_slimeActions.PatrolStrategy.PatrolPoints?.Length == 0)
             {
                 _actionView.State.Value = _waitState;
                 return;

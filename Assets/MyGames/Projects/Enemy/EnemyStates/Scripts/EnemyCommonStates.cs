@@ -40,7 +40,6 @@ namespace EnemyStates
             ICharacterDeadState deadState
         )
         {
-            //ステート
             _waitState = waitState;
             _runState = runState;
             _downState = downState;

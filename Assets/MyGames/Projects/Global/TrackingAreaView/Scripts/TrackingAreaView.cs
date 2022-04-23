@@ -37,13 +37,18 @@ namespace TrackingAreaView
         void Start()
         {
             _trigger.OnTriggerStay()
-                .Subscribe(collider => CheckTarget(collider));
+                .Subscribe(collider => CheckTarget(collider))
+                .AddTo(this);
 
             _trigger.OnTriggerExit()
-                .Subscribe(_ =>
-                {
-                    _canTrack.Value = false;
-                });
+                .Subscribe(_ => _canTrack.Value = false)
+                .AddTo(this);
+        }
+
+        void OnDisable()
+        {
+            //フラグをリセット
+            _canTrack.Value = false;
         }
 
         /// <summary>

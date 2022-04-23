@@ -4,6 +4,7 @@ using UnityEngine;
 using GlobalInterface;
 using EnemyStates;
 using EnemyActions;
+using EnemyDataList;
 
 namespace EnemyPresenter
 {
@@ -33,16 +34,12 @@ namespace EnemyPresenter
             _slimeActions.ManualAwake();
         }
 
-        void Start()
-        {
-            Initialize();
-        }
-
         /// <summary>
         /// 初期化処理
         /// </summary>
-        void Initialize()
+        public override void Initialize(EnemyData data)
         {
+            base.Initialize(data);
             _slimeStates.Initialize();
         }
 

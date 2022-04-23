@@ -15,6 +15,9 @@ using EnemyActions;
 
 namespace EnemyPresenter
 {
+    /// <summary>
+    /// エネミー共通のpresenterクラス
+    /// </summary>
     public abstract class EnemyPresenter : MonoBehaviour
     {
         #region//インスペクターから設定
@@ -72,7 +75,7 @@ namespace EnemyPresenter
         /// <summary>
         /// 初期化処理
         /// </summary>
-        public void Initialize(EnemyData data)
+        public virtual void Initialize(EnemyData data)
         {
             _hpBar.SetMaxHp(data.Hp);
             InitializeModel(data);
