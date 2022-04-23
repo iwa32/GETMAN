@@ -3352,6 +3352,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3535338269453246733, guid: 44db2274b30e5411396231d4b76d42c0, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.058
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535338269453246733, guid: 44db2274b30e5411396231d4b76d42c0, type: 3}
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 23800000, guid: 12c419916969349a4b0bc8f752e8efe6, type: 2}
@@ -9119,6 +9123,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8882745872584871052}
     m_Modifications:
+    - target: {fileID: 404360553217130295, guid: 94b7ec5ddb1964e5a8d9ac860b9306c1, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.058
+      objectReference: {fileID: 0}
     - target: {fileID: 404360553217130295, guid: 94b7ec5ddb1964e5a8d9ac860b9306c1, type: 3}
       propertyPath: m_NavMeshData
       value: 
