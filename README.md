@@ -1,4 +1,4 @@
-# GETMAN
+# GETRUN
 
 ## ゲーム説明
 
