@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bgmDataList:
   - _type: 0
-    _clip: {fileID: 0}
+    _clip: {fileID: 8300000, guid: 0c162ac6b243641678625de97299c6c6, type: 3}
   - _type: 1
     _clip: {fileID: 8300000, guid: ca9d10eecdd324a1bbddb657d46a5c8c, type: 3}
   - _type: 2
