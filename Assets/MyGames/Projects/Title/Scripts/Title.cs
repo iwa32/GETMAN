@@ -82,6 +82,7 @@ namespace Title
         void Start()
         {
             _fade.StartFadeIn().Forget();
+            _soundManager.PlayBgm(BgmType.TITLE);
             Bind();
         }
 
@@ -131,6 +132,7 @@ namespace Title
             if (_isClickedButton) return;
             _isClickedButton = true;
 
+            _soundManager.StopBgm();
             _soundManager.PlaySE(SEType.SCENE_MOVEMENT);
             await BlinkClickedButton(_startGameButtonText);
 
