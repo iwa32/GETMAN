@@ -96,7 +96,7 @@ namespace EnemyActions
             }
 
             //ある場合位置を更新して表示
-            _dropItemPool.transform.position = transform.position;
+            _dropItemPool.transform.position = transform.position + Vector3.up;
             _dropItemPool.gameObject?.SetActive(true);
         }
 
