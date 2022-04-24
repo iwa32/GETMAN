@@ -256,7 +256,7 @@ namespace GamePresenter
             //プレイヤーのボタン入力
             //リスタートボタン
             _gameOverView.ClickRestartButton()
-                .Subscribe(_ => RestartGame())
+                .Subscribe(_ => RestartGame().Forget())
                 .AddTo(this);
             //次のステージへ
             _gameClearView.ClickNextStageButton()
@@ -329,11 +329,12 @@ namespace GamePresenter
         /// <summary>
         /// ゲームを再スタートする
         /// </summary>
-        void RestartGame()
+        async UniTask RestartGame()
         {
-            _saveDataManager.SetIsInitialized(true);
+            //スコアをリセット
+            _scoreModel.SetScore(_initialScore);
+            await SaveGameData(false);
             _soundManager.PlaySE(SCENE_MOVEMENT);
-            //シーンの再読み込みをする
             _customSceneManager.LoadScene(STAGE);
         }
 
@@ -403,8 +404,9 @@ namespace GamePresenter
 
             await UniTask.WaitUntil(() => isSaved);
 
-            if (isShownDialog == false) return;
+
             //ダイアログを表示する場合
+            if (isShownDialog == false) return;
             if (isSaved)
                 _successDialog.SetText(_saveDataManager.SaveCompletedMessage);
             else
