@@ -81,17 +81,11 @@ namespace TimePresenter
             //ゲーム終了でカウント終了
             this.UpdateAsObservable()
                 .First(_ => _directionModel.IsEndedGame())
-                .Subscribe(_ =>
-                {
-                    countDownDisposable.Dispose();
-                })
+                .Subscribe(_ => countDownDisposable.Dispose())
                 .AddTo(this);
 
             //Model to View
-            _timeModel.Time.Subscribe(time =>
-            {
-                _timeView.SetTimeText(time);
-            });
+            _timeModel.Time.Subscribe(time => _timeView.SetTimer(time));
         }
     }
 }

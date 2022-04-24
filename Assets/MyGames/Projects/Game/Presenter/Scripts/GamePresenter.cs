@@ -238,8 +238,9 @@ namespace GamePresenter
                 .AddTo(this);
 
             //停止ボタン
-            //ポーズ中はボタンのストリームを再購読できないため、破棄し再生成します
+            //ポーズ中は停止ボタンのストリームを購読できないため、破棄し再生成します
             Action pauseButtonAction = () => _pause.ChangePause(!_pause.IsPause.Value);
+
             _observableClickButton.RepeatObserveButtonForPause(
                 _pauseView.PauseButtonAsObservable,
                 pauseButtonAction
