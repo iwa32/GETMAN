@@ -72,9 +72,10 @@ namespace EnemyStates
             //状態の監視
             _actionView.State
                 .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(x => x != null
-                && _animator.GetInteger("States") != (int)StateType.DEAD)
-                .Subscribe(x => _actionView.ChangeState(x.State))
+                .Where(x => x != null)
+                //死亡アニメーション中でない場合
+                .Where(x => _animator.GetInteger("States") != (int)StateType.DEAD)
+                .Subscribe(x => _actionView.ChangeState(x.State))//アニメーションの切り替え
                 .AddTo(this);
 
             //アニメーションの監視

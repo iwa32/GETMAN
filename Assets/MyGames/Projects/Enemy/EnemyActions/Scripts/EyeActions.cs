@@ -10,7 +10,6 @@ namespace EnemyActions
         //追跡
         TrackStrategy _trackStrategy;
 
-        //todo プレイヤー方向を向く処理にする
         public TrackStrategy TrackStrategy => _trackStrategy;
 
         /// <summary>
@@ -30,6 +29,11 @@ namespace EnemyActions
             //配置
             Transform appearancePoint = stageView.GetEnemyAppearancePoint(type);
             SetTransform(appearancePoint);
+        }
+
+        public void Attack()
+        {
+            Debug.Log("laserAttack");
         }
     }
 }

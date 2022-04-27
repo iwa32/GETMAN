@@ -19,7 +19,7 @@ namespace StrategyView
 
         public override void Strategy()
         {
-            _navMeshAgent.SetDestination(_trackingAreaView.TargetPosition);
+            _navMeshAgent.SetDestination(_trackingAreaView.TargetTransform.position);
         }
     }
 }

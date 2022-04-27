@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using CharacterState;
 using UnityEngine;
 using Zenject;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using GameModel;
 using EnemyActions;
+using System;
 
 namespace EnemyStates
 {
     public class EyeStates : EnemyCommonStates
     {
+        readonly string lastAttackMotionAnimStateName = "AttackMotion2";
+
+        [SerializeField]
+        [Header("追跡から攻撃までの時間")]
+        int _timeFromTrackingToAttack = 3;
+
         //追跡
         ICharacterTrackState _trackState;
+        ICharacterAttackState _attackState;
         IDirectionModel _directionModel;
 
         EyeActions _eyeActions;
@@ -20,10 +29,12 @@ namespace EnemyStates
         [Inject]
         public void Construct(
             ICharacterTrackState trackState,
+            ICharacterAttackState attackState,
             IDirectionModel direction
         )
         {
             _trackState = trackState;
+            _attackState = attackState;
             _directionModel = direction;
         }
 
@@ -51,12 +62,30 @@ namespace EnemyStates
                 .Subscribe(canTrack => CheckTracking(canTrack))
                 .AddTo(this);
 
-            //track状態が2秒以上でその方向に攻撃するように
+            //追跡時に攻撃状態に移行するか
             _actionView.State
                 .TakeUntil(_isDead.Where(isDead => isDead))
+                .Where(_ => _directionModel.CanGame())
+                .Where(x => x != null)
                 .Where(x => x.State == StateType.TRACK)
-                .Subscribe(x => Debug.Log("2秒後攻撃ステートにする"))
-                //攻撃ステートになったら攻撃し、その後2秒待ち、waitになる
+                .Subscribe(x => ChangeAttackAsync().Forget())
+                .AddTo(this);
+
+            //攻撃アニメーション時、レーザーを出す
+            _animTrigger.OnStateEnterAsObservable()
+                .TakeUntil(_isDead.Where(isDead => isDead))
+                .Where(s => s.StateInfo.IsName(lastAttackMotionAnimStateName))
+                .Subscribe(_ => _eyeActions.Attack())
+                .AddTo(this);
+
+            //レーザー後、追跡状態を確認
+            _animTrigger.OnStateExitAsObservable()
+                .TakeUntil(_isDead.Where(isDead => isDead))
+                .Where(s => s.StateInfo.IsName(lastAttackMotionAnimStateName))
+                .Subscribe(_ =>
+                {
+                    CheckTracking(_eyeActions.TrackStrategy.CanTrack.Value);
+                })
                 .AddTo(this);
 
         }
@@ -77,6 +106,18 @@ namespace EnemyStates
                 _actionView.State.Value = _trackState;
             else
                 DefaultState();
+        }
+
+        /// <summary>
+        /// 攻撃状態にします
+        /// </summary>
+        async UniTask ChangeAttackAsync()
+        {
+            //指定時間後も追跡しているなら攻撃状態にする
+            await UniTask.Delay(TimeSpan.FromSeconds(_timeFromTrackingToAttack));
+            if (_actionView.HasStateBy(StateType.TRACK) == false) return;
+
+            _actionView.State.Value = _attackState;
         }
     }
 }

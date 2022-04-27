@@ -21,13 +21,13 @@ namespace TrackingAreaView
         [Header("追跡対象のタグ名を設定")]
         string _targetTagName;
 
-        Vector3 _targetPosition;
+        Transform _targetTransform;
         BoolReactiveProperty _canTrack = new BoolReactiveProperty();//追跡フラグ
         ObservableTrigger _trigger;
 
 
         public IReactiveProperty<bool> CanTrack => _canTrack;
-        public Vector3 TargetPosition => _targetPosition;
+        public Transform TargetTransform => _targetTransform;
 
         void Awake()
         {
@@ -65,7 +65,7 @@ namespace TrackingAreaView
 
             if (targetAngle > _trackingAngle) return;//追跡範囲外なら追跡しない
 
-            _targetPosition = collider.gameObject.transform.position;
+            _targetTransform = collider.gameObject.transform;
             _canTrack.Value = true;
         }
 
