@@ -84,3 +84,16 @@ MonoBehaviour:
       _enemyAppearanceInterval: 10
       _enemyPrefab: {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
     _bossEnemyPrefab: {fileID: 785795545685668462, guid: 4636a1d7327b548d8b3dea2cae38f929, type: 3}
+  - _stageId: 6
+    _stageLimitCountTime: 100
+    _bgmType: 6
+    _stagePrefab: {fileID: 2086473840, guid: ddf3750ba7e1d4704953d19ec32a2da9, type: 3}
+    _pointOption:
+      _pointGenerationType: 0
+      _clearPointCount: 1
+      _pointItemAppearanceInterval: 10
+    _enemyOptions:
+    - _maxEnemyCount: 1
+      _enemyAppearanceInterval: 5
+      _enemyPrefab: {fileID: 7732000907825079147, guid: 0a06f528258d646798fce9aee5ab7a93, type: 3}
+    _bossEnemyPrefab: {fileID: 0}
