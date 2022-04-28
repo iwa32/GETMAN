@@ -78,7 +78,7 @@ namespace EnemyStates
                 .Subscribe(_ => _eyeActions.Attack())
                 .AddTo(this);
 
-            //レーザー後、追跡状態を確認
+            //攻撃後、追跡状態を確認
             _animTrigger.OnStateExitAsObservable()
                 .TakeUntil(_isDead.Where(isDead => isDead))
                 .Where(s => s.StateInfo.IsName(lastAttackMotionAnimStateName))

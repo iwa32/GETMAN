@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StrategyView;
+using EWI = EnemyWeaponInvoker;
 
 namespace EnemyActions
 {
     public class EyeActions : EnemyCommonActions
     {
         //追跡
-        TrackStrategy _trackStrategy;
+        TrackStrategy _trackStrategy;//目で追跡するストラテジークラス
+        EWI.EnemyWeaponInvoker _penetrationLaserInvoker;//貫通レーザー攻撃の呼び出し用クラス
 
         public TrackStrategy TrackStrategy => _trackStrategy;
 
@@ -18,6 +20,13 @@ namespace EnemyActions
         public new void ManualAwake()
         {
             _trackStrategy = GetComponent<TrackStrategy>();
+            _penetrationLaserInvoker = GetComponent<EWI.EnemyWeaponInvoker>();
+        }
+
+        public void Initialize()
+        {
+            _penetrationLaserInvoker.SetPower(_enemyData.Power);
+            _penetrationLaserInvoker.SetEnemyTransform(transform);
         }
 
         /// <summary>
@@ -33,7 +42,7 @@ namespace EnemyActions
 
         public void Attack()
         {
-            Debug.Log("laserAttack");
+            _penetrationLaserInvoker.Invoke();
         }
     }
 }

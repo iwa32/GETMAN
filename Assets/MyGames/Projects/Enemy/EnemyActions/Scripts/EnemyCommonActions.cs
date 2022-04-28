@@ -15,7 +15,7 @@ namespace EnemyActions
     {
         Collider _collider;
         GetableItem _dropItemPool;
-        EnemyData _enemyData;
+        protected EnemyData _enemyData;
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         protected NavMeshAgent _navMeshAgent;
 

@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 4152084703963468522}
   - component: {fileID: 1052104761530947166}
   - component: {fileID: 1407749533177000138}
+  - component: {fileID: 6654696356421137424}
   m_Layer: 9
   m_Name: Eye
   m_TagString: Untagged
@@ -547,6 +548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef293eacf5d74d1caed6e18661c2a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timeFromTrackingToAttack: 3
 --- !u!114 &1052104761530947166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccb36b650ae44c0aa8e28eb75246dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackStrategy: {fileID: 0}
+  _penetrationLaserInvoker: {fileID: 0}
 --- !u!114 &1407749533177000138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,6 +576,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trackingAreaView: {fileID: 3146954705475275086}
+--- !u!114 &6654696356421137424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011648103021171507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c4f28fccb554d5daa17756478951a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9011648103021171509
 GameObject:
   m_ObjectHideFlags: 0

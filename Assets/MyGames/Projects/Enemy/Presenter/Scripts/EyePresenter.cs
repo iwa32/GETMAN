@@ -40,6 +40,7 @@ namespace EnemyPresenter
         {
             base.Initialize(data);
             _eyeStates.Initialize();
+            _eyeActions.Initialize();
         }
 
         public override void CheckCollider(Collider collider)

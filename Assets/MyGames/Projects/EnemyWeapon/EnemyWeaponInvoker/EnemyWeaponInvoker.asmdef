@@ -1,0 +1,19 @@
+{
+    "name": "EnemyWeaponInvoker",
+    "rootNamespace": "",
+    "references": [
+        "GUID:231969241a33c435c889dcd1f750de0c",
+        "GUID:b3f420edca8ab44e2bb6d1642f3ae6de",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:72f0def692b0443999367778eb9385c2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
