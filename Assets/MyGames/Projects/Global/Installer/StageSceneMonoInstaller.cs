@@ -2,6 +2,7 @@ using UnityEngine;
 using Zenject;
 using CountDownTimer;
 using EnemyPool;
+using EnemyWeaponPool;
 using PointItemPool;
 using PlayerWeaponPool;
 using CharacterState;
@@ -19,10 +20,14 @@ namespace GlobalInstaller
             Container.Bind<IObservableCountDownTimer>()
                 .To<ObservableCountDownTimer>().AsTransient().NonLazy();
 
-            //オブジェクトプール
+            //----オブジェクトプール
             //エネミー
             Container.Bind<IEnemyPool>()
                 .To<EnemyPool.EnemyPool>().AsSingle().NonLazy();
+
+            //エネミーの武器
+            Container.Bind<IEnemyWeaponPool>()
+                .To<EnemyWeaponPool.EnemyWeaponPool>().AsSingle().NonLazy();
 
             //ポイントアイテム
             Container.Bind<IPointItemPool>()
@@ -32,7 +37,7 @@ namespace GlobalInstaller
             Container.Bind<ISpPlayerWeaponPool>()
                 .To<SpWeaponPool>().AsSingle().NonLazy();
 
-            //キャラクターステート
+            //----キャラクターステート
             Container.Bind<ICharacterAttackState>()
                 .To<AttackState>().AsTransient().NonLazy();
             Container.Bind<ICharacterDeadState>()
