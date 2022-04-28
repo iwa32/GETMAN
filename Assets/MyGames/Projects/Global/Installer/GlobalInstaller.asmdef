@@ -12,10 +12,12 @@
         "GUID:48c82d288caf643ddbe6583fcd8b3c3d",
         "GUID:7b6283acab0774bca832e5d14fea718e",
         "GUID:cbf0e0f30dd26498ea7475be3ca08042",
-        "GUID:4289ff7b89b204a5785313862512a2fb",
         "GUID:81fdf22c7bacc40cf965570c1bbbfd38",
         "GUID:2e386c79a41744b9ca37bfd2bc4d8782",
-        "GUID:decc4ef89d01f4fa5a676a4a021d63c9"
+        "GUID:decc4ef89d01f4fa5a676a4a021d63c9",
+        "GUID:89608cb6ec3354758a3e6198da339560",
+        "GUID:71d89be43544341a8aabc1486f0571d2",
+        "GUID:dd0da69a67da84ed8a799d420941264f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

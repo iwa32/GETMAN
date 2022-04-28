@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 using EP = EnemyPresenter;
 using EDL = EnemyDataList;
-using ObjectPool;
+using EnemyPool;
 
 namespace BehaviourFactory
 {

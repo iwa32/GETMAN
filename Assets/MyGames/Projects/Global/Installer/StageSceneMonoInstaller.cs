@@ -1,7 +1,9 @@
 using UnityEngine;
 using Zenject;
 using CountDownTimer;
-using ObjectPool;
+using EnemyPool;
+using PointItemPool;
+using PlayerWeaponPool;
 using CharacterState;
 
 namespace GlobalInstaller
@@ -20,11 +22,11 @@ namespace GlobalInstaller
             //オブジェクトプール
             //エネミー
             Container.Bind<IEnemyPool>()
-                .To<EnemyPool>().AsSingle().NonLazy();
+                .To<EnemyPool.EnemyPool>().AsSingle().NonLazy();
 
             //ポイントアイテム
             Container.Bind<IPointItemPool>()
-                .To<PointItemPool>().AsSingle().NonLazy();
+                .To<PointItemPool.PointItemPool>().AsSingle().NonLazy();
 
             //SP武器
             Container.Bind<ISpPlayerWeaponPool>()

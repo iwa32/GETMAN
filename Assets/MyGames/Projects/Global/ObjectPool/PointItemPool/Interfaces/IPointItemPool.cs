@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using StageObject;
 
-namespace ObjectPool
+namespace PointItemPool
 {
     /// <summary>
     /// ポイントアイテム用オブジェクトプール

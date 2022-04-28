@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SpPlayerWeapon;
 using UnityEngine;
 using Zenject;
-using ObjectPool;
+using PlayerWeaponPool;
 
 namespace SpPlayerWeaponInvoker
 {

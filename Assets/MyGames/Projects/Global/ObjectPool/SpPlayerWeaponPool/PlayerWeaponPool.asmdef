@@ -1,15 +1,10 @@
 {
-    "name": "BehaviourFactory",
+    "name": "PlayerWeaponPool",
     "rootNamespace": "",
     "references": [
-        "GUID:3995a511bad904897b47327a765c2e53",
         "GUID:231969241a33c435c889dcd1f750de0c",
-        "GUID:5628a7e714b3749f3afb98791689ef0d",
         "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
-        "GUID:8c47e949d4c0c430fab2d46af9f8e028",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:89608cb6ec3354758a3e6198da339560",
-        "GUID:71d89be43544341a8aabc1486f0571d2"
+        "GUID:3d31c0a35d82748a99e7ff24fcc60a9b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

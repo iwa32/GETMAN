@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StageObject;
-using ObjectPool;
+using PointItemPool;
 using Zenject;
 
 namespace BehaviourFactory

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using ObjectPool;
+using PlayerWeaponPool;
 using SoundManager;
 using UnityEngine;
 using Zenject;

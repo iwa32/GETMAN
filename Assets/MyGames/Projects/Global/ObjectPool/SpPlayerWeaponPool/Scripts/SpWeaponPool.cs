@@ -5,7 +5,7 @@ using UnityEngine;
 using SPW = SpPlayerWeapon.SpPlayerWeapon;
 using Zenject;
 
-namespace ObjectPool
+namespace PlayerWeaponPool
 {
     //public struct SpWeaponPoolData
     //{

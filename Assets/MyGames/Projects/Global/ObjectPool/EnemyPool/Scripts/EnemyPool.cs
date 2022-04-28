@@ -4,7 +4,7 @@ using UnityEngine;
 using EP = EnemyPresenter;
 using Zenject;
 
-namespace ObjectPool
+namespace EnemyPool
 {
     public class EnemyPool : IEnemyPool
     {

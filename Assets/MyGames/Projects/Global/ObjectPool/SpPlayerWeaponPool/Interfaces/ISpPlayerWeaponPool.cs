@@ -1,26 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
-using EP = EnemyPresenter;
+using SpPlayerWeapon;
+using UnityEngine;
+using SPW = SpPlayerWeapon.SpPlayerWeapon;
+
 
 //ジェネリックでオブジェクトプールの処理を共通化したかったが断念
-namespace ObjectPool {
+namespace PlayerWeaponPool{
     /// <summary>
-    /// エネミー用オブジェクトプール
+    /// SP武器用オブジェクトプール
     /// </summary>
-    public interface IEnemyPool
+    public interface ISpPlayerWeaponPool
     {
+        public List<SPW> SpWeaponList { get; }
+
         /// <summary>
         /// オブジェクトプールを作成する
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="referenceObj"></param>
+        /// <param name="prefab"></param>
         /// <param name="maxObjectCount"></param>
-        void CreatePool(EP.EnemyPresenter enemy, int maxObjectCount);
+        public void CreatePool(SPW prefab, int maxObjectCount);
 
         /// <summary>
         /// プールを取得します
         /// </summary>
         /// <returns></returns>
-        EP.EnemyPresenter GetPool(EnemyType enemyType);
+        ISpPlayerWeapon GetPool(Vector3 pos, Quaternion rotation);
     }
 }
