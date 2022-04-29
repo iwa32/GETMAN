@@ -9,17 +9,12 @@ using EnemyDataList;
 
 namespace EnemyPresenter
 {
-    public class EyePresenter : EnemyPresenter, IPlayerAttacker
+    public class EyePresenter : EnemyPresenter
     {
         #region//フィールド
         EyeStates _eyeStates;
         EyeActions _eyeActions;
         #endregion
-
-        #region//プロパティ
-        public int Power => _powerModel.Power.Value;
-        #endregion
-
 
         // Start is called before the first frame update
         void Awake()

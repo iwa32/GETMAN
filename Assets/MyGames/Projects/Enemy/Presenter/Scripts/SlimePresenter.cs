@@ -8,7 +8,7 @@ using EnemyDataList;
 
 namespace EnemyPresenter
 {
-    public class SlimePresenter : EnemyPresenter, IPlayerAttacker
+    public class SlimePresenter : EnemyPresenter
     {
         #region//インスペクターから設定
         #endregion
@@ -17,11 +17,6 @@ namespace EnemyPresenter
         SlimeStates _slimeStates;
         SlimeActions _slimeActions;
         #endregion
-
-        #region//プロパティ
-        public int Power => _powerModel.Power.Value;
-        #endregion
-
 
         // Start is called before the first frame update
         void Awake()

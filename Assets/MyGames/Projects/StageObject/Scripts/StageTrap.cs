@@ -15,6 +15,11 @@ namespace StageObject
 
         #region//プロパティ
         public int Power => _power;
+
+        public void SetPower(int power)
+        {
+            _power = power;
+        }
         #endregion
     }
 }

@@ -5,19 +5,25 @@ using UnityEngine.AI;
 using StageObject;
 using EnemyDataList;
 using Zenject;
+using GlobalInterface;
 
 namespace EnemyActions
 {
     /// <summary>
     /// エネミー共通の実行処理クラス
     /// </summary>
-    public abstract class EnemyCommonActions : MonoBehaviour
+    public abstract class EnemyCommonActions : MonoBehaviour, IPlayerAttacker
     {
         Collider _collider;
         GetableItem _dropItemPool;
         protected EnemyData _enemyData;
         GameModel.IScoreModel _gameScoreModel;//gameの保持するスコア
         protected NavMeshAgent _navMeshAgent;
+        protected int _power;
+
+        #region//プロパティ
+        public int Power => _power;
+        #endregion
 
         [Inject]
         public void Construct(
@@ -40,8 +46,14 @@ namespace EnemyActions
         {
             _enemyData = data;
             _collider.enabled = true;
+            SetPower(data.Power);
             _navMeshAgent.isStopped = false;
             _navMeshAgent.speed = data.Speed;
+        }
+
+        public void SetPower(int power)
+        {
+            _power = power;
         }
 
         #region //abstractMethod

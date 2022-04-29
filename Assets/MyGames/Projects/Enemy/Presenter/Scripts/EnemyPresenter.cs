@@ -39,7 +39,6 @@ namespace EnemyPresenter
         protected EnemyCommonActions _enemyCommonActions;
         //---モデル---
         protected IHpModel _hpModel;
-        protected IPowerModel _powerModel;
         protected IDirectionModel _directionModel;
         #endregion
 
@@ -51,12 +50,10 @@ namespace EnemyPresenter
         [Inject]
         public void Construct(
             IHpModel hp,
-            IPowerModel power,
             IDirectionModel direction
         )
         {
             _hpModel = hp;
-            _powerModel = power;
             _directionModel = direction;
         }
 
@@ -91,7 +88,6 @@ namespace EnemyPresenter
         void InitializeModel(EnemyData data)
         {
             _hpModel.SetHp(data.Hp);
-            _powerModel.SetPower(data.Power);
         }
 
         void Bind()
