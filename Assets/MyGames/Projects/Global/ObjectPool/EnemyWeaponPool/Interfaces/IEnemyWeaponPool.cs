@@ -18,6 +18,6 @@ namespace EnemyWeaponPool
         /// プールを取得します
         /// </summary>
         /// <returns></returns>
-        EnemyWeapon.EnemyWeapon GetPool();
+        EnemyWeapon.EnemyWeapon GetPool(EnemyWeaponType enemyWeaponType);
     }
 }

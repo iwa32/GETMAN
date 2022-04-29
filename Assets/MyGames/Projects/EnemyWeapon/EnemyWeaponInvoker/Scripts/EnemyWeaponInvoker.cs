@@ -10,12 +10,13 @@ namespace EnemyWeaponInvoker
     public abstract class EnemyWeaponInvoker : MonoBehaviour, IEnemyWeaponInvoker
     {
         protected int _power;
-        protected Rigidbody _rigidbody;
         protected Transform _enemyTransform;
         protected IEnemyWeaponPool _enemyWeaponPool;
         protected ISoundManager _soundManager;
 
         public int Power => _power;
+
+        public abstract EnemyWeaponType Type { get; }
 
         [Inject]
         public void Construct(

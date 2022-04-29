@@ -561,8 +561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccb36b650ae44c0aa8e28eb75246dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trackStrategy: {fileID: 0}
-  _penetrationLaserInvoker: {fileID: 0}
 --- !u!114 &1407749533177000138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,6 +586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c4f28fccb554d5daa17756478951a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _laserPrefab: {fileID: 1723741666945585000, guid: c9a7c5b0c31314eb38354a21dfd66b2a, type: 3}
+  _maxObjectCount: 3
 --- !u!1 &9011648103021171509
 GameObject:
   m_ObjectHideFlags: 0

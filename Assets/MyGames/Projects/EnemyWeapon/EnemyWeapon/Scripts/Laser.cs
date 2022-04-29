@@ -4,18 +4,18 @@ using UnityEngine;
 using UniRx;
 using Trigger;
 
-namespace SpPlayerWeapon
+namespace EnemyWeapon
 {
-    public class Javelin : SpPlayerWeapon
+    public class Laser : EnemyWeapon
     {
         [SerializeField]
-        [Header("射出する力を設定")]
-        float _force = 10;
+        [Header("瞬時に放つ力を設定")]
+        float _force = 50;
 
-        SpWeaponType _type = SpWeaponType.JAVELIN;
+        EnemyWeaponType _type = EnemyWeaponType.LASER;
         ObservableTrigger _trigger;
 
-        public override SpWeaponType Type => _type;
+        public override EnemyWeaponType Type => _type;
 
         void Awake()
         {
@@ -33,23 +33,19 @@ namespace SpPlayerWeapon
 
         void Hit(Collider collider)
         {
-            if(collider.CompareTag("Enemy"))
+            if (collider.CompareTag("Wall"))
             {
-                _soundManager.PlaySE(SEType.SLASHED);
+                Debug.Log("wallHit");
             }
-            
-            gameObject.SetActive(false);
         }
 
-        /// <summary>
-        /// 射出します
-        /// </summary>
         public override void Use()
         {
-            //弾を使いまわしているため、一度力をリセットします
             _rigidbody.velocity = Vector3.zero;
-            //ゆっくりと前進
-            _rigidbody.AddForce((_playerTransform.forward + _playerTransform.up) * _force, ForceMode.Impulse);
+            _rigidbody.AddForce(
+                _enemyTransform.position + _enemyTransform.forward * _force,
+                ForceMode.VelocityChange
+                );
         }
     }
 }

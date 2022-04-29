@@ -15,6 +15,7 @@ namespace EnemyWeapon
 
         public int Power => _power;
 
+        public abstract EnemyWeaponType Type { get; }
 
         [Inject]
         public void Construct(

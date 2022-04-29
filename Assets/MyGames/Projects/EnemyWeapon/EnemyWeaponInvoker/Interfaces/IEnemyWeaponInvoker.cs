@@ -9,6 +9,11 @@ namespace EnemyWeaponInvoker
         int Power { get; }
 
         /// <summary>
+        /// 武器の種類
+        /// </summary>
+        EnemyWeaponType Type { get; }
+
+        /// <summary>
         /// エネミーのTransform
         /// </summary>
         /// <param name="enemyTransform"></param>
