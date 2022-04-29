@@ -7,12 +7,6 @@ using Zenject;
 
 namespace PlayerWeaponPool
 {
-    //public struct SpWeaponPoolData
-    //{
-    //    public SpWeaponType _type;
-    //    public List<GameObject> _spWeaponList;
-    //}
-
     public class SpWeaponPool: ISpPlayerWeaponPool
     {
         List<SPW> _spWeaponList = new List<SPW>();
