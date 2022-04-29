@@ -12,6 +12,10 @@ namespace EnemyWeapon
         [Header("瞬時に放つ力を設定")]
         float _force = 50;
 
+        [SerializeField]
+        [Header("レーザーの軌跡を設定")]
+        TrailRenderer _trailRenderer;
+
         EnemyWeaponType _type = EnemyWeaponType.LASER;
         ObservableTrigger _trigger;
 
@@ -33,9 +37,11 @@ namespace EnemyWeapon
 
         void Hit(Collider collider)
         {
+            //壁に接触で削除
             if (collider.CompareTag("Wall"))
             {
-                Debug.Log("wallHit");
+                gameObject.SetActive(false);
+                _trailRenderer.Clear();
             }
         }
 
@@ -43,7 +49,7 @@ namespace EnemyWeapon
         {
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddForce(
-                _enemyTransform.position + _enemyTransform.forward * _force,
+                _enemyTransform.forward * _force,
                 ForceMode.VelocityChange
                 );
         }

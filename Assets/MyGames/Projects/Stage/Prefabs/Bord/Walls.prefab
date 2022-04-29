@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 8281797749447109456}
   m_Layer: 12
   m_Name: WallRight
-  m_TagString: Obstacle
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 8903971907153157209}
   m_Layer: 12
   m_Name: WallLeft
-  m_TagString: Obstacle
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7298178802337071217}
   m_Layer: 12
   m_Name: WallTop
-  m_TagString: Obstacle
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 4303837566673174226}
   m_Layer: 12
   m_Name: WallBottom
-  m_TagString: Obstacle
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
