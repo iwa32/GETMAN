@@ -9,7 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 512871999576852254, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_Name
-      value: DroppedPenetrationLaser
+      value: DroppedPenetrateLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184007438910697807, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184007438910697807, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184007438910697807, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_RootOrder
@@ -29,11 +41,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_LocalRotation.y
@@ -45,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
