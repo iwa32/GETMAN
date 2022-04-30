@@ -105,20 +105,18 @@ namespace PlayerActions {
         /// <param name="type"></param>
         public void SetSpWeapon(SpWeaponType type)
         {
+            _spWeaponData = _spWeaponDataList.FindSpWeaponDataByType(type);
             //武器が違う場合のみセットする
-            if (_currentSpWeapon?.Type == type) return;
+            if (_currentSpWeapon?.Type == _spWeaponData.Type) return;
 
-            //現在のSP武器を非表示にする
-            _currentSpWeapon?.gameObject?.SetActive(false);
+            _currentSpWeapon?.gameObject?.SetActive(false);//現在のSP武器を非表示にする
             _currentSpWeapon = _invokerPool.GetPool(type);
 
             //poolにない場合、新規作成する
             if (_currentSpWeapon == null)
             {
-                _spWeaponData = _spWeaponDataList.FindSpWeaponDataByType(type);
                 _invokerPool.CreatePool(_spWeaponData.SpWeaponInvoker);
-
-                _currentSpWeapon = _invokerPool.GetPool(type);
+                _currentSpWeapon = _invokerPool.GetPool(_spWeaponData.Type);
                 _currentSpWeapon.SetPower(_spWeaponData.Power);
                 _currentSpWeapon.SetPlayerTransform(transform);
             }
