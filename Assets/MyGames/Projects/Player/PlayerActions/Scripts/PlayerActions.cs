@@ -6,9 +6,10 @@ using Cysharp.Threading.Tasks;
 using NormalPlayerWeapon;
 using SpWeaponDataList;
 using PlayerView;
-using SpPlayerWeaponInvoker;
+using SPWI = SpPlayerWeaponInvoker;
 using Zenject;
 using UnityEngine.AI;
+using SpPlayerWeaponInvokerPool;
 
 namespace PlayerActions {
     /// <summary>
@@ -42,13 +43,18 @@ namespace PlayerActions {
         SpWeaponData _spWeaponData;
         NavMeshAgent _navMeshAgent;
         bool _isBlink;//点滅状態か
-        ISpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
+        SPWI.SpPlayerWeaponInvoker _currentSpWeapon;//現在取得しているSP武器を保持
+        ISpPlayerWeaponInvokerPool _invokerPool;//取得したSP武器呼び出し用クラスを保持
 
         public SpWeaponData SpWeaponData => _spWeaponData;
         public bool IsBlink => _isBlink;
 
+        
         [Inject]
-        DiContainer container;//動的生成したデータにDIできるようにする
+        public void Construct(ISpPlayerWeaponInvokerPool invokerPool)
+        {
+            _invokerPool = invokerPool;
+        }
 
         /// <summary>
         /// プレハブのインスタンス直後の処理
@@ -99,18 +105,22 @@ namespace PlayerActions {
         /// <param name="type"></param>
         public void SetSpWeapon(SpWeaponType type)
         {
-            _spWeaponData = _spWeaponDataList.FindSpWeaponDataByType(type);
-
             //武器が違う場合のみセットする
-            if (_currentSpWeapon?.Type != _spWeaponData.Type)
-            {
-                ISpPlayerWeaponInvoker invoker =
-                    container.InstantiatePrefab(_spWeaponData.SpWeaponInvoker)
-                    .GetComponent<ISpPlayerWeaponInvoker>();
+            if (_currentSpWeapon?.Type == type) return;
 
-                _currentSpWeapon = invoker;
-                _currentSpWeapon.SetPlayerTransform(transform);
+            //現在のSP武器を非表示にする
+            _currentSpWeapon?.gameObject?.SetActive(false);
+            _currentSpWeapon = _invokerPool.GetPool(type);
+
+            //poolにない場合、新規作成する
+            if (_currentSpWeapon == null)
+            {
+                _spWeaponData = _spWeaponDataList.FindSpWeaponDataByType(type);
+                _invokerPool.CreatePool(_spWeaponData.SpWeaponInvoker);
+
+                _currentSpWeapon = _invokerPool.GetPool(type);
                 _currentSpWeapon.SetPower(_spWeaponData.Power);
+                _currentSpWeapon.SetPlayerTransform(transform);
             }
         }
 
