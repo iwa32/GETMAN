@@ -5,6 +5,7 @@ using EnemyPool;
 using EnemyWeaponPool;
 using PointItemPool;
 using PlayerWeaponPool;
+using SPWIP = SpPlayerWeaponInvokerPool;
 using CharacterState;
 
 namespace GlobalInstaller
@@ -24,15 +25,15 @@ namespace GlobalInstaller
             //エネミー
             Container.Bind<IEnemyPool>()
                 .To<EnemyPool.EnemyPool>().AsSingle().NonLazy();
-
             //エネミーの武器
             Container.Bind<IEnemyWeaponPool>()
                 .To<EnemyWeaponPool.EnemyWeaponPool>().AsSingle().NonLazy();
-
             //ポイントアイテム
             Container.Bind<IPointItemPool>()
                 .To<PointItemPool.PointItemPool>().AsSingle().NonLazy();
-
+            //SP武器呼び出し用
+            Container.Bind<SPWIP.ISpPlayerWeaponInvokerPool>()
+                .To<SPWIP.SpPlayerWeaponInvokerPool>().AsSingle().NonLazy();
             //SP武器
             Container.Bind<ISpPlayerWeaponPool>()
                 .To<SpWeaponPool>().AsSingle().NonLazy();

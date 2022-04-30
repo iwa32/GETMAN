@@ -18,10 +18,13 @@
         "GUID:89608cb6ec3354758a3e6198da339560",
         "GUID:71d89be43544341a8aabc1486f0571d2",
         "GUID:dd0da69a67da84ed8a799d420941264f",
-        "GUID:72f0def692b0443999367778eb9385c2"
+        "GUID:72f0def692b0443999367778eb9385c2",
+        "GUID:4734af83be8454ec382ba8bcf9020324"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Stadia"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
