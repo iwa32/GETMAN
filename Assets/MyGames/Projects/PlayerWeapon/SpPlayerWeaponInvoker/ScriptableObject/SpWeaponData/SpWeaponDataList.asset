@@ -17,3 +17,7 @@ MonoBehaviour:
     _uiIcon: {fileID: 21300000, guid: 8c643eb99f239497891148395bedc1dc, type: 3}
     _power: 1
     _spWeaponInvoker: {fileID: 4938131953143144733, guid: 8d249a6b48d0147faaa6f76208835616, type: 3}
+  - _type: 2
+    _uiIcon: {fileID: 21300000, guid: 6b68f48c82d4445cb841fae8dee3aba4, type: 3}
+    _power: 1
+    _spWeaponInvoker: {fileID: 4414752286057123189, guid: 295c3ce397aa04bc687270ce3297b48d, type: 3}
