@@ -12,7 +12,7 @@ namespace PlayerWeaponPool{
     /// </summary>
     public interface ISpPlayerWeaponPool
     {
-        public List<SPW> SpWeaponList { get; }
+        public Dictionary<SpWeaponType, List<SPW>> SpWeaponList { get; }
 
         /// <summary>
         /// オブジェクトプールを作成する
@@ -26,6 +26,6 @@ namespace PlayerWeaponPool{
         /// プールを取得します
         /// </summary>
         /// <returns></returns>
-        ISpPlayerWeapon GetPool(Vector3 pos, Quaternion rotation);
+        SPW GetPool(SpWeaponType type);
     }
 }

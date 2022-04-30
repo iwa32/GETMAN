@@ -9,9 +9,10 @@ namespace PlayerWeaponPool
 {
     public class SpWeaponPool: ISpPlayerWeaponPool
     {
-        List<SPW> _spWeaponList = new List<SPW>();
+        Dictionary<SpWeaponType, List<SPW>> _spWeaponList
+            = new Dictionary<SpWeaponType, List<SPW>>();
 
-        public List<SPW> SpWeaponList => _spWeaponList;
+        public Dictionary<SpWeaponType, List<SPW>> SpWeaponList => _spWeaponList;
 
         [Inject]
         DiContainer container;//動的生成したデータにDIできるようにする
@@ -23,11 +24,12 @@ namespace PlayerWeaponPool
         /// <param name="maxObjectCount"></param>
         public void CreatePool(SPW prefab, int maxObjectCount)
         {
+            _spWeaponList[prefab.Type] = new List<SPW>();
             for (int i = 0; i < maxObjectCount; i++)
             {
                 //プレハブを生成
                 SPW spWeapon = container.InstantiatePrefab(prefab).GetComponent<SPW>();
-                _spWeaponList.Add(spWeapon);
+                _spWeaponList[prefab.Type].Add(spWeapon);
                 spWeapon.gameObject?.SetActive(false);
             }
         }
@@ -38,19 +40,16 @@ namespace PlayerWeaponPool
         /// <param name="pos"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public ISpPlayerWeapon GetPool(Vector3 pos, Quaternion rotation)
+        public SPW GetPool(SpWeaponType type)
         {
-            foreach (SPW spWeapon in _spWeaponList)
+            foreach (SPW spWeapon in _spWeaponList[type])
             {
                 if (spWeapon.gameObject.activeSelf)
-                {
                     continue;
-                }
-                spWeapon.transform.position = pos;
-                spWeapon.transform.rotation = rotation;
+
                 spWeapon.gameObject?.SetActive(true);
 
-                return spWeapon?.GetComponent<ISpPlayerWeapon>();
+                return spWeapon;
             }
             return null;
         }

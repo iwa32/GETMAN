@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using SpPlayerWeapon;
+using SPW = SpPlayerWeapon;
 using UnityEngine;
-using Zenject;
-using PlayerWeaponPool;
 
 namespace SpPlayerWeaponInvoker
 {
@@ -11,7 +9,7 @@ namespace SpPlayerWeaponInvoker
     {
         [SerializeField]
         [Header("投槍のプレハブを設定")]
-        Javelin _javelinPrefab;
+        SPW.Javelin _javelinPrefab;
 
         [SerializeField]
         [Header("射出する高さを設定")]
@@ -37,8 +35,6 @@ namespace SpPlayerWeaponInvoker
         /// </summary>
         public override void Invoke()
         {
-            if (_spWeaponPool.SpWeaponList.Count == 0) return;
-
             //Yの回転軸をプレイヤーに合わせる
             _prefabEulerAngles.y = _playerTransform.rotation.eulerAngles.y;
 
@@ -47,15 +43,17 @@ namespace SpPlayerWeaponInvoker
             shootPos.y = _shootingHeight;
 
             //ジャベリンを取得
-            ISpPlayerWeapon javelin
-                = _spWeaponPool.GetPool(shootPos,Quaternion.Euler(_prefabEulerAngles));
+            SPW.SpPlayerWeapon javelin
+                = _spWeaponPool.GetPool(_type);
 
             if (javelin == null) return;
 
+            javelin.transform.position = shootPos;
+            javelin.transform.rotation = Quaternion.Euler(_prefabEulerAngles);
             javelin.SetPower(_power);
             javelin.SetPlayerTransform(_playerTransform);
-            _soundManager.PlaySE(SEType.THROW);
             javelin.Use();
+            _soundManager.PlaySE(SEType.THROW);
         }
     }
 }
