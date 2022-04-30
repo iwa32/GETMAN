@@ -13,7 +13,7 @@ namespace SpPlayerWeaponInvoker
 
         [SerializeField]
         [Header("射出する高さを設定")]
-        float _shootingHeight = 1;
+        float _shootingHeight = 1.5f;
 
         [SerializeField]
         [Header("一度の画面表示数")]

@@ -15,6 +15,10 @@ namespace SpPlayerWeaponInvoker
         [Header("プールに保持するレーザーの生成数を設定")]
         int _maxObjectCount = 3;
 
+        [SerializeField]
+        [Header("レーザーの射出位置を設定")]
+        float _shootingHeight = 1.5f;
+
         SpWeaponType _type = SpWeaponType.LASER;
         public override SpWeaponType Type => _type;
 
@@ -26,7 +30,7 @@ namespace SpPlayerWeaponInvoker
         public override void Invoke()
         {
             Vector3 shootPos = _playerTransform.position + _playerTransform.forward;
-            shootPos.y = _playerTransform.up.y;
+            shootPos.y = _shootingHeight;
 
             SPW.SpPlayerWeapon laser = _spWeaponPool.GetPool(_type);
 

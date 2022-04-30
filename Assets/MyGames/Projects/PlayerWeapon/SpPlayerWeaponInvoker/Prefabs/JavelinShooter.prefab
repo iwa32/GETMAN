@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _javelinPrefab: {fileID: 5067999876294612487, guid: 5c318f9dc8ece47d58367c3fc5d33ac4, type: 3}
-  _shootingHeight: 1
+  _shootingHeight: 1.5
+  _shootingCount: 3

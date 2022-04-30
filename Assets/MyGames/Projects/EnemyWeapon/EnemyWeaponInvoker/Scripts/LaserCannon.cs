@@ -15,6 +15,9 @@ namespace EnemyWeaponInvoker
         [Header("プールに保持するレーザーの生成数を設定")]
         int _maxObjectCount = 3;
 
+        [Header("レーザーの射出位置を設定")]
+        float _shootingHeight = 1.5f;
+
         EnemyWeaponType _type = EnemyWeaponType.LASER;
         public override EnemyWeaponType Type => _type;
 
@@ -26,7 +29,7 @@ namespace EnemyWeaponInvoker
         public override void Invoke()
         {
             Vector3 shootPos = _enemyTransform.position + _enemyTransform.forward;
-            shootPos.y = _enemyTransform.up.y;
+            shootPos.y = _shootingHeight;
 
             EW.EnemyWeapon laser = _enemyWeaponPool.GetPool(_type);
 
