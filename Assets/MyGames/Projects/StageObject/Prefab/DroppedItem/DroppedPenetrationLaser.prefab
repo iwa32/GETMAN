@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6065236688302455227
+--- !u!1001 &3731493091252860357
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,27 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 512871999576852254, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_Name
-      value: DroppedHealItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 2244839875424626578, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
-      propertyPath: m_Radius
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184007438910697807, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
+      value: DroppedPenetrationLaser
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7201223021889233501, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_LocalPosition.x
@@ -73,38 +57,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515618090269777443, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_Size.x
-      value: 0.32
+      value: 1.28
       objectReference: {fileID: 0}
     - target: {fileID: 7515618090269777443, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_Size.y
-      value: 0.32
+      value: 1.28
       objectReference: {fileID: 0}
     - target: {fileID: 7515618090269777443, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fe3b7e68b0d6e4abc918759dcd70efad, type: 3}
+      objectReference: {fileID: 21300000, guid: 6b68f48c82d4445cb841fae8dee3aba4, type: 3}
     - target: {fileID: 7515618090269777443, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
---- !u!1 &5994883739906932389 stripped
+--- !u!1 &3807506993442632411 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 512871999576852254, guid: 7d1c2dc5e245e4634a45106df5f9cd96, type: 3}
-  m_PrefabInstance: {fileID: 6065236688302455227}
+  m_PrefabInstance: {fileID: 3731493091252860357}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6703808530238275997
+--- !u!114 &2384741969398562520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5994883739906932389}
+  m_GameObject: {fileID: 3807506993442632411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 345e5c816f0e545cd87ee73a82151093, type: 3}
+  m_Script: {fileID: 11500000, guid: 178430275349e46dd8fc8de3136b95a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _score: 100
-  _healingPower: 1
+  _type: 2
