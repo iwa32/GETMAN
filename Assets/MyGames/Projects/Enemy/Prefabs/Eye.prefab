@@ -588,7 +588,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _laserPrefab: {fileID: 1723741666945585000, guid: c9a7c5b0c31314eb38354a21dfd66b2a, type: 3}
-  _maxObjectCount: 3
 --- !u!114 &4272186053932589790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,6 +600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e4eec5fe3384066984e9aa85d70ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shootingHeight: 1.5
+  _maxObjectCount: 3
 --- !u!1 &9011648103021171509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,7 +1839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9017099929812622925, guid: 27c579c19634046909a5b0853898db99, type: 3}
       propertyPath: m_Radius
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9017099929812622927, guid: 27c579c19634046909a5b0853898db99, type: 3}
       propertyPath: m_Name

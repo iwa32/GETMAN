@@ -271,6 +271,11 @@ namespace PlayerPresenter
             }
         }
 
+        public void PlaceOnStage(Transform startingTransform)
+        {
+            _playerActions.SetTransform(startingTransform);
+        }
+
         /// <summary>
         /// hpを増やします
         /// </summary>

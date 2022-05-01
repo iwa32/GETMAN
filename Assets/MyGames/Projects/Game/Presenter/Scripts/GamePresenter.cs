@@ -174,7 +174,7 @@ namespace GamePresenter
                 await LoadGameData();
                 await _stagePresenter.InitializeAsync();
                 await SetUpPlayer();
-                await _stagePresenter.PlacePlayerToStage(_playerPresenter.transform);
+                _playerPresenter.PlaceOnStage(_stagePresenter.GetPlayerStartingTransform());
                 _timePresenter.Initialize(_stagePresenter.StageLimitCountTime);
                 _scoreView.SetScore(_scoreModel.Score.Value);
                 _stageNumView.SetStageNum(_stageNumModel.StageNum.Value);

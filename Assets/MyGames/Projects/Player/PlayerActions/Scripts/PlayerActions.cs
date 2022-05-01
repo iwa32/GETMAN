@@ -73,6 +73,12 @@ namespace PlayerActions {
             _navMeshAgent.enabled = true;
         }
 
+        public void SetTransform(Transform startingTransform)
+        {
+            _navMeshAgent.Warp(startingTransform.position);
+            transform.rotation = startingTransform.rotation;
+        }
+
         /// <summary>
         /// 通常攻撃を行います
         /// </summary>

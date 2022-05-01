@@ -287,12 +287,11 @@ namespace StagePresenter
         }
 
         /// <summary>
-        /// プレイヤーをステージに配置します
+        /// プレイヤーの初期値を取得します
         /// </summary>
-        public async UniTask PlacePlayerToStage(Transform playerTransform)
+        public Transform GetPlayerStartingTransform()
         {
-            playerTransform.position = _currentStageView.PlayerStartingPoint.position;
-            await UniTask.Yield();
+            return _currentStageView.PlayerStartingPoint;
         }
 
         /// <summary>
