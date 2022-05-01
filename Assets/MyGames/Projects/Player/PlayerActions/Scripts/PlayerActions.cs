@@ -169,8 +169,10 @@ namespace PlayerActions {
         /// <param name="isActive"></param>
         void SetActiveToAllChild(bool isActive)
         {
+
             foreach (Transform child in gameObject.transform)
             {
+                if (child == null) return;
                 child.gameObject.SetActive(isActive);
             }
         }

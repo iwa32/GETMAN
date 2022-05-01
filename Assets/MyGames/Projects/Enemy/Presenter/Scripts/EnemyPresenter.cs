@@ -129,7 +129,6 @@ namespace EnemyPresenter
         {
             if (collider.TryGetComponent(out IEnemyAttacker attacker))
             {
-                if (_enemyCommonStates.IsDown) return;
                 //hpを減らす
                 _hpModel.ReduceHp(attacker.Power);
                 _enemyCommonStates.ChangeStateByDamege(_hpModel.Hp.Value);

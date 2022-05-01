@@ -6,6 +6,7 @@ using Zenject;
 using UniRx;
 using GameModel;
 using EnemyActions;
+using Cysharp.Threading.Tasks;
 
 namespace EnemyStates
 {
@@ -13,17 +14,23 @@ namespace EnemyStates
     {
         //追跡
         ICharacterTrackState _trackState;
+        ICharacterDownState _downState;//ダウン状態のスクリプト
         IDirectionModel _directionModel;
+        bool _isDown;
 
         SlimeActions _slimeActions;
+
+        public bool IsDown => _isDown;
 
         [Inject]
         public void Construct(
             ICharacterTrackState trackState,
+            ICharacterDownState downState,
             IDirectionModel direction
         )
         {
             _trackState = trackState;
+            _downState = downState;
             _directionModel = direction;
         }
 
@@ -51,6 +58,14 @@ namespace EnemyStates
                 .Where(_ => _directionModel.CanGame())
                 .Subscribe(canTrack => CheckTracking(canTrack))
                 .AddTo(this);
+
+            //アニメーションの監視
+            //down
+            _animTrigger.OnStateExitAsObservable()
+                .TakeUntil(_isDead.Where(isDead => isDead))
+                .Where(s => s.StateInfo.IsName("Down"))
+                .Subscribe(_ => DefaultState())
+                .AddTo(this);
         }
 
         /// <summary>
@@ -66,6 +81,31 @@ namespace EnemyStates
             }
 
             _actionView.State.Value = _runState;
+        }
+
+        /// <summary>
+        /// ダメージによって状態を切り替えます
+        /// </summary>
+        public override void ChangeStateByDamege(int hp)
+        {
+            if (_isDown) return;
+            if (hp > 0)
+                ChangeDown();
+            else
+                ChangeDead();
+        }
+
+        void ChangeDown()
+        {
+            _isDown = true;
+            _actionView.State.Value = _downState;
+            ResetDown().Forget();
+        }
+
+        async UniTask ResetDown()
+        {
+            await UniTask.Yield();
+            _isDown = false;
         }
 
         /// <summary>

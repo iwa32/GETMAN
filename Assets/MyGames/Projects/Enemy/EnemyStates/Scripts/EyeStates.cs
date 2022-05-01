@@ -119,5 +119,11 @@ namespace EnemyStates
 
             _actionView.State.Value = _attackState;
         }
+
+        public override void ChangeStateByDamege(int hp)
+        {
+            if (hp <= 0)
+                ChangeDead();
+        }
     }
 }

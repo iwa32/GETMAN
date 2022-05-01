@@ -16,33 +16,27 @@ namespace EnemyStates
     public abstract class EnemyCommonStates : MonoBehaviour
     {
         Animator _animator;
-        bool _isDown;
         protected EnemyCommonActions _enemyCommonActions;
         protected ObservableStateMachineTrigger _animTrigger;//stateMachineの監視
         protected BoolReactiveProperty _isDead = new BoolReactiveProperty();
 
         //ステート
-        ICharacterDownState _downState;//ダウン状態のスクリプト
         ICharacterDeadState _deadState;//デッド状態のスクリプト
         protected StateActionView _actionView;//エネミーのアクション用スクリプト
         protected ICharacterWaitState _waitState;//待機状態のスクリプト
         protected ICharacterRunState _runState;//移動状態のスクリプト
 
-
-        public bool IsDown => _isDown;
         public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
 
         [Inject]
         public void Construct(
             ICharacterWaitState waitState,
             ICharacterRunState runState,
-            ICharacterDownState downState,
             ICharacterDeadState deadState
         )
         {
             _waitState = waitState;
             _runState = runState;
-            _downState = downState;
             _deadState = deadState;
         }
 
@@ -78,14 +72,6 @@ namespace EnemyStates
                 .Subscribe(x => _actionView.ChangeState(x.State))//アニメーションの切り替え
                 .AddTo(this);
 
-            //アニメーションの監視
-            //down
-            _animTrigger.OnStateExitAsObservable()
-                .TakeUntil(_isDead.Where(isDead => isDead))
-                .Where(s => s.StateInfo.IsName("Down"))
-                .Subscribe(_ => DefaultState())
-                .AddTo(this);
-
             //dead
             _animTrigger.OnStateExitAsObservable()
                 .TakeUntil(_isDead.Where(isDead => isDead))
@@ -109,6 +95,11 @@ namespace EnemyStates
         /// 初期時、通常時の状態を設定します
         /// </summary>
         public abstract void DefaultState();
+
+        ///// <summary>
+        ///// ダメージによって状態を切り替えます
+        ///// </summary>
+        public abstract void ChangeStateByDamege(int hp);
         #endregion
 
         public bool HasStateBy(StateType state)
@@ -116,31 +107,7 @@ namespace EnemyStates
             return _actionView.HasStateBy(state);
         }
 
-        /// <summary>
-        /// ダメージによって状態を切り替えます
-        /// </summary>
-        public void ChangeStateByDamege(int hp)
-        {
-            if (hp > 0)
-                ChangeDown();
-            else
-                ChangeDead();
-        }
-
-        void ChangeDown()
-        {
-            _isDown = true;
-            _actionView.State.Value = _downState;
-            ResetDown().Forget();
-        }
-
-        async UniTask ResetDown()
-        {
-            await UniTask.Yield();
-            _isDown = false;
-        }
-
-        void ChangeDead()
+        protected void ChangeDead()
         {
             _enemyCommonActions.Dead();
             _actionView.State.Value = _deadState;
