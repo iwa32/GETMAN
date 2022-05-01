@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
-using Trigger;
 using WeaponUtility;
 
-namespace SpPlayerWeapon
+namespace EnemyWeapon
 {
-    public class PenetrateLaserByPlayer : SpPlayerWeapon
+    public class PenetrateLaserByEnemy : EnemyWeapon
     {
         LaserUtility _laserUtility;
-        SpWeaponType _type = SpWeaponType.LASER;
+        EnemyWeaponType _type = EnemyWeaponType.LASER;
 
-        public override SpWeaponType Type => _type;
+        public override EnemyWeaponType Type => _type;
 
         void Awake()
         {
@@ -21,7 +19,7 @@ namespace SpPlayerWeapon
 
         public override void Use()
         {
-            _laserUtility.Use(_playerTransform);
+            _laserUtility.Use(_enemyTransform);
         }
     }
 }

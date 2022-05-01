@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
 using Trigger;
+using Zenject;
+using SoundManager;
+using UniRx;
 
-namespace EnemyWeapon
+namespace WeaponUtility
 {
-    public class Laser : EnemyWeapon
+    public class LaserUtility : MonoBehaviour
     {
         [SerializeField]
         [Header("瞬時に放つ力を設定")]
@@ -16,10 +18,18 @@ namespace EnemyWeapon
         [Header("レーザーの軌跡を設定")]
         TrailRenderer _trailRenderer;
 
-        EnemyWeaponType _type = EnemyWeaponType.LASER;
+        Rigidbody _rigidbody;
         ObservableTrigger _trigger;
+        ISoundManager _soundManager;
+        Transform _shooterTransform;
 
-        public override EnemyWeaponType Type => _type;
+        [Inject]
+        public void Construct(
+            ISoundManager soundManager
+        )
+        {
+            _soundManager = soundManager;
+        }
 
         void Awake()
         {
@@ -45,11 +55,15 @@ namespace EnemyWeapon
             }
         }
 
-        public override void Use()
+        public void Use(Transform shooter)
         {
+            //一度だけ設定
+            if (_shooterTransform == null && shooter != null)
+                _shooterTransform = shooter;
+
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddForce(
-                _enemyTransform.forward * _force,
+                _shooterTransform.forward * _force,
                 ForceMode.VelocityChange
                 );
         }

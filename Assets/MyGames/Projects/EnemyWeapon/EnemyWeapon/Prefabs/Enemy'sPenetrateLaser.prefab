@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1723741666945585000}
   - component: {fileID: 1294939154133377759}
   - component: {fileID: 1219627116518567230}
+  - component: {fileID: 5810939626393552121}
   m_Layer: 13
   m_Name: Enemy'sPenetrateLaser
   m_TagString: Untagged
@@ -69,8 +70,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b92b54348fd644ca881f01ef92f06e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _force: 50
-  _trailRenderer: {fileID: 7696059587937181420}
 --- !u!54 &1294939154133377759
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -99,6 +98,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b727d7ded6a4049a9832362d3dcc21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5810939626393552121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658328400762222599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01b1832103cc44374b7c1789fee8aac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _force: 50
+  _trailRenderer: {fileID: 7696059587937181420}
 --- !u!1 &2049443620828227782
 GameObject:
   m_ObjectHideFlags: 0

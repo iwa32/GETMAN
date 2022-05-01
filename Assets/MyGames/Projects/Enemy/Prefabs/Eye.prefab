@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 1052104761530947166}
   - component: {fileID: 1407749533177000138}
   - component: {fileID: 6654696356421137424}
+  - component: {fileID: 4272186053932589790}
   m_Layer: 9
   m_Name: Eye
   m_TagString: Untagged
@@ -588,6 +589,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _laserPrefab: {fileID: 1723741666945585000, guid: c9a7c5b0c31314eb38354a21dfd66b2a, type: 3}
   _maxObjectCount: 3
+--- !u!114 &4272186053932589790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011648103021171507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e4eec5fe3384066984e9aa85d70ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9011648103021171509
 GameObject:
   m_ObjectHideFlags: 0
