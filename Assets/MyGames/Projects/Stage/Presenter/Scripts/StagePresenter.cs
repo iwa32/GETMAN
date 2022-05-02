@@ -137,6 +137,8 @@ namespace StagePresenter
             //---ポイントアイテムの生成---
             if (_currentStageData.PointGenerationType != PointGenerationType.NO_GENERATION)
             {
+                PlacePointItemToStage();//ゲーム開始前に一つ場に出しておく
+
                 //一定間隔で自動生成
                 IConnectableObservable<long> pointItemAppearanceInterval
                     = CreateAppearanceInterval(_currentStageData.PointItemAppearanceInterval);
