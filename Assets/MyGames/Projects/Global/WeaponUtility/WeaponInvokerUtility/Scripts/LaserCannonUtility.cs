@@ -31,7 +31,8 @@ namespace WeaponInvokerUtility
             if (_shooterTransform == null && shooter != null)
                 _shooterTransform = shooter;
 
-            Vector3 shootPos = _shooterTransform.position + _shooterTransform.forward;
+            Vector3 shootPos = _shooterTransform.position;
+            //+_shooterTransform.forward
             shootPos.y = _shootingHeight;
 
             return shootPos;
