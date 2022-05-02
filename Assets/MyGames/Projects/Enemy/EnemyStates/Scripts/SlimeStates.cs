@@ -16,11 +16,8 @@ namespace EnemyStates
         ICharacterTrackState _trackState;
         ICharacterDownState _downState;//ダウン状態のスクリプト
         IDirectionModel _directionModel;
-        bool _isDown;
 
         SlimeActions _slimeActions;
-
-        public bool IsDown => _isDown;
 
         [Inject]
         public void Construct(
@@ -88,7 +85,6 @@ namespace EnemyStates
         /// </summary>
         public override void ChangeStateByDamege(int hp)
         {
-            if (_isDown) return;
             if (hp > 0)
                 ChangeDown();
             else
@@ -97,15 +93,7 @@ namespace EnemyStates
 
         void ChangeDown()
         {
-            _isDown = true;
             _actionView.State.Value = _downState;
-            ResetDown().Forget();
-        }
-
-        async UniTask ResetDown()
-        {
-            await UniTask.Yield();
-            _isDown = false;
         }
 
         /// <summary>

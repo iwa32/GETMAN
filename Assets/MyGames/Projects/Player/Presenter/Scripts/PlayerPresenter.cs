@@ -261,7 +261,6 @@ namespace PlayerPresenter
         void ReceiveDamageBy(Collider collider)
         {
             if (_playerActions.IsBlink) return;
-            if (_playerStates.HasStateBy(ATTACK)) return;//攻撃中はダメージを受けない
             if (collider.TryGetComponent(out IPlayerAttacker attacker))
             {
                 _soundManager.PlaySE(DAMAGED);

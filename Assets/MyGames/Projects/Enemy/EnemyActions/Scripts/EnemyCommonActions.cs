@@ -14,6 +14,9 @@ namespace EnemyActions
     /// </summary>
     public abstract class EnemyCommonActions : MonoBehaviour, IPlayerAttacker
     {
+        //ドロップアイテムの高さ
+        readonly Vector3 dropItemPositionUp = new Vector3(0, 0.5f, 0);
+
         Collider _collider;
         GetableItem _dropItemPool;
         protected EnemyData _enemyData;
@@ -99,7 +102,7 @@ namespace EnemyActions
                 GetableItem dropItem
                 = Instantiate(
                     _enemyData.DropItem,
-                    transform.position + Vector3.up,
+                    transform.position + dropItemPositionUp,
                     _enemyData.DropItem.transform.rotation
                     );
 
@@ -108,7 +111,7 @@ namespace EnemyActions
             }
 
             //ある場合位置を更新して表示
-            _dropItemPool.transform.position = transform.position + Vector3.up;
+            _dropItemPool.transform.position = transform.position + dropItemPositionUp;
             _dropItemPool.gameObject?.SetActive(true);
         }
 

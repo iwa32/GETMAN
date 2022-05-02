@@ -34,6 +34,7 @@ namespace EnemyPresenter
         //---接触・衝突---
         ObservableTrigger _trigger;
         ObservableCollision _collision;
+        bool _hasHit;
         //状態と実処理
         protected EnemyCommonStates _enemyCommonStates;
         protected EnemyCommonActions _enemyCommonActions;
@@ -129,10 +130,20 @@ namespace EnemyPresenter
         {
             if (collider.TryGetComponent(out IEnemyAttacker attacker))
             {
+                if (_hasHit) return;//1フレームでの連続ヒット防止
+                _hasHit = true;
+
                 //hpを減らす
                 _hpModel.ReduceHp(attacker.Power);
                 _enemyCommonStates.ChangeStateByDamege(_hpModel.Hp.Value);
+                RefreshHit().Forget();
             }
+        }
+
+        async UniTask RefreshHit()
+        {
+            await UniTask.Yield();
+            _hasHit = false;
         }
 
         /// <summary>

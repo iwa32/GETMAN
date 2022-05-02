@@ -23,6 +23,7 @@ namespace NormalPlayerWeapon
         GameObject _trailGroups;
 
         Collider _collider;
+        bool _canPlayMotionSE;
         //---接触・衝突---
         ObservableTrigger _trigger;
         ISoundManager _soundManager;
@@ -68,11 +69,15 @@ namespace NormalPlayerWeapon
 
         void Hit()
         {
+            //一回のモーションで一度だけseを鳴らします
+            if (_canPlayMotionSE == false) return;
             _soundManager.PlaySE(SLASHED);
+            _canPlayMotionSE = false;
         }
 
         public void StartMotion()
         {
+            _canPlayMotionSE = true;
             _soundManager.PlaySE(SWORD_SLASH);
             _collider.enabled = true;
             _trailGroups.SetActive(true);
@@ -80,6 +85,7 @@ namespace NormalPlayerWeapon
 
         public void EndMotion()
         {
+            _canPlayMotionSE = false;
             _collider.enabled = false;
             _trailGroups.SetActive(false);
         }
