@@ -101,7 +101,7 @@ MonoBehaviour:
       _enemyPrefab: {fileID: 9058259852163686945, guid: fc6d4b046f8874f3297bb1924e63e3d2, type: 3}
     _bossEnemyPrefab: {fileID: 0}
   - _stageId: 7
-    _stageLimitCountTime: 50
+    _stageLimitCountTime: 65
     _bgmType: 7
     _stagePrefab: {fileID: 6737088732373906300, guid: 390f02f59652b4c1690f2649e9e9c4d8, type: 3}
     _pointOption:
