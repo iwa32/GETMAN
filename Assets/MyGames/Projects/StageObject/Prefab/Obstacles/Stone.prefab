@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2d1d76515c44edfa978b9f48cd32ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enduranceValue: 8
+  _enduranceValue: 6
   _hpBar: {fileID: 6076340818272344051}
   _score: 200
 --- !u!114 &3533620423105872375

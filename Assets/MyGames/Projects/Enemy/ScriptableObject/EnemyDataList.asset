@@ -31,6 +31,6 @@ MonoBehaviour:
     _hp: 30
     _power: 1
     _speed: 0.6
-    _score: 300
+    _score: 1500
     _itemDropRate: 70
     _dropItem: {fileID: 2384741969398562520, guid: 617f6322746684e379d262e9dc5d15dc, type: 3}
