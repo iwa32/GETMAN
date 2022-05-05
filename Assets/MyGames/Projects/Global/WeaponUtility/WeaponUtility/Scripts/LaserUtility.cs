@@ -57,9 +57,7 @@ namespace WeaponUtility
 
         public void Use(Transform shooter)
         {
-            //一度だけ設定
-            if (_shooterTransform == null && shooter != null)
-                _shooterTransform = shooter;
+            _shooterTransform = shooter;
 
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddForce(
