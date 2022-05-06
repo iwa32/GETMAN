@@ -126,6 +126,6 @@ MonoBehaviour:
       _pointItemAppearanceInterval: 8
     _enemyOptions:
     - _maxEnemyCount: 6
-      _enemyAppearanceInterval: 8
+      _enemyAppearanceInterval: 4
       _enemyPrefab: {fileID: 7732000907825079147, guid: 0a06f528258d646798fce9aee5ab7a93, type: 3}
     _bossEnemyPrefab: {fileID: 0}
