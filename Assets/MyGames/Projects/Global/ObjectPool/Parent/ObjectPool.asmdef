@@ -1,11 +1,8 @@
 {
-    "name": "EnemyWeaponPool",
+    "name": "ObjectPool",
     "rootNamespace": "",
     "references": [
-        "GUID:231969241a33c435c889dcd1f750de0c",
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
-        "GUID:420f1a708f01840bd99f8eb1d061e037",
-        "GUID:7c9b67a25d9f94f07a7fa8c8da17ca72"
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

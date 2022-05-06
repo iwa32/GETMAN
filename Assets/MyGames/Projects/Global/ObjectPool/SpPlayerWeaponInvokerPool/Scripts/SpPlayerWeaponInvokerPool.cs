@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 using SPWI = SpPlayerWeaponInvoker;
+using OP = ObjectPool;
 
 namespace SpPlayerWeaponInvokerPool
 {
-    public class SpPlayerWeaponInvokerPool : ISpPlayerWeaponInvokerPool
+    public class SpPlayerWeaponInvokerPool : OP.ObjectPool,
+        ISpPlayerWeaponInvokerPool
     {
         Dictionary<SpWeaponType, List<SPWI.SpPlayerWeaponInvoker>> _invokerPoolList
             = new Dictionary<SpWeaponType, List<SPWI.SpPlayerWeaponInvoker>>();
-
-        [Inject]
-        DiContainer container;
 
         public void CreatePool(SPWI.SpPlayerWeaponInvoker invokerPrefab)
         {
@@ -31,18 +29,8 @@ namespace SpPlayerWeaponInvokerPool
         {
             try
             {
-                foreach (SPWI.SpPlayerWeaponInvoker invoker in _invokerPoolList[type])
-                {
-                    if (invoker.gameObject.activeSelf)
-                    {
-                        continue;
-                    }
-
-                    invoker.gameObject?.SetActive(true);
-                    return invoker;
-                }
-
-                return null;
+                return GetBehaviourByList(_invokerPoolList[type])
+                ?.GetComponent<SPWI.SpPlayerWeaponInvoker>();
             }
             catch
             {

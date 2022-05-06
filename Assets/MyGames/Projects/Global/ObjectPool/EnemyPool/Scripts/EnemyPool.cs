@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EP = EnemyPresenter;
-using Zenject;
+using OP = ObjectPool;
+
 
 namespace EnemyPool
 {
-    public class EnemyPool : IEnemyPool
+    public class EnemyPool : OP.ObjectPool,
+        IEnemyPool
     {
         Dictionary<EnemyType, List<EP.EnemyPresenter>> _enemyPoolList
             = new Dictionary<EnemyType, List<EP.EnemyPresenter>>();
-
-        [Inject]
-        DiContainer container;//動的生成したデータにDIできるようにする
 
         /// <summary>
         /// オブジェクトプールを作成する
@@ -40,18 +39,8 @@ namespace EnemyPool
         /// <returns></returns>
         public EP.EnemyPresenter GetPool(EnemyType type)
         {
-            foreach (EP.EnemyPresenter enemy in _enemyPoolList[type])
-            {
-                if (enemy.gameObject.activeSelf)
-                {
-                    continue;
-                }
-
-                enemy.gameObject?.SetActive(true);
-                return enemy;
-            }
-
-            return null;
+            return GetBehaviourByList(_enemyPoolList[type])
+                ?.GetComponent<EP.EnemyPresenter>();
         }
 
         /// <summary>
@@ -62,12 +51,7 @@ namespace EnemyPool
         EP.EnemyPresenter Create(EP.EnemyPresenter prefab)
         {
             EP.EnemyPresenter enemy
-                = container.InstantiatePrefab(
-                            prefab,
-                            Vector3.zero,
-                            Quaternion.identity,
-                            null
-                )
+                = container.InstantiatePrefab(prefab)
                 .GetComponent<EP.EnemyPresenter>();
 
             return enemy;
