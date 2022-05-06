@@ -781,6 +781,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2259518783458413495}
     m_Modifications:
+    - target: {fileID: 227069429620841701, guid: 27c579c19634046909a5b0853898db99, type: 3}
+      propertyPath: _trackingAngle
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 9017099929812622924, guid: 27c579c19634046909a5b0853898db99, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -827,7 +831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9017099929812622925, guid: 27c579c19634046909a5b0853898db99, type: 3}
       propertyPath: m_Radius
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9017099929812622925, guid: 27c579c19634046909a5b0853898db99, type: 3}
       propertyPath: m_Enabled
