@@ -169,11 +169,10 @@ namespace PlayerActions {
         /// <param name="isActive"></param>
         void SetActiveToAllChild(bool isActive)
         {
-
+            if (this == null) return;//シーン遷移による破棄後は何もしないようにする
             foreach (Transform child in gameObject.transform)
             {
-                if (child == null) return;
-                child.gameObject.SetActive(isActive);
+                child?.gameObject?.SetActive(isActive);
             }
         }
 
