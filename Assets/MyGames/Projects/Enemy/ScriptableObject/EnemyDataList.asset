@@ -34,3 +34,10 @@ MonoBehaviour:
     _score: 1500
     _itemDropRate: 70
     _dropItem: {fileID: 2384741969398562520, guid: 617f6322746684e379d262e9dc5d15dc, type: 3}
+  - _enemyType: 2
+    _hp: 30
+    _power: 1
+    _speed: 0.6
+    _score: 1500
+    _itemDropRate: 100
+    _dropItem: {fileID: 6703808530238275997, guid: f357b915640a942b1b83b25bf2d7702e, type: 3}
