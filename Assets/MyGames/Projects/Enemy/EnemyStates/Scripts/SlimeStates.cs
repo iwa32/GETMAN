@@ -77,7 +77,10 @@ namespace EnemyStates
                 return;
             }
 
-            _actionView.State.Value = _runState;
+            if (_slimeActions.TrackStrategy.CanTrack.Value)
+                _actionView.State.Value = _trackState;
+            else
+                _actionView.State.Value = _runState;
         }
 
         /// <summary>
