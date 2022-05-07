@@ -49,6 +49,7 @@ namespace StagePresenter
 
         #region//プロパティ
         public int StageLimitCountTime => _currentStageData.StageLimitCountTime;
+        public int StageClearPoint => _currentStageData.ClearPointCount;
         #endregion
 
 
@@ -205,7 +206,7 @@ namespace StagePresenter
         async UniTask SetUpStage()
         {
             CancellationToken token = _cts.Token;
-            await SetStageData(token);
+            await SetCurrentStageData(token);
             await CreateStage(token);
             await SetStageObject(token);
         }
@@ -233,10 +234,10 @@ namespace StagePresenter
         }
 
         /// <summary>
-        /// ステージ情報を取得
+        /// ステージ情報を取得し現在のステージを設定する
         /// </summary>
         /// <returns></returns>
-        async UniTask SetStageData(CancellationToken token)
+        async UniTask SetCurrentStageData(CancellationToken token)
         {
             int stageNum = _stageNumModel.StageNum.Value;
             _currentStageData = _stageDataList.GetStageById(stageNum);

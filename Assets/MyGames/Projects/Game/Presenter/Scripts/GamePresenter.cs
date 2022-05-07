@@ -176,6 +176,7 @@ namespace GamePresenter
                 await SetUpPlayer();
                 _playerPresenter.PlaceOnStage(_stagePresenter.GetPlayerStartingTransform());
                 _timePresenter.Initialize(_stagePresenter.StageLimitCountTime);
+                _pointView.SetRemainingPointGauge(_stagePresenter.StageClearPoint);
                 _scoreView.SetScore(_scoreModel.Score.Value);
                 _stageNumView.SetStageNum(_stageNumModel.StageNum.Value);
                 //演出
@@ -201,6 +202,7 @@ namespace GamePresenter
         async UniTask SetUpPlayer()
         {
             await CreatePlayer();
+            //カメラの追従設定
             _cinemachineVirtualCamera.Follow = _playerPresenter.transform;
             _cinemachineVirtualCamera.LookAt = _playerPresenter.transform;
         }
@@ -290,7 +292,7 @@ namespace GamePresenter
                 .AddTo(this);
 
             _pointModel.Point
-                .Subscribe(point => _pointView.SetPointGauge(point))
+                .Subscribe(point => _pointView.SetGettingPointGauge(point))
                 .AddTo(this);
         }
 
