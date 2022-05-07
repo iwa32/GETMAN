@@ -15,7 +15,6 @@ namespace EnemyStates
         //追跡
         ICharacterTrackState _trackState;
         ICharacterDownState _downState;//ダウン状態のスクリプト
-        IDirectionModel _directionModel;
 
         SlimeActions _slimeActions;
 

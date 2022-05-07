@@ -5,6 +5,7 @@ using UnityEngine;
 using EnemyActions;
 using UniRx;
 using UniRx.Triggers;
+using GameModel;
 using Zenject;
 using Cysharp.Threading.Tasks;
 
@@ -25,6 +26,7 @@ namespace EnemyStates
         protected StateActionView _actionView;//エネミーのアクション用スクリプト
         protected ICharacterWaitState _waitState;//待機状態のスクリプト
         protected ICharacterRunState _runState;//移動状態のスクリプト
+        protected IDirectionModel _directionModel;
 
         public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
 
@@ -32,12 +34,14 @@ namespace EnemyStates
         public void Construct(
             ICharacterWaitState waitState,
             ICharacterRunState runState,
-            ICharacterDeadState deadState
+            ICharacterDeadState deadState,
+            IDirectionModel direction
         )
         {
             _waitState = waitState;
             _runState = runState;
             _deadState = deadState;
+            _directionModel = direction;
         }
 
         /// <summary>
@@ -86,6 +90,7 @@ namespace EnemyStates
             //FixedUpdate
             this.FixedUpdateAsObservable()
                 .TakeUntil(_isDead.Where(isDead => isDead))
+                .Where(_ => _directionModel.CanGame())
                 .Subscribe(_ => _actionView.Action())
                 .AddTo(this);
         }

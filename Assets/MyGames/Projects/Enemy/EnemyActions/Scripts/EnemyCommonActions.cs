@@ -15,7 +15,7 @@ namespace EnemyActions
     public abstract class EnemyCommonActions : MonoBehaviour, IPlayerAttacker
     {
         //ドロップアイテムの高さ
-        readonly Vector3 dropItemPositionUp = new Vector3(0, 0.5f, 0);
+        static readonly Vector3 dropItemPositionUp = new Vector3(0, 0.5f, 0);
 
         Collider _collider;
         GetableItem _dropItemPool;

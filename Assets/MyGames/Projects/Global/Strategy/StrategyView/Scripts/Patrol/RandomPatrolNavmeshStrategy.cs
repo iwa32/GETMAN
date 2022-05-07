@@ -29,15 +29,12 @@ namespace StrategyView
         public override void SetPatrolPoints(Transform[] points)
         {
             _patrolPoints = points;
-            GotoNextPoint();
         }
 
         public override void Strategy()
         {
             if (_navMeshAgent.pathPending == false && _navMeshAgent.remainingDistance < 0.1f)
-            {
                 GotoNextPoint();
-            }
         }
 
         /// <summary>

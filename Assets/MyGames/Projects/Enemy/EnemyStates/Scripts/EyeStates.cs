@@ -5,7 +5,6 @@ using UnityEngine;
 using Zenject;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using GameModel;
 using EnemyActions;
 using System;
 
@@ -22,20 +21,19 @@ namespace EnemyStates
         //追跡
         ICharacterTrackState _trackState;
         ICharacterAttackState _attackState;
-        IDirectionModel _directionModel;
+        
 
         EyeActions _eyeActions;
 
         [Inject]
         public void Construct(
             ICharacterTrackState trackState,
-            ICharacterAttackState attackState,
-            IDirectionModel direction
+            ICharacterAttackState attackState
+            
         )
         {
             _trackState = trackState;
             _attackState = attackState;
-            _directionModel = direction;
         }
 
         /// <summary>
