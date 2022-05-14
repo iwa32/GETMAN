@@ -19,6 +19,10 @@ namespace SoundManager
         float _initSEVolume = 0.7f;
 
         [SerializeField]
+        [Header("SEの再生間隔")]
+        private float _sePlayableInterval = 0.2f;
+
+        [SerializeField]
         [Header("Bgmのスクリプタブルオブジェクトを設定")]
         BgmDataList _bgmDataList;
 
@@ -30,6 +34,7 @@ namespace SoundManager
         AudioSource _bgmSource;
         AudioSource _seSource;
         ISoundModel _soundModel;
+        Dictionary<SEType, float> _sePlayedTimes = new Dictionary<SEType, float>();//seごとの再生時間
         #endregion
 
         void Awake()
@@ -118,10 +123,30 @@ namespace SoundManager
         /// <param name="seType"></param>
         public void PlaySE(SEType seType)
         {
-            AudioClip seClip = _seDataList.FindSEDataByType(seType);
-            if (seClip == null) return;
+            SEData seData = _seDataList.FindSEDataByType(seType);
 
-            _seSource?.PlayOneShot(seClip, _initSEVolume);
+            if (seData.Clip == null) return;
+            AddSEPlayedTimeForType(seData.Type);
+            if (CanPlaySE(seData.Type)) return;
+
+            _sePlayedTimes[seData.Type] = Time.realtimeSinceStartup;
+            _seSource?.PlayOneShot(seData.Clip, _initSEVolume);
+        }
+
+        /// <summary>
+        /// SEごとに再生時間を記録します
+        /// </summary>
+        /// <param name="seType"></param>
+        void AddSEPlayedTimeForType(SEType seType)
+        {
+            if (_sePlayedTimes.ContainsKey(seType) == false)
+                _sePlayedTimes.Add(seType, default);
+        }
+
+        bool CanPlaySE(SEType seType)
+        {
+            //SEが連続再生されていなければ再生可能
+            return Time.realtimeSinceStartup - _sePlayedTimes[seType] < _sePlayableInterval;
         }
     }
 }

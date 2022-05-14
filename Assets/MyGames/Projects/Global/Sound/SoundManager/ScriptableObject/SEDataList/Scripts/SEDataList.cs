@@ -15,11 +15,11 @@ public class SEDataList : ScriptableObject
     /// enumからseを取得します
     /// </summary>
     /// <returns></returns>
-    public AudioClip FindSEDataByType(SEType type)
+    public SEData FindSEDataByType(SEType type)
     {
         try
         {
-            return _seDataList.Find(seData => seData.Type == type).Clip;
+            return _seDataList.Find(seData => seData.Type == type);
         }
         catch
         {
