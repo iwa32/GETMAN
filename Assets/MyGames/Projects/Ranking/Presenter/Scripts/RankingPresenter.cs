@@ -118,7 +118,7 @@ namespace RankingPresenter
 
         private void Initialize()
         {
-            //取得数の設定 取得数は定数にするか迷い中
+            //取得数の設定
             _rankingModel.SetMaxResultCount(_maxResultCount);
             _registeringHighScoreValueText.text = _saveDataManager.SaveData.HighScore.ToString();
             PreCreateRankingDataView();
@@ -199,6 +199,7 @@ namespace RankingPresenter
                 _myRankingDataObject.SetRank(_rankingModel.MyRankingData._rank);
                 _myRankingDataObject.SetUserName(_rankingModel.MyRankingData._userName);
                 _myRankingDataObject.SetScore(_rankingModel.MyRankingData._score);
+                _userNameInputField.text = _rankingModel.MyRankingData._userName;
 
                 //取得数を基準に周します
                 //例:3件まで表示できるが実際の取得数が2件の場合もあるため
